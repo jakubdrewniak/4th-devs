@@ -5,6 +5,14 @@
   "engines": {
     "node": ">=24"
   },
+  "workspaces": [
+    "01_01__ex_people"
+  ],
+  "devDependencies": {
+    "@types/node": "^25.4.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  },
   "scripts": {
     "lesson1:install": "npm install --prefix ./01_01_interaction && npm install --prefix ./01_01_structured && npm install --prefix ./01_01_grounding",
     "lesson1:interaction": "node ./01_01_interaction/app.js",

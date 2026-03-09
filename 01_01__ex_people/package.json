@@ -1,0 +1,8 @@
+{
+  "name": "01_01__ex_people",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "tsx app.ts"
+  }
+}
