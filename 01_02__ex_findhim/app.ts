@@ -1,4 +1,4 @@
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -46,55 +46,13 @@ function haversine(lat1: number, lon1: number, lat2: number, lon2: number): numb
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
-// ─── CSV parser ───────────────────────────────────────────────────────────────
+// ─── Load suspects from previous exercise ────────────────────────────────────
 
-function parseCsvLine(line: string): string[] {
-  const cols: string[] = [];
-  let cur = "";
-  let inQuotes = false;
-  for (let i = 0; i < line.length; i++) {
-    const ch = line[i];
-    if (ch === '"') {
-      if (inQuotes && line[i + 1] === '"') { cur += '"'; i++; }
-      else inQuotes = !inQuotes;
-    } else if (ch === "," && !inQuotes) {
-      cols.push(cur); cur = "";
-    } else {
-      cur += ch;
-    }
-  }
-  cols.push(cur);
-  return cols;
-}
-
-// ─── Fetch suspects from previous exercise ────────────────────────────────────
-
-async function fetchSuspects(): Promise<Person[]> {
-  const url = `${HUB}/data/${AI_DEVS_KEY}/people.csv`;
-  console.log(`Fetching suspects: ${url}`);
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  const text = await res.text();
-  const [, ...rows] = text.trim().split("\n");
-
-  const CURRENT_YEAR = 2026;
-  const suspects: Person[] = [];
-
-  for (const line of rows) {
-    const cols = parseCsvLine(line);
-    const [name, surname, gender, birthDate, , birthCountry] = cols.map(c => c.trim());
-    if (gender !== "M") continue;
-    // Same filter as exercise 01_01: men from Grudziądz, age 20-40
-    // birthPlace is index 4
-    const birthPlace = parseCsvLine(line)[4].trim();
-    if (birthPlace !== "Grudziądz") continue;
-    const birthYear = new Date(birthDate).getFullYear();
-    const age = CURRENT_YEAR - birthYear;
-    if (age < 20 || age > 40) continue;
-    suspects.push({ name, surname, birthYear });
-  }
-
-  return suspects;
+function fetchSuspects(): Person[] {
+  const answersPath = path.join(ROOT_DIR, "01_01__ex_people", "answers.json");
+  const raw = readFileSync(answersPath, "utf-8");
+  const people: Array<{ name: string; surname: string; born: number }> = JSON.parse(raw);
+  return people.map(p => ({ name: p.name, surname: p.surname, birthYear: p.born }));
 }
 
 // ─── Known coordinates for Polish cities ─────────────────────────────────────
@@ -229,10 +187,8 @@ async function finishAndSubmit(match: Match): Promise<void> {
 // ─── Main ────────────────────────────────────────────────────────────────────
 
 async function main() {
-  const [suspects, powerPlants] = await Promise.all([
-    fetchSuspects(),
-    fetchPowerPlants(),
-  ]);
+  const suspects = fetchSuspects();
+  const powerPlants = await fetchPowerPlants();
 
   console.log(`\nSuspects (${suspects.length}):`, suspects);
   console.log(`\nPower plants (${powerPlants.length}):`, powerPlants);

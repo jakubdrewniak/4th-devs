@@ -1,4 +1,5 @@
 import { existsSync } from "node:fs";
+import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -200,6 +201,10 @@ ${list}`;
 // ─── Step 4: Submit answer ───────────────────────────────────────────────────
 
 async function submitAnswer(answer: TaggedPerson[]): Promise<void> {
+  const answersPath = path.join(path.dirname(fileURLToPath(import.meta.url)), "answers.json");
+  await fs.writeFile(answersPath, JSON.stringify(answer, null, 2), "utf-8");
+  console.log(`Answers saved to ${answersPath}`);
+
   const payload = {
     apikey: AI_DEVS_KEY,
     task: "people",
