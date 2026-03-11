@@ -6,7 +6,8 @@
     "node": ">=24"
   },
   "workspaces": [
-    "01_01__ex_people"
+    "01_01__ex_people",
+    "01_02__ex_findhim"
   ],
   "devDependencies": {
     "@types/node": "^25.4.0",

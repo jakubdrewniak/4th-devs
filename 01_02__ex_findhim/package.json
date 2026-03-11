@@ -1,0 +1,8 @@
+{
+  "name": "01_02__ex_findhim",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "tsx app.ts"
+  }
+}
