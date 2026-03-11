@@ -2,7 +2,8 @@ import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-// Load .env from project root
+// ─── Env setup ───────────────────────────────────────────────────────────────
+
 const ROOT_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const ROOT_ENV_FILE = path.join(ROOT_DIR, ".env");
 
@@ -11,28 +12,19 @@ if (existsSync(ROOT_ENV_FILE) && typeof process.loadEnvFile === "function") {
 }
 
 const AI_DEVS_KEY = process.env.AI_DEVS_KEY?.trim() ?? "";
-if (!AI_DEVS_KEY) {
-  console.error("Error: AI_DEVS_KEY not found in .env");
-  process.exit(1);
-}
+const OPENROUTER_KEY = process.env.OPENROUTER_API_KEY?.trim() ?? "";
+
+if (!AI_DEVS_KEY) { console.error("Missing AI_DEVS_KEY"); process.exit(1); }
+if (!OPENROUTER_KEY) { console.error("Missing OPENROUTER_API_KEY"); process.exit(1); }
 
 const HUB = "https://hub.ag3nts.org";
+const MODEL = "openai/gpt-4.1-mini";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
-interface Person {
-  name: string;
-  surname: string;
-  birthYear: number;
-}
+interface PowerPlant { code: string; lat: number; lon: number; }
 
-interface PowerPlant {
-  code: string;
-  lat: number;
-  lon: number;
-}
-
-// ─── Haversine distance (km) ─────────────────────────────────────────────────
+// ─── Haversine ───────────────────────────────────────────────────────────────
 
 function haversine(lat1: number, lon1: number, lat2: number, lon2: number): number {
   const R = 6371;
@@ -46,158 +38,230 @@ function haversine(lat1: number, lon1: number, lat2: number, lon2: number): numb
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
-// ─── Load suspects from previous exercise ────────────────────────────────────
-
-function fetchSuspects(): Person[] {
-  const answersPath = path.join(ROOT_DIR, "01_01__ex_people", "answers.json");
-  const raw = readFileSync(answersPath, "utf-8");
-  const people: Array<{ name: string; surname: string; born: number }> = JSON.parse(raw);
-  return people.map(p => ({ name: p.name, surname: p.surname, birthYear: p.born }));
-}
-
-// ─── Known coordinates for Polish cities ─────────────────────────────────────
+// ─── City → coordinates map ───────────────────────────────────────────────────
 
 const CITY_COORDS: Record<string, { lat: number; lon: number }> = {
-  "Zabrze":                    { lat: 50.3249, lon: 18.7857 },
-  "Piotrków Trybunalski":      { lat: 51.4047, lon: 19.6979 },
-  "Grudziądz":                 { lat: 53.4850, lon: 18.7534 },
-  "Tczew":                     { lat: 53.7774, lon: 18.7780 },
-  "Radom":                     { lat: 51.4027, lon: 21.1471 },
-  "Chelmno":                   { lat: 53.3486, lon: 18.4254 },
-  "Chełmno":                   { lat: 53.3486, lon: 18.4254 },
-  "Żarnowiec":                 { lat: 54.5859, lon: 18.1540 },
+  "Zabrze":               { lat: 50.3249, lon: 18.7857 },
+  "Piotrków Trybunalski": { lat: 51.4047, lon: 19.6979 },
+  "Grudziądz":            { lat: 53.4850, lon: 18.7534 },
+  "Tczew":                { lat: 53.7774, lon: 18.7780 },
+  "Radom":                { lat: 51.4027, lon: 21.1471 },
+  "Chelmno":              { lat: 53.3486, lon: 18.4254 },
+  "Chełmno":              { lat: 53.3486, lon: 18.4254 },
+  "Żarnowiec":            { lat: 54.5859, lon: 18.1540 },
 };
 
-// ─── Fetch power plants ───────────────────────────────────────────────────────
+// ─── Cached power plants (populated by get_power_plants tool) ─────────────────
 
-async function fetchPowerPlants(): Promise<PowerPlant[]> {
-  const url = `${HUB}/data/${AI_DEVS_KEY}/findhim_locations.json`;
-  console.log(`Fetching power plants: ${url}`);
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  const data = await res.json();
+let cachedPlants: PowerPlant[] = [];
 
-  // Structure: { power_plants: { CityName: { code, is_active, power }, ... } }
-  const plants: PowerPlant[] = [];
-  const map: Record<string, any> = data.power_plants ?? data;
+// ─── Tool handlers ────────────────────────────────────────────────────────────
 
-  for (const [city, info] of Object.entries(map)) {
-    const coords = CITY_COORDS[city];
-    if (!coords) {
-      console.warn(`No coordinates for city: ${city}`);
-      continue;
+const handlers: Record<string, (args: any) => Promise<unknown> | unknown> = {
+
+  get_suspects() {
+    const p = path.join(ROOT_DIR, "01_01__ex_people", "answers.json");
+    const people: Array<{ name: string; surname: string; born: number }> = JSON.parse(readFileSync(p, "utf-8"));
+    return people.map(({ name, surname, born }) => ({ name, surname, birthYear: born }));
+  },
+
+  async get_power_plants() {
+    const res = await fetch(`${HUB}/data/${AI_DEVS_KEY}/findhim_locations.json`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    const map: Record<string, any> = data.power_plants ?? data;
+    const plants: PowerPlant[] = [];
+    for (const [city, info] of Object.entries(map)) {
+      const coords = CITY_COORDS[city];
+      if (!coords) { console.warn(`Unknown city: ${city}`); continue; }
+      plants.push({ code: (info as any).code, lat: coords.lat, lon: coords.lon });
     }
-    plants.push({ code: (info as any).code, lat: coords.lat, lon: coords.lon });
-  }
+    cachedPlants = plants;
+    return plants;
+  },
 
-  console.log("Power plants:", JSON.stringify(plants, null, 2));
-  return plants;
-}
+  async get_closest_plant({ name, surname }: { name: string; surname: string }) {
+    if (cachedPlants.length === 0) throw new Error("Call get_power_plants first");
+    const res = await fetch(`${HUB}/api/location`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ apikey: AI_DEVS_KEY, name, surname }),
+    });
+    const data = await res.json();
+    const locs: any[] = Array.isArray(data) ? data : (data.locations ?? data.answer ?? []);
 
-// ─── Tool implementations ─────────────────────────────────────────────────────
-
-async function getLocations(name: string, surname: string): Promise<{ lat: number; lon: number }[]> {
-  const res = await fetch(`${HUB}/api/location`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ apikey: AI_DEVS_KEY, name, surname }),
-  });
-  const data = await res.json();
-  console.log(`Locations for ${name} ${surname}:`, JSON.stringify(data));
-  // Normalize response: could be array of coords or wrapped
-  if (Array.isArray(data)) return data;
-  if (data.locations) return data.locations;
-  if (data.answer) return data.answer;
-  return [];
-}
-
-async function getAccessLevel(name: string, surname: string, birthYear: number): Promise<number> {
-  const res = await fetch(`${HUB}/api/accesslevel`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ apikey: AI_DEVS_KEY, name, surname, birthYear }),
-  });
-  const data = await res.json();
-  console.log(`Access level for ${name} ${surname}:`, JSON.stringify(data));
-  if (typeof data === "number") return data;
-  if (typeof data.accessLevel === "number") return data.accessLevel;
-  if (typeof data.answer === "number") return data.answer;
-  return data.accessLevel ?? data.answer ?? data.level ?? 0;
-}
-
-async function submitAnswer(answer: {
-  name: string;
-  surname: string;
-  accessLevel: number;
-  powerPlant: string;
-}): Promise<any> {
-  console.log("\nSubmitting answer:", JSON.stringify(answer, null, 2));
-  const res = await fetch(`${HUB}/verify`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ apikey: AI_DEVS_KEY, task: "findhim", answer }),
-  });
-  const data = await res.json();
-  console.log("Response:", JSON.stringify(data, null, 2));
-  return data;
-}
-
-// ─── Find closest power plant in code ────────────────────────────────────────
-
-interface Match {
-  person: Person;
-  powerPlant: PowerPlant;
-  distanceKm: number;
-}
-
-async function findClosestMatch(suspects: Person[], powerPlants: PowerPlant[]): Promise<Match> {
-  let best: Match | null = null;
-
-  await Promise.all(
-    suspects.map(async (person) => {
-      const locs = await getLocations(person.name, person.surname);
-      for (const loc of locs) {
-        const lat = (loc as any).latitude ?? (loc as any).lat;
-        const lon = (loc as any).longitude ?? (loc as any).lon;
-        if (lat == null || lon == null) continue;
-        for (const plant of powerPlants) {
-          const d = haversine(lat, lon, plant.lat, plant.lon);
-          if (!best || d < best.distanceKm) {
-            best = { person, powerPlant: plant, distanceKm: d };
-          }
+    let best: { powerPlantCode: string; distanceKm: number } | null = null;
+    for (const loc of locs) {
+      const lat = loc.latitude ?? loc.lat;
+      const lon = loc.longitude ?? loc.lon;
+      if (lat == null || lon == null) continue;
+      for (const plant of cachedPlants) {
+        const d = haversine(lat, lon, plant.lat, plant.lon);
+        if (!best || d < best.distanceKm) {
+          best = { powerPlantCode: plant.code, distanceKm: d };
         }
       }
-    })
-  );
+    }
+    return best ?? { powerPlantCode: null, distanceKm: Infinity };
+  },
 
-  if (!best) throw new Error("No match found");
-  return best;
+  async get_access_level({ name, surname, birthYear }: { name: string; surname: string; birthYear: number }) {
+    const res = await fetch(`${HUB}/api/accesslevel`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ apikey: AI_DEVS_KEY, name, surname, birthYear }),
+    });
+    const data = await res.json();
+    if (typeof data === "number") return data;
+    return data.accessLevel ?? data.answer ?? data.level ?? 0;
+  },
+
+  async submit_answer({ name, surname, accessLevel, powerPlant }: {
+    name: string; surname: string; accessLevel: number; powerPlant: string;
+  }) {
+    const res = await fetch(`${HUB}/verify`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ apikey: AI_DEVS_KEY, task: "findhim", answer: { name, surname, accessLevel, powerPlant } }),
+    });
+    const data = await res.json();
+    console.log("Submission response:", JSON.stringify(data, null, 2));
+    return data;
+  },
+};
+
+// ─── Tool definitions ─────────────────────────────────────────────────────────
+
+const tools = [
+  {
+    type: "function",
+    function: {
+      name: "get_suspects",
+      description: "Returns the list of suspects (name, surname, birthYear) from the previous exercise.",
+      parameters: { type: "object", properties: {}, required: [] },
+    },
+  },
+  {
+    type: "function",
+    function: {
+      name: "get_power_plants",
+      description: "Fetches the list of power plants with their GPS coordinates. Must be called before get_closest_plant.",
+      parameters: { type: "object", properties: {}, required: [] },
+    },
+  },
+  {
+    type: "function",
+    function: {
+      name: "get_closest_plant",
+      description: "For a given suspect, fetches all their sighting locations and returns which power plant is closest and the distance in km.",
+      parameters: {
+        type: "object",
+        properties: {
+          name:    { type: "string", description: "First name" },
+          surname: { type: "string", description: "Last name" },
+        },
+        required: ["name", "surname"],
+        additionalProperties: false,
+      },
+    },
+  },
+  {
+    type: "function",
+    function: {
+      name: "get_access_level",
+      description: "Returns the access level for a suspect.",
+      parameters: {
+        type: "object",
+        properties: {
+          name:      { type: "string" },
+          surname:   { type: "string" },
+          birthYear: { type: "number" },
+        },
+        required: ["name", "surname", "birthYear"],
+        additionalProperties: false,
+      },
+    },
+  },
+  {
+    type: "function",
+    function: {
+      name: "submit_answer",
+      description: "Submits the final identified suspect to the hub.",
+      parameters: {
+        type: "object",
+        properties: {
+          name:        { type: "string" },
+          surname:     { type: "string" },
+          accessLevel: { type: "number" },
+          powerPlant:  { type: "string", description: "Power plant code, e.g. PWR2758PL" },
+        },
+        required: ["name", "surname", "accessLevel", "powerPlant"],
+        additionalProperties: false,
+      },
+    },
+  },
+];
+
+// ─── Agent loop ───────────────────────────────────────────────────────────────
+
+const SYSTEM = `You are a detective agent. Your goal: identify which suspect was spotted closest to a power plant, then submit the answer.
+
+Steps:
+1. Call get_suspects and get_power_plants (you may do these in parallel).
+2. For every suspect, call get_closest_plant to find their nearest power plant and distance.
+3. Identify the suspect whose minimum distance across all their sightings is the smallest overall.
+4. Call get_access_level for that suspect.
+5. Call submit_answer with their name, surname, accessLevel, and the power plant code.`;
+
+async function runAgent(): Promise<void> {
+  const messages: any[] = [
+    { role: "system", content: SYSTEM },
+    { role: "user",   content: "Find the suspect and submit the answer." },
+  ];
+
+  const MAX_STEPS = 50;
+
+  for (let step = 1; step <= MAX_STEPS; step++) {
+    const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${OPENROUTER_KEY}` },
+      body: JSON.stringify({ model: MODEL, messages, tools, tool_choice: "auto" }),
+    });
+
+    const data = await res.json();
+    if (!res.ok || data.error) throw new Error(data?.error?.message ?? `HTTP ${res.status}`);
+
+    const msg = data.choices[0].message;
+    messages.push(msg);
+
+    // No tool calls → LLM is done, print final answer
+    if (!msg.tool_calls?.length) {
+      console.log(`\n[LLM] ${msg.content}`);
+      return;
+    }
+
+    const callCount = msg.tool_calls.length;
+    console.log(`\n[LLM → ${callCount} tool call${callCount > 1 ? "s" : ""} in parallel]`);
+
+    // Execute all tool calls from this round
+    for (const call of msg.tool_calls) {
+      const fn = call.function.name;
+      const args = JSON.parse(call.function.arguments);
+
+      const argsDisplay = Object.keys(args).length ? JSON.stringify(args) : "(no args)";
+      console.log(`  call  ${fn} ${argsDisplay}`);
+
+      const handler = handlers[fn];
+      if (!handler) throw new Error(`Unknown tool: ${fn}`);
+
+      const result = await handler(args);
+      console.log(`  result ${JSON.stringify(result)}`);
+
+      messages.push({ role: "tool", tool_call_id: call.id, content: JSON.stringify(result) });
+    }
+  }
+
+  throw new Error(`Agent did not finish within ${MAX_STEPS} steps`);
 }
 
-// ─── Final steps: access level + submit ──────────────────────────────────────
-
-async function finishAndSubmit(match: Match): Promise<void> {
-  const { person, powerPlant, distanceKm } = match;
-  console.log(`\nClosest match: ${person.name} ${person.surname} → ${powerPlant.code} (${distanceKm.toFixed(2)} km)`);
-
-  const accessLevel = await getAccessLevel(person.name, person.surname, person.birthYear);
-  await submitAnswer({ name: person.name, surname: person.surname, accessLevel, powerPlant: powerPlant.code });
-}
-
-// ─── Main ────────────────────────────────────────────────────────────────────
-
-async function main() {
-  const suspects = fetchSuspects();
-  const powerPlants = await fetchPowerPlants();
-
-  console.log(`\nSuspects (${suspects.length}):`, suspects);
-  console.log(`\nPower plants (${powerPlants.length}):`, powerPlants);
-
-  const match = await findClosestMatch(suspects, powerPlants);
-  await finishAndSubmit(match);
-}
-
-main().catch((err) => {
-  console.error("Error:", err);
-  process.exit(1);
-});
+runAgent().catch((err) => { console.error("Error:", err); process.exit(1); });
