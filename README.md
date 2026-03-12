@@ -42,6 +42,18 @@ OPENROUTER_API_KEY=your_api_key_here
 OPENAI_API_KEY=your_api_key_here
 ```
 
+If both keys are present, provider defaults to OpenAI. Override with `AI_PROVIDER=openrouter`.
+
+Some Lesson 04 examples also require:
+
+```bash
+GEMINI_API_KEY=your_gemini_key_here
+REPLICATE_API_TOKEN=your_replicate_token_here
+```
+
+For image-generation examples, `OPENROUTER_API_KEY` can be used as the image backend with `google/gemini-3.1-flash-image-preview`. `GEMINI_API_KEY` remains the native fallback, and some media examples still need it for native Gemini-only features.
+
+
 ## Lesson 01
 
 | Example | Run | Description |
@@ -82,4 +94,24 @@ Install dependencies:
 
 ```bash
 npm run lesson3:install
+```
+
+## Lesson 04
+
+| Example | Run | Description |
+|---------|-----|-------------|
+| `01_04_audio` | `npm run lesson4:audio` | Audio transcription, analysis, and TTS with Gemini |
+| `01_04_video` | `npm run lesson4:video` | Video analysis, transcription, and extraction with Gemini |
+| `01_04_generation` | `npm run lesson4:generation` | Interactive video-processing example with Gemini and MCP tools |
+| `01_04_video_generation` | `npm run lesson4:video_generation` | Frame-based video generation with Gemini and Kling |
+| `01_04_reports` | `npm run lesson4:reports` | PDF reports from HTML, local assets, and generated images |
+| `01_04_image_guidance` | `npm run lesson4:image_guidance` | Pose-guided image generation from JSON templates |
+| `01_04_json_image` | `npm run lesson4:json_image` | Token-efficient image generation from JSON prompts |
+| `01_04_image_editing` | `npm run lesson4:image_editing` | Iterative image generation and editing with quality checks |
+| `01_04_image_recognition` | `npm run lesson4:image_recognition` | Vision-based image classification with MCP file operations |
+
+Install dependencies:
+
+```bash
+npm run lesson4:install
 ```
