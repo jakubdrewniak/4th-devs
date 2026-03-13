@@ -35,7 +35,6 @@ const runTools = (mcpClient, toolCalls) =>
 export const run = async (query, { mcpClient, mcpTools }) => {
   const tools = [...mcpToolsToOpenAI(mcpTools), ...nativeTools];
   const messages = [{ role: "user", content: query }];
-  const toolCallHistory = [];
 
   log.query(query);
 
@@ -48,14 +47,10 @@ export const run = async (query, { mcpClient, mcpTools }) => {
 
     if (toolCalls.length === 0) {
       const text = extractText(response) ?? "No response";
-      return { response: text, toolCalls: toolCallHistory };
+      return { response: text };
     }
 
     messages.push(...response.output);
-
-    for (const tc of toolCalls) {
-      toolCallHistory.push({ name: tc.name, arguments: JSON.parse(tc.arguments) });
-    }
 
     const results = await runTools(mcpClient, toolCalls);
     messages.push(...results);

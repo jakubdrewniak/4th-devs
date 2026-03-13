@@ -11,7 +11,7 @@ Classify items from images/ into categories based on profiles in knowledge/.
 Output to images/organized/<category>/ folders.
 
 ## PROCESS
-Read profiles first, then process items incrementally - complete each before moving to next. You can read the same image multiple times if you need to.
+Read profiles first using fs_read with mode:"list" on the knowledge/ folder to get file names, then read each file individually. Process items incrementally - complete each before moving to next. You can read the same image multiple times if you need to.
 
 ## REASONING
 

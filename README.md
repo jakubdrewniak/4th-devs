@@ -53,6 +53,13 @@ REPLICATE_API_TOKEN=your_replicate_token_here
 
 For image-generation examples, `OPENROUTER_API_KEY` can be used as the image backend with `google/gemini-3.1-flash-image-preview`. `GEMINI_API_KEY` remains the native fallback, and some media examples still need it for native Gemini-only features.
 
+Some Lesson 05 examples also require:
+
+```bash
+RESEND_API_KEY=re_...
+RESEND_FROM=noreply@yourdomain.com
+SEED_API_KEY=your_optional_seed_token
+```
 
 ## Lesson 01
 
@@ -115,3 +122,25 @@ Install dependencies:
 ```bash
 npm run lesson4:install
 ```
+
+## Lesson 05
+
+| Example | Run | Description |
+|---------|-----|-------------|
+| `01_05_confirmation` | `npm run lesson5:confirmation` | Email-sending agent with human-in-the-loop confirmation UI |
+| `01_05_agent` | `npm run lesson5:agent` | API server for agent orchestration, tool execution, and MCP integration |
+
+Install dependencies:
+
+```bash
+npm run lesson5:install
+```
+
+`01_05_agent` requires a one-time database setup before the first run:
+
+```bash
+npm run lesson5:agent:db:push
+npm run lesson5:agent:db:seed
+```
+
+The agent server starts on `http://127.0.0.1:3000` by default. The seed script creates a bearer token `0f47acce-3aa7-4b58-9389-21b2940ecc70` for authentication. You can override the port and other settings via `01_05_agent/.env` (local keys take priority over the root `.env`).
