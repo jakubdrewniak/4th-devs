@@ -1,0 +1,9 @@
+{
+  "name": "01_05__ex_railway",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "tsx app.ts"
+  },
+  "dependencies": {}
+}

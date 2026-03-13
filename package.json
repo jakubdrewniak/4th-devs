@@ -9,7 +9,8 @@
     "01_01__ex_people",
     "01_02__ex_findhim",
     "01_03__ex_mcp",
-    "01_04__ex_sendit"
+    "01_04__ex_sendit",
+    "01_05__ex_railway"
   ],
   "devDependencies": {
     "@types/node": "^25.4.0",
