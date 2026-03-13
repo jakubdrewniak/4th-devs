@@ -1,0 +1,11 @@
+{
+  "name": "01_04__ex_sendit",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "tsx app.ts"
+  },
+  "dependencies": {
+    "openai": "^4.98.0"
+  }
+}

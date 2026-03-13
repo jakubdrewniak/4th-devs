@@ -8,6 +8,7 @@ You are experienced developer with mastery in Typescript.
 - Each new exercise folder must be added to the `workspaces` array in root `package.json`
 - Run `npm install` from root once after adding a new workspace; `npm start` inside each exercise folder still works
 - Load `.env` from the project root (one level up from the exercise folder)
+- Whole code and comments should be in english
 
 
 ---
