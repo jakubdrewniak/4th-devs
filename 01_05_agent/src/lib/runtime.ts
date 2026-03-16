@@ -1,6 +1,8 @@
 /**
  * Runtime initialization
  */
+import { mkdirSync } from 'node:fs'
+import { dirname } from 'node:path'
 import { createEventEmitter } from '../events/index.js'
 import { createSQLiteRepositories } from '../repositories/index.js'
 import { createContext, type RuntimeContext } from '../runtime/index.js'
@@ -61,6 +63,10 @@ export async function initRuntime(): Promise<RuntimeContext> {
     log.warn('no AI providers configured — set OPENAI_API_KEY or OPENROUTER_API_KEY')
   } else {
     log.info({ providers }, 'providers registered')
+  }
+
+  if (config.databaseUrl.startsWith('file:')) {
+    mkdirSync(dirname(config.databaseUrl.slice('file:'.length)), { recursive: true })
   }
 
   const repositories = await createSQLiteRepositories({

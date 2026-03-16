@@ -115,6 +115,7 @@ npm run lesson3:install
 | `01_04_image_guidance` | `npm run lesson4:image_guidance` | Pose-guided image generation from JSON templates |
 | `01_04_json_image` | `npm run lesson4:json_image` | Token-efficient image generation from JSON prompts |
 | `01_04_image_editing` | `npm run lesson4:image_editing` | Iterative image generation and editing with quality checks |
+| `01_04_sprites` | `npm run lesson4:sprites` | Parallel isometric sprite-set generation from JSON templates |
 | `01_04_image_recognition` | `npm run lesson4:image_recognition` | Vision-based image classification with MCP file operations |
 
 Install dependencies:
@@ -144,3 +145,15 @@ npm run lesson5:agent:db:seed
 ```
 
 The agent server starts on `http://127.0.0.1:3000` by default. The seed script creates a bearer token `0f47acce-3aa7-4b58-9389-21b2940ecc70` for authentication. You can override the port and other settings via `01_05_agent/.env` (local keys take priority over the root `.env`).
+
+## Lesson 06
+
+| Example | Run | Description |
+|---------|-----|-------------|
+| `02_01_agentic_rag` | `npm run lesson6:agentic_rag` | Agentic RAG with multi-step retrieval and conversation history |
+
+Install dependencies:
+
+```bash
+npm run lesson6:install
+```

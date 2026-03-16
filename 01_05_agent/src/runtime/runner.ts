@@ -447,7 +447,7 @@ async function handleDelegation(
     parentId: parent.id,
     sourceCallId: callId,
     depth: exec.depth + 1,
-    task,
+    task: template.config.systemPrompt,
     config: {
       model: template.config.model,
       tools: template.config.tools,

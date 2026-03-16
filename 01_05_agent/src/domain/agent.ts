@@ -98,6 +98,33 @@ export function startAgent(agent: Agent, traceId?: TraceId): TransitionResult {
   }
 }
 
+export function prepareAgentForNextTurn(agent: Agent): TransitionResult {
+  if (agent.status === 'running') {
+    return { ok: false, error: 'Session is already running.' }
+  }
+
+  if (agent.status === 'waiting') {
+    return { ok: false, error: 'Session is waiting for a tool or human response.' }
+  }
+
+  if (agent.status === 'pending') {
+    return { ok: true, agent }
+  }
+
+  return {
+    ok: true,
+    agent: {
+      ...agent,
+      status: 'pending',
+      waitingFor: [],
+      result: undefined,
+      error: undefined,
+      startedAt: undefined,
+      completedAt: undefined,
+    },
+  }
+}
+
 export function waitForMany(agent: Agent, waiting: WaitingFor[]): TransitionResult {
   if (agent.status !== 'running') {
     return { ok: false, error: `Cannot wait agent in status: ${agent.status}` }

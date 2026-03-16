@@ -183,6 +183,7 @@ function createSessionRepo(db: Database): SessionRepository {
         .set({
           rootAgentId: session.rootAgentId,
           title: session.title,
+          summary: session.summary,
           status: session.status,
           updatedAt: new Date(),
         })
@@ -225,10 +226,12 @@ function createAgentRepo(db: Database): AgentRepository {
     async update(agent) {
       await db.update(agents)
         .set({
+          task: agent.task,
+          config: agent.config,
           status: agent.status,
           waitingFor: agent.waitingFor,
-          result: agent.result as string | null,
-          error: agent.error,
+          result: agent.result ?? null,
+          error: agent.error ?? null,
           turnCount: agent.turnCount,
           startedAt: agent.startedAt,
           completedAt: agent.completedAt,

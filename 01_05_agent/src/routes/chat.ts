@@ -1,15 +1,22 @@
-import { Hono } from 'hono'
+import { Hono, type Context } from 'hono'
 import { streamSSE } from 'hono/streaming'
 import { zValidator } from '@hono/zod-validator'
 import type { ApiResponse } from '../errors/index.js'
 import { chatRequestSchema, deliverRequestSchema } from './chat.schema.js'
-import { processChat, processChatStream, deliverResult, type ChatResponse } from './chat.service.js'
+import { prepareChat, executePreparedChat, streamPreparedChat, deliverResult, type ChatResponse } from './chat.service.js'
 import type { RuntimeContext } from '../runtime/index.js'
-import type { User } from '../domain/index.js'
+import type { Agent, User } from '../domain/index.js'
 
 type Env = { Variables: { runtime: RuntimeContext; user: User } }
 
 const chat = new Hono<Env>()
+const EXPOSED_CHAT_HEADERS = 'X-Session-Id, X-Agent-Id'
+
+function setChatHeaders(c: Context<Env>, agent: Pick<Agent, 'id' | 'sessionId'>): void {
+  c.header('X-Session-Id', agent.sessionId)
+  c.header('X-Agent-Id', agent.id)
+  c.header('Access-Control-Expose-Headers', EXPOSED_CHAT_HEADERS)
+}
 
 // Create chat completion
 chat.post(
@@ -31,15 +38,32 @@ chat.post(
       return c.json<ApiResponse>({ data: null, error: { message: 'Runtime not initialized' } }, 500)
     }
 
+    const prepared = await prepareChat(req, runtime, user.id)
+
     if (req.stream) {
+      if (!prepared.ok) {
+        return streamSSE(c, async (stream) => {
+          await stream.writeSSE({
+            event: 'error',
+            data: JSON.stringify({ type: 'error', error: prepared.error }),
+          })
+        })
+      }
+
+      setChatHeaders(c, prepared.data.agent)
       return streamSSE(c, async (stream) => {
-        for await (const event of processChatStream(req, runtime, user.id)) {
+        for await (const event of streamPreparedChat(prepared.data, req, runtime, user.id)) {
           await stream.writeSSE({ event: event.type, data: JSON.stringify(event) })
         }
       })
     }
 
-    const result = await processChat(req, runtime, user.id)
+    if (!prepared.ok) {
+      return c.json<ApiResponse>({ data: null, error: { message: prepared.error } }, 500)
+    }
+
+    setChatHeaders(c, prepared.data.agent)
+    const result = await executePreparedChat(prepared.data, req, runtime, user.id)
 
     if (!result.ok) {
       return c.json<ApiResponse>({ data: null, error: { message: result.error } }, 500)
