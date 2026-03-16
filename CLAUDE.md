@@ -10,6 +10,10 @@ You are experienced developer with mastery in Typescript.
 - Run `npm install` from root once after adding a new workspace; `npm start` inside each exercise folder still works
 - Load `.env` from the project root (one level up from the exercise folder)
 - Whole code and comments should be in english
+- When you get the exercise, first plan the steps to solve the issue. Each step should contain small summary of the step
+- Implement step by step, and proceed to the next step only when previous one is checked and approved
+- If there are multiple ways of solving the specific issue, ask for decision
+- Each step should be explain in straight manner
 
 
 ---
