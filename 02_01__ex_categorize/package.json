@@ -1,0 +1,9 @@
+{
+  "name": "02_01__ex_categorize",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "tsx app.ts"
+  },
+  "dependencies": {}
+}
