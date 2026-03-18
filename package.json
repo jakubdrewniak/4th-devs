@@ -12,7 +12,8 @@
     "01_04__ex_sendit",
     "01_05__ex_railway",
     "02_01__ex_categorize",
-    "02_02__ex_electricity"
+    "02_02__ex_electricity",
+    "02_03__ex_failure"
   ],
   "devDependencies": {
     "@types/node": "^25.4.0",
