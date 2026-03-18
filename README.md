@@ -53,6 +53,14 @@ REPLICATE_API_TOKEN=your_replicate_token_here
 
 For image-generation examples, `OPENROUTER_API_KEY` can be used as the image backend with `google/gemini-3.1-flash-image-preview`. `GEMINI_API_KEY` remains the native fallback, and some media examples still need it for native Gemini-only features.
 
+Lesson 08 (graph agents) requires a running Neo4j 5.11+ instance:
+
+```bash
+NEO4J_URI=bolt://localhost:7687
+NEO4J_USERNAME=neo4j
+NEO4J_PASSWORD=password
+```
+
 Some Lesson 05 examples also require:
 
 ```bash
@@ -170,4 +178,22 @@ Install dependencies:
 
 ```bash
 npm run lesson7:install
+```
+
+## Lesson 08
+
+| Example | Run | Description |
+|---------|-----|-------------|
+| `02_03_graph_agents` | `npm run lesson8:graph_agents` | Graph RAG agent with Neo4j knowledge graph, hybrid search, and entity exploration |
+
+Install dependencies:
+
+```bash
+npm run lesson8:install
+```
+
+Requires a running Neo4j 5.11+ instance (needed for vector index support):
+
+```bash
+docker run -d --name neo4j -p 7474:7474 -p 7687:7687 -e NEO4J_AUTH=neo4j/password neo4j:5
 ```

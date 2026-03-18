@@ -85,6 +85,9 @@
     "prelesson19:daily-news": "npm run ensure:files-mcp",
     "lesson19:daily-news": "node ./04_04_system/demo-daily-news.js",
     "prelesson19:examples": "npm run ensure:files-mcp",
-    "lesson19:examples": "node ./04_04_system/demo-example-queries.js"
+    "lesson19:examples": "node ./04_04_system/demo-example-queries.js",
+    "lesson20:install": "cd ./05_01_primitives && npm install",
+    "lesson20:primitives": "cd ./05_01_primitives && npm run start",
+    "lesson20:primitives:clean": "cd ./05_01_primitives && npm run clean"
   }
 }

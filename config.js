@@ -1,4 +1,4 @@
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -30,16 +30,62 @@ if (major < MIN_NODE_VERSION) {
   process.exit(1);
 }
 
-if (existsSync(ROOT_ENV_FILE) && typeof process.loadEnvFile === "function") {
+const stripMatchingQuotes = (value) => {
+  if (
+    value.length >= 2
+    && ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'")))
+  ) {
+    return value.slice(1, -1);
+  }
+
+  return value;
+};
+
+const loadEnvFile = (file) => {
+  if (!existsSync(file)) {
+    return;
+  }
+
   try {
-    process.loadEnvFile(ROOT_ENV_FILE);
+    if (typeof process.loadEnvFile === "function") {
+      process.loadEnvFile(file);
+      return;
+    }
+
+    const raw = readFileSync(file, "utf8");
+    for (const line of raw.split(/\r?\n/)) {
+      const trimmed = line.trim();
+
+      if (!trimmed || trimmed.startsWith("#")) {
+        continue;
+      }
+
+      const normalized = trimmed.startsWith("export ")
+        ? trimmed.slice("export ".length)
+        : trimmed;
+      const separatorIndex = normalized.indexOf("=");
+
+      if (separatorIndex <= 0) {
+        continue;
+      }
+
+      const key = normalized.slice(0, separatorIndex).trim();
+      if (!key || process.env[key] !== undefined) {
+        continue;
+      }
+
+      const value = normalized.slice(separatorIndex + 1).trim();
+      process.env[key] = stripMatchingQuotes(value);
+    }
   } catch (error) {
     console.error("\x1b[31mError: Failed to load .env file\x1b[0m");
-    console.error(`       File: ${ROOT_ENV_FILE}`);
+    console.error(`       File: ${file}`);
     console.error(`       Reason: ${error.message}`);
     process.exit(1);
   }
-}
+};
+
+loadEnvFile(ROOT_ENV_FILE);
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY?.trim() ?? "";
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY?.trim() ?? "";
