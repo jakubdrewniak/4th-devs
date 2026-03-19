@@ -11,7 +11,7 @@
     },
     "uploadthing": {
       "transport": "http",
-      "url": "https://URL_TO_YOUR_MCP_SERVER/mcp"
+      "url": "http://localhost:3000/mcp"
     }
   }
 }

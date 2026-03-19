@@ -1,0 +1,17 @@
+{
+  "name": "02_04_ops",
+  "type": "module",
+  "scripts": {
+    "start": "tsx --env-file=.env src/index.ts",
+    "dev": "tsx watch --env-file=.env src/index.ts"
+  },
+  "dependencies": {
+    "openai": "^6.17.0",
+    "gray-matter": "^4.0.3"
+  },
+  "devDependencies": {
+    "tsx": "^4.7.1",
+    "typescript": "^5.8.3",
+    "@types/node": "^20.11.17"
+  }
+}

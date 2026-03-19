@@ -18,6 +18,14 @@ interface HonoContextWithAuth {
   authContext?: AuthContext;
 }
 
+function normalizeFetchResponse(response: Response): Response {
+  // These hop-by-hop framing headers belong to the final HTTP writer.
+  response.headers.delete('connection');
+  response.headers.delete('content-length');
+  response.headers.delete('transfer-encoding');
+  return response;
+}
+
 export function buildMcpRoutes(params: {
   server: McpServer;
   transports: Map<string, StreamableHTTPServerTransport>;
@@ -118,7 +126,8 @@ export function buildMcpRoutes(params: {
         void logger.debug('mcp', { message: 'Request closed' });
       });
 
-      return toFetchResponse(res);
+      const response = await toFetchResponse(res);
+      return normalizeFetchResponse(response);
     } catch (error) {
       void logger.error('mcp', {
         message: 'Error handling POST request',
@@ -155,7 +164,8 @@ export function buildMcpRoutes(params: {
       }
       await ensureConnected(transport);
       await transport.handleRequest(req, res);
-      return toFetchResponse(res);
+      const response = await toFetchResponse(res);
+      return normalizeFetchResponse(response);
     } catch (error) {
       void logger.error('mcp', {
         message: 'Error handling GET request',
@@ -194,7 +204,8 @@ export function buildMcpRoutes(params: {
       await transport.handleRequest(req, res);
       transports.delete(sessionIdHeader);
       transport.close();
-      return toFetchResponse(res);
+      const response = await toFetchResponse(res);
+      return normalizeFetchResponse(response);
     } catch (error) {
       void logger.error('mcp', {
         message: 'Error handling DELETE request',

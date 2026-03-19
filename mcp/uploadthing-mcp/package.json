@@ -5,9 +5,9 @@
   "main": "dist/index.js",
   "type": "module",
   "scripts": {
-    "dev": "bun --hot src/index.ts",
+    "dev": "npx tsx --watch src/index.ts",
     "dev:worker": "wrangler dev",
-    "start": "bun run src/index.ts",
+    "start": "npx tsx src/index.ts",
     "build": "bun build src/index.ts --outdir dist --target bun",
     "deploy": "wrangler deploy",
     "deploy:tail": "wrangler tail",
