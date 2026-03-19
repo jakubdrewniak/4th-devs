@@ -1,0 +1,10 @@
+{
+  "name": "02_04__ex_mailbox",
+  "type": "module",
+  "scripts": {
+    "start": "tsx app.ts"
+  },
+  "dependencies": {
+    "openai": "^4.98.0"
+  }
+}
