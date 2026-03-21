@@ -14,7 +14,8 @@
     "02_01__ex_categorize",
     "02_02__ex_electricity",
     "02_03__ex_failure",
-    "02_04__ex_mailbox"
+    "02_04__ex_mailbox",
+    "02_05__ex_drone"
   ],
   "devDependencies": {
     "@types/node": "^25.4.0",
