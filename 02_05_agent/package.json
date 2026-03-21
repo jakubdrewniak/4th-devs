@@ -1,0 +1,20 @@
+{
+  "name": "02_05_agent",
+  "type": "module",
+  "scripts": {
+    "start": "tsx --env-file=.env src/index.ts",
+    "dev": "tsx watch --env-file=.env src/index.ts",
+    "demo": "tsx demo.ts"
+  },
+  "dependencies": {
+    "openai": "^6.17.0",
+    "hono": "^4.7.0",
+    "@hono/node-server": "^1.13.0",
+    "gray-matter": "^4.0.3"
+  },
+  "devDependencies": {
+    "tsx": "^4.7.1",
+    "typescript": "^5.8.3",
+    "@types/node": "^20.11.17"
+  }
+}

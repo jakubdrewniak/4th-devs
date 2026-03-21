@@ -165,3 +165,72 @@ Install dependencies:
 ```bash
 npm run lesson6:install
 ```
+
+## Lesson 07
+
+| Example | Run | Description |
+|---------|-----|-------------|
+| `02_02_chunking` | `npm run lesson7:chunking` | Four text chunking strategies compared side-by-side |
+| `02_02_embedding` | `npm run lesson7:embedding` | Interactive embedding demo with a pairwise similarity matrix |
+| `02_02_hybrid_rag` | `npm run lesson7:hybrid_rag` | Hybrid RAG agent with SQLite FTS5 full-text search and sqlite-vec vector similarity |
+
+Install dependencies:
+
+```bash
+npm run lesson7:install
+```
+
+## Lesson 08
+
+| Example | Run | Description |
+|---------|-----|-------------|
+| `02_03_graph_agents` | `npm run lesson8:graph_agents` | Graph RAG agent with Neo4j knowledge graph, hybrid search, and entity exploration |
+
+Install dependencies:
+
+```bash
+npm run lesson8:install
+```
+
+Requires a running Neo4j 5.11+ instance (needed for vector index support):
+
+```bash
+docker run -d --name neo4j -p 7474:7474 -p 7687:7687 -e NEO4J_AUTH=neo4j/password neo4j:5
+```
+
+## Lesson 09
+
+| Example | Run | Description |
+|---------|-----|-------------|
+| `02_04_ops` | `npm run lesson9:ops` | Multi-agent daily ops generator with task delegation |
+
+Install dependencies:
+
+```bash
+npm run lesson9:install
+```
+
+## Lesson 10
+
+| Example | Run | Description |
+|---------|-----|-------------|
+| `02_05_agent` | `npm run lesson10:agent` | Context engineering agent with observational memory (observer/reflector pattern) |
+| `02_05_sandbox` | `npm run lesson10:sandbox` | MCP sandbox agent with tool discovery and QuickJS code execution |
+
+Install dependencies:
+
+```bash
+npm run lesson10:install
+```
+
+## Lesson 20
+
+| Example | Run | Description |
+|---------|-----|-------------|
+| `05_01_agent_graph` | `npm run lesson20:agent_graph` | Multi-agent graph scheduler with task delegation, recovery, and a live dashboard |
+
+Install dependencies:
+
+```bash
+npm run lesson20:install
+```

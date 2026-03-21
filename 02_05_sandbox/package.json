@@ -1,0 +1,21 @@
+{
+  "name": "02_05_sandbox",
+  "type": "module",
+  "scripts": {
+    "start": "bun src/index.ts",
+    "server:todo": "bun servers/todo.ts"
+  },
+  "dependencies": {
+    "@jitl/quickjs-wasmfile-release-asyncify": "^0.31.0",
+    "@modelcontextprotocol/sdk": "^1.25.1",
+    "openai": "^6.15.0",
+    "quickjs-emscripten-core": "^0.31.0",
+    "gray-matter": "^4.0.3",
+    "zod": "^4.3.5"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.3.5",
+    "@types/node": "^20.11.17",
+    "typescript": "^5.8.3"
+  }
+}
