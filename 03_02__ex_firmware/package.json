@@ -1,0 +1,10 @@
+{
+  "name": "03_02__ex_firmware",
+  "type": "module",
+  "scripts": {
+    "start": "tsx app.ts"
+  },
+  "dependencies": {
+    "openai": "^4.98.0"
+  }
+}
