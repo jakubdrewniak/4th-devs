@@ -1,0 +1,10 @@
+[
+  {
+    "id": "full-inbox-triage-batch",
+    "task": "Triage both inboxes: read all unread emails, check the knowledge base for context, assign labels, and mark emails that need replies.",
+    "requiredReplyEmailIds": ["tv-e007", "cs-e003", "cs-e006", "cs-e007"],
+    "minReplyPlans": 4,
+    "minNewlyLabeledUnread": 3,
+    "expectNoDrafts": true
+  }
+]

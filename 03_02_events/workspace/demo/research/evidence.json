@@ -1,0 +1,14 @@
+[
+  {
+    "model": "Claude Opus 4.6",
+    "axis": "benchmarks",
+    "claim": "Across 40 cybersecurity investigations, Claude Opus 4.6 produced the best results 38 of 40 times in a blind ranking against Claude 4.5 models.",
+    "claimType": "vendor",
+    "verification": "vendor_stated_not_independently_verified",
+    "sourceTitle": "Introducing Claude Opus 4.6 - Anthropic (search snippet)",
+    "sourceUrl": "https://www.anthropic.com/news/claude-opus-4-6",
+    "quote": "Across 40 cybersecurity investigations, Claude Opus 4.6 produced the best results 38 of 40 times in a blind ranking against Claude 4.5 models.",
+    "methodologyNotes": "Methodology details not accessible due to scraping failure; only search snippet available.",
+    "notes": "Blocking: Firecrawl web__scrape tool returning 404 prevents extraction of full first-party page content and additional atomic claims. This item is based on a search-result snippet and should be replaced with an exact quote from the source page when scraping is restored."
+  }
+]

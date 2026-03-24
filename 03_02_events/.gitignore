@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.env
+.DS_Store
+workspace/project/system/events/events.jsonl
+workspace/project/system/events/round-*.md
+workspace/project/system/memory/**

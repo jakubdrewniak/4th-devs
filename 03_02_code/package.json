@@ -1,0 +1,16 @@
+{
+  "name": "03_02_code",
+  "type": "module",
+  "scripts": {
+    "start": "bun src/index.ts",
+    "generate:data": "bun src/scripts/generate-cost-dataset.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.26.0",
+    "openai": "^6.15.0"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.3.5",
+    "typescript": "^5.8.3"
+  }
+}

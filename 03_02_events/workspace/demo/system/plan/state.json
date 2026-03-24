@@ -1,0 +1,11 @@
+{
+  "goal_id": "opus46-vs-gpt53-codex-note",
+  "plan_version": 1,
+  "remaining_replan_budget": 1,
+  "max_new_tasks_per_replan": 2,
+  "approval_required_for": [
+    "scope_change"
+  ],
+  "created_at": "2026-03-22T14:31:23.930Z",
+  "updated_at": "2026-03-22T14:31:23.930Z"
+}

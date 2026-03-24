@@ -1,0 +1,21 @@
+{
+  "name": "03_02_events",
+  "type": "module",
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "dev": "tsx watch --env-file=.env src/index.ts --rounds 8 --auto-human=true",
+    "demo": "tsx --env-file=.env demo.ts --workflow report-v2 --rounds 10",
+    "test": "node --import tsx --test test/bootstrap-smoke.test.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.26.0",
+    "gray-matter": "^4.0.3",
+    "marked": "^17.0.2",
+    "openai": "^6.17.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.17",
+    "tsx": "^4.7.1",
+    "typescript": "^5.8.3"
+  }
+}

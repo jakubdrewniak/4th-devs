@@ -1,0 +1,337 @@
+{
+  "task_id": "t1-evidence-collection",
+  "project": "opus46-vs-gpt53-codex-note",
+  "generated_at": "2026-02-21",
+  "sources_used": [
+    {
+      "source_id": "S1",
+      "title": "Claude Opus 4.6",
+      "url": "https://www.anthropic.com/news/claude-opus-4-6",
+      "publisher": "Anthropic",
+      "published_at": "2026-02-05",
+      "source_type": "vendor"
+    },
+    {
+      "source_id": "S2",
+      "title": "Introducing GPT-5.3-Codex | OpenAI",
+      "url": "https://openai.com/index/introducing-gpt-5-3-codex/",
+      "publisher": "OpenAI",
+      "published_at": "2026-02-05",
+      "source_type": "vendor"
+    },
+    {
+      "source_id": "S3",
+      "title": "Introducing Terminal-Bench 2.0 and Harbor",
+      "url": "https://www.tbench.ai/news/announcement-2-0",
+      "publisher": "tbench.ai",
+      "published_at": "2025-11-07",
+      "source_type": "benchmark_maintainer"
+    },
+    {
+      "source_id": "S4",
+      "title": "Humanity's Last Exam",
+      "url": "https://agi.safe.ai/",
+      "publisher": "Center for AI Safety / Scale AI (agi.safe.ai)",
+      "published_at": "2026-01-28",
+      "source_type": "benchmark_maintainer"
+    },
+    {
+      "source_id": "S5",
+      "title": "GDPval-AA Leaderboard | Artificial Analysis",
+      "url": "https://artificialanalysis.ai/evaluations/gdpval-aa",
+      "publisher": "Artificial Analysis",
+      "published_at": null,
+      "source_type": "third_party_evaluator"
+    },
+    {
+      "source_id": "S6",
+      "title": "OpenAI /index/osworld/ (scrape result)",
+      "url": "https://openai.com/index/osworld/",
+      "publisher": "OpenAI",
+      "published_at": null,
+      "source_type": "vendor",
+      "notes": "Scrape returned 404 content; cannot extract OSWorld benchmark details from this URL in the captured artifact."
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "C001",
+      "model": "opus46",
+      "axis": "long_context_agentic",
+      "claim_text": "Opus 4.6 features a 1M token context window in beta.",
+      "claim_type": "vendor_stated",
+      "verification": "not_independently_verified",
+      "source_title": "Claude Opus 4.6",
+      "source_link_text": "Anthropic: Claude Opus 4.6",
+      "source_url": "https://www.anthropic.com/news/claude-opus-4-6",
+      "quote_snippet": "\"Opus 4.6 features a 1M token context window in beta\"",
+      "methodology_notes": "N/A (product spec claim).",
+      "date": "2026-02-05"
+    },
+    {
+      "claim_id": "C002",
+      "model": "opus46",
+      "axis": "capabilities",
+      "claim_text": "Opus 4.6 improves on its predecessor’s coding skills: plans more carefully, sustains agentic tasks for longer, operates more reliably in larger codebases, and has better code review and debugging skills.",
+      "claim_type": "vendor_stated",
+      "verification": "not_independently_verified",
+      "source_title": "Claude Opus 4.6",
+      "source_link_text": "Anthropic: Claude Opus 4.6",
+      "source_url": "https://www.anthropic.com/news/claude-opus-4-6",
+      "quote_snippet": "\"It plans more carefully, sustains agentic tasks for longer, can operate more reliably in larger codebases, and has better code review and debugging skills to catch its own mistakes.\"",
+      "methodology_notes": "Not a benchmark claim; qualitative vendor description.",
+      "date": "2026-02-05"
+    },
+    {
+      "claim_id": "C003",
+      "model": "opus46",
+      "axis": "benchmarks",
+      "claim_text": "Opus 4.6 achieves the highest score on Terminal-Bench 2.0.",
+      "claim_type": "vendor_stated",
+      "verification": "not_independently_verified",
+      "source_title": "Claude Opus 4.6",
+      "source_link_text": "Anthropic: Claude Opus 4.6",
+      "source_url": "https://www.anthropic.com/news/claude-opus-4-6",
+      "quote_snippet": "\"it achieves the highest score on the agentic coding evaluation Terminal-Bench 2.0\"",
+      "methodology_notes": "Terminal-Bench 2.0 is an agentic coding evaluation focused on terminal/system tasks (per Anthropic). Independent benchmark maintainer notes that TB2.0 is 'harder' and 'better verified' than TB1.0 with substantial manual + LM-assisted verification of tasks (tbench.ai).",
+      "date": "2026-02-05"
+    },
+    {
+      "claim_id": "C004",
+      "model": "opus46",
+      "axis": "benchmarks",
+      "claim_text": "Opus 4.6 leads all other frontier models on Humanity’s Last Exam.",
+      "claim_type": "vendor_stated",
+      "verification": "not_independently_verified",
+      "source_title": "Claude Opus 4.6",
+      "source_link_text": "Anthropic: Claude Opus 4.6",
+      "source_url": "https://www.anthropic.com/news/claude-opus-4-6",
+      "quote_snippet": "\"[it] leads all other frontier models on Humanity’s Last Exam\"",
+      "methodology_notes": "HLE is described as a complex multidisciplinary reasoning test by Anthropic; the HLE site notes the dataset was finalized with 2,500 questions and published in Nature (agi.safe.ai). Specific leaderboard evidence was not captured in the scraped HLE page excerpt.",
+      "date": "2026-02-05"
+    },
+    {
+      "claim_id": "C005",
+      "model": "opus46",
+      "axis": "benchmarks",
+      "claim_text": "On GDPval-AA, Opus 4.6 outperforms the next-best model (OpenAI’s GPT-5.2) by around 144 Elo points.",
+      "claim_type": "vendor_stated",
+      "verification": "not_independently_verified",
+      "source_title": "Claude Opus 4.6",
+      "source_link_text": "Anthropic: Claude Opus 4.6",
+      "source_url": "https://www.anthropic.com/news/claude-opus-4-6",
+      "quote_snippet": "\"Opus 4.6 outperforms the industry’s next-best model (OpenAI’s GPT-5.2) by around 144 Elo points\"",
+      "methodology_notes": "GDPval-AA is an Artificial Analysis evaluation framework for OpenAI’s GDPval dataset; models get shell + web browsing in an agentic loop via Stirrup; ELO derived from blind pairwise comparisons (Artificial Analysis). The scraped GDPval-AA page excerpt did not include GPT-5.2 rows to validate the exact 144 Elo gap.",
+      "date": "2026-02-05"
+    },
+    {
+      "claim_id": "C006",
+      "model": "opus46",
+      "axis": "benchmarks",
+      "claim_text": "Opus 4.6 performs better than any other model on BrowseComp.",
+      "claim_type": "vendor_stated",
+      "verification": "not_independently_verified",
+      "source_title": "Claude Opus 4.6",
+      "source_link_text": "Anthropic: Claude Opus 4.6",
+      "source_url": "https://www.anthropic.com/news/claude-opus-4-6",
+      "quote_snippet": "\"Opus 4.6 also performs better than any other model on BrowseComp\"",
+      "methodology_notes": "BrowseComp is described (by Anthropic) as measuring ability to locate hard-to-find information online. No independent BrowseComp leaderboard/methodology was captured in the current evidence set.",
+      "date": "2026-02-05"
+    },
+    {
+      "claim_id": "C007",
+      "model": "opus46",
+      "axis": "limitations",
+      "claim_text": "Opus 4.6 shows an overall safety profile as good as, or better than, any other frontier model in the industry, with low rates of misaligned behavior across safety evaluations.",
+      "claim_type": "vendor_stated",
+      "verification": "not_independently_verified",
+      "source_title": "Claude Opus 4.6",
+      "source_link_text": "Anthropic: Claude Opus 4.6",
+      "source_url": "https://www.anthropic.com/news/claude-opus-4-6",
+      "quote_snippet": "\"Opus 4.6 also shows an overall safety profile as good as, or better than, any other frontier model in the industry, with low rates of misaligned behavior across safety evaluations.\"",
+      "methodology_notes": "Vendor references an 'extensive system card' for details; system card not scraped in this task run, so methods cannot be summarized here.",
+      "date": "2026-02-05"
+    },
+    {
+      "claim_id": "C008",
+      "model": "opus46",
+      "axis": "product_api_updates",
+      "claim_text": "Claude Opus 4.6 pricing remains the same at $5/$25 per million tokens.",
+      "claim_type": "vendor_stated",
+      "verification": "not_independently_verified",
+      "source_title": "Claude Opus 4.6",
+      "source_link_text": "Anthropic: Claude Opus 4.6",
+      "source_url": "https://www.anthropic.com/news/claude-opus-4-6",
+      "quote_snippet": "\"Pricing remains the same at $5/$25 per million tokens\"",
+      "methodology_notes": "N/A (pricing claim).",
+      "date": "2026-02-05"
+    },
+    {
+      "claim_id": "C009",
+      "model": "gpt53_codex",
+      "axis": "capabilities",
+      "claim_text": "GPT-5.3-Codex is the most capable agentic coding model to date.",
+      "claim_type": "vendor_stated",
+      "verification": "not_independently_verified",
+      "source_title": "Introducing GPT-5.3-Codex | OpenAI",
+      "source_link_text": "OpenAI: GPT-5.3-Codex",
+      "source_url": "https://openai.com/index/introducing-gpt-5-3-codex/",
+      "quote_snippet": "\"GPT‑5.3‑Codex, the most capable agentic coding model to date\"",
+      "methodology_notes": "Positioning claim; benchmark evidence described separately in other claims.",
+      "date": "2026-02-05"
+    },
+    {
+      "claim_id": "C010",
+      "model": "gpt53_codex",
+      "axis": "capabilities",
+      "claim_text": "GPT-5.3-Codex is 25% faster.",
+      "claim_type": "vendor_stated",
+      "verification": "not_independently_verified",
+      "source_title": "Introducing GPT-5.3-Codex | OpenAI",
+      "source_link_text": "OpenAI: GPT-5.3-Codex",
+      "source_url": "https://openai.com/index/introducing-gpt-5-3-codex/",
+      "quote_snippet": "\"which is also 25% faster\"",
+      "methodology_notes": "No measurement definition (e.g., tokens/sec, end-to-end latency) captured in excerpt.",
+      "date": "2026-02-05"
+    },
+    {
+      "claim_id": "C011",
+      "model": "gpt53_codex",
+      "axis": "capabilities",
+      "claim_text": "GPT-5.3-Codex is OpenAI’s first model that was instrumental in creating itself.",
+      "claim_type": "vendor_stated",
+      "verification": "not_independently_verified",
+      "source_title": "Introducing GPT-5.3-Codex | OpenAI",
+      "source_link_text": "OpenAI: GPT-5.3-Codex",
+      "source_url": "https://openai.com/index/introducing-gpt-5-3-codex/",
+      "quote_snippet": "\"GPT‑5.3‑Codex is our first model that was instrumental in creating itself.\"",
+      "methodology_notes": "Anecdotal internal process claim; not benchmarked.",
+      "date": "2026-02-05"
+    },
+    {
+      "claim_id": "C012",
+      "model": "gpt53_codex",
+      "axis": "benchmarks",
+      "claim_text": "GPT-5.3-Codex sets a new industry high on SWE-Bench Pro and Terminal-Bench, and shows strong performance on OSWorld and GDPval.",
+      "claim_type": "vendor_stated",
+      "verification": "not_independently_verified",
+      "source_title": "Introducing GPT-5.3-Codex | OpenAI",
+      "source_link_text": "OpenAI: GPT-5.3-Codex",
+      "source_url": "https://openai.com/index/introducing-gpt-5-3-codex/",
+      "quote_snippet": "\"GPT‑5.3‑Codex sets a new industry high on SWE-Bench Pro and Terminal-Bench, and shows strong performance on OSWorld and GDPval\"",
+      "methodology_notes": "OpenAI frames these as four benchmarks measuring coding/agentic/real-world capabilities. OSWorld details were not retrievable from the scraped openai.com/index/osworld URL (404). GDPval-AA methodology captured from Artificial Analysis; SWE-Bench Pro methodology details not captured in current independent sources.",
+      "date": "2026-02-05"
+    },
+    {
+      "claim_id": "C013",
+      "model": "gpt53_codex",
+      "axis": "benchmarks",
+      "claim_text": "GPT-5.3-Codex far exceeds prior state-of-the-art on Terminal-Bench 2.0 and (in the post figure) is shown at 77.3% accuracy vs 64.0% for GPT-5.2-Codex and 62.2% for GPT-5.2.",
+      "claim_type": "vendor_stated",
+      "verification": "not_independently_verified",
+      "source_title": "Introducing GPT-5.3-Codex | OpenAI",
+      "source_link_text": "OpenAI: GPT-5.3-Codex",
+      "source_url": "https://openai.com/index/introducing-gpt-5-3-codex/",
+      "quote_snippet": "\"Terminal-Bench 2.0\" ... \"GPT-5.3-Codex\" ... \"77.3%\"; \"GPT-5.2-Codex\" ... \"64.0%\"; \"GPT-5.2\" ... \"62.2%\"",
+      "methodology_notes": "Terminal-Bench 2.0 described by tbench.ai as 'harder' and 'better verified' than 1.0, with substantial manual and LM-assisted verification per task. OpenAI provides accuracy numbers in a chart; independent reproduction/leaderboard cross-check not captured here.",
+      "date": "2026-02-05"
+    },
+    {
+      "claim_id": "C014",
+      "model": "both",
+      "axis": "benchmarks",
+      "claim_text": "Terminal-Bench 2.0 is a harder, better verified version of Terminal-Bench, with substantial manual and LM-assisted verification per task.",
+      "claim_type": "independent",
+      "verification": "independently_supported",
+      "source_title": "Introducing Terminal-Bench 2.0 and Harbor",
+      "source_link_text": "tbench.ai: Terminal-Bench 2.0 announcement",
+      "source_url": "https://www.tbench.ai/news/announcement-2-0",
+      "quote_snippet": "\"Terminal-Bench 2.0 is a harder, better verified version Terminal-Bench. We conducted substantial manual and LM-assisted verification of the dataset\"",
+      "methodology_notes": "Benchmark maintainer statement about dataset verification and quality.",
+      "date": "2025-11-07"
+    },
+    {
+      "claim_id": "C015",
+      "model": "both",
+      "axis": "benchmarks",
+      "claim_text": "Humanity’s Last Exam is noted as finalized with 2,500 questions and published in Nature.",
+      "claim_type": "independent",
+      "verification": "independently_supported",
+      "source_title": "Humanity's Last Exam",
+      "source_link_text": "agi.safe.ai: Humanity's Last Exam",
+      "source_url": "https://agi.safe.ai/",
+      "quote_snippet": "\"HLE has been finalized with 2,500 questions\"; \"HLE is published on Nature\"",
+      "methodology_notes": "Benchmark maintainer/news notes; does not itself validate any particular model's ranking.",
+      "date": "2026-01-28"
+    },
+    {
+      "claim_id": "C016",
+      "model": "both",
+      "axis": "benchmarks",
+      "claim_text": "GDPval-AA is Artificial Analysis’ evaluation framework for OpenAI’s GDPval dataset; models get shell access and web browsing in an agentic loop via Stirrup; ELO is from blind pairwise comparisons.",
+      "claim_type": "independent",
+      "verification": "independently_supported",
+      "source_title": "GDPval-AA Leaderboard | Artificial Analysis",
+      "source_link_text": "Artificial Analysis: GDPval-AA",
+      "source_url": "https://artificialanalysis.ai/evaluations/gdpval-aa",
+      "quote_snippet": "\"Models are given shell access and web browsing capabilities in an agentic loop via Stirrup\"; \"ELO ratings derived from blind pairwise comparisons\"",
+      "methodology_notes": "Third-party evaluator methodology summary.",
+      "date": null
+    },
+    {
+      "claim_id": "C017",
+      "model": "opus46",
+      "axis": "benchmarks",
+      "claim_text": "Artificial Analysis highlights top GDPval-AA scores: Claude Sonnet 4.6 at 1633 and Claude Opus 4.6 at 1606 (with another Opus 4.6 configuration at 1579).",
+      "claim_type": "independent",
+      "verification": "independently_supported",
+      "source_title": "GDPval-AA Leaderboard | Artificial Analysis",
+      "source_link_text": "Artificial Analysis: GDPval-AA highlights",
+      "source_url": "https://artificialanalysis.ai/evaluations/gdpval-aa",
+      "quote_snippet": "\"Claude Sonnet 4.6 ... 1633 ... followed by Claude Opus 4.6 ... 1606 ... and Claude Opus 4.6 ... 1579\"",
+      "methodology_notes": "These are highlighted scores on the GDPval-AA page; configuration details in the highlight include reasoning/effort settings.",
+      "date": null
+    }
+  ],
+  "comparison_matrix_skeleton": {
+    "axes": [
+      "capabilities",
+      "benchmarks",
+      "long_context_agentic",
+      "product_api_updates",
+      "limitations"
+    ],
+    "models": {
+      "opus46": {
+        "capabilities": ["C002"],
+        "benchmarks": ["C003", "C004", "C005", "C006", "C017"],
+        "long_context_agentic": ["C001"],
+        "product_api_updates": ["C008"],
+        "limitations": ["C007"]
+      },
+      "gpt53_codex": {
+        "capabilities": ["C009", "C010", "C011"],
+        "benchmarks": ["C012", "C013"],
+        "long_context_agentic": [],
+        "product_api_updates": [],
+        "limitations": []
+      },
+      "both": {
+        "benchmarks": ["C014", "C015", "C016"]
+      }
+    },
+    "placeholders": {
+      "notes": "Cells intentionally left empty when claims were not captured in current evidence set (e.g., independent SWE-Bench Pro leaderboard, OSWorld details, BrowseComp methodology)."
+    }
+  },
+  "evidence_quality_notes": {
+    "independent_sources_count": 3,
+    "vendor_sources_count": 2,
+    "known_gaps": [
+      "No independent leaderboard capture for Terminal-Bench 2.0 results to reconcile Anthropic 'highest score' vs OpenAI 'new industry high'/77.3% claims.",
+      "OSWorld URL scrape returned 404; no independent OSWorld benchmark page captured.",
+      "No independent corroboration captured for 1M token context window, BrowseComp ranking, or safety-profile claims (system card not included).",
+      "GDPval-AA page excerpt captured methodology and top highlighted Claude scores, but did not include GPT-5.2 row needed to verify the exact '144 Elo' gap claim."
+    ]
+  }
+}

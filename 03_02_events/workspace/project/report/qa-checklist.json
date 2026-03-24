@@ -1,0 +1,40 @@
+{
+  "citationCoverage": {
+    "totalFactualClaimsChecked": 22,
+    "missingCitationsCount": 0,
+    "examples": [
+      {
+        "claim": "Anthropic reports 38/40 blind-ranked 'cybersecurity investigations' best results for Opus 4.6 vs Claude 4.5 family models.",
+        "status": "cited",
+        "citation": "([Anthropic launch post](https://www.anthropic.com/news/claude-opus-4-6))"
+      },
+      {
+        "claim": "This evidence set contains no extracted/citable benchmark or product claims for GPT-5.3-Codex.",
+        "status": "cited",
+        "citation": "([OpenAI launch post](https://openai.com/index/introducing-gpt-5-3-codex/))"
+      },
+      {
+        "claim": "SWE-bench is referenced but no model-specific score is present in the captured evidence.",
+        "status": "cited",
+        "citation": "([SWE-bench verified](https://www.swebench.com/verified.html))"
+      }
+    ]
+  },
+  "attributionErrors": [],
+  "nonComparableCaveats": {
+    "requiredCount": 2,
+    "presentCount": 2,
+    "missingExamples": []
+  },
+  "hypeOrUnsupportedSuperiority": [
+    {
+      "original": "Claude Opus 4.6 is a better fit when…",
+      "issue": "Reads as superiority framing; retained only as a conditional 'best fit when' guidance with explicit evidence limits and caveats."
+    }
+  ],
+  "benchmarkMethodologyNamed": [],
+  "evidenceQualitySectionCheck": {
+    "status": "pass",
+    "notes": "Final report includes an 'Evidence quality classification' section that tags the major takeaway as vendor-stated/not independently verified and explicitly marks other axes as unknown; no independently supported or mixed conclusions are asserted."
+  }
+}

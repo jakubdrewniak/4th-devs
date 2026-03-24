@@ -1,0 +1,47 @@
+[
+  {
+    "id": "patryk-polish-internal",
+    "emailId": "cs-e005",
+    "account": "adam@creativespark.co",
+    "description": "Internal team member wrote in Polish — reply MUST be in Polish",
+    "expectedLanguage": "polish",
+    "mustContain": ["Hej", "Cześć", "Patryk"],
+    "mustNotContain": ["Hi ", "Hello", "Dear"]
+  },
+  {
+    "id": "luiza-polish-vendor",
+    "emailId": "cs-e007",
+    "account": "adam@creativespark.co",
+    "description": "Freelancer wrote in Polish — reply MUST be in Polish",
+    "expectedLanguage": "polish",
+    "mustContain": ["Cześć", "Luiza"],
+    "mustNotContain": ["Hi ", "Hello", "Dear"]
+  },
+  {
+    "id": "nina-english-client",
+    "emailId": "cs-e003",
+    "account": "adam@creativespark.co",
+    "description": "International client wrote in English — reply should be in English",
+    "expectedLanguage": "english",
+    "mustContain": ["Nina"],
+    "mustNotContain": ["Cześć", "Hej", "Dzień dobry"]
+  },
+  {
+    "id": "tomek-english-client",
+    "emailId": "tv-e007",
+    "account": "adam@techvolt.io",
+    "description": "Client wrote in English — reply should be in English",
+    "expectedLanguage": "english",
+    "mustContain": ["Tomek"],
+    "mustNotContain": ["Cześć", "Hej"]
+  },
+  {
+    "id": "david-english-untrusted",
+    "emailId": "cs-e006",
+    "account": "adam@creativespark.co",
+    "description": "Untrusted sender wrote in English — reply should be in English",
+    "expectedLanguage": "english",
+    "mustContain": ["David"],
+    "mustNotContain": ["Cześć", "Hej"]
+  }
+]

@@ -1,0 +1,22 @@
+{
+  "name": "03_02_email",
+  "type": "module",
+  "scripts": {
+    "start": "bun src/index.ts",
+    "eval:draft-isolation": "bun experiments/draft-isolation.ts",
+    "eval:draft-language": "bun experiments/draft-language.ts",
+    "eval:malicious-email": "bun experiments/malicious-email.ts",
+    "eval:triage": "bun experiments/triage.ts",
+    "eval:all": "bun run eval:draft-isolation && bun run eval:draft-language && bun run eval:malicious-email && bun run eval:triage"
+  },
+  "dependencies": {
+    "@langfuse/client": "^4.6.1",
+    "langfuse": "^3.38.6",
+    "openai": "^6.15.0",
+    "zod": "^4.3.5"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.3.5",
+    "typescript": "^5.8.3"
+  }
+}

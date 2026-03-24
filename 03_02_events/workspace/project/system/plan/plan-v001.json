@@ -1,0 +1,197 @@
+{
+  "at": "2026-03-22T14:31:23.929Z",
+  "goal": {
+    "id": "opus46-vs-gpt53-codex-note",
+    "objective": "Write a decision-grade comparison note about Claude Opus 4.6 vs GPT-5.3-Codex, anchored in official pages and strengthened with selective independent evidence.",
+    "context": "## Research strategy\n\n1. **Start with the official pages** — scrape the two primary URLs below for first-party claims.\n2. **Build normalized comparison axes** before drafting conclusions (same dimensions for both models).\n3. **Run selective web research** for independent benchmarks, developer analyses, and expert commentary that validate, contradict, or add nuance to major claims.\n4. **Scrape additional pages only when they materially improve decision quality** (not for redundant coverage).\n\nAlways attribute every claim to its source. If a claim appears only in the vendor's own page and no independent source corroborates it, mark it as *\"vendor-stated, not independently verified\"*.\nIf direct apples-to-apples comparison is impossible for a metric, state that explicitly instead of inferring.\n\nStop collection when:\n- All must_have sections have enough cited evidence to draft confidently.\n- Additional pages are mostly repeating already captured claims.\n- New sources do not change the decision implications.\n\n## Required final structure\n\n1. Executive takeaway\n2. Side-by-side comparison (normalized axes)\n3. Independent validation and contradictions\n4. Developer implications (\"best fit when...\")\n5. Caveats, unknowns, and non-comparable metrics\n6. Evidence quality classification\n\n## Primary source URLs (scrape these first)\n\n- https://www.anthropic.com/news/claude-opus-4-6\n- https://openai.com/index/introducing-gpt-5-3-codex/\n\n## Suggested web search queries (non-exhaustive, agents may add more)\n\n- \"Claude Opus 4.6 benchmarks 2026\"\n- \"GPT-5.3-Codex benchmarks 2026\"\n- \"Claude Opus 4.6 vs GPT-5.3 comparison\"\n- \"Claude Opus 4.6 developer review\"\n- \"GPT-5.3-Codex developer review\"",
+    "must_have": [
+      "A concise side-by-side comparison of key claims using normalized axes (capabilities, benchmarks, long-context or agentic features, and product/API updates when stated).",
+      "Independent corroboration or contrast for major vendor claims, and explicit \"not independently verified\" labeling where corroboration is missing.",
+      "A practical \"what this means for developers\" section with \"best fit when...\" guidance and caveats about non-comparable metrics.",
+      "An evidence quality section that tags major conclusions as vendor-stated, independently-supported, or mixed.",
+      "Final markdown note (target 900-1300 words) at report/final-report.md. Every factual claim must be cited using short markdown links — e.g. ([Anthropic docs](url)) — never raw URLs. Collect all sources in a numbered \"Sources\" section at the end of the report.",
+      "HTML version of the final report at deliverables/report.html, rendered using the project template (render_html tool)."
+    ],
+    "forbidden": [
+      "Hype language, fanboy framing, or unsupported superiority claims",
+      "Presenting a single benchmark result without naming the source and methodology",
+      "Mixing up which claim comes from which source",
+      "Inferring superiority from non-comparable metrics without an explicit caveat"
+    ],
+    "step_budget_rounds": 7,
+    "replan_budget": 1,
+    "max_total_tasks": 6,
+    "max_new_tasks_per_replan": 2,
+    "approval_required_for": [
+      "scope_change"
+    ]
+  },
+  "decision": {
+    "status": "viable",
+    "plan": {
+      "project": {
+        "id": "opus46-vs-gpt53-codex-note",
+        "title": "Decision-grade comparison note: Claude Opus 4.6 vs GPT-5.3-Codex",
+        "description": "Produce a cited, decision-grade comparison note anchored in official vendor pages and selectively strengthened with independent evidence; deliver markdown and rendered HTML.",
+        "deliverablePath": "report/final-report.md"
+      },
+      "agentOrder": [
+        "researcher",
+        "planner",
+        "writer",
+        "editor"
+      ],
+      "tasks": [
+        {
+          "filename": "01-evidence-collection.md",
+          "id": "t1-evidence-collection",
+          "title": "Collect first-party claims + selective independent evidence with traceable citations",
+          "owner": "researcher",
+          "requiredCapabilities": [
+            "research",
+            "evidence",
+            "web-scrape",
+            "web-search"
+          ],
+          "priority": "critical",
+          "dependsOn": [],
+          "outputPath": "research/evidence.json",
+          "body": "Create a structured evidence pack at research/evidence.json.\n\nSteps:\n1) Scrape the two primary URLs and extract all decision-relevant claims (capabilities, benchmarks, context/agentic features, product/API updates, limitations). Keep each claim atomic.\n   - Anthropic: https://www.anthropic.com/news/claude-opus-4-6\n   - OpenAI: https://openai.com/index/introducing-gpt-5-3-codex/\n2) Run selective web searches for independent corroboration/contrast for the major vendor claims. Prioritize: third-party benchmarks with methodology, reputable engineering blogs, academic/benchmark org pages, and tool/vendor docs that clarify API/product behavior.\n3) For each claim, store:\n   - model: \"Claude Opus 4.6\" | \"GPT-5.3-Codex\"\n   - axis: one of [capabilities, benchmarks, context_and_memory, agentic_and_tooling, product_and_api, safety_and_policy, pricing_and_limits, availability]\n   - claim: short text\n   - claimType: \"vendor\" | \"independent\" | \"mixed\"\n   - verification: \"independently_supported\" | \"vendor_stated_not_independently_verified\" | \"contradicted_or_contested\" | \"non_comparable\"\n   - sourceTitle: page title\n   - sourceUrl: canonical URL\n   - quote: exact supporting quote/snippet (or benchmark table row text)\n   - methodologyNotes: for benchmarks (dataset, eval harness, date, who ran it)\n   - notes: any caveats (e.g., different prompts, private evals, non-public harness)\n4) Ensure at least:\n   - 12+ atomic claims per model from first-party pages (if available)\n   - 6+ independent sources total (if available) that materially affect decision quality\n5) Save a companion short-link map at research/sources.md: numbered list of sources with titles and URLs; this will be used to create short markdown links in the report.\n\nOutput format requirements:\n- evidence.json must be valid JSON array of claim objects.\n- sources.md must be a numbered list with one source per line: \"1. Title — URL\".\n\nStop collection when must-have sections are supportable and new sources become redundant.",
+          "successCriteria": [
+            "research/evidence.json exists and is valid JSON containing an array of claim objects with required fields (model, axis, claim, claimType, verification, sourceTitle, sourceUrl, quote)",
+            "research/sources.md exists with a numbered list of sources (>= 8 entries unless the web lacks material; if fewer, include a note in evidence.json notes fields explaining why)",
+            "At least 2 benchmark-related claim objects include methodologyNotes describing dataset/eval harness and who ran it"
+          ]
+        },
+        {
+          "filename": "02-normalized-comparison-matrix.md",
+          "id": "t2-normalized-matrix",
+          "title": "Build normalized comparison axes + side-by-side matrix with traceability",
+          "owner": "planner",
+          "requiredCapabilities": [
+            "planning",
+            "structuring",
+            "assembly"
+          ],
+          "priority": "high",
+          "dependsOn": [
+            "t1-evidence-collection"
+          ],
+          "outputPath": "research/comparison-matrix.md",
+          "body": "Using research/evidence.json, produce research/comparison-matrix.md containing:\n\n1) A normalized axis definition section (the exact axes to be used in the report):\n   - capabilities\n   - benchmarks\n   - context_and_memory (long context, memory, retrieval, etc.)\n   - agentic_and_tooling (tools, code execution, agents, IDE integration, etc.)\n   - product_and_api (API changes, SDKs, endpoints, deployment options)\n   - availability (regions, tiers, rollout)\n   - pricing_and_limits (only if stated in sources; otherwise mark unknown)\n   - safety_and_policy (only if stated in sources)\n\n2) A side-by-side table where each row is a comparable claim category and each cell contains:\n   - the claim text\n   - a short citation placeholder in the form: ([Source N](URL)) using the numbering from research/sources.md\n   - a verification tag: [vendor], [independent], [mixed], plus [not independently verified] or [non-comparable] where applicable\n\n3) A short list of \"comparison traps\" discovered from evidence (e.g., different benchmark harnesses, private evals, different toolchains) to be used later in the Caveats section.\n\nThis artifact will be used directly by the writer to draft the side-by-side comparison and caveats sections.",
+          "successCriteria": [
+            "research/comparison-matrix.md exists and includes axis definitions plus a side-by-side table covering at least 4 axes",
+            "Every table cell with a factual claim includes a citation placeholder formatted as a markdown link",
+            "Matrix includes explicit tags for at least 5 items marked [not independently verified] or [non-comparable] if applicable based on evidence"
+          ]
+        },
+        {
+          "filename": "03-draft-report.md",
+          "id": "t3-draft-report",
+          "title": "Write the decision-grade comparison note (900–1300 words) with citations and required structure",
+          "owner": "writer",
+          "requiredCapabilities": [
+            "writing",
+            "synthesis"
+          ],
+          "priority": "critical",
+          "dependsOn": [
+            "t1-evidence-collection",
+            "t2-normalized-matrix"
+          ],
+          "outputPath": "report/draft-report.md",
+          "body": "Write report/draft-report.md (target 900–1300 words) following the required final structure:\n1. Executive takeaway\n2. Side-by-side comparison (normalized axes)\n3. Independent validation and contradictions\n4. Developer implications (\"best fit when...\")\n5. Caveats, unknowns, and non-comparable metrics\n6. Evidence quality classification\n\nRules:\n- Every factual claim must be cited with a short markdown link: ([Title](url)) or ([Source N](url)) consistent with research/sources.md. Do not use raw URLs.\n- Clearly attribute which vendor made which claim; do not mix sources.\n- For any vendor claim lacking independent corroboration, label it explicitly as \"vendor-stated, not independently verified\".\n- Do not infer superiority from non-comparable metrics; add explicit caveats.\n- Include a numbered \"Sources\" section at the end listing all sources used (titles + short markdown links).\n\nUse research/comparison-matrix.md as the backbone for section 2 and to ensure normalized axes. Use research/evidence.json to support sections 3 and 6.\n\nThis draft will be passed to the editor for a citation integrity and caveat quality gate.",
+          "successCriteria": [
+            "report/draft-report.md exists and is between 900 and 1300 words excluding the Sources section",
+            "All factual claims in the draft have an inline markdown link citation (no bare URLs)",
+            "Draft includes all 6 required sections in the specified order and a numbered Sources section at the end"
+          ]
+        },
+        {
+          "filename": "04-editorial-quality-gate.md",
+          "id": "t4-editorial-quality-gate",
+          "title": "Editorial quality gate: verify citations, attribution, non-comparable caveats, and evidence-quality tags",
+          "owner": "editor",
+          "requiredCapabilities": [
+            "editing",
+            "refinement"
+          ],
+          "priority": "critical",
+          "dependsOn": [
+            "t3-draft-report"
+          ],
+          "outputPath": "report/qa-checklist.json",
+          "body": "Perform an editorial QA pass on report/draft-report.md and produce:\n1) report/qa-checklist.json with:\n   - citationCoverage: { totalFactualClaimsChecked, missingCitationsCount, examples[] }\n   - attributionErrors: array of issues where a claim is attributed to the wrong source/model\n   - nonComparableCaveats: { requiredCount, presentCount, missingExamples[] }\n   - hypeOrUnsupportedSuperiority: array of flagged phrases/claims to remove\n   - benchmarkMethodologyNamed: array of benchmark mentions missing source/methodology\n   - evidenceQualitySectionCheck: pass/fail + notes (must tag major conclusions as vendor-stated, independently-supported, or mixed)\n2) Apply fixes and produce the final markdown at report/final-report.md.\n\nConstraints to enforce:\n- No hype language or unsupported superiority claims.\n- No single benchmark result without naming the source and methodology.\n- Explicitly label \"vendor-stated, not independently verified\" where needed.\n- Ensure the Sources section is numbered and all links are short markdown links.\n\nThe final markdown will be used for HTML rendering in the next task.",
+          "successCriteria": [
+            "report/qa-checklist.json exists and includes all required keys with non-empty values (counts may be zero)",
+            "report/final-report.md exists and resolves all issues flagged as missing citations or attribution errors (missingCitationsCount == 0; attributionErrors length == 0)",
+            "Final report retains required structure and includes an Evidence quality classification section tagging major conclusions"
+          ]
+        },
+        {
+          "filename": "05-render-html.md",
+          "id": "t5-render-html",
+          "title": "Render HTML version using project template",
+          "owner": "editor",
+          "requiredCapabilities": [
+            "html-render"
+          ],
+          "priority": "high",
+          "dependsOn": [
+            "t4-editorial-quality-gate"
+          ],
+          "outputPath": "deliverables/report.html",
+          "body": "Use the render_html tool to render report/final-report.md into deliverables/report.html using the project template.\n\nInput: report/final-report.md\nOutput: deliverables/report.html\n\nAfter rendering, verify:\n- Headings and numbered Sources render correctly.\n- All citations are clickable markdown links.\n- No raw URLs appear in the body text (links are fine).",
+          "successCriteria": [
+            "deliverables/report.html exists",
+            "HTML contains the six required sections and a numbered Sources section",
+            "Spot-check confirms citations are rendered as clickable links and no raw URLs appear as plain text in the report body"
+          ]
+        }
+      ],
+      "assumptions": [
+        "Primary vendor pages are accessible via web__scrape and contain sufficient detail to extract decision-relevant claims.",
+        "At least some independent sources exist that discuss benchmarks or developer experience for one or both models; if not, the report will explicitly label gaps as not independently verified.",
+        "The project template required by render_html is available in the environment."
+      ],
+      "risks": [
+        "Independent apples-to-apples benchmarks may be scarce or methodologically inconsistent, increasing the number of non-comparable caveats required.",
+        "Vendor pages may omit pricing/limits or change over time; the report must treat missing items as unknown rather than inferred.",
+        "Some independent sources may be low quality or anecdotal; evidence quality section must down-rank such sources and avoid over-weighting them."
+      ],
+      "mustHaveCoverage": {
+        "A concise side-by-side comparison of key claims using normalized axes (capabilities, benchmarks, long-context or agentic features, and product/API updates when stated).": [
+          "t2-normalized-matrix",
+          "t3-draft-report"
+        ],
+        "Independent corroboration or contrast for major vendor claims, and explicit \"not independently verified\" labeling where corroboration is missing.": [
+          "t1-evidence-collection",
+          "t3-draft-report",
+          "t4-editorial-quality-gate"
+        ],
+        "A practical \"what this means for developers\" section with \"best fit when...\" guidance and caveats about non-comparable metrics.": [
+          "t3-draft-report",
+          "t4-editorial-quality-gate"
+        ],
+        "An evidence quality section that tags major conclusions as vendor-stated, independently-supported, or mixed.": [
+          "t1-evidence-collection",
+          "t3-draft-report",
+          "t4-editorial-quality-gate"
+        ],
+        "Final markdown note (target 900-1300 words) at report/final-report.md. Every factual claim must be cited using short markdown links — e.g. ([Anthropic docs](url)) — never raw URLs. Collect all sources in a numbered \"Sources\" section at the end of the report.": [
+          "t3-draft-report",
+          "t4-editorial-quality-gate"
+        ],
+        "HTML version of the final report at deliverables/report.html, rendered using the project template (render_html tool).": [
+          "t5-render-html"
+        ]
+      }
+    }
+  },
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "missingCapabilities": []
+  }
+}

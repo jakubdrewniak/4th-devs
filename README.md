@@ -250,3 +250,31 @@ npm run lesson11:evals:correctness      # standalone: response-correctness eval 
 
 Both examples require `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, and `LANGFUSE_BASE_URL` for tracing (optional — degrades gracefully when missing). These can be set in the root `.env` (shared) or in each project's local `.env` (takes priority).
 
+## Lesson 12
+
+| Example | Run | Description |
+|---------|-----|-------------|
+| `03_02_code` | `npm run lesson12:code` | Code execution agent with a Deno sandbox and MCP file tools |
+| `03_02_email` | `npm run lesson12:email` | Two-phase email agent: triage with labels, then isolated KB-scoped draft sessions |
+| `03_02_events` | `npm run lesson12:events` | Multi-agent event architecture with heartbeat loop, observer/reflector memory, and human-in-the-loop |
+
+Install dependencies:
+
+```bash
+npm run lesson12:install
+```
+
+`03_02_code` requires [Deno](https://deno.land/#installation) — the agent executes LLM-generated TypeScript in an isolated Deno sandbox.
+
+`03_02_events` runs an autonomous multi-round demo by default (resets workspace, runs heartbeat, prints summary):
+
+```bash
+npm run lesson12:events                                       # default: report-v2 workflow, 10 rounds
+```
+
+It requires `GEMINI_API_KEY` for image generation. Optional flags via the local `package.json`:
+
+```bash
+bun run demo --workflow report-v2 --rounds 12 --delay-ms 500  # custom rounds/delay
+bun run start                                                  # bare index.ts (no reset, no summary)
+```
