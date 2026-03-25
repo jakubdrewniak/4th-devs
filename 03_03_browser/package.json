@@ -1,0 +1,15 @@
+{
+  "name": "03_03_browser",
+  "type": "module",
+  "scripts": {
+    "login": "bun src/index.ts login",
+    "chat": "bun src/index.ts chat",
+    "start": "bun src/index.ts chat"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.26.0",
+    "jsonrepair": "^3.13.2",
+    "openai": "^6.22.0",
+    "playwright": "^1.58.2"
+  }
+}

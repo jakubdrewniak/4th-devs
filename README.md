@@ -278,3 +278,26 @@ It requires `GEMINI_API_KEY` for image generation. Optional flags via the local 
 bun run demo --workflow report-v2 --rounds 12 --delay-ms 500  # custom rounds/delay
 bun run start                                                  # bare index.ts (no reset, no summary)
 ```
+
+## Lesson 13
+
+| Example | Run | Description |
+|---------|-----|-------------|
+| `03_03_browser` | `npm run lesson13:browser` | Browser automation agent with Playwright, session persistence, and MCP file tools |
+| `03_03_calendar` | `npm run lesson13:calendar` | Calendar agent with add-events and notification-webhook phases |
+| `03_03_language` | `npm run lesson13:language` | English coaching agent with Gemini for ASR, scoring, drills, and TTS |
+
+Install dependencies:
+
+```bash
+npm run lesson13:install
+```
+
+`03_03_browser` requires a one-time login to [Goodreads](https://www.goodreads.com) to save session cookies:
+
+```bash
+npm run lesson13:browser:login   # opens browser — log into Goodreads, then press Enter
+npm run lesson13:browser          # start chatting, e.g. "List all books by Jim Collins"
+```
+
+`03_03_language` requires `GEMINI_API_KEY`.

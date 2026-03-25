@@ -1,0 +1,17 @@
+{
+  "goals": [
+    "Speak clearly in daily standups",
+    "Explain technical decisions with confidence",
+    "Reduce filler words and hesitation"
+  ],
+  "role": "software engineer",
+  "weakAreas": [
+    "grammar.verb_tense",
+    "grammar.preposition",
+    "fluency.fillers",
+    "grammar.articles",
+    "pronunciation.vowels",
+    "pronunciation.consonants",
+    "pronunciation.stress"
+  ]
+}
