@@ -1,0 +1,224 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>03_04_gmail tool eval (gmail_read)</title>
+    <style>
+      body {
+        font-family:
+          -apple-system,
+          BlinkMacSystemFont,
+          Segoe UI,
+          Roboto,
+          Helvetica,
+          Arial,
+          sans-serif;
+      }
+      table,
+      th,
+      td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        text-align: left;
+        word-break: break-all;
+      }
+      th,
+      td {
+        padding: 5px;
+        min-width: 200px;
+        white-space: pre-wrap;
+        vertical-align: top;
+      }
+
+      tr > td[data-content^='[PASS]'] {
+        color: green;
+      }
+      tr > td[data-content^='[FAIL]'] {
+        color: #ad0000;
+      }
+    </style>
+  </head>
+  <body>
+    <table>
+      <thead>
+        
+        <th>expected_primary_tool</th>
+        
+        <th>forbidden_tools_csv</th>
+        
+        <th>id</th>
+        
+        <th>max_turns</th>
+        
+        <th>message</th>
+        
+        <th>required_tools_csv</th>
+        
+        <th>[gmail-agent] {{message}}</th>
+        
+      </thead>
+      <tbody>
+        
+        <tr>
+          
+          <td data-content="gmail_read">gmail_read</td>
+          
+          <td data-content="gmail_search,gmail_send,gmail_modify,gmail_attachment">gmail_search,gmail_send,gmail_modify,gmail_attachment</td>
+          
+          <td data-content="tool_read_01_message">tool_read_01_message</td>
+          
+          <td data-content="5">5</td>
+          
+          <td data-content="Read message with id msg_demo_001 and summarize it.">Read message with id msg_demo_001 and summarize it.</td>
+          
+          <td data-content="gmail_read">gmail_read</td>
+          
+          <td data-content="[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, required_tools: 1.00, forbidden_tools: 1.00, expected_primary_tool: 1.00, read_id_argument: 1.00, read_output_envelope: 1.00, turn_budget: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Read message with id msg_demo_001 and summarize it.&quot;,&quot;maxTurns&quot;:5,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:null,&quot;finalText&quot;:&quot;**Message:** “Q3 budget update” (from Anna &lt;anna@company.com&gt;, received 2026-02-25)
+
+Anna shares the latest Q3 budget update and asks you to confirm whether to proceed with the vendor.&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_read&quot;,&quot;callId&quot;:&quot;call_95zq1z7y6VoBaaqOEO5O4kEe&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;id&#92;&quot;:&#92;&quot;msg_demo_001&#92;&quot;,&#92;&quot;details&#92;&quot;:true}&quot;,&quot;parsedArguments&quot;:{&quot;id&quot;:&quot;msg_demo_001&quot;,&quot;details&quot;:true},&quot;output&quot;:{&quot;data&quot;:{&quot;kind&quot;:&quot;message&quot;,&quot;threadId&quot;:&quot;thread_demo_001&quot;,&quot;subject&quot;:&quot;Q3 budget update&quot;,&quot;messages&quot;:[{&quot;messageId&quot;:&quot;msg_demo_001&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-25T03:20:49.766Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;bodyText&quot;:&quot;Hi, here is the latest budget update for Q3. Please confirm if we should proceed with the vendor.&quot;,&quot;attachments&quot;:[]}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Loaded message &#92;&quot;Q3 budget update&#92;&quot;.&quot;,&quot;nextActions&quot;:[],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed">[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, required_tools: 1.00, forbidden_tools: 1.00, expected_primary_tool: 1.00, read_id_argument: 1.00, read_output_envelope: 1.00, turn_budget: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Read message with id msg_demo_001 and summarize it.&quot;,&quot;maxTurns&quot;:5,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:null,&quot;finalText&quot;:&quot;**Message:** “Q3 budget update” (from Anna &lt;anna@company.com&gt;, received 2026-02-25)
+
+Anna shares the latest Q3 budget update and asks you to confirm whether to proceed with the vendor.&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_read&quot;,&quot;callId&quot;:&quot;call_95zq1z7y6VoBaaqOEO5O4kEe&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;id&#92;&quot;:&#92;&quot;msg_demo_001&#92;&quot;,&#92;&quot;details&#92;&quot;:true}&quot;,&quot;parsedArguments&quot;:{&quot;id&quot;:&quot;msg_demo_001&quot;,&quot;details&quot;:true},&quot;output&quot;:{&quot;data&quot;:{&quot;kind&quot;:&quot;message&quot;,&quot;threadId&quot;:&quot;thread_demo_001&quot;,&quot;subject&quot;:&quot;Q3 budget update&quot;,&quot;messages&quot;:[{&quot;messageId&quot;:&quot;msg_demo_001&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-25T03:20:49.766Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;bodyText&quot;:&quot;Hi, here is the latest budget update for Q3. Please confirm if we should proceed with the vendor.&quot;,&quot;attachments&quot;:[]}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Loaded message &#92;&quot;Q3 budget update&#92;&quot;.&quot;,&quot;nextActions&quot;:[],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed</td>
+          
+        </tr>
+        
+        <tr>
+          
+          <td data-content="gmail_read">gmail_read</td>
+          
+          <td data-content="gmail_search,gmail_send,gmail_modify,gmail_attachment">gmail_search,gmail_send,gmail_modify,gmail_attachment</td>
+          
+          <td data-content="tool_read_02_thread">tool_read_02_thread</td>
+          
+          <td data-content="5">5</td>
+          
+          <td data-content="Read thread with id thread_demo_001 and summarize it.">Read thread with id thread_demo_001 and summarize it.</td>
+          
+          <td data-content="gmail_read">gmail_read</td>
+          
+          <td data-content="[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, required_tools: 1.00, forbidden_tools: 1.00, expected_primary_tool: 1.00, read_id_argument: 1.00, read_output_envelope: 1.00, turn_budget: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Read thread with id thread_demo_001 and summarize it.&quot;,&quot;maxTurns&quot;:5,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:null,&quot;finalText&quot;:&quot;**Thread:** “Q3 budget update” (thread_demo_001)  
+**Participants:** Anna &lt;anna@company.com&gt; → owner@company.com  
+**Messages:** 1 (received 2026-02-25)
+
+**Summary:**  
+Anna shares the latest Q3 budget update and asks you to confirm whether to proceed with the vendor.
+
+**Status:** The message is currently **unread** and in the **Inbox**.&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_read&quot;,&quot;callId&quot;:&quot;call_iwvW26I4FHgx0lrLEEXIdyB6&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;id&#92;&quot;:&#92;&quot;thread_demo_001&#92;&quot;,&#92;&quot;details&#92;&quot;:true}&quot;,&quot;parsedArguments&quot;:{&quot;id&quot;:&quot;thread_demo_001&quot;,&quot;details&quot;:true},&quot;output&quot;:{&quot;data&quot;:{&quot;kind&quot;:&quot;thread&quot;,&quot;threadId&quot;:&quot;thread_demo_001&quot;,&quot;subject&quot;:&quot;Q3 budget update&quot;,&quot;messages&quot;:[{&quot;messageId&quot;:&quot;msg_demo_001&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-25T03:20:49.765Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;bodyText&quot;:&quot;Hi, here is the latest budget update for Q3. Please confirm if we should proceed with the vendor.&quot;,&quot;attachments&quot;:[]}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Loaded thread &#92;&quot;Q3 budget update&#92;&quot; with 1 message(s).&quot;,&quot;nextActions&quot;:[],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed">[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, required_tools: 1.00, forbidden_tools: 1.00, expected_primary_tool: 1.00, read_id_argument: 1.00, read_output_envelope: 1.00, turn_budget: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Read thread with id thread_demo_001 and summarize it.&quot;,&quot;maxTurns&quot;:5,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:null,&quot;finalText&quot;:&quot;**Thread:** “Q3 budget update” (thread_demo_001)  
+**Participants:** Anna &lt;anna@company.com&gt; → owner@company.com  
+**Messages:** 1 (received 2026-02-25)
+
+**Summary:**  
+Anna shares the latest Q3 budget update and asks you to confirm whether to proceed with the vendor.
+
+**Status:** The message is currently **unread** and in the **Inbox**.&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_read&quot;,&quot;callId&quot;:&quot;call_iwvW26I4FHgx0lrLEEXIdyB6&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;id&#92;&quot;:&#92;&quot;thread_demo_001&#92;&quot;,&#92;&quot;details&#92;&quot;:true}&quot;,&quot;parsedArguments&quot;:{&quot;id&quot;:&quot;thread_demo_001&quot;,&quot;details&quot;:true},&quot;output&quot;:{&quot;data&quot;:{&quot;kind&quot;:&quot;thread&quot;,&quot;threadId&quot;:&quot;thread_demo_001&quot;,&quot;subject&quot;:&quot;Q3 budget update&quot;,&quot;messages&quot;:[{&quot;messageId&quot;:&quot;msg_demo_001&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-25T03:20:49.765Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;bodyText&quot;:&quot;Hi, here is the latest budget update for Q3. Please confirm if we should proceed with the vendor.&quot;,&quot;attachments&quot;:[]}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Loaded thread &#92;&quot;Q3 budget update&#92;&quot; with 1 message(s).&quot;,&quot;nextActions&quot;:[],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed</td>
+          
+        </tr>
+        
+        <tr>
+          
+          <td data-content="gmail_read">gmail_read</td>
+          
+          <td data-content="gmail_search,gmail_send,gmail_modify,gmail_attachment">gmail_search,gmail_send,gmail_modify,gmail_attachment</td>
+          
+          <td data-content="tool_read_03_message_body">tool_read_03_message_body</td>
+          
+          <td data-content="5">5</td>
+          
+          <td data-content="Open message id msg_demo_002 and show its body.">Open message id msg_demo_002 and show its body.</td>
+          
+          <td data-content="gmail_read">gmail_read</td>
+          
+          <td data-content="[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, required_tools: 1.00, forbidden_tools: 1.00, expected_primary_tool: 1.00, read_id_argument: 1.00, read_output_envelope: 1.00, turn_budget: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Open message id msg_demo_002 and show its body.&quot;,&quot;maxTurns&quot;:5,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:null,&quot;finalText&quot;:&quot;Message **msg_demo_002** body:
+
+Sharing API credentials in the secure vault link. Use service account api-eval-readonly.&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_read&quot;,&quot;callId&quot;:&quot;call_q3KpUcIcQF56sQ9YzAypd88G&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;id&#92;&quot;:&#92;&quot;msg_demo_002&#92;&quot;,&#92;&quot;details&#92;&quot;:false}&quot;,&quot;parsedArguments&quot;:{&quot;id&quot;:&quot;msg_demo_002&quot;,&quot;details&quot;:false},&quot;output&quot;:{&quot;data&quot;:{&quot;kind&quot;:&quot;message&quot;,&quot;threadId&quot;:&quot;thread_demo_002&quot;,&quot;subject&quot;:&quot;API credentials handoff&quot;,&quot;messages&quot;:[{&quot;messageId&quot;:&quot;msg_demo_002&quot;,&quot;sender&quot;:&quot;Sarah &lt;sarah@company.com&gt;&quot;,&quot;receivedAt&quot;:&quot;2026-02-23T02:20:49.769Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:true,&quot;bodyText&quot;:&quot;Sharing API credentials in the secure vault link. Use service account api-eval-readonly.&quot;}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Loaded message &#92;&quot;API credentials handoff&#92;&quot;.&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Use details=true when recipients, labels, or attachment metadata are needed.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_demo_002&quot;,&quot;details&quot;:true},&quot;confidence&quot;:0.67}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed">[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, required_tools: 1.00, forbidden_tools: 1.00, expected_primary_tool: 1.00, read_id_argument: 1.00, read_output_envelope: 1.00, turn_budget: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Open message id msg_demo_002 and show its body.&quot;,&quot;maxTurns&quot;:5,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:null,&quot;finalText&quot;:&quot;Message **msg_demo_002** body:
+
+Sharing API credentials in the secure vault link. Use service account api-eval-readonly.&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_read&quot;,&quot;callId&quot;:&quot;call_q3KpUcIcQF56sQ9YzAypd88G&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;id&#92;&quot;:&#92;&quot;msg_demo_002&#92;&quot;,&#92;&quot;details&#92;&quot;:false}&quot;,&quot;parsedArguments&quot;:{&quot;id&quot;:&quot;msg_demo_002&quot;,&quot;details&quot;:false},&quot;output&quot;:{&quot;data&quot;:{&quot;kind&quot;:&quot;message&quot;,&quot;threadId&quot;:&quot;thread_demo_002&quot;,&quot;subject&quot;:&quot;API credentials handoff&quot;,&quot;messages&quot;:[{&quot;messageId&quot;:&quot;msg_demo_002&quot;,&quot;sender&quot;:&quot;Sarah &lt;sarah@company.com&gt;&quot;,&quot;receivedAt&quot;:&quot;2026-02-23T02:20:49.769Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:true,&quot;bodyText&quot;:&quot;Sharing API credentials in the secure vault link. Use service account api-eval-readonly.&quot;}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Loaded message &#92;&quot;API credentials handoff&#92;&quot;.&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Use details=true when recipients, labels, or attachment metadata are needed.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_demo_002&quot;,&quot;details&quot;:true},&quot;confidence&quot;:0.67}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed</td>
+          
+        </tr>
+        
+        <tr>
+          
+          <td data-content="gmail_read">gmail_read</td>
+          
+          <td data-content="gmail_search,gmail_send,gmail_modify,gmail_attachment">gmail_search,gmail_send,gmail_modify,gmail_attachment</td>
+          
+          <td data-content="tool_read_04_thread_context">tool_read_04_thread_context</td>
+          
+          <td data-content="5">5</td>
+          
+          <td data-content="Show full conversation for thread id thread_demo_002.">Show full conversation for thread id thread_demo_002.</td>
+          
+          <td data-content="gmail_read">gmail_read</td>
+          
+          <td data-content="[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, required_tools: 1.00, forbidden_tools: 1.00, expected_primary_tool: 1.00, read_id_argument: 1.00, read_output_envelope: 1.00, turn_budget: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Show full conversation for thread id thread_demo_002.&quot;,&quot;maxTurns&quot;:5,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:null,&quot;finalText&quot;:&quot;### Thread: **API credentials handoff** (thread_demo_002)
+
+**1) msg_demo_002**  
+- From: Sarah &lt;sarah@company.com&gt;  
+- To: owner@company.com  
+- Received: 2026-02-23T02:20:49.766Z  
+- Labels: inbox  
+- Body:  
+  Sharing API credentials in the secure vault link. Use service account api-eval-readonly.  
+
+**2) msg_demo_002_b**  
+- From: owner@company.com  
+- To: sarah@company.com  
+- Received: 2026-02-24T01:20:49.766Z  
+- Labels: sent  
+- Body:  
+  Thanks, I can access the vault and rotate keys later today.&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_read&quot;,&quot;callId&quot;:&quot;call_zGDy4zYBoBRrKFSlIBn0W8OX&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;id&#92;&quot;:&#92;&quot;thread_demo_002&#92;&quot;,&#92;&quot;details&#92;&quot;:true}&quot;,&quot;parsedArguments&quot;:{&quot;id&quot;:&quot;thread_demo_002&quot;,&quot;details&quot;:true},&quot;output&quot;:{&quot;data&quot;:{&quot;kind&quot;:&quot;thread&quot;,&quot;threadId&quot;:&quot;thread_demo_002&quot;,&quot;subject&quot;:&quot;API credentials handoff&quot;,&quot;messages&quot;:[{&quot;messageId&quot;:&quot;msg_demo_002&quot;,&quot;sender&quot;:&quot;Sarah &lt;sarah@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-23T02:20:49.766Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:true,&quot;labels&quot;:[&quot;inbox&quot;],&quot;bodyText&quot;:&quot;Sharing API credentials in the secure vault link. Use service account api-eval-readonly.&quot;,&quot;attachments&quot;:[]},{&quot;messageId&quot;:&quot;msg_demo_002_b&quot;,&quot;sender&quot;:&quot;owner@company.com&quot;,&quot;recipients&quot;:[&quot;sarah@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-24T01:20:49.766Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:true,&quot;labels&quot;:[&quot;sent&quot;],&quot;bodyText&quot;:&quot;Thanks, I can access the vault and rotate keys later today.&quot;,&quot;attachments&quot;:[]}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Loaded thread &#92;&quot;API credentials handoff&#92;&quot; with 2 message(s).&quot;,&quot;nextActions&quot;:[],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed">[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, required_tools: 1.00, forbidden_tools: 1.00, expected_primary_tool: 1.00, read_id_argument: 1.00, read_output_envelope: 1.00, turn_budget: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Show full conversation for thread id thread_demo_002.&quot;,&quot;maxTurns&quot;:5,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:null,&quot;finalText&quot;:&quot;### Thread: **API credentials handoff** (thread_demo_002)
+
+**1) msg_demo_002**  
+- From: Sarah &lt;sarah@company.com&gt;  
+- To: owner@company.com  
+- Received: 2026-02-23T02:20:49.766Z  
+- Labels: inbox  
+- Body:  
+  Sharing API credentials in the secure vault link. Use service account api-eval-readonly.  
+
+**2) msg_demo_002_b**  
+- From: owner@company.com  
+- To: sarah@company.com  
+- Received: 2026-02-24T01:20:49.766Z  
+- Labels: sent  
+- Body:  
+  Thanks, I can access the vault and rotate keys later today.&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_read&quot;,&quot;callId&quot;:&quot;call_zGDy4zYBoBRrKFSlIBn0W8OX&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;id&#92;&quot;:&#92;&quot;thread_demo_002&#92;&quot;,&#92;&quot;details&#92;&quot;:true}&quot;,&quot;parsedArguments&quot;:{&quot;id&quot;:&quot;thread_demo_002&quot;,&quot;details&quot;:true},&quot;output&quot;:{&quot;data&quot;:{&quot;kind&quot;:&quot;thread&quot;,&quot;threadId&quot;:&quot;thread_demo_002&quot;,&quot;subject&quot;:&quot;API credentials handoff&quot;,&quot;messages&quot;:[{&quot;messageId&quot;:&quot;msg_demo_002&quot;,&quot;sender&quot;:&quot;Sarah &lt;sarah@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-23T02:20:49.766Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:true,&quot;labels&quot;:[&quot;inbox&quot;],&quot;bodyText&quot;:&quot;Sharing API credentials in the secure vault link. Use service account api-eval-readonly.&quot;,&quot;attachments&quot;:[]},{&quot;messageId&quot;:&quot;msg_demo_002_b&quot;,&quot;sender&quot;:&quot;owner@company.com&quot;,&quot;recipients&quot;:[&quot;sarah@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-24T01:20:49.766Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:true,&quot;labels&quot;:[&quot;sent&quot;],&quot;bodyText&quot;:&quot;Thanks, I can access the vault and rotate keys later today.&quot;,&quot;attachments&quot;:[]}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Loaded thread &#92;&quot;API credentials handoff&#92;&quot; with 2 message(s).&quot;,&quot;nextActions&quot;:[],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed</td>
+          
+        </tr>
+        
+      </tbody>
+    </table>
+  </body>
+</html>

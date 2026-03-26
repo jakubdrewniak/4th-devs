@@ -1,0 +1,116 @@
+- vars:
+    id: sc_ro_01_step_01
+    scenario_id: sc_ro_01
+    step_id: step_01
+    message: "Do I have unread emails from Anna?"
+    required_tools_csv: "gmail_search"
+    forbidden_tools_csv: "gmail_send,gmail_modify"
+    expected_primary_tool: "gmail_search"
+    expected_outcome: "search"
+    max_turns: 6
+  metadata:
+    conversationId: sc_ro_01
+
+- vars:
+    id: sc_ro_01_step_02
+    scenario_id: sc_ro_01
+    step_id: step_02
+    message: "Open the newest one and summarize it in two bullets."
+    required_tools_csv: "gmail_read"
+    forbidden_tools_csv: "gmail_send,gmail_modify"
+    expected_primary_tool: "gmail_read"
+    expected_outcome: "read"
+    max_turns: 7
+  metadata:
+    conversationId: sc_ro_01
+
+- vars:
+    id: sc_ro_01_step_03
+    scenario_id: sc_ro_01
+    step_id: step_03
+    message: "If that email had attachments, list only the filenames."
+    required_tools_csv: "gmail_read"
+    forbidden_tools_csv: "gmail_send,gmail_modify"
+    expected_primary_tool: "gmail_read"
+    expected_outcome: "read"
+    max_turns: 7
+  metadata:
+    conversationId: sc_ro_01
+
+- vars:
+    id: sc_ro_02_step_01
+    scenario_id: sc_ro_02
+    step_id: step_01
+    message: "Find the most recent onboarding email."
+    required_tools_csv: "gmail_search"
+    forbidden_tools_csv: "gmail_send,gmail_modify"
+    expected_primary_tool: "gmail_search"
+    expected_outcome: "search"
+    max_turns: 6
+  metadata:
+    conversationId: sc_ro_02
+
+- vars:
+    id: sc_ro_02_step_02
+    scenario_id: sc_ro_02
+    step_id: step_02
+    message: "What files were attached to it?"
+    required_tools_csv: "gmail_read"
+    forbidden_tools_csv: "gmail_send,gmail_modify"
+    expected_primary_tool: "gmail_read"
+    expected_outcome: "read"
+    max_turns: 7
+  metadata:
+    conversationId: sc_ro_02
+
+- vars:
+    id: sc_ro_02_step_03
+    scenario_id: sc_ro_02
+    step_id: step_03
+    message: "Download the first attachment from that email."
+    required_tools_csv: "gmail_attachment"
+    forbidden_tools_csv: "gmail_send,gmail_modify"
+    expected_primary_tool: "gmail_attachment"
+    expected_outcome: "attachment"
+    max_turns: 8
+  metadata:
+    conversationId: sc_ro_02
+
+- vars:
+    id: sc_ro_03_step_01
+    scenario_id: sc_ro_03
+    step_id: step_01
+    message: "What is the last email I sent to the client?"
+    required_tools_csv: "gmail_search"
+    forbidden_tools_csv: "gmail_send,gmail_modify"
+    expected_primary_tool: "gmail_search"
+    expected_outcome: "search"
+    max_turns: 6
+  metadata:
+    conversationId: sc_ro_03
+
+- vars:
+    id: sc_ro_03_step_02
+    scenario_id: sc_ro_03
+    step_id: step_02
+    message: "Did they reply? Show me the latest reply body."
+    required_tools_csv: "gmail_read"
+    forbidden_tools_csv: "gmail_send,gmail_modify"
+    expected_primary_tool: "gmail_read"
+    expected_outcome: "read"
+    max_turns: 7
+  metadata:
+    conversationId: sc_ro_03
+
+- vars:
+    id: sc_ro_03_step_03
+    scenario_id: sc_ro_03
+    step_id: step_03
+    message: "How many unread emails do I have from that same sender?"
+    required_tools_csv: "gmail_search"
+    forbidden_tools_csv: "gmail_send,gmail_modify"
+    expected_primary_tool: "gmail_search"
+    expected_outcome: "search"
+    max_turns: 7
+  metadata:
+    conversationId: sc_ro_03

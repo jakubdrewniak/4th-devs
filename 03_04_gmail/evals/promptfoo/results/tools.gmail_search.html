@@ -1,0 +1,224 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>03_04_gmail tool eval (gmail_search)</title>
+    <style>
+      body {
+        font-family:
+          -apple-system,
+          BlinkMacSystemFont,
+          Segoe UI,
+          Roboto,
+          Helvetica,
+          Arial,
+          sans-serif;
+      }
+      table,
+      th,
+      td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        text-align: left;
+        word-break: break-all;
+      }
+      th,
+      td {
+        padding: 5px;
+        min-width: 200px;
+        white-space: pre-wrap;
+        vertical-align: top;
+      }
+
+      tr > td[data-content^='[PASS]'] {
+        color: green;
+      }
+      tr > td[data-content^='[FAIL]'] {
+        color: #ad0000;
+      }
+    </style>
+  </head>
+  <body>
+    <table>
+      <thead>
+        
+        <th>expected_primary_tool</th>
+        
+        <th>expected_query_contains</th>
+        
+        <th>forbidden_tools_csv</th>
+        
+        <th>id</th>
+        
+        <th>max_turns</th>
+        
+        <th>message</th>
+        
+        <th>required_tools_csv</th>
+        
+        <th>[gmail-agent] {{message}}</th>
+        
+      </thead>
+      <tbody>
+        
+        <tr>
+          
+          <td data-content="gmail_search">gmail_search</td>
+          
+          <td data-content="from:anna@company.com">from:anna@company.com</td>
+          
+          <td data-content="gmail_read,gmail_send,gmail_modify,gmail_attachment">gmail_read,gmail_send,gmail_modify,gmail_attachment</td>
+          
+          <td data-content="tool_search_01_unread">tool_search_01_unread</td>
+          
+          <td data-content="5">5</td>
+          
+          <td data-content="Search for messages matching query: from:anna@company.com is:unread">Search for messages matching query: from:anna@company.com is:unread</td>
+          
+          <td data-content="gmail_search">gmail_search</td>
+          
+          <td data-content="[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, required_tools: 1.00, forbidden_tools: 1.00, expected_primary_tool: 1.00, search_query_hint: 1.00, turn_budget: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Search for messages matching query: from:anna@company.com is:unread&quot;,&quot;maxTurns&quot;:5,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:null,&quot;finalText&quot;:&quot;Found 4 unread messages from **anna@company.com**:
+
+1) **Budget approval request** — Anna &lt;anna@company.com&gt; — 2026-02-26 — messageId: `msg_demo_010` (thread: `thread_demo_010`)  
+2) **Q3 budget update** — Anna &lt;anna@company.com&gt; — 2026-02-25 — messageId: `msg_demo_001` (thread: `thread_demo_001`)  
+3) **Anna invoice confirmation** — Anna &lt;anna@company.com&gt; — 2026-02-24 — messageId: `msg_invoice_anna_001` (thread: `thread_invoice_anna_001`)  
+4) **Invoice 2026-02** — Anna &lt;anna@company.com&gt; — 2026-02-22 — messageId: `msg_demo_011` (thread: `thread_demo_011`)  
+
+Tell me which one you want to open (or say “open the latest”).&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_search&quot;,&quot;callId&quot;:&quot;call_uopIPQhlQBk5suhKSwZtN6xF&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;query&#92;&quot;:&#92;&quot;from:anna@company.com is:unread&#92;&quot;,&#92;&quot;limit&#92;&quot;:20,&#92;&quot;details&#92;&quot;:false}&quot;,&quot;parsedArguments&quot;:{&quot;query&quot;:&quot;from:anna@company.com is:unread&quot;,&quot;limit&quot;:20,&quot;details&quot;:false},&quot;output&quot;:{&quot;data&quot;:{&quot;items&quot;:[{&quot;messageId&quot;:&quot;msg_demo_010&quot;,&quot;threadId&quot;:&quot;thread_demo_010&quot;,&quot;subject&quot;:&quot;Budget approval request&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;receivedAt&quot;:&quot;2026-02-26T00:20:43.019Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false},{&quot;messageId&quot;:&quot;msg_demo_001&quot;,&quot;threadId&quot;:&quot;thread_demo_001&quot;,&quot;subject&quot;:&quot;Q3 budget update&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;receivedAt&quot;:&quot;2026-02-25T03:20:43.019Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false},{&quot;messageId&quot;:&quot;msg_invoice_anna_001&quot;,&quot;threadId&quot;:&quot;thread_invoice_anna_001&quot;,&quot;subject&quot;:&quot;Anna invoice confirmation&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;receivedAt&quot;:&quot;2026-02-24T06:20:43.019Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false},{&quot;messageId&quot;:&quot;msg_demo_011&quot;,&quot;threadId&quot;:&quot;thread_demo_011&quot;,&quot;subject&quot;:&quot;Invoice 2026-02&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;receivedAt&quot;:&quot;2026-02-22T05:20:43.019Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Found 4 message(s).&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Load full content before quoting details to the user.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_demo_010&quot;},&quot;confidence&quot;:0.76}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed">[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, required_tools: 1.00, forbidden_tools: 1.00, expected_primary_tool: 1.00, search_query_hint: 1.00, turn_budget: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Search for messages matching query: from:anna@company.com is:unread&quot;,&quot;maxTurns&quot;:5,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:null,&quot;finalText&quot;:&quot;Found 4 unread messages from **anna@company.com**:
+
+1) **Budget approval request** — Anna &lt;anna@company.com&gt; — 2026-02-26 — messageId: `msg_demo_010` (thread: `thread_demo_010`)  
+2) **Q3 budget update** — Anna &lt;anna@company.com&gt; — 2026-02-25 — messageId: `msg_demo_001` (thread: `thread_demo_001`)  
+3) **Anna invoice confirmation** — Anna &lt;anna@company.com&gt; — 2026-02-24 — messageId: `msg_invoice_anna_001` (thread: `thread_invoice_anna_001`)  
+4) **Invoice 2026-02** — Anna &lt;anna@company.com&gt; — 2026-02-22 — messageId: `msg_demo_011` (thread: `thread_demo_011`)  
+
+Tell me which one you want to open (or say “open the latest”).&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_search&quot;,&quot;callId&quot;:&quot;call_uopIPQhlQBk5suhKSwZtN6xF&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;query&#92;&quot;:&#92;&quot;from:anna@company.com is:unread&#92;&quot;,&#92;&quot;limit&#92;&quot;:20,&#92;&quot;details&#92;&quot;:false}&quot;,&quot;parsedArguments&quot;:{&quot;query&quot;:&quot;from:anna@company.com is:unread&quot;,&quot;limit&quot;:20,&quot;details&quot;:false},&quot;output&quot;:{&quot;data&quot;:{&quot;items&quot;:[{&quot;messageId&quot;:&quot;msg_demo_010&quot;,&quot;threadId&quot;:&quot;thread_demo_010&quot;,&quot;subject&quot;:&quot;Budget approval request&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;receivedAt&quot;:&quot;2026-02-26T00:20:43.019Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false},{&quot;messageId&quot;:&quot;msg_demo_001&quot;,&quot;threadId&quot;:&quot;thread_demo_001&quot;,&quot;subject&quot;:&quot;Q3 budget update&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;receivedAt&quot;:&quot;2026-02-25T03:20:43.019Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false},{&quot;messageId&quot;:&quot;msg_invoice_anna_001&quot;,&quot;threadId&quot;:&quot;thread_invoice_anna_001&quot;,&quot;subject&quot;:&quot;Anna invoice confirmation&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;receivedAt&quot;:&quot;2026-02-24T06:20:43.019Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false},{&quot;messageId&quot;:&quot;msg_demo_011&quot;,&quot;threadId&quot;:&quot;thread_demo_011&quot;,&quot;subject&quot;:&quot;Invoice 2026-02&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;receivedAt&quot;:&quot;2026-02-22T05:20:43.019Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Found 4 message(s).&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Load full content before quoting details to the user.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_demo_010&quot;},&quot;confidence&quot;:0.76}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed</td>
+          
+        </tr>
+        
+        <tr>
+          
+          <td data-content="gmail_search">gmail_search</td>
+          
+          <td data-content="is:draft">is:draft</td>
+          
+          <td data-content="gmail_read,gmail_send,gmail_modify,gmail_attachment">gmail_read,gmail_send,gmail_modify,gmail_attachment</td>
+          
+          <td data-content="tool_search_02_drafts">tool_search_02_drafts</td>
+          
+          <td data-content="5">5</td>
+          
+          <td data-content="Search for messages matching query: is:draft">Search for messages matching query: is:draft</td>
+          
+          <td data-content="gmail_search">gmail_search</td>
+          
+          <td data-content="[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, required_tools: 1.00, forbidden_tools: 1.00, expected_primary_tool: 1.00, search_query_hint: 1.00, turn_budget: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Search for messages matching query: is:draft&quot;,&quot;maxTurns&quot;:5,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:null,&quot;finalText&quot;:&quot;No messages found matching `is:draft` (you currently have no draft emails).&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_search&quot;,&quot;callId&quot;:&quot;call_fPe0RDq7CgAtnnkM4zWUhblu&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;query&#92;&quot;:&#92;&quot;is:draft&#92;&quot;,&#92;&quot;limit&#92;&quot;:20,&#92;&quot;details&#92;&quot;:false}&quot;,&quot;parsedArguments&quot;:{&quot;query&quot;:&quot;is:draft&quot;,&quot;limit&quot;:20,&quot;details&quot;:false},&quot;output&quot;:{&quot;data&quot;:{&quot;items&quot;:[]},&quot;hint&quot;:{&quot;status&quot;:&quot;empty&quot;,&quot;reasonCode&quot;:&quot;NO_RESULTS&quot;,&quot;summary&quot;:&quot;No messages found for query &#92;&quot;is:draft&#92;&quot;.&quot;,&quot;nextActions&quot;:[],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed">[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, required_tools: 1.00, forbidden_tools: 1.00, expected_primary_tool: 1.00, search_query_hint: 1.00, turn_budget: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Search for messages matching query: is:draft&quot;,&quot;maxTurns&quot;:5,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:null,&quot;finalText&quot;:&quot;No messages found matching `is:draft` (you currently have no draft emails).&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_search&quot;,&quot;callId&quot;:&quot;call_fPe0RDq7CgAtnnkM4zWUhblu&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;query&#92;&quot;:&#92;&quot;is:draft&#92;&quot;,&#92;&quot;limit&#92;&quot;:20,&#92;&quot;details&#92;&quot;:false}&quot;,&quot;parsedArguments&quot;:{&quot;query&quot;:&quot;is:draft&quot;,&quot;limit&quot;:20,&quot;details&quot;:false},&quot;output&quot;:{&quot;data&quot;:{&quot;items&quot;:[]},&quot;hint&quot;:{&quot;status&quot;:&quot;empty&quot;,&quot;reasonCode&quot;:&quot;NO_RESULTS&quot;,&quot;summary&quot;:&quot;No messages found for query &#92;&quot;is:draft&#92;&quot;.&quot;,&quot;nextActions&quot;:[],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed</td>
+          
+        </tr>
+        
+        <tr>
+          
+          <td data-content="gmail_search">gmail_search</td>
+          
+          <td data-content="has:attachment">has:attachment</td>
+          
+          <td data-content="gmail_read,gmail_send,gmail_modify,gmail_attachment">gmail_read,gmail_send,gmail_modify,gmail_attachment</td>
+          
+          <td data-content="tool_search_03_attachments">tool_search_03_attachments</td>
+          
+          <td data-content="5">5</td>
+          
+          <td data-content="Search for messages matching query: has:attachment newer_than:7d">Search for messages matching query: has:attachment newer_than:7d</td>
+          
+          <td data-content="gmail_search">gmail_search</td>
+          
+          <td data-content="[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, required_tools: 1.00, forbidden_tools: 1.00, expected_primary_tool: 1.00, search_query_hint: 1.00, turn_budget: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Search for messages matching query: has:attachment newer_than:7d&quot;,&quot;maxTurns&quot;:5,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:null,&quot;finalText&quot;:&quot;Found 4 messages matching `has:attachment newer_than:7d` (showing up to 20):
+
+1) **Onboarding package** — HR &lt;hr@company.com&gt; — 2026-02-26 — messageId: `msg_onboarding_001` (unread)  
+2) **Anna invoice confirmation** — Anna &lt;anna@company.com&gt; — 2026-02-24 — messageId: `msg_invoice_anna_001` (unread)  
+3) **Invoice 2026-02** — Anna &lt;anna@company.com&gt; — 2026-02-22 — messageId: `msg_demo_011` (unread)  
+4) **Project files** — Ops Bot &lt;ops@company.com&gt; — 2026-02-21 — messageId: `msg_demo_100` (unread)
+
+Tell me which messageId you want to open to view/download the attachment(s).&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_search&quot;,&quot;callId&quot;:&quot;call_FeW1kKjvaxTEJC8vnWyTmC0o&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;query&#92;&quot;:&#92;&quot;has:attachment newer_than:7d&#92;&quot;,&#92;&quot;limit&#92;&quot;:20,&#92;&quot;details&#92;&quot;:false}&quot;,&quot;parsedArguments&quot;:{&quot;query&quot;:&quot;has:attachment newer_than:7d&quot;,&quot;limit&quot;:20,&quot;details&quot;:false},&quot;output&quot;:{&quot;data&quot;:{&quot;items&quot;:[{&quot;messageId&quot;:&quot;msg_onboarding_001&quot;,&quot;threadId&quot;:&quot;thread_onboarding_001&quot;,&quot;subject&quot;:&quot;Onboarding package&quot;,&quot;sender&quot;:&quot;HR &lt;hr@company.com&gt;&quot;,&quot;receivedAt&quot;:&quot;2026-02-26T04:20:43.019Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false},{&quot;messageId&quot;:&quot;msg_invoice_anna_001&quot;,&quot;threadId&quot;:&quot;thread_invoice_anna_001&quot;,&quot;subject&quot;:&quot;Anna invoice confirmation&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;receivedAt&quot;:&quot;2026-02-24T06:20:43.019Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false},{&quot;messageId&quot;:&quot;msg_demo_011&quot;,&quot;threadId&quot;:&quot;thread_demo_011&quot;,&quot;subject&quot;:&quot;Invoice 2026-02&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;receivedAt&quot;:&quot;2026-02-22T05:20:43.019Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false},{&quot;messageId&quot;:&quot;msg_demo_100&quot;,&quot;threadId&quot;:&quot;thread_demo_100&quot;,&quot;subject&quot;:&quot;Project files&quot;,&quot;sender&quot;:&quot;Ops Bot &lt;ops@company.com&gt;&quot;,&quot;receivedAt&quot;:&quot;2026-02-21T01:20:43.019Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Found 4 message(s).&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Load full content before quoting details to the user.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_onboarding_001&quot;},&quot;confidence&quot;:0.76}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed">[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, required_tools: 1.00, forbidden_tools: 1.00, expected_primary_tool: 1.00, search_query_hint: 1.00, turn_budget: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Search for messages matching query: has:attachment newer_than:7d&quot;,&quot;maxTurns&quot;:5,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:null,&quot;finalText&quot;:&quot;Found 4 messages matching `has:attachment newer_than:7d` (showing up to 20):
+
+1) **Onboarding package** — HR &lt;hr@company.com&gt; — 2026-02-26 — messageId: `msg_onboarding_001` (unread)  
+2) **Anna invoice confirmation** — Anna &lt;anna@company.com&gt; — 2026-02-24 — messageId: `msg_invoice_anna_001` (unread)  
+3) **Invoice 2026-02** — Anna &lt;anna@company.com&gt; — 2026-02-22 — messageId: `msg_demo_011` (unread)  
+4) **Project files** — Ops Bot &lt;ops@company.com&gt; — 2026-02-21 — messageId: `msg_demo_100` (unread)
+
+Tell me which messageId you want to open to view/download the attachment(s).&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_search&quot;,&quot;callId&quot;:&quot;call_FeW1kKjvaxTEJC8vnWyTmC0o&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;query&#92;&quot;:&#92;&quot;has:attachment newer_than:7d&#92;&quot;,&#92;&quot;limit&#92;&quot;:20,&#92;&quot;details&#92;&quot;:false}&quot;,&quot;parsedArguments&quot;:{&quot;query&quot;:&quot;has:attachment newer_than:7d&quot;,&quot;limit&quot;:20,&quot;details&quot;:false},&quot;output&quot;:{&quot;data&quot;:{&quot;items&quot;:[{&quot;messageId&quot;:&quot;msg_onboarding_001&quot;,&quot;threadId&quot;:&quot;thread_onboarding_001&quot;,&quot;subject&quot;:&quot;Onboarding package&quot;,&quot;sender&quot;:&quot;HR &lt;hr@company.com&gt;&quot;,&quot;receivedAt&quot;:&quot;2026-02-26T04:20:43.019Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false},{&quot;messageId&quot;:&quot;msg_invoice_anna_001&quot;,&quot;threadId&quot;:&quot;thread_invoice_anna_001&quot;,&quot;subject&quot;:&quot;Anna invoice confirmation&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;receivedAt&quot;:&quot;2026-02-24T06:20:43.019Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false},{&quot;messageId&quot;:&quot;msg_demo_011&quot;,&quot;threadId&quot;:&quot;thread_demo_011&quot;,&quot;subject&quot;:&quot;Invoice 2026-02&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;receivedAt&quot;:&quot;2026-02-22T05:20:43.019Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false},{&quot;messageId&quot;:&quot;msg_demo_100&quot;,&quot;threadId&quot;:&quot;thread_demo_100&quot;,&quot;subject&quot;:&quot;Project files&quot;,&quot;sender&quot;:&quot;Ops Bot &lt;ops@company.com&gt;&quot;,&quot;receivedAt&quot;:&quot;2026-02-21T01:20:43.019Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Found 4 message(s).&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Load full content before quoting details to the user.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_onboarding_001&quot;},&quot;confidence&quot;:0.76}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed</td>
+          
+        </tr>
+        
+        <tr>
+          
+          <td data-content="gmail_search">gmail_search</td>
+          
+          <td data-content="invoice">invoice</td>
+          
+          <td data-content="gmail_read,gmail_send,gmail_modify,gmail_attachment">gmail_read,gmail_send,gmail_modify,gmail_attachment</td>
+          
+          <td data-content="tool_search_04_invoice">tool_search_04_invoice</td>
+          
+          <td data-content="5">5</td>
+          
+          <td data-content="Search for messages matching query: subject:(invoice OR faktura)">Search for messages matching query: subject:(invoice OR faktura)</td>
+          
+          <td data-content="gmail_search">gmail_search</td>
+          
+          <td data-content="[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, required_tools: 1.00, forbidden_tools: 1.00, expected_primary_tool: 1.00, search_query_hint: 1.00, turn_budget: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Search for messages matching query: subject:(invoice OR faktura)&quot;,&quot;maxTurns&quot;:5,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:null,&quot;finalText&quot;:&quot;Found 2 messages matching `subject:(invoice OR faktura)`:
+
+1) **Anna invoice confirmation** — Anna &lt;anna@company.com&gt; — received **2026-02-24 06:20Z** — **Unread**  
+   Message ID: `msg_invoice_anna_001` | Thread ID: `thread_invoice_anna_001`
+
+2) **Invoice 2026-02** — Anna &lt;anna@company.com&gt; — received **2026-02-22 05:20Z** — **Unread**  
+   Message ID: `msg_demo_011` | Thread ID: `thread_demo_011`
+
+If you want, I can open one and extract invoice details/attachments.&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_search&quot;,&quot;callId&quot;:&quot;call_lIy2ANZeljx1KI1yi0pT841a&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;query&#92;&quot;:&#92;&quot;subject:(invoice OR faktura)&#92;&quot;,&#92;&quot;limit&#92;&quot;:20,&#92;&quot;details&#92;&quot;:false}&quot;,&quot;parsedArguments&quot;:{&quot;query&quot;:&quot;subject:(invoice OR faktura)&quot;,&quot;limit&quot;:20,&quot;details&quot;:false},&quot;output&quot;:{&quot;data&quot;:{&quot;items&quot;:[{&quot;messageId&quot;:&quot;msg_invoice_anna_001&quot;,&quot;threadId&quot;:&quot;thread_invoice_anna_001&quot;,&quot;subject&quot;:&quot;Anna invoice confirmation&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;receivedAt&quot;:&quot;2026-02-24T06:20:43.016Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false},{&quot;messageId&quot;:&quot;msg_demo_011&quot;,&quot;threadId&quot;:&quot;thread_demo_011&quot;,&quot;subject&quot;:&quot;Invoice 2026-02&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;receivedAt&quot;:&quot;2026-02-22T05:20:43.016Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Found 2 message(s).&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Load full content before quoting details to the user.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_invoice_anna_001&quot;},&quot;confidence&quot;:0.76}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed">[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, required_tools: 1.00, forbidden_tools: 1.00, expected_primary_tool: 1.00, search_query_hint: 1.00, turn_budget: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Search for messages matching query: subject:(invoice OR faktura)&quot;,&quot;maxTurns&quot;:5,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:null,&quot;finalText&quot;:&quot;Found 2 messages matching `subject:(invoice OR faktura)`:
+
+1) **Anna invoice confirmation** — Anna &lt;anna@company.com&gt; — received **2026-02-24 06:20Z** — **Unread**  
+   Message ID: `msg_invoice_anna_001` | Thread ID: `thread_invoice_anna_001`
+
+2) **Invoice 2026-02** — Anna &lt;anna@company.com&gt; — received **2026-02-22 05:20Z** — **Unread**  
+   Message ID: `msg_demo_011` | Thread ID: `thread_demo_011`
+
+If you want, I can open one and extract invoice details/attachments.&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_search&quot;,&quot;callId&quot;:&quot;call_lIy2ANZeljx1KI1yi0pT841a&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;query&#92;&quot;:&#92;&quot;subject:(invoice OR faktura)&#92;&quot;,&#92;&quot;limit&#92;&quot;:20,&#92;&quot;details&#92;&quot;:false}&quot;,&quot;parsedArguments&quot;:{&quot;query&quot;:&quot;subject:(invoice OR faktura)&quot;,&quot;limit&quot;:20,&quot;details&quot;:false},&quot;output&quot;:{&quot;data&quot;:{&quot;items&quot;:[{&quot;messageId&quot;:&quot;msg_invoice_anna_001&quot;,&quot;threadId&quot;:&quot;thread_invoice_anna_001&quot;,&quot;subject&quot;:&quot;Anna invoice confirmation&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;receivedAt&quot;:&quot;2026-02-24T06:20:43.016Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false},{&quot;messageId&quot;:&quot;msg_demo_011&quot;,&quot;threadId&quot;:&quot;thread_demo_011&quot;,&quot;subject&quot;:&quot;Invoice 2026-02&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;receivedAt&quot;:&quot;2026-02-22T05:20:43.016Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Found 2 message(s).&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Load full content before quoting details to the user.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_invoice_anna_001&quot;},&quot;confidence&quot;:0.76}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed</td>
+          
+        </tr>
+        
+      </tbody>
+    </table>
+  </body>
+</html>

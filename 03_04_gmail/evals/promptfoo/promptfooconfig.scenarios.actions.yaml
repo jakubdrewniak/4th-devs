@@ -1,0 +1,168 @@
+description: 03_04_gmail scenario eval (action chains)
+
+prompts:
+  - "{{message}}"
+
+providers:
+  - id: file://provider.stateful.mjs
+    label: gmail-agent-stateful
+    config:
+      maxTurns: 8
+      sessionDir: evals/promptfoo/.sessions
+      instructions: >-
+        You are a Gmail assistant running deterministic action-chain evaluations.
+        For every step, perform at least one fresh tool call that matches the user's intent before answering.
+        Do not rely only on memory from earlier turns.
+        Use gmail_search for discovery, gmail_read for message content, gmail_send for compose/reply/forward,
+        gmail_modify for mailbox updates, and gmail_attachment for attachment download requests.
+        Report only outcomes grounded in the latest tool outputs.
+
+tests: datasets/scenarios/actions.yaml
+
+evaluateOptions:
+  maxConcurrency: 10
+
+defaultTest:
+  assert:
+    - type: is-json
+      metric: valid_json
+
+    - type: javascript
+      metric: valid_eval_payload
+      value: |
+        const data = JSON.parse(output);
+        const isValid =
+          data &&
+          typeof data === 'object' &&
+          !data.error &&
+          typeof data.finalText === 'string' &&
+          Number.isFinite(Number(data.turns)) &&
+          typeof data.reachedMaxTurns === 'boolean' &&
+          Array.isArray(data.toolCalls);
+        if (isValid) return true;
+        return {
+          pass: false,
+          score: 0,
+          reason: `Invalid eval payload: ${output.slice(0, 280)}`,
+        };
+
+    - type: javascript
+      metric: scenario_indicators
+      value: |
+        const scenarioId = String(context.vars.scenario_id ?? '').trim();
+        const stepId = String(context.vars.step_id ?? '').trim();
+        if (scenarioId && stepId) return true;
+        return {
+          pass: false,
+          score: 0,
+          reason: `Missing scenario indicators scenario_id=${scenarioId} step_id=${stepId}`,
+        };
+
+    - type: javascript
+      metric: required_tools
+      value: |
+        const data = JSON.parse(output);
+        const used = Array.isArray(data.toolCalls) ? data.toolCalls.map((tool) => tool.name) : [];
+        const required = String(context.vars.required_tools_csv ?? '')
+          .split(',')
+          .map((name) => name.trim())
+          .filter((name) => name.length > 0);
+        const missing = required.filter((name) => !used.includes(name));
+        if (missing.length === 0) return true;
+        return {
+          pass: false,
+          score: 0,
+          reason: `Missing required tools: ${missing.join(', ')}; used=[${used.join(', ')}]`,
+        };
+
+    - type: javascript
+      metric: expected_primary_tool
+      value: |
+        const expected = String(context.vars.expected_primary_tool ?? '').trim();
+        if (!expected) return true;
+
+        const data = JSON.parse(output);
+        const used = Array.isArray(data.toolCalls) ? data.toolCalls.map((tool) => tool.name) : [];
+        if (used.includes(expected)) return true;
+        return {
+          pass: false,
+          score: 0,
+          reason: `Expected primary tool ${expected} was not used; used=[${used.join(', ')}]`,
+        };
+
+    - type: javascript
+      metric: expected_outcome
+      value: |
+        const expected = String(context.vars.expected_outcome ?? '').trim();
+        if (!expected) return true;
+
+        const data = JSON.parse(output);
+        const calls = Array.isArray(data.toolCalls) ? data.toolCalls : [];
+        const used = calls.map((tool) => tool.name);
+        const sendCalls = calls.filter((tool) => tool.name === 'gmail_send');
+
+        const hasSendStatus = (status) =>
+          sendCalls.some((call) => {
+            const out = call?.output;
+            return (
+              out &&
+              typeof out === 'object' &&
+              out.data &&
+              typeof out.data === 'object' &&
+              out.data.status === status
+            );
+          });
+
+        if (expected === 'search') return used.includes('gmail_search') || { pass: false, score: 0, reason: 'Expected search outcome' };
+        if (expected === 'read') return used.includes('gmail_read') || { pass: false, score: 0, reason: 'Expected read outcome' };
+        if (expected === 'attachment') return used.includes('gmail_attachment') || { pass: false, score: 0, reason: 'Expected attachment outcome' };
+        if (expected === 'modified') return used.includes('gmail_modify') || { pass: false, score: 0, reason: 'Expected modified outcome' };
+        if (expected === 'send_call') return used.includes('gmail_send') || { pass: false, score: 0, reason: 'Expected send call outcome' };
+        if (expected === 'drafted') return hasSendStatus('drafted') || { pass: false, score: 0, reason: 'Expected drafted outcome' };
+        if (expected === 'sent') return hasSendStatus('sent') || { pass: false, score: 0, reason: 'Expected sent outcome' };
+        if (expected === 'sent_or_drafted') {
+          if (hasSendStatus('sent') || hasSendStatus('drafted')) return true;
+          return { pass: false, score: 0, reason: 'Expected sent or drafted outcome' };
+        }
+        if (expected === 'enforced_draft') {
+          const matched = sendCalls.some((call) => {
+            const out = call.output;
+            return (
+              out &&
+              typeof out === 'object' &&
+              out.data &&
+              typeof out.data === 'object' &&
+              out.data.status === 'drafted' &&
+              out.data.policy &&
+              out.data.policy.enforcedDraft === true
+            );
+          });
+          return matched || { pass: false, score: 0, reason: 'Expected enforced draft outcome' };
+        }
+
+        return true;
+
+    - type: javascript
+      metric: turn_budget
+      value: |
+        const data = JSON.parse(output);
+        const maxTurns = Number(context.vars.max_turns ?? 8);
+        const turns = Number(data.turns ?? 0);
+        if (Number.isFinite(turns) && turns <= maxTurns) return true;
+        return {
+          pass: false,
+          score: 0,
+          reason: `Turn budget exceeded: ${turns} > ${maxTurns}`,
+        };
+
+    - type: llm-rubric
+      metric: answer_quality
+      transform: "JSON.parse(output).finalText"
+      value: |
+        The user asked a Gmail assistant in an ongoing action scenario: "{{message}}"
+
+        Evaluate the response:
+        1. It states what action happened
+        2. It reports outcome clearly
+        3. It does not claim success if action failed
+        4. It is concise and clear

@@ -1,0 +1,126 @@
+description: 03_04_gmail tool eval (gmail_search)
+
+prompts:
+  - "{{message}}"
+
+providers:
+  - id: file://provider.mjs
+    label: gmail-agent
+    config:
+      maxTurns: 6
+
+tests: datasets/tools/gmail_search.yaml
+
+evaluateOptions:
+  maxConcurrency: 10
+
+defaultTest:
+  assert:
+    - type: is-json
+      metric: valid_json
+
+    - type: javascript
+      metric: valid_eval_payload
+      value: |
+        const data = JSON.parse(output);
+        const isValid =
+          data &&
+          typeof data === 'object' &&
+          !data.error &&
+          typeof data.finalText === 'string' &&
+          Number.isFinite(Number(data.turns)) &&
+          typeof data.reachedMaxTurns === 'boolean' &&
+          Array.isArray(data.toolCalls);
+        if (isValid) return true;
+        return {
+          pass: false,
+          score: 0,
+          reason: `Invalid eval payload: ${output.slice(0, 280)}`,
+        };
+
+    - type: javascript
+      metric: required_tools
+      value: |
+        const data = JSON.parse(output);
+        const used = Array.isArray(data.toolCalls) ? data.toolCalls.map((tool) => tool.name) : [];
+        const required = String(context.vars.required_tools_csv ?? '')
+          .split(',')
+          .map((name) => name.trim())
+          .filter((name) => name.length > 0);
+        const missing = required.filter((name) => !used.includes(name));
+        if (missing.length === 0) return true;
+        return {
+          pass: false,
+          score: 0,
+          reason: `Missing required tools: ${missing.join(', ')}; used=[${used.join(', ')}]`,
+        };
+
+    - type: javascript
+      metric: forbidden_tools
+      value: |
+        const data = JSON.parse(output);
+        const used = Array.isArray(data.toolCalls) ? data.toolCalls.map((tool) => tool.name) : [];
+        const forbidden = String(context.vars.forbidden_tools_csv ?? '')
+          .split(',')
+          .map((name) => name.trim())
+          .filter((name) => name.length > 0);
+        const violated = forbidden.filter((name) => used.includes(name));
+        if (violated.length === 0) return true;
+        return {
+          pass: false,
+          score: 0,
+          reason: `Forbidden tools used: ${violated.join(', ')}; used=[${used.join(', ')}]`,
+        };
+
+    - type: javascript
+      metric: expected_primary_tool
+      value: |
+        const expected = String(context.vars.expected_primary_tool ?? '').trim();
+        if (!expected) return true;
+        const data = JSON.parse(output);
+        const used = Array.isArray(data.toolCalls) ? data.toolCalls.map((tool) => tool.name) : [];
+        if (used.includes(expected)) return true;
+        return {
+          pass: false,
+          score: 0,
+          reason: `Expected primary tool ${expected} was not used; used=[${used.join(', ')}]`,
+        };
+
+    - type: javascript
+      metric: search_query_hint
+      value: |
+        const hint = String(context.vars.expected_query_contains ?? '').trim().toLowerCase();
+        if (!hint) return true;
+
+        const data = JSON.parse(output);
+        const searchCalls = Array.isArray(data.toolCalls)
+          ? data.toolCalls.filter((tool) => tool.name === 'gmail_search')
+          : [];
+
+        if (searchCalls.length === 0) {
+          return { pass: false, score: 0, reason: 'Expected gmail_search call but none found' };
+        }
+
+        const matched = searchCalls.some((call) => {
+          const query = String(call?.parsedArguments?.query ?? '').toLowerCase();
+          return query.includes(hint);
+        });
+        if (matched) return true;
+        return {
+          pass: false,
+          score: 0,
+          reason: `Expected search query to include "${hint}"`,
+        };
+
+    - type: javascript
+      metric: turn_budget
+      value: |
+        const data = JSON.parse(output);
+        const maxTurns = Number(context.vars.max_turns ?? 6);
+        const turns = Number(data.turns ?? 0);
+        if (Number.isFinite(turns) && turns <= maxTurns) return true;
+        return {
+          pass: false,
+          score: 0,
+          reason: `Turn budget exceeded: ${turns} > ${maxTurns}`,
+        };

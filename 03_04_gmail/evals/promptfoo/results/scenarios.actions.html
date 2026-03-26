@@ -1,0 +1,358 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>03_04_gmail scenario eval (action chains)</title>
+    <style>
+      body {
+        font-family:
+          -apple-system,
+          BlinkMacSystemFont,
+          Segoe UI,
+          Roboto,
+          Helvetica,
+          Arial,
+          sans-serif;
+      }
+      table,
+      th,
+      td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        text-align: left;
+        word-break: break-all;
+      }
+      th,
+      td {
+        padding: 5px;
+        min-width: 200px;
+        white-space: pre-wrap;
+        vertical-align: top;
+      }
+
+      tr > td[data-content^='[PASS]'] {
+        color: green;
+      }
+      tr > td[data-content^='[FAIL]'] {
+        color: #ad0000;
+      }
+    </style>
+  </head>
+  <body>
+    <table>
+      <thead>
+        
+        <th>expected_outcome</th>
+        
+        <th>expected_primary_tool</th>
+        
+        <th>id</th>
+        
+        <th>max_turns</th>
+        
+        <th>message</th>
+        
+        <th>required_tools_csv</th>
+        
+        <th>scenario_id</th>
+        
+        <th>step_id</th>
+        
+        <th>[gmail-agent-stateful] {{message}}</th>
+        
+      </thead>
+      <tbody>
+        
+        <tr>
+          
+          <td data-content="drafted">drafted</td>
+          
+          <td data-content="gmail_send">gmail_send</td>
+          
+          <td data-content="sc_ac_01_step_01">sc_ac_01_step_01</td>
+          
+          <td data-content="6">6</td>
+          
+          <td data-content="Draft an email to tom@company.com saying I&#39;ll be 10 minutes late.">Draft an email to tom@company.com saying I&#39;ll be 10 minutes late.</td>
+          
+          <td data-content="gmail_send">gmail_send</td>
+          
+          <td data-content="sc_ac_01">sc_ac_01</td>
+          
+          <td data-content="step_01">step_01</td>
+          
+          <td data-content="[FAIL] (0.56, valid_json: 1.00, valid_eval_payload: 1.00, scenario_indicators: 1.00, required_tools: 0.00, expected_primary_tool: 0.00, expected_outcome: 0.00, turn_budget: 1.00, answer_quality: 0.50)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Draft an email to tom@company.com saying I&#39;ll be 10 minutes late.&quot;,&quot;maxTurns&quot;:6,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:&quot;eval-HX0-2026-02-26T16:21:47:sc_ac_01:gpt-5.2&quot;,&quot;finalText&quot;:&quot;Subject: Running 10 minutes late
+
+Hi Tom,  
+I’m running about 10 minutes late. Sorry for the inconvenience—I’ll be there shortly.
+
+Thanks,  
+[Your Name]&quot;,&quot;turns&quot;:1,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[]}
+
+Fail Reason: The response only provides the draft email content. It does not state what action occurred (e.g., that a draft to tom@company.com was created) or clearly report the outcome. It does not falsely claim success, and the draft itself is concise and clear.">[FAIL] (0.56, valid_json: 1.00, valid_eval_payload: 1.00, scenario_indicators: 1.00, required_tools: 0.00, expected_primary_tool: 0.00, expected_outcome: 0.00, turn_budget: 1.00, answer_quality: 0.50)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Draft an email to tom@company.com saying I&#39;ll be 10 minutes late.&quot;,&quot;maxTurns&quot;:6,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:&quot;eval-HX0-2026-02-26T16:21:47:sc_ac_01:gpt-5.2&quot;,&quot;finalText&quot;:&quot;Subject: Running 10 minutes late
+
+Hi Tom,  
+I’m running about 10 minutes late. Sorry for the inconvenience—I’ll be there shortly.
+
+Thanks,  
+[Your Name]&quot;,&quot;turns&quot;:1,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[]}
+
+Fail Reason: The response only provides the draft email content. It does not state what action occurred (e.g., that a draft to tom@company.com was created) or clearly report the outcome. It does not falsely claim success, and the draft itself is concise and clear.</td>
+          
+        </tr>
+        
+        <tr>
+          
+          <td data-content="sent_or_drafted">sent_or_drafted</td>
+          
+          <td data-content="gmail_send">gmail_send</td>
+          
+          <td data-content="sc_ac_01_step_02">sc_ac_01_step_02</td>
+          
+          <td data-content="6">6</td>
+          
+          <td data-content="Actually send it now.">Actually send it now.</td>
+          
+          <td data-content="gmail_send">gmail_send</td>
+          
+          <td data-content="sc_ac_01">sc_ac_01</td>
+          
+          <td data-content="step_02">step_02</td>
+          
+          <td data-content="[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, scenario_indicators: 1.00, required_tools: 1.00, expected_primary_tool: 1.00, expected_outcome: 1.00, turn_budget: 1.00, answer_quality: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Actually send it now.&quot;,&quot;maxTurns&quot;:6,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:&quot;eval-HX0-2026-02-26T16:21:47:sc_ac_01:gpt-5.2&quot;,&quot;finalText&quot;:&quot;Sent to tom@company.com.
+
+Subject: Running 10 minutes late  
+Body:
+Hi Tom,
+
+I’m running about 10 minutes late. Sorry for the inconvenience—I’ll be there shortly.
+
+Thanks,  
+[Your Name]&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_send&quot;,&quot;callId&quot;:&quot;call_GQQNdZGEicTc1jRRO4nFSFgO&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;mode&#92;&quot;:&#92;&quot;new&#92;&quot;,&#92;&quot;to&#92;&quot;:[&#92;&quot;tom@company.com&#92;&quot;],&#92;&quot;subject&#92;&quot;:&#92;&quot;Running 10 minutes late&#92;&quot;,&#92;&quot;bodyText&#92;&quot;:&#92;&quot;Hi Tom,&#92;
+&#92;
+I’m running about 10 minutes late. Sorry for the inconvenience—I’ll be there shortly.&#92;
+&#92;
+Thanks,&#92;
+[Your Name]&#92;
+&#92;&quot;}&quot;,&quot;parsedArguments&quot;:{&quot;mode&quot;:&quot;new&quot;,&quot;to&quot;:[&quot;tom@company.com&quot;],&quot;subject&quot;:&quot;Running 10 minutes late&quot;,&quot;bodyText&quot;:&quot;Hi Tom,
+
+I’m running about 10 minutes late. Sorry for the inconvenience—I’ll be there shortly.
+
+Thanks,
+[Your Name]
+&quot;},&quot;output&quot;:{&quot;data&quot;:{&quot;status&quot;:&quot;sent&quot;,&quot;mode&quot;:&quot;new&quot;,&quot;messageId&quot;:&quot;msg_mock_sent_0001&quot;,&quot;threadId&quot;:&quot;thread_mock_0001&quot;,&quot;draftId&quot;:null,&quot;policy&quot;:{&quot;enforcedDraft&quot;:false,&quot;blockedRecipients&quot;:[],&quot;whitelist&quot;:[&quot;owner@company.com&quot;,&quot;tom@company.com&quot;,&quot;anna@company.com&quot;,&quot;accounting@company.com&quot;,&quot;client@acme.com&quot;]}},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Message sent successfully (messageId=msg_mock_sent_0001).&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Open the sent or drafted message to verify final content.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_mock_sent_0001&quot;},&quot;confidence&quot;:0.58}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed">[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, scenario_indicators: 1.00, required_tools: 1.00, expected_primary_tool: 1.00, expected_outcome: 1.00, turn_budget: 1.00, answer_quality: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Actually send it now.&quot;,&quot;maxTurns&quot;:6,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:&quot;eval-HX0-2026-02-26T16:21:47:sc_ac_01:gpt-5.2&quot;,&quot;finalText&quot;:&quot;Sent to tom@company.com.
+
+Subject: Running 10 minutes late  
+Body:
+Hi Tom,
+
+I’m running about 10 minutes late. Sorry for the inconvenience—I’ll be there shortly.
+
+Thanks,  
+[Your Name]&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_send&quot;,&quot;callId&quot;:&quot;call_GQQNdZGEicTc1jRRO4nFSFgO&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;mode&#92;&quot;:&#92;&quot;new&#92;&quot;,&#92;&quot;to&#92;&quot;:[&#92;&quot;tom@company.com&#92;&quot;],&#92;&quot;subject&#92;&quot;:&#92;&quot;Running 10 minutes late&#92;&quot;,&#92;&quot;bodyText&#92;&quot;:&#92;&quot;Hi Tom,&#92;
+&#92;
+I’m running about 10 minutes late. Sorry for the inconvenience—I’ll be there shortly.&#92;
+&#92;
+Thanks,&#92;
+[Your Name]&#92;
+&#92;&quot;}&quot;,&quot;parsedArguments&quot;:{&quot;mode&quot;:&quot;new&quot;,&quot;to&quot;:[&quot;tom@company.com&quot;],&quot;subject&quot;:&quot;Running 10 minutes late&quot;,&quot;bodyText&quot;:&quot;Hi Tom,
+
+I’m running about 10 minutes late. Sorry for the inconvenience—I’ll be there shortly.
+
+Thanks,
+[Your Name]
+&quot;},&quot;output&quot;:{&quot;data&quot;:{&quot;status&quot;:&quot;sent&quot;,&quot;mode&quot;:&quot;new&quot;,&quot;messageId&quot;:&quot;msg_mock_sent_0001&quot;,&quot;threadId&quot;:&quot;thread_mock_0001&quot;,&quot;draftId&quot;:null,&quot;policy&quot;:{&quot;enforcedDraft&quot;:false,&quot;blockedRecipients&quot;:[],&quot;whitelist&quot;:[&quot;owner@company.com&quot;,&quot;tom@company.com&quot;,&quot;anna@company.com&quot;,&quot;accounting@company.com&quot;,&quot;client@acme.com&quot;]}},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Message sent successfully (messageId=msg_mock_sent_0001).&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Open the sent or drafted message to verify final content.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_mock_sent_0001&quot;},&quot;confidence&quot;:0.58}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed</td>
+          
+        </tr>
+        
+        <tr>
+          
+          <td data-content="search">search</td>
+          
+          <td data-content="gmail_search">gmail_search</td>
+          
+          <td data-content="sc_ac_02_step_01">sc_ac_02_step_01</td>
+          
+          <td data-content="6">6</td>
+          
+          <td data-content="Find Anna&#39;s latest email about budget.">Find Anna&#39;s latest email about budget.</td>
+          
+          <td data-content="gmail_search">gmail_search</td>
+          
+          <td data-content="sc_ac_02">sc_ac_02</td>
+          
+          <td data-content="step_01">step_01</td>
+          
+          <td data-content="[PASS] (0.99, valid_json: 1.00, valid_eval_payload: 1.00, scenario_indicators: 1.00, required_tools: 1.00, expected_primary_tool: 1.00, expected_outcome: 1.00, turn_budget: 1.00, answer_quality: 0.90)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Find Anna&#39;s latest email about budget.&quot;,&quot;maxTurns&quot;:6,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:&quot;eval-HX0-2026-02-26T16:21:47:sc_ac_02:gpt-5.2&quot;,&quot;finalText&quot;:&quot;Anna’s latest budget email is:
+
+- **From:** Anna &lt;anna@company.com&gt;  
+- **Subject:** *Budget approval request*  
+- **Received:** 2026-02-26 00:21 UTC  
+- **Body:** “Can you approve the budget line items? I need your sign-off today.”  
+- **Message ID:** msg_demo_010&quot;,&quot;turns&quot;:3,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_search&quot;,&quot;callId&quot;:&quot;call_bex9xD1rLkQzSCIAaGNQpiMw&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;query&#92;&quot;:&#92;&quot;from:anna subject:budget&#92;&quot;,&#92;&quot;limit&#92;&quot;:5,&#92;&quot;details&#92;&quot;:true}&quot;,&quot;parsedArguments&quot;:{&quot;query&quot;:&quot;from:anna subject:budget&quot;,&quot;limit&quot;:5,&quot;details&quot;:true},&quot;output&quot;:{&quot;data&quot;:{&quot;items&quot;:[{&quot;messageId&quot;:&quot;msg_demo_010&quot;,&quot;threadId&quot;:&quot;thread_demo_010&quot;,&quot;subject&quot;:&quot;Budget approval request&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-26T00:21:48.250Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;attachments&quot;:[]},{&quot;messageId&quot;:&quot;msg_demo_001&quot;,&quot;threadId&quot;:&quot;thread_demo_001&quot;,&quot;subject&quot;:&quot;Q3 budget update&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-25T03:21:48.250Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;attachments&quot;:[]}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Found 2 message(s).&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Load full content before quoting details to the user.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_demo_010&quot;},&quot;confidence&quot;:0.76}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}},{&quot;turn&quot;:2,&quot;name&quot;:&quot;gmail_read&quot;,&quot;callId&quot;:&quot;call_R6fDN0oErQU4ty9FXEd2Ljn0&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;id&#92;&quot;:&#92;&quot;msg_demo_010&#92;&quot;,&#92;&quot;details&#92;&quot;:true}&quot;,&quot;parsedArguments&quot;:{&quot;id&quot;:&quot;msg_demo_010&quot;,&quot;details&quot;:true},&quot;output&quot;:{&quot;data&quot;:{&quot;kind&quot;:&quot;message&quot;,&quot;threadId&quot;:&quot;thread_demo_010&quot;,&quot;subject&quot;:&quot;Budget approval request&quot;,&quot;messages&quot;:[{&quot;messageId&quot;:&quot;msg_demo_010&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-26T00:21:48.250Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;bodyText&quot;:&quot;Can you approve the budget line items? I need your sign-off today.&quot;,&quot;attachments&quot;:[]}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Loaded message &#92;&quot;Budget approval request&#92;&quot;.&quot;,&quot;nextActions&quot;:[],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed">[PASS] (0.99, valid_json: 1.00, valid_eval_payload: 1.00, scenario_indicators: 1.00, required_tools: 1.00, expected_primary_tool: 1.00, expected_outcome: 1.00, turn_budget: 1.00, answer_quality: 0.90)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Find Anna&#39;s latest email about budget.&quot;,&quot;maxTurns&quot;:6,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:&quot;eval-HX0-2026-02-26T16:21:47:sc_ac_02:gpt-5.2&quot;,&quot;finalText&quot;:&quot;Anna’s latest budget email is:
+
+- **From:** Anna &lt;anna@company.com&gt;  
+- **Subject:** *Budget approval request*  
+- **Received:** 2026-02-26 00:21 UTC  
+- **Body:** “Can you approve the budget line items? I need your sign-off today.”  
+- **Message ID:** msg_demo_010&quot;,&quot;turns&quot;:3,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_search&quot;,&quot;callId&quot;:&quot;call_bex9xD1rLkQzSCIAaGNQpiMw&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;query&#92;&quot;:&#92;&quot;from:anna subject:budget&#92;&quot;,&#92;&quot;limit&#92;&quot;:5,&#92;&quot;details&#92;&quot;:true}&quot;,&quot;parsedArguments&quot;:{&quot;query&quot;:&quot;from:anna subject:budget&quot;,&quot;limit&quot;:5,&quot;details&quot;:true},&quot;output&quot;:{&quot;data&quot;:{&quot;items&quot;:[{&quot;messageId&quot;:&quot;msg_demo_010&quot;,&quot;threadId&quot;:&quot;thread_demo_010&quot;,&quot;subject&quot;:&quot;Budget approval request&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-26T00:21:48.250Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;attachments&quot;:[]},{&quot;messageId&quot;:&quot;msg_demo_001&quot;,&quot;threadId&quot;:&quot;thread_demo_001&quot;,&quot;subject&quot;:&quot;Q3 budget update&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-25T03:21:48.250Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;attachments&quot;:[]}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Found 2 message(s).&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Load full content before quoting details to the user.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_demo_010&quot;},&quot;confidence&quot;:0.76}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}},{&quot;turn&quot;:2,&quot;name&quot;:&quot;gmail_read&quot;,&quot;callId&quot;:&quot;call_R6fDN0oErQU4ty9FXEd2Ljn0&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;id&#92;&quot;:&#92;&quot;msg_demo_010&#92;&quot;,&#92;&quot;details&#92;&quot;:true}&quot;,&quot;parsedArguments&quot;:{&quot;id&quot;:&quot;msg_demo_010&quot;,&quot;details&quot;:true},&quot;output&quot;:{&quot;data&quot;:{&quot;kind&quot;:&quot;message&quot;,&quot;threadId&quot;:&quot;thread_demo_010&quot;,&quot;subject&quot;:&quot;Budget approval request&quot;,&quot;messages&quot;:[{&quot;messageId&quot;:&quot;msg_demo_010&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-26T00:21:48.250Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;bodyText&quot;:&quot;Can you approve the budget line items? I need your sign-off today.&quot;,&quot;attachments&quot;:[]}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Loaded message &#92;&quot;Budget approval request&#92;&quot;.&quot;,&quot;nextActions&quot;:[],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed</td>
+          
+        </tr>
+        
+        <tr>
+          
+          <td data-content="send_call">send_call</td>
+          
+          <td data-content="gmail_send">gmail_send</td>
+          
+          <td data-content="sc_ac_02_step_02">sc_ac_02_step_02</td>
+          
+          <td data-content="7">7</td>
+          
+          <td data-content="Reply saying approved. Keep it short.">Reply saying approved. Keep it short.</td>
+          
+          <td data-content="gmail_send">gmail_send</td>
+          
+          <td data-content="sc_ac_02">sc_ac_02</td>
+          
+          <td data-content="step_02">step_02</td>
+          
+          <td data-content="[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, scenario_indicators: 1.00, required_tools: 1.00, expected_primary_tool: 1.00, expected_outcome: 1.00, turn_budget: 1.00, answer_quality: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Reply saying approved. Keep it short.&quot;,&quot;maxTurns&quot;:7,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:&quot;eval-HX0-2026-02-26T16:21:47:sc_ac_02:gpt-5.2&quot;,&quot;finalText&quot;:&quot;Replied to Anna: “Approved — thanks.”&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_send&quot;,&quot;callId&quot;:&quot;call_TNdxeRbAKlKHlZjjSLZksjtk&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;mode&#92;&quot;:&#92;&quot;reply&#92;&quot;,&#92;&quot;replyToMessageId&#92;&quot;:&#92;&quot;msg_demo_010&#92;&quot;,&#92;&quot;bodyText&#92;&quot;:&#92;&quot;Approved — thanks.&#92;&quot;}&quot;,&quot;parsedArguments&quot;:{&quot;mode&quot;:&quot;reply&quot;,&quot;bodyText&quot;:&quot;Approved — thanks.&quot;,&quot;replyToMessageId&quot;:&quot;msg_demo_010&quot;},&quot;output&quot;:{&quot;data&quot;:{&quot;status&quot;:&quot;sent&quot;,&quot;mode&quot;:&quot;reply&quot;,&quot;messageId&quot;:&quot;msg_mock_sent_0001&quot;,&quot;threadId&quot;:&quot;thread_demo_010&quot;,&quot;draftId&quot;:null,&quot;policy&quot;:{&quot;enforcedDraft&quot;:false,&quot;blockedRecipients&quot;:[],&quot;whitelist&quot;:[&quot;owner@company.com&quot;,&quot;tom@company.com&quot;,&quot;anna@company.com&quot;,&quot;accounting@company.com&quot;,&quot;client@acme.com&quot;]}},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Message sent successfully (messageId=msg_mock_sent_0001).&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Open the sent or drafted message to verify final content.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_mock_sent_0001&quot;},&quot;confidence&quot;:0.58}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed">[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, scenario_indicators: 1.00, required_tools: 1.00, expected_primary_tool: 1.00, expected_outcome: 1.00, turn_budget: 1.00, answer_quality: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Reply saying approved. Keep it short.&quot;,&quot;maxTurns&quot;:7,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:&quot;eval-HX0-2026-02-26T16:21:47:sc_ac_02:gpt-5.2&quot;,&quot;finalText&quot;:&quot;Replied to Anna: “Approved — thanks.”&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_send&quot;,&quot;callId&quot;:&quot;call_TNdxeRbAKlKHlZjjSLZksjtk&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;mode&#92;&quot;:&#92;&quot;reply&#92;&quot;,&#92;&quot;replyToMessageId&#92;&quot;:&#92;&quot;msg_demo_010&#92;&quot;,&#92;&quot;bodyText&#92;&quot;:&#92;&quot;Approved — thanks.&#92;&quot;}&quot;,&quot;parsedArguments&quot;:{&quot;mode&quot;:&quot;reply&quot;,&quot;bodyText&quot;:&quot;Approved — thanks.&quot;,&quot;replyToMessageId&quot;:&quot;msg_demo_010&quot;},&quot;output&quot;:{&quot;data&quot;:{&quot;status&quot;:&quot;sent&quot;,&quot;mode&quot;:&quot;reply&quot;,&quot;messageId&quot;:&quot;msg_mock_sent_0001&quot;,&quot;threadId&quot;:&quot;thread_demo_010&quot;,&quot;draftId&quot;:null,&quot;policy&quot;:{&quot;enforcedDraft&quot;:false,&quot;blockedRecipients&quot;:[],&quot;whitelist&quot;:[&quot;owner@company.com&quot;,&quot;tom@company.com&quot;,&quot;anna@company.com&quot;,&quot;accounting@company.com&quot;,&quot;client@acme.com&quot;]}},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Message sent successfully (messageId=msg_mock_sent_0001).&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Open the sent or drafted message to verify final content.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_mock_sent_0001&quot;},&quot;confidence&quot;:0.58}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed</td>
+          
+        </tr>
+        
+        <tr>
+          
+          <td data-content="search">search</td>
+          
+          <td data-content="gmail_search">gmail_search</td>
+          
+          <td data-content="sc_ac_03_step_01">sc_ac_03_step_01</td>
+          
+          <td data-content="6">6</td>
+          
+          <td data-content="Find the latest newsletter email.">Find the latest newsletter email.</td>
+          
+          <td data-content="gmail_search">gmail_search</td>
+          
+          <td data-content="sc_ac_03">sc_ac_03</td>
+          
+          <td data-content="step_01">step_01</td>
+          
+          <td data-content="[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, scenario_indicators: 1.00, required_tools: 1.00, expected_primary_tool: 1.00, expected_outcome: 1.00, turn_budget: 1.00, answer_quality: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Find the latest newsletter email.&quot;,&quot;maxTurns&quot;:6,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:&quot;eval-HX0-2026-02-26T16:21:47:sc_ac_03:gpt-5.2&quot;,&quot;finalText&quot;:&quot;Latest newsletter email found:
+
+- **Subject:** Weekly newsletter: product updates  
+- **From:** Newsletters &lt;newsletter@updates.example.com&gt;  
+- **Received:** 2026-01-17 23:21:48 UTC  
+- **Message ID:** msg_news_001 (Thread: thread_news_001)  
+- **Labels:** inbox, unread, promotions&quot;,&quot;turns&quot;:3,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_search&quot;,&quot;callId&quot;:&quot;call_YbQTpBpRarTc2skD0b0oX5tV&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;query&#92;&quot;:&#92;&quot;category:updates OR list:(*@*) OR subject:(newsletter)&#92;&quot;,&#92;&quot;limit&#92;&quot;:10,&#92;&quot;details&#92;&quot;:true}&quot;,&quot;parsedArguments&quot;:{&quot;query&quot;:&quot;category:updates OR list:(*@*) OR subject:(newsletter)&quot;,&quot;limit&quot;:10,&quot;details&quot;:true},&quot;output&quot;:{&quot;data&quot;:{&quot;items&quot;:[]},&quot;hint&quot;:{&quot;status&quot;:&quot;empty&quot;,&quot;reasonCode&quot;:&quot;NO_RESULTS&quot;,&quot;summary&quot;:&quot;No messages found for query &#92;&quot;category:updates OR list:(*@*) OR subject:(newsletter)&#92;&quot;.&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_search&quot;,&quot;why&quot;:&quot;A broader query may return results.&quot;,&quot;args&quot;:{&quot;query&quot;:&quot;OR list:(*@*) OR )&quot;,&quot;limit&quot;:20},&quot;confidence&quot;:0.63}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}},{&quot;turn&quot;:2,&quot;name&quot;:&quot;gmail_search&quot;,&quot;callId&quot;:&quot;call_HBCpAjdtQvyUEe0Up71g0zY9&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;query&#92;&quot;:&#92;&quot;&#92;&quot;,&#92;&quot;limit&#92;&quot;:20,&#92;&quot;details&#92;&quot;:true}&quot;,&quot;parsedArguments&quot;:{&quot;query&quot;:&quot;&quot;,&quot;limit&quot;:20,&quot;details&quot;:true},&quot;output&quot;:{&quot;data&quot;:{&quot;items&quot;:[{&quot;messageId&quot;:&quot;msg_client_reply_001&quot;,&quot;threadId&quot;:&quot;thread_client_001&quot;,&quot;subject&quot;:&quot;Re: Proposal follow-up&quot;,&quot;sender&quot;:&quot;Client &lt;client@acme.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-26T08:21:48.248Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;attachments&quot;:[]},{&quot;messageId&quot;:&quot;msg_onboarding_001&quot;,&quot;threadId&quot;:&quot;thread_onboarding_001&quot;,&quot;subject&quot;:&quot;Onboarding package&quot;,&quot;sender&quot;:&quot;HR &lt;hr@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-26T04:21:48.248Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;attachments&quot;:[{&quot;attachmentId&quot;:&quot;att_onboarding_guide&quot;,&quot;filename&quot;:&quot;onboarding-guide.pdf&quot;,&quot;mimeType&quot;:&quot;application/pdf&quot;,&quot;size&quot;:45},{&quot;attachmentId&quot;:&quot;att_onboarding_plan&quot;,&quot;filename&quot;:&quot;week1-plan.xlsx&quot;,&quot;mimeType&quot;:&quot;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet&quot;,&quot;size&quot;:46}]},{&quot;messageId&quot;:&quot;msg_demo_010&quot;,&quot;threadId&quot;:&quot;thread_demo_010&quot;,&quot;subject&quot;:&quot;Budget approval request&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-26T00:21:48.248Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;attachments&quot;:[]},{&quot;messageId&quot;:&quot;msg_client_sent_001&quot;,&quot;threadId&quot;:&quot;thread_client_001&quot;,&quot;subject&quot;:&quot;Proposal follow-up&quot;,&quot;sender&quot;:&quot;owner@company.com&quot;,&quot;recipients&quot;:[&quot;client@acme.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-25T07:21:48.248Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:true,&quot;labels&quot;:[&quot;sent&quot;],&quot;attachments&quot;:[]},{&quot;messageId&quot;:&quot;msg_demo_001&quot;,&quot;threadId&quot;:&quot;thread_demo_001&quot;,&quot;subject&quot;:&quot;Q3 budget update&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-25T03:21:48.248Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;attachments&quot;:[]},{&quot;messageId&quot;:&quot;msg_invoice_anna_001&quot;,&quot;threadId&quot;:&quot;thread_invoice_anna_001&quot;,&quot;subject&quot;:&quot;Anna invoice confirmation&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-24T06:21:48.248Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;attachments&quot;:[{&quot;attachmentId&quot;:&quot;att_demo_pdf&quot;,&quot;filename&quot;:&quot;invoice-2026-02.pdf&quot;,&quot;mimeType&quot;:&quot;application/pdf&quot;,&quot;size&quot;:36}]},{&quot;messageId&quot;:&quot;msg_demo_002_b&quot;,&quot;threadId&quot;:&quot;thread_demo_002&quot;,&quot;subject&quot;:&quot;Re: API credentials handoff&quot;,&quot;sender&quot;:&quot;owner@company.com&quot;,&quot;recipients&quot;:[&quot;sarah@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-24T01:21:48.248Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:true,&quot;labels&quot;:[&quot;sent&quot;],&quot;attachments&quot;:[]},{&quot;messageId&quot;:&quot;msg_demo_002&quot;,&quot;threadId&quot;:&quot;thread_demo_002&quot;,&quot;subject&quot;:&quot;API credentials handoff&quot;,&quot;sender&quot;:&quot;Sarah &lt;sarah@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-23T02:21:48.248Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:true,&quot;labels&quot;:[&quot;inbox&quot;],&quot;attachments&quot;:[]},{&quot;messageId&quot;:&quot;msg_demo_011&quot;,&quot;threadId&quot;:&quot;thread_demo_011&quot;,&quot;subject&quot;:&quot;Invoice 2026-02&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-22T05:21:48.248Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;attachments&quot;:[{&quot;attachmentId&quot;:&quot;att_demo_pdf&quot;,&quot;filename&quot;:&quot;invoice-2026-02.pdf&quot;,&quot;mimeType&quot;:&quot;application/pdf&quot;,&quot;size&quot;:36}]},{&quot;messageId&quot;:&quot;msg_demo_100&quot;,&quot;threadId&quot;:&quot;thread_demo_100&quot;,&quot;subject&quot;:&quot;Project files&quot;,&quot;sender&quot;:&quot;Ops Bot &lt;ops@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-21T01:21:48.248Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;attachments&quot;:[{&quot;attachmentId&quot;:&quot;att_demo_100&quot;,&quot;filename&quot;:&quot;agenda.txt&quot;,&quot;mimeType&quot;:&quot;text/plain&quot;,&quot;size&quot;:49}]},{&quot;messageId&quot;:&quot;msg_demo_101&quot;,&quot;threadId&quot;:&quot;thread_demo_101&quot;,&quot;subject&quot;:&quot;Archive/trash sample&quot;,&quot;sender&quot;:&quot;Ops Bot &lt;ops@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-20T01:21:48.248Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:true,&quot;labels&quot;:[&quot;inbox&quot;],&quot;attachments&quot;:[]},{&quot;messageId&quot;:&quot;msg_demo_102&quot;,&quot;threadId&quot;:&quot;thread_demo_102&quot;,&quot;subject&quot;:&quot;Label sample thread&quot;,&quot;sender&quot;:&quot;Ops Bot &lt;ops@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-19T01:21:48.248Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:true,&quot;labels&quot;:[&quot;inbox&quot;],&quot;attachments&quot;:[]},{&quot;messageId&quot;:&quot;msg_demo_200&quot;,&quot;threadId&quot;:&quot;thread_demo_200&quot;,&quot;subject&quot;:&quot;Attachment sample PDF&quot;,&quot;sender&quot;:&quot;Billing &lt;billing@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-18T01:21:48.248Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:true,&quot;labels&quot;:[&quot;inbox&quot;],&quot;attachments&quot;:[{&quot;attachmentId&quot;:&quot;att_demo_pdf&quot;,&quot;filename&quot;:&quot;invoice-2026-02.pdf&quot;,&quot;mimeType&quot;:&quot;application/pdf&quot;,&quot;size&quot;:36}]},{&quot;messageId&quot;:&quot;msg_demo_300&quot;,&quot;threadId&quot;:&quot;thread_demo_300&quot;,&quot;subject&quot;:&quot;Attachment sample CSV&quot;,&quot;sender&quot;:&quot;Data Team &lt;data@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-17T01:21:48.248Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:true,&quot;labels&quot;:[&quot;inbox&quot;],&quot;attachments&quot;:[{&quot;attachmentId&quot;:&quot;att_demo_csv&quot;,&quot;filename&quot;:&quot;report.csv&quot;,&quot;mimeType&quot;:&quot;text/csv&quot;,&quot;size&quot;:27}]},{&quot;messageId&quot;:&quot;msg_news_001&quot;,&quot;threadId&quot;:&quot;thread_news_001&quot;,&quot;subject&quot;:&quot;Weekly newsletter: product updates&quot;,&quot;sender&quot;:&quot;Newsletters &lt;newsletter@updates.example.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-01-17T23:21:48.248Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;,&quot;promotions&quot;],&quot;attachments&quot;:[]}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Found 15 message(s).&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Load full content before quoting details to the user.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_client_reply_001&quot;},&quot;confidence&quot;:0.76}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed">[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, scenario_indicators: 1.00, required_tools: 1.00, expected_primary_tool: 1.00, expected_outcome: 1.00, turn_budget: 1.00, answer_quality: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Find the latest newsletter email.&quot;,&quot;maxTurns&quot;:6,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:&quot;eval-HX0-2026-02-26T16:21:47:sc_ac_03:gpt-5.2&quot;,&quot;finalText&quot;:&quot;Latest newsletter email found:
+
+- **Subject:** Weekly newsletter: product updates  
+- **From:** Newsletters &lt;newsletter@updates.example.com&gt;  
+- **Received:** 2026-01-17 23:21:48 UTC  
+- **Message ID:** msg_news_001 (Thread: thread_news_001)  
+- **Labels:** inbox, unread, promotions&quot;,&quot;turns&quot;:3,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_search&quot;,&quot;callId&quot;:&quot;call_YbQTpBpRarTc2skD0b0oX5tV&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;query&#92;&quot;:&#92;&quot;category:updates OR list:(*@*) OR subject:(newsletter)&#92;&quot;,&#92;&quot;limit&#92;&quot;:10,&#92;&quot;details&#92;&quot;:true}&quot;,&quot;parsedArguments&quot;:{&quot;query&quot;:&quot;category:updates OR list:(*@*) OR subject:(newsletter)&quot;,&quot;limit&quot;:10,&quot;details&quot;:true},&quot;output&quot;:{&quot;data&quot;:{&quot;items&quot;:[]},&quot;hint&quot;:{&quot;status&quot;:&quot;empty&quot;,&quot;reasonCode&quot;:&quot;NO_RESULTS&quot;,&quot;summary&quot;:&quot;No messages found for query &#92;&quot;category:updates OR list:(*@*) OR subject:(newsletter)&#92;&quot;.&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_search&quot;,&quot;why&quot;:&quot;A broader query may return results.&quot;,&quot;args&quot;:{&quot;query&quot;:&quot;OR list:(*@*) OR )&quot;,&quot;limit&quot;:20},&quot;confidence&quot;:0.63}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}},{&quot;turn&quot;:2,&quot;name&quot;:&quot;gmail_search&quot;,&quot;callId&quot;:&quot;call_HBCpAjdtQvyUEe0Up71g0zY9&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;query&#92;&quot;:&#92;&quot;&#92;&quot;,&#92;&quot;limit&#92;&quot;:20,&#92;&quot;details&#92;&quot;:true}&quot;,&quot;parsedArguments&quot;:{&quot;query&quot;:&quot;&quot;,&quot;limit&quot;:20,&quot;details&quot;:true},&quot;output&quot;:{&quot;data&quot;:{&quot;items&quot;:[{&quot;messageId&quot;:&quot;msg_client_reply_001&quot;,&quot;threadId&quot;:&quot;thread_client_001&quot;,&quot;subject&quot;:&quot;Re: Proposal follow-up&quot;,&quot;sender&quot;:&quot;Client &lt;client@acme.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-26T08:21:48.248Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;attachments&quot;:[]},{&quot;messageId&quot;:&quot;msg_onboarding_001&quot;,&quot;threadId&quot;:&quot;thread_onboarding_001&quot;,&quot;subject&quot;:&quot;Onboarding package&quot;,&quot;sender&quot;:&quot;HR &lt;hr@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-26T04:21:48.248Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;attachments&quot;:[{&quot;attachmentId&quot;:&quot;att_onboarding_guide&quot;,&quot;filename&quot;:&quot;onboarding-guide.pdf&quot;,&quot;mimeType&quot;:&quot;application/pdf&quot;,&quot;size&quot;:45},{&quot;attachmentId&quot;:&quot;att_onboarding_plan&quot;,&quot;filename&quot;:&quot;week1-plan.xlsx&quot;,&quot;mimeType&quot;:&quot;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet&quot;,&quot;size&quot;:46}]},{&quot;messageId&quot;:&quot;msg_demo_010&quot;,&quot;threadId&quot;:&quot;thread_demo_010&quot;,&quot;subject&quot;:&quot;Budget approval request&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-26T00:21:48.248Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;attachments&quot;:[]},{&quot;messageId&quot;:&quot;msg_client_sent_001&quot;,&quot;threadId&quot;:&quot;thread_client_001&quot;,&quot;subject&quot;:&quot;Proposal follow-up&quot;,&quot;sender&quot;:&quot;owner@company.com&quot;,&quot;recipients&quot;:[&quot;client@acme.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-25T07:21:48.248Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:true,&quot;labels&quot;:[&quot;sent&quot;],&quot;attachments&quot;:[]},{&quot;messageId&quot;:&quot;msg_demo_001&quot;,&quot;threadId&quot;:&quot;thread_demo_001&quot;,&quot;subject&quot;:&quot;Q3 budget update&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-25T03:21:48.248Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;attachments&quot;:[]},{&quot;messageId&quot;:&quot;msg_invoice_anna_001&quot;,&quot;threadId&quot;:&quot;thread_invoice_anna_001&quot;,&quot;subject&quot;:&quot;Anna invoice confirmation&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-24T06:21:48.248Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;attachments&quot;:[{&quot;attachmentId&quot;:&quot;att_demo_pdf&quot;,&quot;filename&quot;:&quot;invoice-2026-02.pdf&quot;,&quot;mimeType&quot;:&quot;application/pdf&quot;,&quot;size&quot;:36}]},{&quot;messageId&quot;:&quot;msg_demo_002_b&quot;,&quot;threadId&quot;:&quot;thread_demo_002&quot;,&quot;subject&quot;:&quot;Re: API credentials handoff&quot;,&quot;sender&quot;:&quot;owner@company.com&quot;,&quot;recipients&quot;:[&quot;sarah@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-24T01:21:48.248Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:true,&quot;labels&quot;:[&quot;sent&quot;],&quot;attachments&quot;:[]},{&quot;messageId&quot;:&quot;msg_demo_002&quot;,&quot;threadId&quot;:&quot;thread_demo_002&quot;,&quot;subject&quot;:&quot;API credentials handoff&quot;,&quot;sender&quot;:&quot;Sarah &lt;sarah@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-23T02:21:48.248Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:true,&quot;labels&quot;:[&quot;inbox&quot;],&quot;attachments&quot;:[]},{&quot;messageId&quot;:&quot;msg_demo_011&quot;,&quot;threadId&quot;:&quot;thread_demo_011&quot;,&quot;subject&quot;:&quot;Invoice 2026-02&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-22T05:21:48.248Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;attachments&quot;:[{&quot;attachmentId&quot;:&quot;att_demo_pdf&quot;,&quot;filename&quot;:&quot;invoice-2026-02.pdf&quot;,&quot;mimeType&quot;:&quot;application/pdf&quot;,&quot;size&quot;:36}]},{&quot;messageId&quot;:&quot;msg_demo_100&quot;,&quot;threadId&quot;:&quot;thread_demo_100&quot;,&quot;subject&quot;:&quot;Project files&quot;,&quot;sender&quot;:&quot;Ops Bot &lt;ops@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-21T01:21:48.248Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;attachments&quot;:[{&quot;attachmentId&quot;:&quot;att_demo_100&quot;,&quot;filename&quot;:&quot;agenda.txt&quot;,&quot;mimeType&quot;:&quot;text/plain&quot;,&quot;size&quot;:49}]},{&quot;messageId&quot;:&quot;msg_demo_101&quot;,&quot;threadId&quot;:&quot;thread_demo_101&quot;,&quot;subject&quot;:&quot;Archive/trash sample&quot;,&quot;sender&quot;:&quot;Ops Bot &lt;ops@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-20T01:21:48.248Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:true,&quot;labels&quot;:[&quot;inbox&quot;],&quot;attachments&quot;:[]},{&quot;messageId&quot;:&quot;msg_demo_102&quot;,&quot;threadId&quot;:&quot;thread_demo_102&quot;,&quot;subject&quot;:&quot;Label sample thread&quot;,&quot;sender&quot;:&quot;Ops Bot &lt;ops@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-19T01:21:48.248Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:true,&quot;labels&quot;:[&quot;inbox&quot;],&quot;attachments&quot;:[]},{&quot;messageId&quot;:&quot;msg_demo_200&quot;,&quot;threadId&quot;:&quot;thread_demo_200&quot;,&quot;subject&quot;:&quot;Attachment sample PDF&quot;,&quot;sender&quot;:&quot;Billing &lt;billing@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-18T01:21:48.248Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:true,&quot;labels&quot;:[&quot;inbox&quot;],&quot;attachments&quot;:[{&quot;attachmentId&quot;:&quot;att_demo_pdf&quot;,&quot;filename&quot;:&quot;invoice-2026-02.pdf&quot;,&quot;mimeType&quot;:&quot;application/pdf&quot;,&quot;size&quot;:36}]},{&quot;messageId&quot;:&quot;msg_demo_300&quot;,&quot;threadId&quot;:&quot;thread_demo_300&quot;,&quot;subject&quot;:&quot;Attachment sample CSV&quot;,&quot;sender&quot;:&quot;Data Team &lt;data@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-17T01:21:48.248Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:true,&quot;labels&quot;:[&quot;inbox&quot;],&quot;attachments&quot;:[{&quot;attachmentId&quot;:&quot;att_demo_csv&quot;,&quot;filename&quot;:&quot;report.csv&quot;,&quot;mimeType&quot;:&quot;text/csv&quot;,&quot;size&quot;:27}]},{&quot;messageId&quot;:&quot;msg_news_001&quot;,&quot;threadId&quot;:&quot;thread_news_001&quot;,&quot;subject&quot;:&quot;Weekly newsletter: product updates&quot;,&quot;sender&quot;:&quot;Newsletters &lt;newsletter@updates.example.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-01-17T23:21:48.248Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;,&quot;promotions&quot;],&quot;attachments&quot;:[]}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Found 15 message(s).&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Load full content before quoting details to the user.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_client_reply_001&quot;},&quot;confidence&quot;:0.76}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed</td>
+          
+        </tr>
+        
+        <tr>
+          
+          <td data-content="modified">modified</td>
+          
+          <td data-content="gmail_modify">gmail_modify</td>
+          
+          <td data-content="sc_ac_03_step_02">sc_ac_03_step_02</td>
+          
+          <td data-content="6">6</td>
+          
+          <td data-content="Mark that thread as read.">Mark that thread as read.</td>
+          
+          <td data-content="gmail_modify">gmail_modify</td>
+          
+          <td data-content="sc_ac_03">sc_ac_03</td>
+          
+          <td data-content="step_02">step_02</td>
+          
+          <td data-content="[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, scenario_indicators: 1.00, required_tools: 1.00, expected_primary_tool: 1.00, expected_outcome: 1.00, turn_budget: 1.00, answer_quality: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Mark that thread as read.&quot;,&quot;maxTurns&quot;:6,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:&quot;eval-HX0-2026-02-26T16:21:47:sc_ac_03:gpt-5.2&quot;,&quot;finalText&quot;:&quot;Done — I marked the newsletter thread (**thread_news_001**) as **read**.&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_modify&quot;,&quot;callId&quot;:&quot;call_d06cVja18MEy8CspSFYdZD5T&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;kind&#92;&quot;:&#92;&quot;thread&#92;&quot;,&#92;&quot;id&#92;&quot;:&#92;&quot;thread_news_001&#92;&quot;,&#92;&quot;action&#92;&quot;:&#92;&quot;markRead&#92;&quot;}&quot;,&quot;parsedArguments&quot;:{&quot;kind&quot;:&quot;thread&quot;,&quot;id&quot;:&quot;thread_news_001&quot;,&quot;action&quot;:&quot;markRead&quot;},&quot;output&quot;:{&quot;data&quot;:{&quot;kind&quot;:&quot;thread&quot;,&quot;id&quot;:&quot;thread_news_001&quot;,&quot;appliedAction&quot;:&quot;markRead&quot;,&quot;labels&quot;:[&quot;inbox&quot;,&quot;promotions&quot;],&quot;updatedState&quot;:{&quot;labels&quot;:[&quot;inbox&quot;,&quot;promotions&quot;],&quot;isRead&quot;:true,&quot;inInbox&quot;:true,&quot;inTrash&quot;:false,&quot;isDraft&quot;:false},&quot;applied&quot;:{&quot;action&quot;:&quot;markRead&quot;}},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;thread &#92;&quot;thread_news_001&#92;&quot; updated with action &#92;&quot;markRead&#92;&quot;. isRead=true, inInbox=true, inTrash=false, isDraft=false.&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Re-open the updated target if you need full message content after this state change.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;thread_news_001&quot;,&quot;details&quot;:true},&quot;confidence&quot;:0.55}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed">[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, scenario_indicators: 1.00, required_tools: 1.00, expected_primary_tool: 1.00, expected_outcome: 1.00, turn_budget: 1.00, answer_quality: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Mark that thread as read.&quot;,&quot;maxTurns&quot;:6,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:&quot;eval-HX0-2026-02-26T16:21:47:sc_ac_03:gpt-5.2&quot;,&quot;finalText&quot;:&quot;Done — I marked the newsletter thread (**thread_news_001**) as **read**.&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_modify&quot;,&quot;callId&quot;:&quot;call_d06cVja18MEy8CspSFYdZD5T&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;kind&#92;&quot;:&#92;&quot;thread&#92;&quot;,&#92;&quot;id&#92;&quot;:&#92;&quot;thread_news_001&#92;&quot;,&#92;&quot;action&#92;&quot;:&#92;&quot;markRead&#92;&quot;}&quot;,&quot;parsedArguments&quot;:{&quot;kind&quot;:&quot;thread&quot;,&quot;id&quot;:&quot;thread_news_001&quot;,&quot;action&quot;:&quot;markRead&quot;},&quot;output&quot;:{&quot;data&quot;:{&quot;kind&quot;:&quot;thread&quot;,&quot;id&quot;:&quot;thread_news_001&quot;,&quot;appliedAction&quot;:&quot;markRead&quot;,&quot;labels&quot;:[&quot;inbox&quot;,&quot;promotions&quot;],&quot;updatedState&quot;:{&quot;labels&quot;:[&quot;inbox&quot;,&quot;promotions&quot;],&quot;isRead&quot;:true,&quot;inInbox&quot;:true,&quot;inTrash&quot;:false,&quot;isDraft&quot;:false},&quot;applied&quot;:{&quot;action&quot;:&quot;markRead&quot;}},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;thread &#92;&quot;thread_news_001&#92;&quot; updated with action &#92;&quot;markRead&#92;&quot;. isRead=true, inInbox=true, inTrash=false, isDraft=false.&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Re-open the updated target if you need full message content after this state change.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;thread_news_001&quot;,&quot;details&quot;:true},&quot;confidence&quot;:0.55}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed</td>
+          
+        </tr>
+        
+        <tr>
+          
+          <td data-content="modified">modified</td>
+          
+          <td data-content="gmail_modify">gmail_modify</td>
+          
+          <td data-content="sc_ac_03_step_03">sc_ac_03_step_03</td>
+          
+          <td data-content="6">6</td>
+          
+          <td data-content="Archive it too.">Archive it too.</td>
+          
+          <td data-content="gmail_modify">gmail_modify</td>
+          
+          <td data-content="sc_ac_03">sc_ac_03</td>
+          
+          <td data-content="step_03">step_03</td>
+          
+          <td data-content="[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, scenario_indicators: 1.00, required_tools: 1.00, expected_primary_tool: 1.00, expected_outcome: 1.00, turn_budget: 1.00, answer_quality: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Archive it too.&quot;,&quot;maxTurns&quot;:6,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:&quot;eval-HX0-2026-02-26T16:21:47:sc_ac_03:gpt-5.2&quot;,&quot;finalText&quot;:&quot;Archived **thread_news_001**.&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_modify&quot;,&quot;callId&quot;:&quot;call_ybJWl241q22HPRCSF1Vf5f9X&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;kind&#92;&quot;:&#92;&quot;thread&#92;&quot;,&#92;&quot;id&#92;&quot;:&#92;&quot;thread_news_001&#92;&quot;,&#92;&quot;action&#92;&quot;:&#92;&quot;archive&#92;&quot;}&quot;,&quot;parsedArguments&quot;:{&quot;kind&quot;:&quot;thread&quot;,&quot;id&quot;:&quot;thread_news_001&quot;,&quot;action&quot;:&quot;archive&quot;},&quot;output&quot;:{&quot;data&quot;:{&quot;kind&quot;:&quot;thread&quot;,&quot;id&quot;:&quot;thread_news_001&quot;,&quot;appliedAction&quot;:&quot;archive&quot;,&quot;labels&quot;:[&quot;unread&quot;,&quot;promotions&quot;],&quot;updatedState&quot;:{&quot;labels&quot;:[&quot;unread&quot;,&quot;promotions&quot;],&quot;isRead&quot;:false,&quot;inInbox&quot;:false,&quot;inTrash&quot;:false,&quot;isDraft&quot;:false},&quot;applied&quot;:{&quot;action&quot;:&quot;archive&quot;}},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;thread &#92;&quot;thread_news_001&#92;&quot; updated with action &#92;&quot;archive&#92;&quot;. isRead=false, inInbox=false, inTrash=false, isDraft=false.&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Re-open the updated target if you need full message content after this state change.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;thread_news_001&quot;,&quot;details&quot;:true},&quot;confidence&quot;:0.55}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed">[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, scenario_indicators: 1.00, required_tools: 1.00, expected_primary_tool: 1.00, expected_outcome: 1.00, turn_budget: 1.00, answer_quality: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Archive it too.&quot;,&quot;maxTurns&quot;:6,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:&quot;eval-HX0-2026-02-26T16:21:47:sc_ac_03:gpt-5.2&quot;,&quot;finalText&quot;:&quot;Archived **thread_news_001**.&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_modify&quot;,&quot;callId&quot;:&quot;call_ybJWl241q22HPRCSF1Vf5f9X&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;kind&#92;&quot;:&#92;&quot;thread&#92;&quot;,&#92;&quot;id&#92;&quot;:&#92;&quot;thread_news_001&#92;&quot;,&#92;&quot;action&#92;&quot;:&#92;&quot;archive&#92;&quot;}&quot;,&quot;parsedArguments&quot;:{&quot;kind&quot;:&quot;thread&quot;,&quot;id&quot;:&quot;thread_news_001&quot;,&quot;action&quot;:&quot;archive&quot;},&quot;output&quot;:{&quot;data&quot;:{&quot;kind&quot;:&quot;thread&quot;,&quot;id&quot;:&quot;thread_news_001&quot;,&quot;appliedAction&quot;:&quot;archive&quot;,&quot;labels&quot;:[&quot;unread&quot;,&quot;promotions&quot;],&quot;updatedState&quot;:{&quot;labels&quot;:[&quot;unread&quot;,&quot;promotions&quot;],&quot;isRead&quot;:false,&quot;inInbox&quot;:false,&quot;inTrash&quot;:false,&quot;isDraft&quot;:false},&quot;applied&quot;:{&quot;action&quot;:&quot;archive&quot;}},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;thread &#92;&quot;thread_news_001&#92;&quot; updated with action &#92;&quot;archive&#92;&quot;. isRead=false, inInbox=false, inTrash=false, isDraft=false.&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Re-open the updated target if you need full message content after this state change.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;thread_news_001&quot;,&quot;details&quot;:true},&quot;confidence&quot;:0.55}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed</td>
+          
+        </tr>
+        
+      </tbody>
+    </table>
+  </body>
+</html>

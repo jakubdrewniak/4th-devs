@@ -1,0 +1,3834 @@
+{
+  "generatedAt": "2026-02-26T10:04:32.600Z",
+  "accountEmail": "alice@overment.com",
+  "options": {
+    "queries": [
+      "overment",
+      "is:draft",
+      "has:attachment",
+      "in:inbox is:unread",
+      "in:sent newer_than:30d",
+      "subject:(invoice OR faktura)"
+    ],
+    "limit": 4,
+    "sampleMessages": 2,
+    "outDir": "/Users/overment/playground/devs/03_04_gmail/workspace/probes"
+  },
+  "probes": {
+    "profile": {
+      "shape": {
+        "type": "object",
+        "keys": {
+          "emailAddress": "string",
+          "messagesTotal": "number",
+          "threadsTotal": "number",
+          "historyId": "string"
+        }
+      },
+      "sample": {
+        "emailAddress": "alice@overment.com",
+        "messagesTotal": 1290,
+        "threadsTotal": 1186,
+        "historyId": "113222"
+      }
+    },
+    "labelsList": {
+      "shape": {
+        "type": "object",
+        "keys": {
+          "labels": {
+            "type": "array",
+            "length": 26,
+            "itemTypes": [
+              "object"
+            ],
+            "itemShape": {
+              "type": "object",
+              "keys": {
+                "id": "string",
+                "name": "string",
+                "messageListVisibility": "string",
+                "labelListVisibility": "string",
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "sample": {
+        "labels": [
+          {
+            "id": "CHAT",
+            "name": "CHAT",
+            "messageListVisibility": "hide",
+            "labelListVisibility": "labelHide",
+            "type": "system"
+          },
+          {
+            "id": "SENT",
+            "name": "SENT",
+            "type": "system"
+          },
+          {
+            "id": "INBOX",
+            "name": "INBOX",
+            "type": "system"
+          },
+          {
+            "id": "IMPORTANT",
+            "name": "IMPORTANT",
+            "messageListVisibility": "hide",
+            "labelListVisibility": "labelHide",
+            "type": "system"
+          },
+          {
+            "id": "TRASH",
+            "name": "TRASH",
+            "messageListVisibility": "hide",
+            "labelListVisibility": "labelHide",
+            "type": "system"
+          },
+          {
+            "id": "DRAFT",
+            "name": "DRAFT",
+            "type": "system"
+          },
+          {
+            "id": "SPAM",
+            "name": "SPAM",
+            "messageListVisibility": "hide",
+            "labelListVisibility": "labelHide",
+            "type": "system"
+          },
+          {
+            "id": "CATEGORY_FORUMS",
+            "name": "CATEGORY_FORUMS",
+            "messageListVisibility": "hide",
+            "labelListVisibility": "labelHide",
+            "type": "system"
+          },
+          "... (18 more items)"
+        ]
+      }
+    },
+    "draftsList": {
+      "shape": {
+        "type": "object",
+        "keys": {
+          "drafts": {
+            "type": "array",
+            "length": 1,
+            "itemTypes": [
+              "object"
+            ],
+            "itemShape": {
+              "type": "object",
+              "keys": {
+                "id": "string",
+                "message": {
+                  "type": "object",
+                  "keys": {
+                    "id": "string",
+                    "threadId": "string"
+                  }
+                }
+              }
+            }
+          },
+          "resultSizeEstimate": "number"
+        }
+      },
+      "sample": {
+        "drafts": [
+          {
+            "id": "r6567890693997783722",
+            "message": {
+              "id": "19c96699a6a6cd12",
+              "threadId": "19c96699a6a6cd12"
+            }
+          }
+        ],
+        "resultSizeEstimate": 1
+      }
+    },
+    "draftSample": {
+      "shape": {
+        "type": "object",
+        "keys": {
+          "id": "string",
+          "message": {
+            "type": "object",
+            "keys": {
+              "id": "string",
+              "threadId": "string",
+              "labelIds": {
+                "type": "array",
+                "length": 1,
+                "itemTypes": [
+                  "string"
+                ],
+                "itemShape": "string"
+              },
+              "snippet": "string",
+              "payload": {
+                "type": "object",
+                "keys": {
+                  "partId": "string",
+                  "mimeType": "string",
+                  "filename": "string",
+                  "headers": {
+                    "type": "array",
+                    "length": 9,
+                    "itemTypes": [
+                      "object"
+                    ],
+                    "itemShape": {
+                      "type": "object",
+                      "keys": {
+                        "name": "string",
+                        "value": "string"
+                      }
+                    }
+                  },
+                  "body": {
+                    "type": "object",
+                    "keys": {
+                      "size": "number",
+                      "data": "string"
+                    }
+                  }
+                }
+              },
+              "sizeEstimate": "number",
+              "historyId": "string",
+              "internalDate": "string"
+            }
+          }
+        }
+      },
+      "sample": {
+        "id": "r6567890693997783722",
+        "message": {
+          "id": "19c96699a6a6cd12",
+          "threadId": "19c96699a6a6cd12",
+          "labelIds": [
+            "DRAFT"
+          ],
+          "snippet": "Hi Adam, Hi! Here&#39;s a random quote for you: “Do not wait to strike till the iron is hot; but make it hot by striking.” — William Butler Yeats Best,",
+          "payload": {
+            "partId": "",
+            "mimeType": "text/plain",
+            "filename": "",
+            "headers": [
+              {
+                "name": "Received",
+                "value": "from 119769342929 named unknown by gmailapi.google.com with HTTPREST; Wed, 25 Feb 2026 12:07:09 -0800"
+              },
+              {
+                "name": "To",
+                "value": "adam@overment.com"
+              },
+              {
+                "name": "Subject",
+                "value": "Hi"
+              },
+              {
+                "name": "MIME-Version",
+                "value": "1.0"
+              },
+              {
+                "name": "Content-Type",
+                "value": "text/plain; charset=UTF-8"
+              },
+              {
+                "name": "Content-Transfer-Encoding",
+                "value": "base64"
+              },
+              {
+                "name": "Date",
+                "value": "Wed, 25 Feb 2026 12:07:09 -0800"
+              },
+              {
+                "name": "Message-Id",
+                "value": "<CANHwEgAwWOx3xs2J+2PYw3tT4Ltc0jGHEEBgLtAm0pBPtViQeg@mail.gmail.com>"
+              },
+              "... (1 more items)"
+            ],
+            "body": {
+              "size": 158,
+              "data": "SGkgQWRhbSwKCkhpISBIZXJl4oCZcyBhIHJhbmRvbSBxdW90ZSBmb3IgeW91OgoK4oCcRG8gbm90IHdhaXQgdG8gc3RyaWtlIHRpbGwgdGhlIGlyb24gaXMgaG90OyBidXQgbWFrZSBpdCBob3QgYnkgc3RyaWtpbmcu4oCdIOKAlCBXaWxsaWFtIEJ1dGxlciBZZWF0cwoKQmVzdCw="
+            }
+          },
+          "sizeEstimate": 617,
+          "historyId": "113013",
+          "internalDate": "1772050029000"
+        }
+      }
+    },
+    "queries": [
+      {
+        "query": "overment",
+        "messagesList": {
+          "count": 4,
+          "nextPageToken": "00804154413182349749",
+          "summary": {
+            "shape": {
+              "type": "object",
+              "keys": {
+                "messages": {
+                  "type": "array",
+                  "length": 4,
+                  "itemTypes": [
+                    "object"
+                  ],
+                  "itemShape": {
+                    "type": "object",
+                    "keys": {
+                      "id": "string",
+                      "threadId": "string"
+                    }
+                  }
+                },
+                "nextPageToken": "string",
+                "resultSizeEstimate": "number"
+              }
+            },
+            "sample": {
+              "messages": [
+                {
+                  "id": "19c97dc1b3fc6b9a",
+                  "threadId": "19c97dc1b3fc6b9a"
+                },
+                {
+                  "id": "19c9691625f13b7d",
+                  "threadId": "19c9691625f13b7d"
+                },
+                {
+                  "id": "19c96699a6a6cd12",
+                  "threadId": "19c96699a6a6cd12"
+                },
+                {
+                  "id": "19c962d18d783885",
+                  "threadId": "19c962d18d783885"
+                }
+              ],
+              "nextPageToken": "00804154413182349749",
+              "resultSizeEstimate": 201
+            }
+          }
+        },
+        "threadsList": {
+          "count": 4,
+          "nextPageToken": "00804154413182349749",
+          "summary": {
+            "shape": {
+              "type": "object",
+              "keys": {
+                "threads": {
+                  "type": "array",
+                  "length": 4,
+                  "itemTypes": [
+                    "object"
+                  ],
+                  "itemShape": {
+                    "type": "object",
+                    "keys": {
+                      "id": "string",
+                      "snippet": "string",
+                      "historyId": "string"
+                    }
+                  }
+                },
+                "nextPageToken": "string",
+                "resultSizeEstimate": "number"
+              }
+            },
+            "sample": {
+              "threads": [
+                {
+                  "id": "19c97dc1b3fc6b9a",
+                  "snippet": "You have 1 new message #general (Alice&#39;s Wonderland) View messages Need help? Contact our support team or hit us up on X @discord. Want to give us feedback? Let us know what you think on our",
+                  "historyId": "113161"
+                },
+                {
+                  "id": "19c9691625f13b7d",
+                  "snippet": "Krzysztof Oszczapiński celebrated this Adam Gospodarczyk LIKE PRAISE EMPATHY 382, 51 Comments Read",
+                  "historyId": "113087"
+                },
+                {
+                  "id": "19c96699a6a6cd12",
+                  "snippet": "Hi Adam, Hi! Here&#39;s a random quote for you: “Do not wait to strike till the iron is hot; but make",
+                  "historyId": "113013"
+                },
+                {
+                  "id": "19c962d18d783885",
+                  "snippet": "Your profile is looking great Your work and accomplishments are being recognized 65 profile views",
+                  "historyId": "112945"
+                }
+              ],
+              "nextPageToken": "00804154413182349749",
+              "resultSizeEstimate": 201
+            }
+          }
+        },
+        "messageSamples": [
+          {
+            "messageId": "19c97dc1b3fc6b9a",
+            "threadId": "19c97dc1b3fc6b9a",
+            "variants": {
+              "minimal": {
+                "shape": {
+                  "type": "object",
+                  "keys": {
+                    "id": "string",
+                    "threadId": "string",
+                    "labelIds": {
+                      "type": "array",
+                      "length": 2,
+                      "itemTypes": [
+                        "string"
+                      ],
+                      "itemShape": "string"
+                    },
+                    "snippet": "string",
+                    "sizeEstimate": "number",
+                    "historyId": "string",
+                    "internalDate": "string"
+                  }
+                },
+                "sample": {
+                  "id": "19c97dc1b3fc6b9a",
+                  "threadId": "19c97dc1b3fc6b9a",
+                  "labelIds": [
+                    "UNREAD",
+                    "INBOX"
+                  ],
+                  "snippet": "You have 1 new message #general (Alice&#39;s Wonderland) View messages Need help? Contact our support team or hit us up on X @discord. Want to give us feedback? Let us know what you think on our",
+                  "sizeEstimate": 52853,
+                  "historyId": "113161",
+                  "internalDate": "1772074309000"
+                }
+              },
+              "metadata": {
+                "shape": {
+                  "type": "object",
+                  "keys": {
+                    "id": "string",
+                    "threadId": "string",
+                    "labelIds": {
+                      "type": "array",
+                      "length": 2,
+                      "itemTypes": [
+                        "string"
+                      ],
+                      "itemShape": "string"
+                    },
+                    "snippet": "string",
+                    "payload": {
+                      "type": "object",
+                      "keys": {
+                        "mimeType": "string",
+                        "headers": {
+                          "type": "array",
+                          "length": 5,
+                          "itemTypes": [
+                            "object"
+                          ],
+                          "itemShape": {
+                            "type": "object",
+                            "keys": {
+                              "name": "string",
+                              "value": "string"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "sizeEstimate": "number",
+                    "historyId": "string",
+                    "internalDate": "string"
+                  }
+                },
+                "sample": {
+                  "id": "19c97dc1b3fc6b9a",
+                  "threadId": "19c97dc1b3fc6b9a",
+                  "labelIds": [
+                    "UNREAD",
+                    "INBOX"
+                  ],
+                  "snippet": "You have 1 new message #general (Alice&#39;s Wonderland) View messages Need help? Contact our support team or hit us up on X @discord. Want to give us feedback? Let us know what you think on our",
+                  "payload": {
+                    "mimeType": "text/html",
+                    "headers": [
+                      {
+                        "name": "Date",
+                        "value": "Thu, 26 Feb 2026 02:51:49 +0000 (UTC)"
+                      },
+                      {
+                        "name": "From",
+                        "value": "Discord <noreply@discord.com>"
+                      },
+                      {
+                        "name": "Message-ID",
+                        "value": "<V4wtRjTFQRychLVqQsS_Ug@geopod-ismtpd-56>"
+                      },
+                      {
+                        "name": "Subject",
+                        "value": "You missed messages in Alice's Wonderland"
+                      },
+                      {
+                        "name": "To",
+                        "value": "alice@overment.com"
+                      }
+                    ]
+                  },
+                  "sizeEstimate": 52853,
+                  "historyId": "113161",
+                  "internalDate": "1772074309000"
+                }
+              },
+              "full": {
+                "shape": {
+                  "type": "object",
+                  "keys": {
+                    "id": "string",
+                    "threadId": "string",
+                    "labelIds": {
+                      "type": "array",
+                      "length": 2,
+                      "itemTypes": [
+                        "string"
+                      ],
+                      "itemShape": "string"
+                    },
+                    "snippet": "string",
+                    "payload": {
+                      "type": "object",
+                      "keys": {
+                        "partId": "string",
+                        "mimeType": "string",
+                        "filename": "string",
+                        "headers": {
+                          "type": "array",
+                          "length": 24,
+                          "itemTypes": [
+                            "object"
+                          ],
+                          "itemShape": {
+                            "type": "object",
+                            "keys": {
+                              "name": "string",
+                              "value": "string"
+                            }
+                          }
+                        },
+                        "body": {
+                          "type": "object",
+                          "keys": {
+                            "size": "number",
+                            "data": "string"
+                          }
+                        }
+                      }
+                    },
+                    "sizeEstimate": "number",
+                    "historyId": "string",
+                    "internalDate": "string"
+                  }
+                },
+                "sample": {
+                  "id": "19c97dc1b3fc6b9a",
+                  "threadId": "19c97dc1b3fc6b9a",
+                  "labelIds": [
+                    "UNREAD",
+                    "INBOX"
+                  ],
+                  "snippet": "You have 1 new message #general (Alice&#39;s Wonderland) View messages Need help? Contact our support team or hit us up on X @discord. Want to give us feedback? Let us know what you think on our",
+                  "payload": {
+                    "partId": "",
+                    "mimeType": "text/html",
+                    "filename": "",
+                    "headers": [
+                      {
+                        "name": "Delivered-To",
+                        "value": "alice@overment.com"
+                      },
+                      {
+                        "name": "Received",
+                        "value": "by 2002:a05:640c:a70f:b0:25d:dc42:ee5e with SMTP id i15csp240093eig;        Wed, 25 Feb 2026 18:51:50 -0800 (PST)"
+                      },
+                      {
+                        "name": "X-Received",
+                        "value": "by 2002:a05:622a:58c:b0:501:465f:6e59 with SMTP id d75a77b69052e-5070bc739a9mr253340001cf.47.1772074310162;        Wed, 25 Feb 2026 18:51:50 -0800 (PST)"
+                      },
+                      {
+                        "name": "ARC-Seal",
+                        "value": "i=1; a=rsa-sha256; t=1772074310; cv=none;        d=google.com; s=arc-20240605;        b=ZBf2Q1n4nbJ6LAhICpLthgY1c5biTvQsB+IeBjrwpPTX+ubT0dTLePUdKB/i2e3wbc         +c/aTUoFhlE9PohVrFsExuM9PwmhsuecfabnQhlBILzQ/X4EdzMJIbdLZY0m6ND+mY/1          ... (len=477)"
+                      },
+                      {
+                        "name": "ARC-Message-Signature",
+                        "value": "i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;        h=to:subject:message-id:mime-version:from:date         :content-transfer-encoding:dkim-signature;        bh=Jc0kk6kKT2MohpHBROk6VasWo9MF0aNnGHxX13lxlyo=;        fh=w ... (len=707)"
+                      },
+                      {
+                        "name": "ARC-Authentication-Results",
+                        "value": "i=1; mx.google.com;       dkim=pass header.i=@discord.com header.s=s1 header.b=EOVvBvSA;       spf=pass (google.com: domain of bounces+12551241-55f2-alice=overment.com@mail.discord.com designates 149.72.170.220 as permitted sender) smtp.mai ... (len=377)"
+                      },
+                      {
+                        "name": "Return-Path",
+                        "value": "<bounces+12551241-55f2-alice=overment.com@mail.discord.com>"
+                      },
+                      {
+                        "name": "Received",
+                        "value": "from o21.ptr6759.discord.com (o21.ptr6759.discord.com. [149.72.170.220])        by mx.google.com with ESMTPS id d75a77b69052e-507449638cbsi13458241cf.48.2026.02.25.18.51.49        for <alice@overment.com>        (version=TLS1_3 cipher=TLS_A ... (len=317)"
+                      },
+                      "... (16 more items)"
+                    ],
+                    "body": {
+                      "size": 45290,
+                      "data": "DQogICAgPCFkb2N0eXBlIGh0bWw-DQogICAgPGh0bWwgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGh0bWwiIHhtbG5zOnY9InVybjpzY2hlbWFzLW1pY3Jvc29mdC1jb206dm1sIiB4bWxuczpvPSJ1cm46c2NoZW1hcy1taWNyb3NvZnQtY29tOm9mZmljZTpvZmZpY2UiPg0KICAgICAgPGhlYWQ-DQogICAg ... (len=60388)"
+                    }
+                  },
+                  "sizeEstimate": 52853,
+                  "historyId": "113161",
+                  "internalDate": "1772074309000"
+                }
+              }
+            },
+            "thread": {
+              "shape": {
+                "type": "object",
+                "keys": {
+                  "id": "string",
+                  "historyId": "string",
+                  "messages": {
+                    "type": "array",
+                    "length": 1,
+                    "itemTypes": [
+                      "object"
+                    ],
+                    "itemShape": {
+                      "type": "object",
+                      "keys": {
+                        "id": "string",
+                        "threadId": "string",
+                        "labelIds": {
+                          "type": "array",
+                          "length": 2,
+                          "itemTypes": [
+                            "string"
+                          ],
+                          "itemShape": "string"
+                        },
+                        "snippet": "string",
+                        "payload": {
+                          "type": "object",
+                          "keys": {
+                            "partId": "string",
+                            "mimeType": "string",
+                            "filename": "string",
+                            "headers": {
+                              "type": "array",
+                              "length": 24,
+                              "itemTypes": [
+                                "object"
+                              ],
+                              "itemShape": {
+                                "type": "object",
+                                "keys": {
+                                  "name": "string",
+                                  "value": "string"
+                                }
+                              }
+                            },
+                            "body": {
+                              "type": "object",
+                              "keys": {
+                                "size": "number",
+                                "data": "string"
+                              }
+                            }
+                          }
+                        },
+                        "sizeEstimate": "number",
+                        "historyId": "string",
+                        "internalDate": "string"
+                      }
+                    }
+                  }
+                }
+              },
+              "sample": {
+                "id": "19c97dc1b3fc6b9a",
+                "historyId": "113161",
+                "messages": [
+                  {
+                    "id": "19c97dc1b3fc6b9a",
+                    "threadId": "19c97dc1b3fc6b9a",
+                    "labelIds": [
+                      "UNREAD",
+                      "INBOX"
+                    ],
+                    "snippet": "You have 1 new message #general (Alice&#39;s Wonderland) View messages Need help? Contact our support team or hit us up on X @discord. Want to give us feedback? Let us know what you think on our",
+                    "payload": {
+                      "partId": "",
+                      "mimeType": "text/html",
+                      "filename": "",
+                      "headers": [
+                        {
+                          "name": "Delivered-To",
+                          "value": "alice@overment.com"
+                        },
+                        {
+                          "name": "Received",
+                          "value": "by 2002:a05:640c:a70f:b0:25d:dc42:ee5e with SMTP id i15csp240093eig;        Wed, 25 Feb 2026 18:51:50 -0800 (PST)"
+                        },
+                        {
+                          "name": "X-Received",
+                          "value": "by 2002:a05:622a:58c:b0:501:465f:6e59 with SMTP id d75a77b69052e-5070bc739a9mr253340001cf.47.1772074310162;        Wed, 25 Feb 2026 18:51:50 -0800 (PST)"
+                        },
+                        {
+                          "name": "ARC-Seal",
+                          "value": "i=1; a=rsa-sha256; t=1772074310; cv=none;        d=google.com; s=arc-20240605;        b=ZBf2Q1n4nbJ6LAhICpLthgY1c5biTvQsB+IeBjrwpPTX+ubT0dTLePUdKB/i2e3wbc         +c/aTUoFhlE9PohVrFsExuM9PwmhsuecfabnQhlBILzQ/X4EdzMJIbdLZY0m6ND+mY/1          ... (len=477)"
+                        },
+                        {
+                          "name": "ARC-Message-Signature",
+                          "value": "i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;        h=to:subject:message-id:mime-version:from:date         :content-transfer-encoding:dkim-signature;        bh=Jc0kk6kKT2MohpHBROk6VasWo9MF0aNnGHxX13lxlyo=;        fh=w ... (len=707)"
+                        },
+                        {
+                          "name": "ARC-Authentication-Results",
+                          "value": "i=1; mx.google.com;       dkim=pass header.i=@discord.com header.s=s1 header.b=EOVvBvSA;       spf=pass (google.com: domain of bounces+12551241-55f2-alice=overment.com@mail.discord.com designates 149.72.170.220 as permitted sender) smtp.mai ... (len=377)"
+                        },
+                        {
+                          "name": "Return-Path",
+                          "value": "<bounces+12551241-55f2-alice=overment.com@mail.discord.com>"
+                        },
+                        {
+                          "name": "Received",
+                          "value": "from o21.ptr6759.discord.com (o21.ptr6759.discord.com. [149.72.170.220])        by mx.google.com with ESMTPS id d75a77b69052e-507449638cbsi13458241cf.48.2026.02.25.18.51.49        for <alice@overment.com>        (version=TLS1_3 cipher=TLS_A ... (len=317)"
+                        },
+                        "... (16 more items)"
+                      ],
+                      "body": {
+                        "size": 45290,
+                        "data": "DQogICAgPCFkb2N0eXBlIGh0bWw-DQogICAgPGh0bWwgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGh0bWwiIHhtbG5zOnY9InVybjpzY2hlbWFzLW1pY3Jvc29mdC1jb206dm1sIiB4bWxuczpvPSJ1cm46c2NoZW1hcy1taWNyb3NvZnQtY29tOm9mZmljZTpvZmZpY2UiPg0KICAgICAgPGhlYWQ-DQogICAg ... (len=60388)"
+                      }
+                    },
+                    "sizeEstimate": 52853,
+                    "historyId": "113161",
+                    "internalDate": "1772074309000"
+                  }
+                ]
+              }
+            },
+            "attachmentBodies": []
+          },
+          {
+            "messageId": "19c9691625f13b7d",
+            "threadId": "19c9691625f13b7d",
+            "variants": {
+              "minimal": {
+                "shape": {
+                  "type": "object",
+                  "keys": {
+                    "id": "string",
+                    "threadId": "string",
+                    "labelIds": {
+                      "type": "array",
+                      "length": 3,
+                      "itemTypes": [
+                        "string"
+                      ],
+                      "itemShape": "string"
+                    },
+                    "snippet": "string",
+                    "sizeEstimate": "number",
+                    "historyId": "string",
+                    "internalDate": "string"
+                  }
+                },
+                "sample": {
+                  "id": "19c9691625f13b7d",
+                  "threadId": "19c9691625f13b7d",
+                  "labelIds": [
+                    "UNREAD",
+                    "Label_7",
+                    "INBOX"
+                  ],
+                  "snippet": "Alice i $50k+ ARR 🎉… ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏",
+                  "sizeEstimate": 105262,
+                  "historyId": "113087",
+                  "internalDate": "1772052635000"
+                }
+              },
+              "metadata": {
+                "shape": {
+                  "type": "object",
+                  "keys": {
+                    "id": "string",
+                    "threadId": "string",
+                    "labelIds": {
+                      "type": "array",
+                      "length": 3,
+                      "itemTypes": [
+                        "string"
+                      ],
+                      "itemShape": "string"
+                    },
+                    "snippet": "string",
+                    "payload": {
+                      "type": "object",
+                      "keys": {
+                        "mimeType": "string",
+                        "headers": {
+                          "type": "array",
+                          "length": 5,
+                          "itemTypes": [
+                            "object"
+                          ],
+                          "itemShape": {
+                            "type": "object",
+                            "keys": {
+                              "name": "string",
+                              "value": "string"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "sizeEstimate": "number",
+                    "historyId": "string",
+                    "internalDate": "string"
+                  }
+                },
+                "sample": {
+                  "id": "19c9691625f13b7d",
+                  "threadId": "19c9691625f13b7d",
+                  "labelIds": [
+                    "UNREAD",
+                    "Label_7",
+                    "INBOX"
+                  ],
+                  "snippet": "Alice i $50k+ ARR 🎉… ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏",
+                  "payload": {
+                    "mimeType": "multipart/alternative",
+                    "headers": [
+                      {
+                        "name": "Date",
+                        "value": "Wed, 25 Feb 2026 20:50:35 +0000 (UTC)"
+                      },
+                      {
+                        "name": "From",
+                        "value": "LinkedIn <updates-noreply@linkedin.com>"
+                      },
+                      {
+                        "name": "Message-ID",
+                        "value": "<1254364758.5888434.1772052635225@lva1-app95526.prod.linkedin.com>"
+                      },
+                      {
+                        "name": "Subject",
+                        "value": "Krzysztof Oszczapiński - Senior Front-end Software Engineer reacted to this post: Alice i $50k+ ARR 🎉…"
+                      },
+                      {
+                        "name": "To",
+                        "value": "Alice _ <alice@overment.com>"
+                      }
+                    ]
+                  },
+                  "sizeEstimate": 105262,
+                  "historyId": "113087",
+                  "internalDate": "1772052635000"
+                }
+              },
+              "full": {
+                "shape": {
+                  "type": "object",
+                  "keys": {
+                    "id": "string",
+                    "threadId": "string",
+                    "labelIds": {
+                      "type": "array",
+                      "length": 3,
+                      "itemTypes": [
+                        "string"
+                      ],
+                      "itemShape": "string"
+                    },
+                    "snippet": "string",
+                    "payload": {
+                      "type": "object",
+                      "keys": {
+                        "partId": "string",
+                        "mimeType": "string",
+                        "filename": "string",
+                        "headers": {
+                          "type": "array",
+                          "length": 26,
+                          "itemTypes": [
+                            "object"
+                          ],
+                          "itemShape": {
+                            "type": "object",
+                            "keys": {
+                              "name": "string",
+                              "value": "string"
+                            }
+                          }
+                        },
+                        "body": {
+                          "type": "object",
+                          "keys": {
+                            "size": "number"
+                          }
+                        },
+                        "parts": {
+                          "type": "array",
+                          "length": 2,
+                          "itemTypes": [
+                            "object"
+                          ],
+                          "itemShape": {
+                            "type": "object",
+                            "keys": {
+                              "partId": "string",
+                              "mimeType": "string",
+                              "filename": "string",
+                              "headers": {
+                                "type": "array",
+                                "length": 3,
+                                "itemTypes": [
+                                  "object"
+                                ],
+                                "itemShape": {
+                                  "type": "object",
+                                  "keys": {
+                                    "name": "string",
+                                    "value": "string"
+                                  }
+                                }
+                              },
+                              "body": {
+                                "type": "object",
+                                "keys": {
+                                  "size": "number",
+                                  "data": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "sizeEstimate": "number",
+                    "historyId": "string",
+                    "internalDate": "string"
+                  }
+                },
+                "sample": {
+                  "id": "19c9691625f13b7d",
+                  "threadId": "19c9691625f13b7d",
+                  "labelIds": [
+                    "UNREAD",
+                    "Label_7",
+                    "INBOX"
+                  ],
+                  "snippet": "Alice i $50k+ ARR 🎉… ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏",
+                  "payload": {
+                    "partId": "",
+                    "mimeType": "multipart/alternative",
+                    "filename": "",
+                    "headers": [
+                      {
+                        "name": "Delivered-To",
+                        "value": "alice@overment.com"
+                      },
+                      {
+                        "name": "Received",
+                        "value": "by 2002:a05:640c:a70f:b0:25d:dc42:ee5e with SMTP id i15csp87549eig;        Wed, 25 Feb 2026 12:50:36 -0800 (PST)"
+                      },
+                      {
+                        "name": "X-Received",
+                        "value": "by 2002:a17:902:ecc6:b0:2a7:5171:921e with SMTP id d9443c01a7336-2ad74549868mr176392165ad.45.1772052636596;        Wed, 25 Feb 2026 12:50:36 -0800 (PST)"
+                      },
+                      {
+                        "name": "ARC-Seal",
+                        "value": "i=1; a=rsa-sha256; t=1772052636; cv=none;        d=google.com; s=arc-20240605;        b=aWyGqUJMNprTJZWQ7vcElWfUd5o2iHELhIg5992xIGa8mdXau6kEdOGcKabGN/KsVw         HPWTfC+0Rp95hTl/Q8StPlvOxQyXfXy9Wy3l+EPWutMxBbXKRisBrw3rsJAfcSjEPeZJ          ... (len=477)"
+                      },
+                      {
+                        "name": "ARC-Message-Signature",
+                        "value": "i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;        h=require-recipient-valid-since:list-unsubscribe-post         :list-unsubscribe:to:mime-version:subject:message-id:from:date         :dkim-signature:dkim-signature;  ... (len=774)"
+                      },
+                      {
+                        "name": "ARC-Authentication-Results",
+                        "value": "i=1; mx.google.com;       dkim=pass header.i=@maile.linkedin.com header.s=d2048-202308-0e header.b=Z+xWuySr;       dkim=pass header.i=@linkedin.com header.s=d2048-202308-00 header.b=p9dBu2hr;       spf=pass (google.com: domain of m-y2hq5f7o ... (len=522)"
+                      },
+                      {
+                        "name": "Return-Path",
+                        "value": "<m-y2hq5f7o6swtyednu3xy6sepc0066uym0oazkwdsc5qx40nn5onkbib8m@bounce.linkedin.com>"
+                      },
+                      {
+                        "name": "Received",
+                        "value": "from maile-db.linkedin.com (maile-db.linkedin.com. [108.174.6.202])        by mx.google.com with ESMTPS id d9443c01a7336-2adfb60aa02si3136915ad.189.2026.02.25.12.50.36        for <alice@overment.com>        (version=TLS1_3 cipher=TLS_AES_25 ... (len=312)"
+                      },
+                      "... (18 more items)"
+                    ],
+                    "body": {
+                      "size": 0
+                    },
+                    "parts": [
+                      {
+                        "partId": "0",
+                        "mimeType": "text/plain",
+                        "filename": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "text/plain;charset=UTF-8"
+                          },
+                          {
+                            "name": "Content-Transfer-Encoding",
+                            "value": "quoted-printable"
+                          },
+                          {
+                            "name": "Content-ID",
+                            "value": "text-body"
+                          }
+                        ],
+                        "body": {
+                          "size": 5888,
+                          "data": "S3J6eXN6dG9mIE9zemN6YXBpxYRza2kgY2VsZWJyYXRlZCB0aGlzDQogICAgICAgIA0KDQogICAgICAgICAgDQpBZGFtIEdvc3BvZGFyY3p5ayBMSUtFIFBSQUlTRSBFTVBBVEhZIDM4MiwgNTEgQ29tbWVudHMNCg0KDQogIA0KICAgICAgICANCg0KICAgICAgICAgIA0KICAgIA0KICAgIFJlYWQgbW9yZTogIGh0dHBz ... (len=7852)"
+                        }
+                      },
+                      {
+                        "partId": "1",
+                        "mimeType": "text/html",
+                        "filename": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "text/html;charset=UTF-8"
+                          },
+                          {
+                            "name": "Content-Transfer-Encoding",
+                            "value": "quoted-printable"
+                          },
+                          {
+                            "name": "Content-ID",
+                            "value": "html-body"
+                          }
+                        ],
+                        "body": {
+                          "size": 84609,
+                          "data": "PGh0bWwgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGh0bWwiIGxhbmc9ImVuIiB4bWw6bGFuZz0iZW4iPiA8aGVhZD4gPG1ldGEgaHR0cC1lcXVpdj0iQ29udGVudC1UeXBlIiBjb250ZW50PSJ0ZXh0L2h0bWw7Y2hhcnNldD11dGYtOCI-IDxtZXRhIG5hbWU9IkhhbmRoZWxkRnJpZW5kbHkiIGNvbnRlbnQ9 ... (len=112812)"
+                        }
+                      }
+                    ]
+                  },
+                  "sizeEstimate": 105262,
+                  "historyId": "113087",
+                  "internalDate": "1772052635000"
+                }
+              }
+            },
+            "thread": {
+              "shape": {
+                "type": "object",
+                "keys": {
+                  "id": "string",
+                  "historyId": "string",
+                  "messages": {
+                    "type": "array",
+                    "length": 1,
+                    "itemTypes": [
+                      "object"
+                    ],
+                    "itemShape": {
+                      "type": "object",
+                      "keys": {
+                        "id": "string",
+                        "threadId": "string",
+                        "labelIds": {
+                          "type": "array",
+                          "length": 3,
+                          "itemTypes": [
+                            "string"
+                          ],
+                          "itemShape": "string"
+                        },
+                        "snippet": "string",
+                        "payload": {
+                          "type": "object",
+                          "keys": {
+                            "partId": "string",
+                            "mimeType": "string",
+                            "filename": "string",
+                            "headers": {
+                              "type": "array",
+                              "length": 26,
+                              "itemTypes": [
+                                "object"
+                              ],
+                              "itemShape": {
+                                "type": "object",
+                                "keys": {
+                                  "name": "string",
+                                  "value": "string"
+                                }
+                              }
+                            },
+                            "body": {
+                              "type": "object",
+                              "keys": {
+                                "size": "number"
+                              }
+                            },
+                            "parts": {
+                              "type": "array",
+                              "length": 2,
+                              "itemTypes": [
+                                "object"
+                              ],
+                              "itemShape": {
+                                "type": "object",
+                                "keys": {
+                                  "partId": "string",
+                                  "mimeType": "string",
+                                  "filename": "string",
+                                  "headers": {
+                                    "type": "array",
+                                    "length": 3,
+                                    "itemTypes": [
+                                      "object"
+                                    ],
+                                    "itemShape": "object"
+                                  },
+                                  "body": {
+                                    "type": "object",
+                                    "keys": {
+                                      "size": "number",
+                                      "data": "string"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "sizeEstimate": "number",
+                        "historyId": "string",
+                        "internalDate": "string"
+                      }
+                    }
+                  }
+                }
+              },
+              "sample": {
+                "id": "19c9691625f13b7d",
+                "historyId": "113087",
+                "messages": [
+                  {
+                    "id": "19c9691625f13b7d",
+                    "threadId": "19c9691625f13b7d",
+                    "labelIds": [
+                      "UNREAD",
+                      "Label_7",
+                      "INBOX"
+                    ],
+                    "snippet": "Alice i $50k+ ARR 🎉… ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏",
+                    "payload": {
+                      "partId": "",
+                      "mimeType": "multipart/alternative",
+                      "filename": "",
+                      "headers": [
+                        {
+                          "name": "Delivered-To",
+                          "value": "alice@overment.com"
+                        },
+                        {
+                          "name": "Received",
+                          "value": "by 2002:a05:640c:a70f:b0:25d:dc42:ee5e with SMTP id i15csp87549eig;        Wed, 25 Feb 2026 12:50:36 -0800 (PST)"
+                        },
+                        {
+                          "name": "X-Received",
+                          "value": "by 2002:a17:902:ecc6:b0:2a7:5171:921e with SMTP id d9443c01a7336-2ad74549868mr176392165ad.45.1772052636596;        Wed, 25 Feb 2026 12:50:36 -0800 (PST)"
+                        },
+                        {
+                          "name": "ARC-Seal",
+                          "value": "i=1; a=rsa-sha256; t=1772052636; cv=none;        d=google.com; s=arc-20240605;        b=aWyGqUJMNprTJZWQ7vcElWfUd5o2iHELhIg5992xIGa8mdXau6kEdOGcKabGN/KsVw         HPWTfC+0Rp95hTl/Q8StPlvOxQyXfXy9Wy3l+EPWutMxBbXKRisBrw3rsJAfcSjEPeZJ          ... (len=477)"
+                        },
+                        {
+                          "name": "ARC-Message-Signature",
+                          "value": "i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;        h=require-recipient-valid-since:list-unsubscribe-post         :list-unsubscribe:to:mime-version:subject:message-id:from:date         :dkim-signature:dkim-signature;  ... (len=774)"
+                        },
+                        {
+                          "name": "ARC-Authentication-Results",
+                          "value": "i=1; mx.google.com;       dkim=pass header.i=@maile.linkedin.com header.s=d2048-202308-0e header.b=Z+xWuySr;       dkim=pass header.i=@linkedin.com header.s=d2048-202308-00 header.b=p9dBu2hr;       spf=pass (google.com: domain of m-y2hq5f7o ... (len=522)"
+                        },
+                        {
+                          "name": "Return-Path",
+                          "value": "<m-y2hq5f7o6swtyednu3xy6sepc0066uym0oazkwdsc5qx40nn5onkbib8m@bounce.linkedin.com>"
+                        },
+                        {
+                          "name": "Received",
+                          "value": "from maile-db.linkedin.com (maile-db.linkedin.com. [108.174.6.202])        by mx.google.com with ESMTPS id d9443c01a7336-2adfb60aa02si3136915ad.189.2026.02.25.12.50.36        for <alice@overment.com>        (version=TLS1_3 cipher=TLS_AES_25 ... (len=312)"
+                        },
+                        "... (18 more items)"
+                      ],
+                      "body": {
+                        "size": 0
+                      },
+                      "parts": [
+                        {
+                          "partId": "0",
+                          "mimeType": "text/plain",
+                          "filename": "",
+                          "headers": [
+                            "[max-depth]",
+                            "[max-depth]",
+                            "[max-depth]"
+                          ],
+                          "body": {
+                            "size": "[max-depth]",
+                            "data": "[max-depth]"
+                          }
+                        },
+                        {
+                          "partId": "1",
+                          "mimeType": "text/html",
+                          "filename": "",
+                          "headers": [
+                            "[max-depth]",
+                            "[max-depth]",
+                            "[max-depth]"
+                          ],
+                          "body": {
+                            "size": "[max-depth]",
+                            "data": "[max-depth]"
+                          }
+                        }
+                      ]
+                    },
+                    "sizeEstimate": 105262,
+                    "historyId": "113087",
+                    "internalDate": "1772052635000"
+                  }
+                ]
+              }
+            },
+            "attachmentBodies": []
+          }
+        ]
+      },
+      {
+        "query": "is:draft",
+        "messagesList": {
+          "count": 1,
+          "nextPageToken": null,
+          "summary": {
+            "shape": {
+              "type": "object",
+              "keys": {
+                "messages": {
+                  "type": "array",
+                  "length": 1,
+                  "itemTypes": [
+                    "object"
+                  ],
+                  "itemShape": {
+                    "type": "object",
+                    "keys": {
+                      "id": "string",
+                      "threadId": "string"
+                    }
+                  }
+                },
+                "resultSizeEstimate": "number"
+              }
+            },
+            "sample": {
+              "messages": [
+                {
+                  "id": "19c96699a6a6cd12",
+                  "threadId": "19c96699a6a6cd12"
+                }
+              ],
+              "resultSizeEstimate": 1
+            }
+          }
+        },
+        "threadsList": {
+          "count": 1,
+          "nextPageToken": null,
+          "summary": {
+            "shape": {
+              "type": "object",
+              "keys": {
+                "threads": {
+                  "type": "array",
+                  "length": 1,
+                  "itemTypes": [
+                    "object"
+                  ],
+                  "itemShape": {
+                    "type": "object",
+                    "keys": {
+                      "id": "string",
+                      "snippet": "string",
+                      "historyId": "string"
+                    }
+                  }
+                },
+                "resultSizeEstimate": "number"
+              }
+            },
+            "sample": {
+              "threads": [
+                {
+                  "id": "19c96699a6a6cd12",
+                  "snippet": "Hi Adam, Hi! Here&#39;s a random quote for you: “Do not wait to strike till the iron is hot; but make it hot by striking.” — William Butler Yeats Best,",
+                  "historyId": "113013"
+                }
+              ],
+              "resultSizeEstimate": 1
+            }
+          }
+        },
+        "messageSamples": [
+          {
+            "messageId": "19c96699a6a6cd12",
+            "threadId": "19c96699a6a6cd12",
+            "variants": {
+              "minimal": {
+                "shape": {
+                  "type": "object",
+                  "keys": {
+                    "id": "string",
+                    "threadId": "string",
+                    "labelIds": {
+                      "type": "array",
+                      "length": 1,
+                      "itemTypes": [
+                        "string"
+                      ],
+                      "itemShape": "string"
+                    },
+                    "snippet": "string",
+                    "sizeEstimate": "number",
+                    "historyId": "string",
+                    "internalDate": "string"
+                  }
+                },
+                "sample": {
+                  "id": "19c96699a6a6cd12",
+                  "threadId": "19c96699a6a6cd12",
+                  "labelIds": [
+                    "DRAFT"
+                  ],
+                  "snippet": "Hi Adam, Hi! Here&#39;s a random quote for you: “Do not wait to strike till the iron is hot; but make it hot by striking.” — William Butler Yeats Best,",
+                  "sizeEstimate": 617,
+                  "historyId": "113013",
+                  "internalDate": "1772050029000"
+                }
+              },
+              "metadata": {
+                "shape": {
+                  "type": "object",
+                  "keys": {
+                    "id": "string",
+                    "threadId": "string",
+                    "labelIds": {
+                      "type": "array",
+                      "length": 1,
+                      "itemTypes": [
+                        "string"
+                      ],
+                      "itemShape": "string"
+                    },
+                    "snippet": "string",
+                    "payload": {
+                      "type": "object",
+                      "keys": {
+                        "mimeType": "string",
+                        "headers": {
+                          "type": "array",
+                          "length": 5,
+                          "itemTypes": [
+                            "object"
+                          ],
+                          "itemShape": {
+                            "type": "object",
+                            "keys": {
+                              "name": "string",
+                              "value": "string"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "sizeEstimate": "number",
+                    "historyId": "string",
+                    "internalDate": "string"
+                  }
+                },
+                "sample": {
+                  "id": "19c96699a6a6cd12",
+                  "threadId": "19c96699a6a6cd12",
+                  "labelIds": [
+                    "DRAFT"
+                  ],
+                  "snippet": "Hi Adam, Hi! Here&#39;s a random quote for you: “Do not wait to strike till the iron is hot; but make it hot by striking.” — William Butler Yeats Best,",
+                  "payload": {
+                    "mimeType": "text/plain",
+                    "headers": [
+                      {
+                        "name": "To",
+                        "value": "adam@overment.com"
+                      },
+                      {
+                        "name": "Subject",
+                        "value": "Hi"
+                      },
+                      {
+                        "name": "Date",
+                        "value": "Wed, 25 Feb 2026 12:07:09 -0800"
+                      },
+                      {
+                        "name": "Message-Id",
+                        "value": "<CANHwEgAwWOx3xs2J+2PYw3tT4Ltc0jGHEEBgLtAm0pBPtViQeg@mail.gmail.com>"
+                      },
+                      {
+                        "name": "From",
+                        "value": "alice@overment.com"
+                      }
+                    ]
+                  },
+                  "sizeEstimate": 617,
+                  "historyId": "113013",
+                  "internalDate": "1772050029000"
+                }
+              },
+              "full": {
+                "shape": {
+                  "type": "object",
+                  "keys": {
+                    "id": "string",
+                    "threadId": "string",
+                    "labelIds": {
+                      "type": "array",
+                      "length": 1,
+                      "itemTypes": [
+                        "string"
+                      ],
+                      "itemShape": "string"
+                    },
+                    "snippet": "string",
+                    "payload": {
+                      "type": "object",
+                      "keys": {
+                        "partId": "string",
+                        "mimeType": "string",
+                        "filename": "string",
+                        "headers": {
+                          "type": "array",
+                          "length": 9,
+                          "itemTypes": [
+                            "object"
+                          ],
+                          "itemShape": {
+                            "type": "object",
+                            "keys": {
+                              "name": "string",
+                              "value": "string"
+                            }
+                          }
+                        },
+                        "body": {
+                          "type": "object",
+                          "keys": {
+                            "size": "number",
+                            "data": "string"
+                          }
+                        }
+                      }
+                    },
+                    "sizeEstimate": "number",
+                    "historyId": "string",
+                    "internalDate": "string"
+                  }
+                },
+                "sample": {
+                  "id": "19c96699a6a6cd12",
+                  "threadId": "19c96699a6a6cd12",
+                  "labelIds": [
+                    "DRAFT"
+                  ],
+                  "snippet": "Hi Adam, Hi! Here&#39;s a random quote for you: “Do not wait to strike till the iron is hot; but make it hot by striking.” — William Butler Yeats Best,",
+                  "payload": {
+                    "partId": "",
+                    "mimeType": "text/plain",
+                    "filename": "",
+                    "headers": [
+                      {
+                        "name": "Received",
+                        "value": "from 119769342929 named unknown by gmailapi.google.com with HTTPREST; Wed, 25 Feb 2026 12:07:09 -0800"
+                      },
+                      {
+                        "name": "To",
+                        "value": "adam@overment.com"
+                      },
+                      {
+                        "name": "Subject",
+                        "value": "Hi"
+                      },
+                      {
+                        "name": "MIME-Version",
+                        "value": "1.0"
+                      },
+                      {
+                        "name": "Content-Type",
+                        "value": "text/plain; charset=UTF-8"
+                      },
+                      {
+                        "name": "Content-Transfer-Encoding",
+                        "value": "base64"
+                      },
+                      {
+                        "name": "Date",
+                        "value": "Wed, 25 Feb 2026 12:07:09 -0800"
+                      },
+                      {
+                        "name": "Message-Id",
+                        "value": "<CANHwEgAwWOx3xs2J+2PYw3tT4Ltc0jGHEEBgLtAm0pBPtViQeg@mail.gmail.com>"
+                      },
+                      "... (1 more items)"
+                    ],
+                    "body": {
+                      "size": 158,
+                      "data": "SGkgQWRhbSwKCkhpISBIZXJl4oCZcyBhIHJhbmRvbSBxdW90ZSBmb3IgeW91OgoK4oCcRG8gbm90IHdhaXQgdG8gc3RyaWtlIHRpbGwgdGhlIGlyb24gaXMgaG90OyBidXQgbWFrZSBpdCBob3QgYnkgc3RyaWtpbmcu4oCdIOKAlCBXaWxsaWFtIEJ1dGxlciBZZWF0cwoKQmVzdCw="
+                    }
+                  },
+                  "sizeEstimate": 617,
+                  "historyId": "113013",
+                  "internalDate": "1772050029000"
+                }
+              }
+            },
+            "thread": {
+              "shape": {
+                "type": "object",
+                "keys": {
+                  "id": "string",
+                  "historyId": "string",
+                  "messages": {
+                    "type": "array",
+                    "length": 1,
+                    "itemTypes": [
+                      "object"
+                    ],
+                    "itemShape": {
+                      "type": "object",
+                      "keys": {
+                        "id": "string",
+                        "threadId": "string",
+                        "labelIds": {
+                          "type": "array",
+                          "length": 1,
+                          "itemTypes": [
+                            "string"
+                          ],
+                          "itemShape": "string"
+                        },
+                        "snippet": "string",
+                        "payload": {
+                          "type": "object",
+                          "keys": {
+                            "partId": "string",
+                            "mimeType": "string",
+                            "filename": "string",
+                            "headers": {
+                              "type": "array",
+                              "length": 9,
+                              "itemTypes": [
+                                "object"
+                              ],
+                              "itemShape": {
+                                "type": "object",
+                                "keys": {
+                                  "name": "string",
+                                  "value": "string"
+                                }
+                              }
+                            },
+                            "body": {
+                              "type": "object",
+                              "keys": {
+                                "size": "number",
+                                "data": "string"
+                              }
+                            }
+                          }
+                        },
+                        "sizeEstimate": "number",
+                        "historyId": "string",
+                        "internalDate": "string"
+                      }
+                    }
+                  }
+                }
+              },
+              "sample": {
+                "id": "19c96699a6a6cd12",
+                "historyId": "113013",
+                "messages": [
+                  {
+                    "id": "19c96699a6a6cd12",
+                    "threadId": "19c96699a6a6cd12",
+                    "labelIds": [
+                      "DRAFT"
+                    ],
+                    "snippet": "Hi Adam, Hi! Here&#39;s a random quote for you: “Do not wait to strike till the iron is hot; but make it hot by striking.” — William Butler Yeats Best,",
+                    "payload": {
+                      "partId": "",
+                      "mimeType": "text/plain",
+                      "filename": "",
+                      "headers": [
+                        {
+                          "name": "Received",
+                          "value": "from 119769342929 named unknown by gmailapi.google.com with HTTPREST; Wed, 25 Feb 2026 12:07:09 -0800"
+                        },
+                        {
+                          "name": "To",
+                          "value": "adam@overment.com"
+                        },
+                        {
+                          "name": "Subject",
+                          "value": "Hi"
+                        },
+                        {
+                          "name": "MIME-Version",
+                          "value": "1.0"
+                        },
+                        {
+                          "name": "Content-Type",
+                          "value": "text/plain; charset=UTF-8"
+                        },
+                        {
+                          "name": "Content-Transfer-Encoding",
+                          "value": "base64"
+                        },
+                        {
+                          "name": "Date",
+                          "value": "Wed, 25 Feb 2026 12:07:09 -0800"
+                        },
+                        {
+                          "name": "Message-Id",
+                          "value": "<CANHwEgAwWOx3xs2J+2PYw3tT4Ltc0jGHEEBgLtAm0pBPtViQeg@mail.gmail.com>"
+                        },
+                        "... (1 more items)"
+                      ],
+                      "body": {
+                        "size": 158,
+                        "data": "SGkgQWRhbSwKCkhpISBIZXJl4oCZcyBhIHJhbmRvbSBxdW90ZSBmb3IgeW91OgoK4oCcRG8gbm90IHdhaXQgdG8gc3RyaWtlIHRpbGwgdGhlIGlyb24gaXMgaG90OyBidXQgbWFrZSBpdCBob3QgYnkgc3RyaWtpbmcu4oCdIOKAlCBXaWxsaWFtIEJ1dGxlciBZZWF0cwoKQmVzdCw="
+                      }
+                    },
+                    "sizeEstimate": 617,
+                    "historyId": "113013",
+                    "internalDate": "1772050029000"
+                  }
+                ]
+              }
+            },
+            "attachmentBodies": []
+          }
+        ]
+      },
+      {
+        "query": "has:attachment",
+        "messagesList": {
+          "count": 1,
+          "nextPageToken": null,
+          "summary": {
+            "shape": {
+              "type": "object",
+              "keys": {
+                "messages": {
+                  "type": "array",
+                  "length": 1,
+                  "itemTypes": [
+                    "object"
+                  ],
+                  "itemShape": {
+                    "type": "object",
+                    "keys": {
+                      "id": "string",
+                      "threadId": "string"
+                    }
+                  }
+                },
+                "resultSizeEstimate": "number"
+              }
+            },
+            "sample": {
+              "messages": [
+                {
+                  "id": "193d348c1d6e3253",
+                  "threadId": "193d348c1d6e3253"
+                }
+              ],
+              "resultSizeEstimate": 1
+            }
+          }
+        },
+        "threadsList": {
+          "count": 1,
+          "nextPageToken": null,
+          "summary": {
+            "shape": {
+              "type": "object",
+              "keys": {
+                "threads": {
+                  "type": "array",
+                  "length": 1,
+                  "itemTypes": [
+                    "object"
+                  ],
+                  "itemShape": {
+                    "type": "object",
+                    "keys": {
+                      "id": "string",
+                      "snippet": "string",
+                      "historyId": "string"
+                    }
+                  }
+                },
+                "resultSizeEstimate": "number"
+              }
+            },
+            "sample": {
+              "threads": [
+                {
+                  "id": "193d348c1d6e3253",
+                  "snippet": "Changes to the Apple Pay &amp; Wallet Terms &amp; Conditions We&#39;ve made a few updates to the Apple Pay &amp; Wallet Terms &amp; Conditions. Here&#39;s a summary of the key changes: We have",
+                  "historyId": "16262"
+                }
+              ],
+              "resultSizeEstimate": 1
+            }
+          }
+        },
+        "messageSamples": [
+          {
+            "messageId": "193d348c1d6e3253",
+            "threadId": "193d348c1d6e3253",
+            "variants": {
+              "minimal": {
+                "shape": {
+                  "type": "object",
+                  "keys": {
+                    "id": "string",
+                    "threadId": "string",
+                    "labelIds": {
+                      "type": "array",
+                      "length": 2,
+                      "itemTypes": [
+                        "string"
+                      ],
+                      "itemShape": "string"
+                    },
+                    "snippet": "string",
+                    "sizeEstimate": "number",
+                    "historyId": "string",
+                    "internalDate": "string"
+                  }
+                },
+                "sample": {
+                  "id": "193d348c1d6e3253",
+                  "threadId": "193d348c1d6e3253",
+                  "labelIds": [
+                    "UNREAD",
+                    "INBOX"
+                  ],
+                  "snippet": "Changes to the Apple Pay &amp; Wallet Terms &amp; Conditions We&#39;ve made a few updates to the Apple Pay &amp; Wallet Terms &amp; Conditions. Here&#39;s a summary of the key changes: We have",
+                  "sizeEstimate": 3011020,
+                  "historyId": "16262",
+                  "internalDate": "1734416578000"
+                }
+              },
+              "metadata": {
+                "shape": {
+                  "type": "object",
+                  "keys": {
+                    "id": "string",
+                    "threadId": "string",
+                    "labelIds": {
+                      "type": "array",
+                      "length": 2,
+                      "itemTypes": [
+                        "string"
+                      ],
+                      "itemShape": "string"
+                    },
+                    "snippet": "string",
+                    "payload": {
+                      "type": "object",
+                      "keys": {
+                        "mimeType": "string",
+                        "headers": {
+                          "type": "array",
+                          "length": 5,
+                          "itemTypes": [
+                            "object"
+                          ],
+                          "itemShape": {
+                            "type": "object",
+                            "keys": {
+                              "name": "string",
+                              "value": "string"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "sizeEstimate": "number",
+                    "historyId": "string",
+                    "internalDate": "string"
+                  }
+                },
+                "sample": {
+                  "id": "193d348c1d6e3253",
+                  "threadId": "193d348c1d6e3253",
+                  "labelIds": [
+                    "UNREAD",
+                    "INBOX"
+                  ],
+                  "snippet": "Changes to the Apple Pay &amp; Wallet Terms &amp; Conditions We&#39;ve made a few updates to the Apple Pay &amp; Wallet Terms &amp; Conditions. Here&#39;s a summary of the key changes: We have",
+                  "payload": {
+                    "mimeType": "multipart/mixed",
+                    "headers": [
+                      {
+                        "name": "Date",
+                        "value": "Tue, 17 Dec 2024 06:22:58 +0000 (GMT)"
+                      },
+                      {
+                        "name": "From",
+                        "value": "Apple Payments Services <no-reply@email.apple.com>"
+                      },
+                      {
+                        "name": "To",
+                        "value": "alice@overment.com"
+                      },
+                      {
+                        "name": "Message-ID",
+                        "value": "<1555265489.364001468.1734416578504@email.apple.com>"
+                      },
+                      {
+                        "name": "Subject",
+                        "value": "Changes to the Apple Pay & Wallet Terms & Conditions"
+                      }
+                    ]
+                  },
+                  "sizeEstimate": 3011020,
+                  "historyId": "16262",
+                  "internalDate": "1734416578000"
+                }
+              },
+              "full": {
+                "shape": {
+                  "type": "object",
+                  "keys": {
+                    "id": "string",
+                    "threadId": "string",
+                    "labelIds": {
+                      "type": "array",
+                      "length": 2,
+                      "itemTypes": [
+                        "string"
+                      ],
+                      "itemShape": "string"
+                    },
+                    "snippet": "string",
+                    "payload": {
+                      "type": "object",
+                      "keys": {
+                        "partId": "string",
+                        "mimeType": "string",
+                        "filename": "string",
+                        "headers": {
+                          "type": "array",
+                          "length": 28,
+                          "itemTypes": [
+                            "object"
+                          ],
+                          "itemShape": {
+                            "type": "object",
+                            "keys": {
+                              "name": "string",
+                              "value": "string"
+                            }
+                          }
+                        },
+                        "body": {
+                          "type": "object",
+                          "keys": {
+                            "size": "number"
+                          }
+                        },
+                        "parts": {
+                          "type": "array",
+                          "length": 2,
+                          "itemTypes": [
+                            "object"
+                          ],
+                          "itemShape": {
+                            "type": "object",
+                            "keys": {
+                              "partId": "string",
+                              "mimeType": "string",
+                              "filename": "string",
+                              "headers": {
+                                "type": "array",
+                                "length": 1,
+                                "itemTypes": [
+                                  "object"
+                                ],
+                                "itemShape": {
+                                  "type": "object",
+                                  "keys": {
+                                    "name": "string",
+                                    "value": "string"
+                                  }
+                                }
+                              },
+                              "body": {
+                                "type": "object",
+                                "keys": {
+                                  "size": "number"
+                                }
+                              },
+                              "parts": {
+                                "type": "array",
+                                "length": 2,
+                                "itemTypes": [
+                                  "object"
+                                ],
+                                "itemShape": {
+                                  "type": "object",
+                                  "keys": {
+                                    "partId": "string",
+                                    "mimeType": "string",
+                                    "filename": "string",
+                                    "headers": {
+                                      "type": "array",
+                                      "length": 3,
+                                      "itemTypes": [
+                                        "object"
+                                      ],
+                                      "itemShape": "object"
+                                    },
+                                    "body": {
+                                      "type": "object",
+                                      "keys": {
+                                        "size": "number",
+                                        "data": "string"
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "sizeEstimate": "number",
+                    "historyId": "string",
+                    "internalDate": "string"
+                  }
+                },
+                "sample": {
+                  "id": "193d348c1d6e3253",
+                  "threadId": "193d348c1d6e3253",
+                  "labelIds": [
+                    "UNREAD",
+                    "INBOX"
+                  ],
+                  "snippet": "Changes to the Apple Pay &amp; Wallet Terms &amp; Conditions We&#39;ve made a few updates to the Apple Pay &amp; Wallet Terms &amp; Conditions. Here&#39;s a summary of the key changes: We have",
+                  "payload": {
+                    "partId": "",
+                    "mimeType": "multipart/mixed",
+                    "filename": "",
+                    "headers": [
+                      {
+                        "name": "Delivered-To",
+                        "value": "alice@overment.com"
+                      },
+                      {
+                        "name": "Received",
+                        "value": "by 2002:a05:640c:9c4:b0:21c:129a:b0a7 with SMTP id o4csp17167eiq;        Mon, 16 Dec 2024 22:23:02 -0800 (PST)"
+                      },
+                      {
+                        "name": "X-Google-Smtp-Source",
+                        "value": "AGHT+IEsPmUppNCOj5ewglKIBVmKl34VuTV40a/rOlLHKxWMzmO/S+KS2vI/0YsLi/vOjoUUR8Ui"
+                      },
+                      {
+                        "name": "X-Received",
+                        "value": "by 2002:a05:620a:4402:b0:7b6:d70a:86d6 with SMTP id af79cd13be357-7b6fbf1744cmr2949757985a.36.1734416580870;        Mon, 16 Dec 2024 22:23:00 -0800 (PST)"
+                      },
+                      {
+                        "name": "ARC-Seal",
+                        "value": "i=1; a=rsa-sha256; t=1734416580; cv=none;        d=google.com; s=arc-20240605;        b=PpAWe7tNwtDQi6T7zBRWhGlh3fCi9IRwhaLjV9tkPP+37aqB7FgQagzBmXuGic0kO+         JX71RikKLaaxIc2YgxgVvb9DNP4Gfg5zjX4keQThb/tFg+658DbcJLULy6IPmvNNoo5f          ... (len=477)"
+                      },
+                      {
+                        "name": "ARC-Message-Signature",
+                        "value": "i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;        h=mime-version:subject:message-id:to:reply-to:from:date         :dkim-signature;        bh=3+ivXh4VLkazxkUyzmgcJFV72D0PcsrBCIrV658sUOs=;        fh=wV3DPntcEbVjYvueQL ... (len=690)"
+                      },
+                      {
+                        "name": "ARC-Authentication-Results",
+                        "value": "i=1; mx.google.com;       dkim=pass header.i=@email.apple.com header.s=email0517 header.b=YKwUgSQo;       spf=pass (google.com: domain of no-reply@email.apple.com designates 17.111.110.90 as permitted sender) smtp.mailfrom=no-reply@email.ap ... (len=323)"
+                      },
+                      {
+                        "name": "Return-Path",
+                        "value": "<no-reply@email.apple.com>"
+                      },
+                      "... (20 more items)"
+                    ],
+                    "body": {
+                      "size": 0
+                    },
+                    "parts": [
+                      {
+                        "partId": "0",
+                        "mimeType": "multipart/alternative",
+                        "filename": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "multipart/alternative; boundary=\"----=_Part_364001466_602205464.1734416578502\""
+                          }
+                        ],
+                        "body": {
+                          "size": 0
+                        },
+                        "parts": [
+                          {
+                            "partId": "0.0",
+                            "mimeType": "text/plain",
+                            "filename": "",
+                            "headers": [
+                              "[max-depth]",
+                              "[max-depth]",
+                              "[max-depth]"
+                            ],
+                            "body": {
+                              "size": "[max-depth]",
+                              "data": "[max-depth]"
+                            }
+                          },
+                          {
+                            "partId": "0.1",
+                            "mimeType": "text/html",
+                            "filename": "",
+                            "headers": [
+                              "[max-depth]",
+                              "[max-depth]",
+                              "[max-depth]"
+                            ],
+                            "body": {
+                              "size": "[max-depth]",
+                              "data": "[max-depth]"
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "partId": "1",
+                        "mimeType": "application/pdf",
+                        "filename": "Apple Payments Services Privacy Notice Sept 2024.pdf",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/pdf"
+                          },
+                          {
+                            "name": "Content-Transfer-Encoding",
+                            "value": "Base64"
+                          },
+                          {
+                            "name": "Content-Disposition",
+                            "value": "attachment; filename=\"Apple Payments Services Privacy Notice Sept 2024.pdf\""
+                          }
+                        ],
+                        "body": {
+                          "attachmentId": "ANGjdJ9jmBGjxZq3L8yJGaxqzh9ZEOWlRoS-KIAxCMYNLy8LF553Jn5G4PSkbwQtvvWHWGr7Fze8sAzgN2wnsbUnppC-r1ipU3SfDSYKMO74o4CszQyN4aN6dhAi3P2lSMozz3y-bzoTB3KddkNSm3WOB9eWicwxmpqTsMZkKdO32C-NTStR9QivKsV1VE2L9AU6br8s0_yKI57bGfh0ez5RfNW8N-y062caXD15ka7HcwsB ... (len=426)",
+                          "size": 2189896
+                        }
+                      }
+                    ]
+                  },
+                  "sizeEstimate": 3011020,
+                  "historyId": "16262",
+                  "internalDate": "1734416578000"
+                }
+              }
+            },
+            "thread": {
+              "shape": {
+                "type": "object",
+                "keys": {
+                  "id": "string",
+                  "historyId": "string",
+                  "messages": {
+                    "type": "array",
+                    "length": 1,
+                    "itemTypes": [
+                      "object"
+                    ],
+                    "itemShape": {
+                      "type": "object",
+                      "keys": {
+                        "id": "string",
+                        "threadId": "string",
+                        "labelIds": {
+                          "type": "array",
+                          "length": 2,
+                          "itemTypes": [
+                            "string"
+                          ],
+                          "itemShape": "string"
+                        },
+                        "snippet": "string",
+                        "payload": {
+                          "type": "object",
+                          "keys": {
+                            "partId": "string",
+                            "mimeType": "string",
+                            "filename": "string",
+                            "headers": {
+                              "type": "array",
+                              "length": 28,
+                              "itemTypes": [
+                                "object"
+                              ],
+                              "itemShape": {
+                                "type": "object",
+                                "keys": {
+                                  "name": "string",
+                                  "value": "string"
+                                }
+                              }
+                            },
+                            "body": {
+                              "type": "object",
+                              "keys": {
+                                "size": "number"
+                              }
+                            },
+                            "parts": {
+                              "type": "array",
+                              "length": 2,
+                              "itemTypes": [
+                                "object"
+                              ],
+                              "itemShape": {
+                                "type": "object",
+                                "keys": {
+                                  "partId": "string",
+                                  "mimeType": "string",
+                                  "filename": "string",
+                                  "headers": {
+                                    "type": "array",
+                                    "length": 1,
+                                    "itemTypes": [
+                                      "object"
+                                    ],
+                                    "itemShape": "object"
+                                  },
+                                  "body": {
+                                    "type": "object",
+                                    "keys": {
+                                      "size": "number"
+                                    }
+                                  },
+                                  "parts": {
+                                    "type": "array",
+                                    "length": 2,
+                                    "itemTypes": [
+                                      "object"
+                                    ],
+                                    "itemShape": "object"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "sizeEstimate": "number",
+                        "historyId": "string",
+                        "internalDate": "string"
+                      }
+                    }
+                  }
+                }
+              },
+              "sample": {
+                "id": "193d348c1d6e3253",
+                "historyId": "16262",
+                "messages": [
+                  {
+                    "id": "193d348c1d6e3253",
+                    "threadId": "193d348c1d6e3253",
+                    "labelIds": [
+                      "UNREAD",
+                      "INBOX"
+                    ],
+                    "snippet": "Changes to the Apple Pay &amp; Wallet Terms &amp; Conditions We&#39;ve made a few updates to the Apple Pay &amp; Wallet Terms &amp; Conditions. Here&#39;s a summary of the key changes: We have",
+                    "payload": {
+                      "partId": "",
+                      "mimeType": "multipart/mixed",
+                      "filename": "",
+                      "headers": [
+                        {
+                          "name": "Delivered-To",
+                          "value": "alice@overment.com"
+                        },
+                        {
+                          "name": "Received",
+                          "value": "by 2002:a05:640c:9c4:b0:21c:129a:b0a7 with SMTP id o4csp17167eiq;        Mon, 16 Dec 2024 22:23:02 -0800 (PST)"
+                        },
+                        {
+                          "name": "X-Google-Smtp-Source",
+                          "value": "AGHT+IEsPmUppNCOj5ewglKIBVmKl34VuTV40a/rOlLHKxWMzmO/S+KS2vI/0YsLi/vOjoUUR8Ui"
+                        },
+                        {
+                          "name": "X-Received",
+                          "value": "by 2002:a05:620a:4402:b0:7b6:d70a:86d6 with SMTP id af79cd13be357-7b6fbf1744cmr2949757985a.36.1734416580870;        Mon, 16 Dec 2024 22:23:00 -0800 (PST)"
+                        },
+                        {
+                          "name": "ARC-Seal",
+                          "value": "i=1; a=rsa-sha256; t=1734416580; cv=none;        d=google.com; s=arc-20240605;        b=PpAWe7tNwtDQi6T7zBRWhGlh3fCi9IRwhaLjV9tkPP+37aqB7FgQagzBmXuGic0kO+         JX71RikKLaaxIc2YgxgVvb9DNP4Gfg5zjX4keQThb/tFg+658DbcJLULy6IPmvNNoo5f          ... (len=477)"
+                        },
+                        {
+                          "name": "ARC-Message-Signature",
+                          "value": "i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;        h=mime-version:subject:message-id:to:reply-to:from:date         :dkim-signature;        bh=3+ivXh4VLkazxkUyzmgcJFV72D0PcsrBCIrV658sUOs=;        fh=wV3DPntcEbVjYvueQL ... (len=690)"
+                        },
+                        {
+                          "name": "ARC-Authentication-Results",
+                          "value": "i=1; mx.google.com;       dkim=pass header.i=@email.apple.com header.s=email0517 header.b=YKwUgSQo;       spf=pass (google.com: domain of no-reply@email.apple.com designates 17.111.110.90 as permitted sender) smtp.mailfrom=no-reply@email.ap ... (len=323)"
+                        },
+                        {
+                          "name": "Return-Path",
+                          "value": "<no-reply@email.apple.com>"
+                        },
+                        "... (20 more items)"
+                      ],
+                      "body": {
+                        "size": 0
+                      },
+                      "parts": [
+                        {
+                          "partId": "0",
+                          "mimeType": "multipart/alternative",
+                          "filename": "",
+                          "headers": [
+                            "[max-depth]"
+                          ],
+                          "body": {
+                            "size": "[max-depth]"
+                          },
+                          "parts": [
+                            "[max-depth]",
+                            "[max-depth]"
+                          ]
+                        },
+                        {
+                          "partId": "1",
+                          "mimeType": "application/pdf",
+                          "filename": "Apple Payments Services Privacy Notice Sept 2024.pdf",
+                          "headers": [
+                            "[max-depth]",
+                            "[max-depth]",
+                            "[max-depth]"
+                          ],
+                          "body": {
+                            "attachmentId": "[max-depth]",
+                            "size": "[max-depth]"
+                          }
+                        }
+                      ]
+                    },
+                    "sizeEstimate": 3011020,
+                    "historyId": "16262",
+                    "internalDate": "1734416578000"
+                  }
+                ]
+              }
+            },
+            "attachmentBodies": [
+              {
+                "ref": {
+                  "attachmentId": "ANGjdJ9jmBGjxZq3L8yJGaxqzh9ZEOWlRoS-KIAxCMYNLy8LF553Jn5G4PSkbwQtvvWHWGr7Fze8sAzgN2wnsbUnppC-r1ipU3SfDSYKMO74o4CszQyN4aN6dhAi3P2lSMozz3y-bzoTB3KddkNSm3WOB9eWicwxmpqTsMZkKdO32C-NTStR9QivKsV1VE2L9AU6br8s0_yKI57bGfh0ez5RfNW8N-y062caXD15ka7HcwsBr9LtREiAdmXg8d-kaNp5RyHMRcgihy1r3Qvf0ctfC5XFqFopYBV2ieebMEuTFPc1md_Ohgly2S2TPmVAljhXaI1kdAROR6YkyW6ckcji2TsVC9qMjyEC9LnFNUHs3gZbu_YbUicIBsiI4uDRvbt_-k-96E_RKh7awksrLkjd7reCEhvbRwxcJa_FdA",
+                  "filename": "Apple Payments Services Privacy Notice Sept 2024.pdf",
+                  "mimeType": "application/pdf",
+                  "size": 2189896
+                },
+                "body": {
+                  "shape": {
+                    "type": "object",
+                    "keys": {
+                      "size": "number",
+                      "data": "string",
+                      "dataLength": "number",
+                      "dataPreview": "string"
+                    }
+                  },
+                  "sample": {
+                    "size": 2189896,
+                    "data": "JVBERi0xLjMKJcTl8uXrp_Og0MTGCjMgMCBvYmoKPDwgL0ZpbHRlciAvRmxhdGVEZWNvZGUgL0xlbmd0aCA2MjQxID4-CnN0cmVhbQp4Ad1cW68b13V-n1-x-8YDWBTnSjINAiiyjCSwXdk6hRBUeVBk2mZK6UjWUZ38oP6fokX_TttvrbXXt_dcyXNkIUDBBw45-7Lut71m3oVvwruwwacrq7DdV-GnQ3ge3oSHj9-X4dX7 ... (len=2919864)",
+                    "dataLength": 2919864,
+                    "dataPreview": "JVBERi0xLjMKJcTl8uXrp_Og0MTGCjMgMCBvYmoKPDwgL0ZpbHRlciAvRmxhdGVEZWNvZGUgL0xlbmd0 ... (len=2919864)"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "query": "in:inbox is:unread",
+        "messagesList": {
+          "count": 4,
+          "nextPageToken": "00804154413182349749",
+          "summary": {
+            "shape": {
+              "type": "object",
+              "keys": {
+                "messages": {
+                  "type": "array",
+                  "length": 4,
+                  "itemTypes": [
+                    "object"
+                  ],
+                  "itemShape": {
+                    "type": "object",
+                    "keys": {
+                      "id": "string",
+                      "threadId": "string"
+                    }
+                  }
+                },
+                "nextPageToken": "string",
+                "resultSizeEstimate": "number"
+              }
+            },
+            "sample": {
+              "messages": [
+                {
+                  "id": "19c97dc1b3fc6b9a",
+                  "threadId": "19c97dc1b3fc6b9a"
+                },
+                {
+                  "id": "19c976a72a62831f",
+                  "threadId": "19c976a72a62831f"
+                },
+                {
+                  "id": "19c9691625f13b7d",
+                  "threadId": "19c9691625f13b7d"
+                },
+                {
+                  "id": "19c962d18d783885",
+                  "threadId": "19c962d18d783885"
+                }
+              ],
+              "nextPageToken": "00804154413182349749",
+              "resultSizeEstimate": 201
+            }
+          }
+        },
+        "threadsList": {
+          "count": 4,
+          "nextPageToken": "00804154413182349749",
+          "summary": {
+            "shape": {
+              "type": "object",
+              "keys": {
+                "threads": {
+                  "type": "array",
+                  "length": 4,
+                  "itemTypes": [
+                    "object"
+                  ],
+                  "itemShape": {
+                    "type": "object",
+                    "keys": {
+                      "id": "string",
+                      "snippet": "string",
+                      "historyId": "string"
+                    }
+                  }
+                },
+                "nextPageToken": "string",
+                "resultSizeEstimate": "number"
+              }
+            },
+            "sample": {
+              "threads": [
+                {
+                  "id": "19c97dc1b3fc6b9a",
+                  "snippet": "You have 1 new message #general (Alice&#39;s Wonderland) View messages Need help? Contact our support team or hit us up on X @discord. Want to give us feedback? Let us know what you think on our",
+                  "historyId": "113161"
+                },
+                {
+                  "id": "19c976a72a62831f",
+                  "snippet": "1 repository in your GitHub account might be affected by a security vulnerability found in basic-ftp Basic FTP has Path Traversal Vulnerability in its downloadToDir() method Critical severity basic-ftp",
+                  "historyId": "113100"
+                },
+                {
+                  "id": "19c9691625f13b7d",
+                  "snippet": "Alice i $50k+ ARR 🎉… ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏",
+                  "historyId": "113087"
+                },
+                {
+                  "id": "19c962d18d783885",
+                  "snippet": "You&#39;re getting noticed ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏",
+                  "historyId": "112945"
+                }
+              ],
+              "nextPageToken": "00804154413182349749",
+              "resultSizeEstimate": 201
+            }
+          }
+        },
+        "messageSamples": [
+          {
+            "messageId": "19c97dc1b3fc6b9a",
+            "threadId": "19c97dc1b3fc6b9a",
+            "variants": {
+              "minimal": {
+                "shape": {
+                  "type": "object",
+                  "keys": {
+                    "id": "string",
+                    "threadId": "string",
+                    "labelIds": {
+                      "type": "array",
+                      "length": 2,
+                      "itemTypes": [
+                        "string"
+                      ],
+                      "itemShape": "string"
+                    },
+                    "snippet": "string",
+                    "sizeEstimate": "number",
+                    "historyId": "string",
+                    "internalDate": "string"
+                  }
+                },
+                "sample": {
+                  "id": "19c97dc1b3fc6b9a",
+                  "threadId": "19c97dc1b3fc6b9a",
+                  "labelIds": [
+                    "UNREAD",
+                    "INBOX"
+                  ],
+                  "snippet": "You have 1 new message #general (Alice&#39;s Wonderland) View messages Need help? Contact our support team or hit us up on X @discord. Want to give us feedback? Let us know what you think on our",
+                  "sizeEstimate": 52853,
+                  "historyId": "113161",
+                  "internalDate": "1772074309000"
+                }
+              },
+              "metadata": {
+                "shape": {
+                  "type": "object",
+                  "keys": {
+                    "id": "string",
+                    "threadId": "string",
+                    "labelIds": {
+                      "type": "array",
+                      "length": 2,
+                      "itemTypes": [
+                        "string"
+                      ],
+                      "itemShape": "string"
+                    },
+                    "snippet": "string",
+                    "payload": {
+                      "type": "object",
+                      "keys": {
+                        "mimeType": "string",
+                        "headers": {
+                          "type": "array",
+                          "length": 5,
+                          "itemTypes": [
+                            "object"
+                          ],
+                          "itemShape": {
+                            "type": "object",
+                            "keys": {
+                              "name": "string",
+                              "value": "string"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "sizeEstimate": "number",
+                    "historyId": "string",
+                    "internalDate": "string"
+                  }
+                },
+                "sample": {
+                  "id": "19c97dc1b3fc6b9a",
+                  "threadId": "19c97dc1b3fc6b9a",
+                  "labelIds": [
+                    "UNREAD",
+                    "INBOX"
+                  ],
+                  "snippet": "You have 1 new message #general (Alice&#39;s Wonderland) View messages Need help? Contact our support team or hit us up on X @discord. Want to give us feedback? Let us know what you think on our",
+                  "payload": {
+                    "mimeType": "text/html",
+                    "headers": [
+                      {
+                        "name": "Date",
+                        "value": "Thu, 26 Feb 2026 02:51:49 +0000 (UTC)"
+                      },
+                      {
+                        "name": "From",
+                        "value": "Discord <noreply@discord.com>"
+                      },
+                      {
+                        "name": "Message-ID",
+                        "value": "<V4wtRjTFQRychLVqQsS_Ug@geopod-ismtpd-56>"
+                      },
+                      {
+                        "name": "Subject",
+                        "value": "You missed messages in Alice's Wonderland"
+                      },
+                      {
+                        "name": "To",
+                        "value": "alice@overment.com"
+                      }
+                    ]
+                  },
+                  "sizeEstimate": 52853,
+                  "historyId": "113161",
+                  "internalDate": "1772074309000"
+                }
+              },
+              "full": {
+                "shape": {
+                  "type": "object",
+                  "keys": {
+                    "id": "string",
+                    "threadId": "string",
+                    "labelIds": {
+                      "type": "array",
+                      "length": 2,
+                      "itemTypes": [
+                        "string"
+                      ],
+                      "itemShape": "string"
+                    },
+                    "snippet": "string",
+                    "payload": {
+                      "type": "object",
+                      "keys": {
+                        "partId": "string",
+                        "mimeType": "string",
+                        "filename": "string",
+                        "headers": {
+                          "type": "array",
+                          "length": 24,
+                          "itemTypes": [
+                            "object"
+                          ],
+                          "itemShape": {
+                            "type": "object",
+                            "keys": {
+                              "name": "string",
+                              "value": "string"
+                            }
+                          }
+                        },
+                        "body": {
+                          "type": "object",
+                          "keys": {
+                            "size": "number",
+                            "data": "string"
+                          }
+                        }
+                      }
+                    },
+                    "sizeEstimate": "number",
+                    "historyId": "string",
+                    "internalDate": "string"
+                  }
+                },
+                "sample": {
+                  "id": "19c97dc1b3fc6b9a",
+                  "threadId": "19c97dc1b3fc6b9a",
+                  "labelIds": [
+                    "UNREAD",
+                    "INBOX"
+                  ],
+                  "snippet": "You have 1 new message #general (Alice&#39;s Wonderland) View messages Need help? Contact our support team or hit us up on X @discord. Want to give us feedback? Let us know what you think on our",
+                  "payload": {
+                    "partId": "",
+                    "mimeType": "text/html",
+                    "filename": "",
+                    "headers": [
+                      {
+                        "name": "Delivered-To",
+                        "value": "alice@overment.com"
+                      },
+                      {
+                        "name": "Received",
+                        "value": "by 2002:a05:640c:a70f:b0:25d:dc42:ee5e with SMTP id i15csp240093eig;        Wed, 25 Feb 2026 18:51:50 -0800 (PST)"
+                      },
+                      {
+                        "name": "X-Received",
+                        "value": "by 2002:a05:622a:58c:b0:501:465f:6e59 with SMTP id d75a77b69052e-5070bc739a9mr253340001cf.47.1772074310162;        Wed, 25 Feb 2026 18:51:50 -0800 (PST)"
+                      },
+                      {
+                        "name": "ARC-Seal",
+                        "value": "i=1; a=rsa-sha256; t=1772074310; cv=none;        d=google.com; s=arc-20240605;        b=ZBf2Q1n4nbJ6LAhICpLthgY1c5biTvQsB+IeBjrwpPTX+ubT0dTLePUdKB/i2e3wbc         +c/aTUoFhlE9PohVrFsExuM9PwmhsuecfabnQhlBILzQ/X4EdzMJIbdLZY0m6ND+mY/1          ... (len=477)"
+                      },
+                      {
+                        "name": "ARC-Message-Signature",
+                        "value": "i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;        h=to:subject:message-id:mime-version:from:date         :content-transfer-encoding:dkim-signature;        bh=Jc0kk6kKT2MohpHBROk6VasWo9MF0aNnGHxX13lxlyo=;        fh=w ... (len=707)"
+                      },
+                      {
+                        "name": "ARC-Authentication-Results",
+                        "value": "i=1; mx.google.com;       dkim=pass header.i=@discord.com header.s=s1 header.b=EOVvBvSA;       spf=pass (google.com: domain of bounces+12551241-55f2-alice=overment.com@mail.discord.com designates 149.72.170.220 as permitted sender) smtp.mai ... (len=377)"
+                      },
+                      {
+                        "name": "Return-Path",
+                        "value": "<bounces+12551241-55f2-alice=overment.com@mail.discord.com>"
+                      },
+                      {
+                        "name": "Received",
+                        "value": "from o21.ptr6759.discord.com (o21.ptr6759.discord.com. [149.72.170.220])        by mx.google.com with ESMTPS id d75a77b69052e-507449638cbsi13458241cf.48.2026.02.25.18.51.49        for <alice@overment.com>        (version=TLS1_3 cipher=TLS_A ... (len=317)"
+                      },
+                      "... (16 more items)"
+                    ],
+                    "body": {
+                      "size": 45290,
+                      "data": "DQogICAgPCFkb2N0eXBlIGh0bWw-DQogICAgPGh0bWwgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGh0bWwiIHhtbG5zOnY9InVybjpzY2hlbWFzLW1pY3Jvc29mdC1jb206dm1sIiB4bWxuczpvPSJ1cm46c2NoZW1hcy1taWNyb3NvZnQtY29tOm9mZmljZTpvZmZpY2UiPg0KICAgICAgPGhlYWQ-DQogICAg ... (len=60388)"
+                    }
+                  },
+                  "sizeEstimate": 52853,
+                  "historyId": "113161",
+                  "internalDate": "1772074309000"
+                }
+              }
+            },
+            "thread": {
+              "shape": {
+                "type": "object",
+                "keys": {
+                  "id": "string",
+                  "historyId": "string",
+                  "messages": {
+                    "type": "array",
+                    "length": 1,
+                    "itemTypes": [
+                      "object"
+                    ],
+                    "itemShape": {
+                      "type": "object",
+                      "keys": {
+                        "id": "string",
+                        "threadId": "string",
+                        "labelIds": {
+                          "type": "array",
+                          "length": 2,
+                          "itemTypes": [
+                            "string"
+                          ],
+                          "itemShape": "string"
+                        },
+                        "snippet": "string",
+                        "payload": {
+                          "type": "object",
+                          "keys": {
+                            "partId": "string",
+                            "mimeType": "string",
+                            "filename": "string",
+                            "headers": {
+                              "type": "array",
+                              "length": 24,
+                              "itemTypes": [
+                                "object"
+                              ],
+                              "itemShape": {
+                                "type": "object",
+                                "keys": {
+                                  "name": "string",
+                                  "value": "string"
+                                }
+                              }
+                            },
+                            "body": {
+                              "type": "object",
+                              "keys": {
+                                "size": "number",
+                                "data": "string"
+                              }
+                            }
+                          }
+                        },
+                        "sizeEstimate": "number",
+                        "historyId": "string",
+                        "internalDate": "string"
+                      }
+                    }
+                  }
+                }
+              },
+              "sample": {
+                "id": "19c97dc1b3fc6b9a",
+                "historyId": "113161",
+                "messages": [
+                  {
+                    "id": "19c97dc1b3fc6b9a",
+                    "threadId": "19c97dc1b3fc6b9a",
+                    "labelIds": [
+                      "UNREAD",
+                      "INBOX"
+                    ],
+                    "snippet": "You have 1 new message #general (Alice&#39;s Wonderland) View messages Need help? Contact our support team or hit us up on X @discord. Want to give us feedback? Let us know what you think on our",
+                    "payload": {
+                      "partId": "",
+                      "mimeType": "text/html",
+                      "filename": "",
+                      "headers": [
+                        {
+                          "name": "Delivered-To",
+                          "value": "alice@overment.com"
+                        },
+                        {
+                          "name": "Received",
+                          "value": "by 2002:a05:640c:a70f:b0:25d:dc42:ee5e with SMTP id i15csp240093eig;        Wed, 25 Feb 2026 18:51:50 -0800 (PST)"
+                        },
+                        {
+                          "name": "X-Received",
+                          "value": "by 2002:a05:622a:58c:b0:501:465f:6e59 with SMTP id d75a77b69052e-5070bc739a9mr253340001cf.47.1772074310162;        Wed, 25 Feb 2026 18:51:50 -0800 (PST)"
+                        },
+                        {
+                          "name": "ARC-Seal",
+                          "value": "i=1; a=rsa-sha256; t=1772074310; cv=none;        d=google.com; s=arc-20240605;        b=ZBf2Q1n4nbJ6LAhICpLthgY1c5biTvQsB+IeBjrwpPTX+ubT0dTLePUdKB/i2e3wbc         +c/aTUoFhlE9PohVrFsExuM9PwmhsuecfabnQhlBILzQ/X4EdzMJIbdLZY0m6ND+mY/1          ... (len=477)"
+                        },
+                        {
+                          "name": "ARC-Message-Signature",
+                          "value": "i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;        h=to:subject:message-id:mime-version:from:date         :content-transfer-encoding:dkim-signature;        bh=Jc0kk6kKT2MohpHBROk6VasWo9MF0aNnGHxX13lxlyo=;        fh=w ... (len=707)"
+                        },
+                        {
+                          "name": "ARC-Authentication-Results",
+                          "value": "i=1; mx.google.com;       dkim=pass header.i=@discord.com header.s=s1 header.b=EOVvBvSA;       spf=pass (google.com: domain of bounces+12551241-55f2-alice=overment.com@mail.discord.com designates 149.72.170.220 as permitted sender) smtp.mai ... (len=377)"
+                        },
+                        {
+                          "name": "Return-Path",
+                          "value": "<bounces+12551241-55f2-alice=overment.com@mail.discord.com>"
+                        },
+                        {
+                          "name": "Received",
+                          "value": "from o21.ptr6759.discord.com (o21.ptr6759.discord.com. [149.72.170.220])        by mx.google.com with ESMTPS id d75a77b69052e-507449638cbsi13458241cf.48.2026.02.25.18.51.49        for <alice@overment.com>        (version=TLS1_3 cipher=TLS_A ... (len=317)"
+                        },
+                        "... (16 more items)"
+                      ],
+                      "body": {
+                        "size": 45290,
+                        "data": "DQogICAgPCFkb2N0eXBlIGh0bWw-DQogICAgPGh0bWwgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGh0bWwiIHhtbG5zOnY9InVybjpzY2hlbWFzLW1pY3Jvc29mdC1jb206dm1sIiB4bWxuczpvPSJ1cm46c2NoZW1hcy1taWNyb3NvZnQtY29tOm9mZmljZTpvZmZpY2UiPg0KICAgICAgPGhlYWQ-DQogICAg ... (len=60388)"
+                      }
+                    },
+                    "sizeEstimate": 52853,
+                    "historyId": "113161",
+                    "internalDate": "1772074309000"
+                  }
+                ]
+              }
+            },
+            "attachmentBodies": []
+          },
+          {
+            "messageId": "19c976a72a62831f",
+            "threadId": "19c976a72a62831f",
+            "variants": {
+              "minimal": {
+                "shape": {
+                  "type": "object",
+                  "keys": {
+                    "id": "string",
+                    "threadId": "string",
+                    "labelIds": {
+                      "type": "array",
+                      "length": 2,
+                      "itemTypes": [
+                        "string"
+                      ],
+                      "itemShape": "string"
+                    },
+                    "snippet": "string",
+                    "sizeEstimate": "number",
+                    "historyId": "string",
+                    "internalDate": "string"
+                  }
+                },
+                "sample": {
+                  "id": "19c976a72a62831f",
+                  "threadId": "19c976a72a62831f",
+                  "labelIds": [
+                    "UNREAD",
+                    "INBOX"
+                  ],
+                  "snippet": "1 repository in your GitHub account might be affected by a security vulnerability found in basic-ftp Basic FTP has Path Traversal Vulnerability in its downloadToDir() method Critical severity basic-ftp",
+                  "sizeEstimate": 42093,
+                  "historyId": "113100",
+                  "internalDate": "1772066861000"
+                }
+              },
+              "metadata": {
+                "shape": {
+                  "type": "object",
+                  "keys": {
+                    "id": "string",
+                    "threadId": "string",
+                    "labelIds": {
+                      "type": "array",
+                      "length": 2,
+                      "itemTypes": [
+                        "string"
+                      ],
+                      "itemShape": "string"
+                    },
+                    "snippet": "string",
+                    "payload": {
+                      "type": "object",
+                      "keys": {
+                        "mimeType": "string",
+                        "headers": {
+                          "type": "array",
+                          "length": 8,
+                          "itemTypes": [
+                            "object"
+                          ],
+                          "itemShape": {
+                            "type": "object",
+                            "keys": {
+                              "name": "string",
+                              "value": "string"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "sizeEstimate": "number",
+                    "historyId": "string",
+                    "internalDate": "string"
+                  }
+                },
+                "sample": {
+                  "id": "19c976a72a62831f",
+                  "threadId": "19c976a72a62831f",
+                  "labelIds": [
+                    "UNREAD",
+                    "INBOX"
+                  ],
+                  "snippet": "1 repository in your GitHub account might be affected by a security vulnerability found in basic-ftp Basic FTP has Path Traversal Vulnerability in its downloadToDir() method Critical severity basic-ftp",
+                  "payload": {
+                    "mimeType": "multipart/alternative",
+                    "headers": [
+                      {
+                        "name": "Date",
+                        "value": "Wed, 25 Feb 2026 16:47:41 -0800"
+                      },
+                      {
+                        "name": "From",
+                        "value": "GitHub <notifications@github.com>"
+                      },
+                      {
+                        "name": "To",
+                        "value": "\"i-am-alice/GHSA-5rq4-664w-9x2c\" <GHSA-5rq4-664w-9x2c@noreply.github.com>"
+                      },
+                      {
+                        "name": "Cc",
+                        "value": "Security alert <security_alert@noreply.github.com>"
+                      },
+                      {
+                        "name": "Message-ID",
+                        "value": "<i-am-alice/security-advisories/400780103@github.com>"
+                      },
+                      {
+                        "name": "In-Reply-To",
+                        "value": "<i-am-alice/security-advisories@github.com>"
+                      },
+                      {
+                        "name": "References",
+                        "value": "<i-am-alice/security-advisories@github.com>"
+                      },
+                      {
+                        "name": "Subject",
+                        "value": "[i-am-alice] A security advisory on basic-ftp affects at least one of your repositories"
+                      }
+                    ]
+                  },
+                  "sizeEstimate": 42093,
+                  "historyId": "113100",
+                  "internalDate": "1772066861000"
+                }
+              },
+              "full": {
+                "shape": {
+                  "type": "object",
+                  "keys": {
+                    "id": "string",
+                    "threadId": "string",
+                    "labelIds": {
+                      "type": "array",
+                      "length": 2,
+                      "itemTypes": [
+                        "string"
+                      ],
+                      "itemShape": "string"
+                    },
+                    "snippet": "string",
+                    "payload": {
+                      "type": "object",
+                      "keys": {
+                        "partId": "string",
+                        "mimeType": "string",
+                        "filename": "string",
+                        "headers": {
+                          "type": "array",
+                          "length": 39,
+                          "itemTypes": [
+                            "object"
+                          ],
+                          "itemShape": {
+                            "type": "object",
+                            "keys": {
+                              "name": "string",
+                              "value": "string"
+                            }
+                          }
+                        },
+                        "body": {
+                          "type": "object",
+                          "keys": {
+                            "size": "number"
+                          }
+                        },
+                        "parts": {
+                          "type": "array",
+                          "length": 2,
+                          "itemTypes": [
+                            "object"
+                          ],
+                          "itemShape": {
+                            "type": "object",
+                            "keys": {
+                              "partId": "string",
+                              "mimeType": "string",
+                              "filename": "string",
+                              "headers": {
+                                "type": "array",
+                                "length": 2,
+                                "itemTypes": [
+                                  "object"
+                                ],
+                                "itemShape": {
+                                  "type": "object",
+                                  "keys": {
+                                    "name": "string",
+                                    "value": "string"
+                                  }
+                                }
+                              },
+                              "body": {
+                                "type": "object",
+                                "keys": {
+                                  "size": "number",
+                                  "data": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "sizeEstimate": "number",
+                    "historyId": "string",
+                    "internalDate": "string"
+                  }
+                },
+                "sample": {
+                  "id": "19c976a72a62831f",
+                  "threadId": "19c976a72a62831f",
+                  "labelIds": [
+                    "UNREAD",
+                    "INBOX"
+                  ],
+                  "snippet": "1 repository in your GitHub account might be affected by a security vulnerability found in basic-ftp Basic FTP has Path Traversal Vulnerability in its downloadToDir() method Critical severity basic-ftp",
+                  "payload": {
+                    "partId": "",
+                    "mimeType": "multipart/alternative",
+                    "filename": "",
+                    "headers": [
+                      {
+                        "name": "Delivered-To",
+                        "value": "alice@overment.com"
+                      },
+                      {
+                        "name": "Received",
+                        "value": "by 2002:a05:640c:a70f:b0:25d:dc42:ee5e with SMTP id i15csp193732eig;        Wed, 25 Feb 2026 16:47:42 -0800 (PST)"
+                      },
+                      {
+                        "name": "X-Forwarded-Encrypted",
+                        "value": "i=2; AJvYcCW+rFFrxCOq2kGHzBvL4r43IsSL3rrxjjJpJ9s/nirnN5aljW5/lidSpqZRQ4vLZitt0y+UVw==@overment.com"
+                      },
+                      {
+                        "name": "X-Received",
+                        "value": "by 2002:a05:620a:2956:b0:8cb:50d6:18c4 with SMTP id af79cd13be357-8cbbcf42da6mr329135385a.11.1772066862077;        Wed, 25 Feb 2026 16:47:42 -0800 (PST)"
+                      },
+                      {
+                        "name": "ARC-Seal",
+                        "value": "i=1; a=rsa-sha256; t=1772066862; cv=none;        d=google.com; s=arc-20240605;        b=OgD8bquMxH0a6l/l3RagQOowBKq7sHW4M7cXUOVA6rMQS7ITnqRi9rVvyzI97FNEqE         KdOKzOGI8uXeuaMFMrCwf5HQmVthmd86PKCJl23FKc/EccssSRLFIw0M9IE9KsCtP03f          ... (len=477)"
+                      },
+                      {
+                        "name": "ARC-Message-Signature",
+                        "value": "i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;        h=destinations:list-unsubscribe:list-unsubscribe-post:list-post         :list-archive:list-id:precedence:content-transfer-encoding         :mime-version:subject:refe ... (len=854)"
+                      },
+                      {
+                        "name": "ARC-Authentication-Results",
+                        "value": "i=1; mx.google.com;       dkim=pass header.i=@github.com header.s=pf2023 header.b=J6SFINSG;       spf=pass (google.com: domain of noreply@github.com designates 192.30.252.209 as permitted sender) smtp.mailfrom=noreply@github.com;       dmar ... (len=299)"
+                      },
+                      {
+                        "name": "Return-Path",
+                        "value": "<noreply@github.com>"
+                      },
+                      "... (31 more items)"
+                    ],
+                    "body": {
+                      "size": 0
+                    },
+                    "parts": [
+                      {
+                        "partId": "0",
+                        "mimeType": "text/plain",
+                        "filename": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "text/plain; charset=UTF-8"
+                          },
+                          {
+                            "name": "Content-Transfer-Encoding",
+                            "value": "quoted-printable"
+                          }
+                        ],
+                        "body": {
+                          "size": 517,
+                          "data": "MSByZXBvc2l0b3J5IGluIHlvdXIgR2l0SHViIGFjY291bnQgbWlnaHQgYmUgYWZmZWN0ZWQgYnkgYSBzZWN1cml0eSB2dWxuZXJhYmlsaXR5IGZvdW5kIGluIGJhc2ljLWZ0cA0KDQpCYXNpYyBGVFAgaGFzIFBhdGggVHJhdmVyc2FsIFZ1bG5lcmFiaWxpdHkgaW4gaXRzIGRvd25sb2FkVG9EaXIoKcKgbWV0aG9kIChj ... (len=692)"
+                        }
+                      },
+                      {
+                        "partId": "1",
+                        "mimeType": "text/html",
+                        "filename": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "text/html; charset=UTF-8"
+                          },
+                          {
+                            "name": "Content-Transfer-Encoding",
+                            "value": "7bit"
+                          }
+                        ],
+                        "body": {
+                          "size": 36153,
+                          "data": "PCFET0NUWVBFIGh0bWwgUFVCTElDICItLy9XM0MvL0RURCBYSFRNTCAxLjAgVHJhbnNpdGlvbmFsLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL1RSL3hodG1sMS9EVEQveGh0bWwxLXRyYW5zaXRpb25hbC5kdGQiPg0KPGh0bWwgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGh0bWwiIHhtbG5zPSJodHRwOi8v ... (len=48204)"
+                        }
+                      }
+                    ]
+                  },
+                  "sizeEstimate": 42093,
+                  "historyId": "113100",
+                  "internalDate": "1772066861000"
+                }
+              }
+            },
+            "thread": {
+              "shape": {
+                "type": "object",
+                "keys": {
+                  "id": "string",
+                  "historyId": "string",
+                  "messages": {
+                    "type": "array",
+                    "length": 1,
+                    "itemTypes": [
+                      "object"
+                    ],
+                    "itemShape": {
+                      "type": "object",
+                      "keys": {
+                        "id": "string",
+                        "threadId": "string",
+                        "labelIds": {
+                          "type": "array",
+                          "length": 2,
+                          "itemTypes": [
+                            "string"
+                          ],
+                          "itemShape": "string"
+                        },
+                        "snippet": "string",
+                        "payload": {
+                          "type": "object",
+                          "keys": {
+                            "partId": "string",
+                            "mimeType": "string",
+                            "filename": "string",
+                            "headers": {
+                              "type": "array",
+                              "length": 39,
+                              "itemTypes": [
+                                "object"
+                              ],
+                              "itemShape": {
+                                "type": "object",
+                                "keys": {
+                                  "name": "string",
+                                  "value": "string"
+                                }
+                              }
+                            },
+                            "body": {
+                              "type": "object",
+                              "keys": {
+                                "size": "number"
+                              }
+                            },
+                            "parts": {
+                              "type": "array",
+                              "length": 2,
+                              "itemTypes": [
+                                "object"
+                              ],
+                              "itemShape": {
+                                "type": "object",
+                                "keys": {
+                                  "partId": "string",
+                                  "mimeType": "string",
+                                  "filename": "string",
+                                  "headers": {
+                                    "type": "array",
+                                    "length": 2,
+                                    "itemTypes": [
+                                      "object"
+                                    ],
+                                    "itemShape": "object"
+                                  },
+                                  "body": {
+                                    "type": "object",
+                                    "keys": {
+                                      "size": "number",
+                                      "data": "string"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "sizeEstimate": "number",
+                        "historyId": "string",
+                        "internalDate": "string"
+                      }
+                    }
+                  }
+                }
+              },
+              "sample": {
+                "id": "19c976a72a62831f",
+                "historyId": "113100",
+                "messages": [
+                  {
+                    "id": "19c976a72a62831f",
+                    "threadId": "19c976a72a62831f",
+                    "labelIds": [
+                      "UNREAD",
+                      "INBOX"
+                    ],
+                    "snippet": "1 repository in your GitHub account might be affected by a security vulnerability found in basic-ftp Basic FTP has Path Traversal Vulnerability in its downloadToDir() method Critical severity basic-ftp",
+                    "payload": {
+                      "partId": "",
+                      "mimeType": "multipart/alternative",
+                      "filename": "",
+                      "headers": [
+                        {
+                          "name": "Delivered-To",
+                          "value": "alice@overment.com"
+                        },
+                        {
+                          "name": "Received",
+                          "value": "by 2002:a05:640c:a70f:b0:25d:dc42:ee5e with SMTP id i15csp193732eig;        Wed, 25 Feb 2026 16:47:42 -0800 (PST)"
+                        },
+                        {
+                          "name": "X-Forwarded-Encrypted",
+                          "value": "i=2; AJvYcCW+rFFrxCOq2kGHzBvL4r43IsSL3rrxjjJpJ9s/nirnN5aljW5/lidSpqZRQ4vLZitt0y+UVw==@overment.com"
+                        },
+                        {
+                          "name": "X-Received",
+                          "value": "by 2002:a05:620a:2956:b0:8cb:50d6:18c4 with SMTP id af79cd13be357-8cbbcf42da6mr329135385a.11.1772066862077;        Wed, 25 Feb 2026 16:47:42 -0800 (PST)"
+                        },
+                        {
+                          "name": "ARC-Seal",
+                          "value": "i=1; a=rsa-sha256; t=1772066862; cv=none;        d=google.com; s=arc-20240605;        b=OgD8bquMxH0a6l/l3RagQOowBKq7sHW4M7cXUOVA6rMQS7ITnqRi9rVvyzI97FNEqE         KdOKzOGI8uXeuaMFMrCwf5HQmVthmd86PKCJl23FKc/EccssSRLFIw0M9IE9KsCtP03f          ... (len=477)"
+                        },
+                        {
+                          "name": "ARC-Message-Signature",
+                          "value": "i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;        h=destinations:list-unsubscribe:list-unsubscribe-post:list-post         :list-archive:list-id:precedence:content-transfer-encoding         :mime-version:subject:refe ... (len=854)"
+                        },
+                        {
+                          "name": "ARC-Authentication-Results",
+                          "value": "i=1; mx.google.com;       dkim=pass header.i=@github.com header.s=pf2023 header.b=J6SFINSG;       spf=pass (google.com: domain of noreply@github.com designates 192.30.252.209 as permitted sender) smtp.mailfrom=noreply@github.com;       dmar ... (len=299)"
+                        },
+                        {
+                          "name": "Return-Path",
+                          "value": "<noreply@github.com>"
+                        },
+                        "... (31 more items)"
+                      ],
+                      "body": {
+                        "size": 0
+                      },
+                      "parts": [
+                        {
+                          "partId": "0",
+                          "mimeType": "text/plain",
+                          "filename": "",
+                          "headers": [
+                            "[max-depth]",
+                            "[max-depth]"
+                          ],
+                          "body": {
+                            "size": "[max-depth]",
+                            "data": "[max-depth]"
+                          }
+                        },
+                        {
+                          "partId": "1",
+                          "mimeType": "text/html",
+                          "filename": "",
+                          "headers": [
+                            "[max-depth]",
+                            "[max-depth]"
+                          ],
+                          "body": {
+                            "size": "[max-depth]",
+                            "data": "[max-depth]"
+                          }
+                        }
+                      ]
+                    },
+                    "sizeEstimate": 42093,
+                    "historyId": "113100",
+                    "internalDate": "1772066861000"
+                  }
+                ]
+              }
+            },
+            "attachmentBodies": []
+          }
+        ]
+      },
+      {
+        "query": "in:sent newer_than:30d",
+        "messagesList": {
+          "count": 1,
+          "nextPageToken": null,
+          "summary": {
+            "shape": {
+              "type": "object",
+              "keys": {
+                "messages": {
+                  "type": "array",
+                  "length": 1,
+                  "itemTypes": [
+                    "object"
+                  ],
+                  "itemShape": {
+                    "type": "object",
+                    "keys": {
+                      "id": "string",
+                      "threadId": "string"
+                    }
+                  }
+                },
+                "resultSizeEstimate": "number"
+              }
+            },
+            "sample": {
+              "messages": [
+                {
+                  "id": "19c2e13f44a4f885",
+                  "threadId": "19c2e13f44a4f885"
+                }
+              ],
+              "resultSizeEstimate": 1
+            }
+          }
+        },
+        "threadsList": {
+          "count": 1,
+          "nextPageToken": null,
+          "summary": {
+            "shape": {
+              "type": "object",
+              "keys": {
+                "threads": {
+                  "type": "array",
+                  "length": 1,
+                  "itemTypes": [
+                    "object"
+                  ],
+                  "itemShape": {
+                    "type": "object",
+                    "keys": {
+                      "id": "string",
+                      "snippet": "string",
+                      "historyId": "string"
+                    }
+                  }
+                },
+                "resultSizeEstimate": "number"
+              }
+            },
+            "sample": {
+              "threads": [
+                {
+                  "id": "19c2e13f44a4f885",
+                  "snippet": "This is just a test.",
+                  "historyId": "107015"
+                }
+              ],
+              "resultSizeEstimate": 1
+            }
+          }
+        },
+        "messageSamples": [
+          {
+            "messageId": "19c2e13f44a4f885",
+            "threadId": "19c2e13f44a4f885",
+            "variants": {
+              "minimal": {
+                "shape": {
+                  "type": "object",
+                  "keys": {
+                    "id": "string",
+                    "threadId": "string",
+                    "labelIds": {
+                      "type": "array",
+                      "length": 1,
+                      "itemTypes": [
+                        "string"
+                      ],
+                      "itemShape": "string"
+                    },
+                    "snippet": "string",
+                    "sizeEstimate": "number",
+                    "historyId": "string",
+                    "internalDate": "string"
+                  }
+                },
+                "sample": {
+                  "id": "19c2e13f44a4f885",
+                  "threadId": "19c2e13f44a4f885",
+                  "labelIds": [
+                    "SENT"
+                  ],
+                  "snippet": "This is just a test.",
+                  "sizeEstimate": 1308,
+                  "historyId": "107015",
+                  "internalDate": "1770299586000"
+                }
+              },
+              "metadata": {
+                "shape": {
+                  "type": "object",
+                  "keys": {
+                    "id": "string",
+                    "threadId": "string",
+                    "labelIds": {
+                      "type": "array",
+                      "length": 1,
+                      "itemTypes": [
+                        "string"
+                      ],
+                      "itemShape": "string"
+                    },
+                    "snippet": "string",
+                    "payload": {
+                      "type": "object",
+                      "keys": {
+                        "mimeType": "string",
+                        "headers": {
+                          "type": "array",
+                          "length": 5,
+                          "itemTypes": [
+                            "object"
+                          ],
+                          "itemShape": {
+                            "type": "object",
+                            "keys": {
+                              "name": "string",
+                              "value": "string"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "sizeEstimate": "number",
+                    "historyId": "string",
+                    "internalDate": "string"
+                  }
+                },
+                "sample": {
+                  "id": "19c2e13f44a4f885",
+                  "threadId": "19c2e13f44a4f885",
+                  "labelIds": [
+                    "SENT"
+                  ],
+                  "snippet": "This is just a test.",
+                  "payload": {
+                    "mimeType": "multipart/alternative",
+                    "headers": [
+                      {
+                        "name": "From",
+                        "value": "Alice overment <alice@overment.com>"
+                      },
+                      {
+                        "name": "Date",
+                        "value": "Thu, 05 Feb 2026 13:53:06 +0000"
+                      },
+                      {
+                        "name": "Message-ID",
+                        "value": "<ml9inefa.ebf4143b-9e21-45f6-a76e-cfaab82b284d@we.are.superhuman.com>"
+                      },
+                      {
+                        "name": "Subject",
+                        "value": "Hello"
+                      },
+                      {
+                        "name": "To",
+                        "value": "Adam Gospodarczyk <adam@overment.com>"
+                      }
+                    ]
+                  },
+                  "sizeEstimate": 1308,
+                  "historyId": "107015",
+                  "internalDate": "1770299586000"
+                }
+              },
+              "full": {
+                "shape": {
+                  "type": "object",
+                  "keys": {
+                    "id": "string",
+                    "threadId": "string",
+                    "labelIds": {
+                      "type": "array",
+                      "length": 1,
+                      "itemTypes": [
+                        "string"
+                      ],
+                      "itemShape": "string"
+                    },
+                    "snippet": "string",
+                    "payload": {
+                      "type": "object",
+                      "keys": {
+                        "partId": "string",
+                        "mimeType": "string",
+                        "filename": "string",
+                        "headers": {
+                          "type": "array",
+                          "length": 13,
+                          "itemTypes": [
+                            "object"
+                          ],
+                          "itemShape": {
+                            "type": "object",
+                            "keys": {
+                              "name": "string",
+                              "value": "string"
+                            }
+                          }
+                        },
+                        "body": {
+                          "type": "object",
+                          "keys": {
+                            "size": "number"
+                          }
+                        },
+                        "parts": {
+                          "type": "array",
+                          "length": 2,
+                          "itemTypes": [
+                            "object"
+                          ],
+                          "itemShape": {
+                            "type": "object",
+                            "keys": {
+                              "partId": "string",
+                              "mimeType": "string",
+                              "filename": "string",
+                              "headers": {
+                                "type": "array",
+                                "length": 2,
+                                "itemTypes": [
+                                  "object"
+                                ],
+                                "itemShape": {
+                                  "type": "object",
+                                  "keys": {
+                                    "name": "string",
+                                    "value": "string"
+                                  }
+                                }
+                              },
+                              "body": {
+                                "type": "object",
+                                "keys": {
+                                  "size": "number",
+                                  "data": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "sizeEstimate": "number",
+                    "historyId": "string",
+                    "internalDate": "string"
+                  }
+                },
+                "sample": {
+                  "id": "19c2e13f44a4f885",
+                  "threadId": "19c2e13f44a4f885",
+                  "labelIds": [
+                    "SENT"
+                  ],
+                  "snippet": "This is just a test.",
+                  "payload": {
+                    "partId": "",
+                    "mimeType": "multipart/alternative",
+                    "filename": "",
+                    "headers": [
+                      {
+                        "name": "Received",
+                        "value": "from 649336022844 named unknown by gmailapi.google.com with HTTPREST; Thu, 5 Feb 2026 07:53:07 -0600"
+                      },
+                      {
+                        "name": "Mime-Version",
+                        "value": "1.0"
+                      },
+                      {
+                        "name": "X-Superhuman-ID",
+                        "value": "ml9injth.1583bd2e-e31f-431e-8798-c226652fae55"
+                      },
+                      {
+                        "name": "X-Superhuman-Draft-ID",
+                        "value": "draft00b08ec4e58252e6"
+                      },
+                      {
+                        "name": "From",
+                        "value": "Alice overment <alice@overment.com>"
+                      },
+                      {
+                        "name": "Date",
+                        "value": "Thu, 05 Feb 2026 13:53:06 +0000"
+                      },
+                      {
+                        "name": "Message-ID",
+                        "value": "<ml9inefa.ebf4143b-9e21-45f6-a76e-cfaab82b284d@we.are.superhuman.com>"
+                      },
+                      {
+                        "name": "Subject",
+                        "value": "Hello"
+                      },
+                      "... (5 more items)"
+                    ],
+                    "body": {
+                      "size": 0
+                    },
+                    "parts": [
+                      {
+                        "partId": "0",
+                        "mimeType": "text/plain",
+                        "filename": "",
+                        "headers": [
+                          {
+                            "name": "Content-Transfer-Encoding",
+                            "value": "quoted-printable"
+                          },
+                          {
+                            "name": "Content-Type",
+                            "value": "text/plain; charset=UTF-8"
+                          }
+                        ],
+                        "body": {
+                          "size": 20,
+                          "data": "VGhpcyBpcyBqdXN0IGEgdGVzdC4="
+                        }
+                      },
+                      {
+                        "partId": "1",
+                        "mimeType": "text/html",
+                        "filename": "",
+                        "headers": [
+                          {
+                            "name": "Content-Transfer-Encoding",
+                            "value": "quoted-printable"
+                          },
+                          {
+                            "name": "Content-Type",
+                            "value": "text/html; charset=UTF-8"
+                          }
+                        ],
+                        "body": {
+                          "size": 152,
+                          "data": "PGh0bWw-PGhlYWQ-PC9oZWFkPjxib2R5PjxkaXY-PGRpdj48ZGl2IGNsYXNzPSIiPlRoaXMgaXMganVzdCBhIHRlc3QuPC9kaXY-PC9kaXY-PGRpdj48L2Rpdj48YnIvPjxkaXYgY2xhc3M9ImdtYWlsX3NpZ25hdHVyZSI-PC9kaXY-PC9kaXY-PC9ib2R5PjwvaHRtbD4="
+                        }
+                      }
+                    ]
+                  },
+                  "sizeEstimate": 1308,
+                  "historyId": "107015",
+                  "internalDate": "1770299586000"
+                }
+              }
+            },
+            "thread": {
+              "shape": {
+                "type": "object",
+                "keys": {
+                  "id": "string",
+                  "historyId": "string",
+                  "messages": {
+                    "type": "array",
+                    "length": 1,
+                    "itemTypes": [
+                      "object"
+                    ],
+                    "itemShape": {
+                      "type": "object",
+                      "keys": {
+                        "id": "string",
+                        "threadId": "string",
+                        "labelIds": {
+                          "type": "array",
+                          "length": 1,
+                          "itemTypes": [
+                            "string"
+                          ],
+                          "itemShape": "string"
+                        },
+                        "snippet": "string",
+                        "payload": {
+                          "type": "object",
+                          "keys": {
+                            "partId": "string",
+                            "mimeType": "string",
+                            "filename": "string",
+                            "headers": {
+                              "type": "array",
+                              "length": 13,
+                              "itemTypes": [
+                                "object"
+                              ],
+                              "itemShape": {
+                                "type": "object",
+                                "keys": {
+                                  "name": "string",
+                                  "value": "string"
+                                }
+                              }
+                            },
+                            "body": {
+                              "type": "object",
+                              "keys": {
+                                "size": "number"
+                              }
+                            },
+                            "parts": {
+                              "type": "array",
+                              "length": 2,
+                              "itemTypes": [
+                                "object"
+                              ],
+                              "itemShape": {
+                                "type": "object",
+                                "keys": {
+                                  "partId": "string",
+                                  "mimeType": "string",
+                                  "filename": "string",
+                                  "headers": {
+                                    "type": "array",
+                                    "length": 2,
+                                    "itemTypes": [
+                                      "object"
+                                    ],
+                                    "itemShape": "object"
+                                  },
+                                  "body": {
+                                    "type": "object",
+                                    "keys": {
+                                      "size": "number",
+                                      "data": "string"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "sizeEstimate": "number",
+                        "historyId": "string",
+                        "internalDate": "string"
+                      }
+                    }
+                  }
+                }
+              },
+              "sample": {
+                "id": "19c2e13f44a4f885",
+                "historyId": "107015",
+                "messages": [
+                  {
+                    "id": "19c2e13f44a4f885",
+                    "threadId": "19c2e13f44a4f885",
+                    "labelIds": [
+                      "SENT"
+                    ],
+                    "snippet": "This is just a test.",
+                    "payload": {
+                      "partId": "",
+                      "mimeType": "multipart/alternative",
+                      "filename": "",
+                      "headers": [
+                        {
+                          "name": "Received",
+                          "value": "from 649336022844 named unknown by gmailapi.google.com with HTTPREST; Thu, 5 Feb 2026 07:53:07 -0600"
+                        },
+                        {
+                          "name": "Mime-Version",
+                          "value": "1.0"
+                        },
+                        {
+                          "name": "X-Superhuman-ID",
+                          "value": "ml9injth.1583bd2e-e31f-431e-8798-c226652fae55"
+                        },
+                        {
+                          "name": "X-Superhuman-Draft-ID",
+                          "value": "draft00b08ec4e58252e6"
+                        },
+                        {
+                          "name": "From",
+                          "value": "Alice overment <alice@overment.com>"
+                        },
+                        {
+                          "name": "Date",
+                          "value": "Thu, 05 Feb 2026 13:53:06 +0000"
+                        },
+                        {
+                          "name": "Message-ID",
+                          "value": "<ml9inefa.ebf4143b-9e21-45f6-a76e-cfaab82b284d@we.are.superhuman.com>"
+                        },
+                        {
+                          "name": "Subject",
+                          "value": "Hello"
+                        },
+                        "... (5 more items)"
+                      ],
+                      "body": {
+                        "size": 0
+                      },
+                      "parts": [
+                        {
+                          "partId": "0",
+                          "mimeType": "text/plain",
+                          "filename": "",
+                          "headers": [
+                            "[max-depth]",
+                            "[max-depth]"
+                          ],
+                          "body": {
+                            "size": "[max-depth]",
+                            "data": "[max-depth]"
+                          }
+                        },
+                        {
+                          "partId": "1",
+                          "mimeType": "text/html",
+                          "filename": "",
+                          "headers": [
+                            "[max-depth]",
+                            "[max-depth]"
+                          ],
+                          "body": {
+                            "size": "[max-depth]",
+                            "data": "[max-depth]"
+                          }
+                        }
+                      ]
+                    },
+                    "sizeEstimate": 1308,
+                    "historyId": "107015",
+                    "internalDate": "1770299586000"
+                  }
+                ]
+              }
+            },
+            "attachmentBodies": []
+          }
+        ]
+      },
+      {
+        "query": "subject:(invoice OR faktura)",
+        "messagesList": {
+          "count": 0,
+          "nextPageToken": null,
+          "summary": {
+            "shape": {
+              "type": "object",
+              "keys": {
+                "resultSizeEstimate": "number"
+              }
+            },
+            "sample": {
+              "resultSizeEstimate": 0
+            }
+          }
+        },
+        "threadsList": {
+          "count": 0,
+          "nextPageToken": null,
+          "summary": {
+            "shape": {
+              "type": "object",
+              "keys": {
+                "resultSizeEstimate": "number"
+              }
+            },
+            "sample": {
+              "resultSizeEstimate": 0
+            }
+          }
+        },
+        "messageSamples": []
+      }
+    ]
+  }
+}

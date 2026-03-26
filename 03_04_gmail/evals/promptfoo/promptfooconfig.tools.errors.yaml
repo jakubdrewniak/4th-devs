@@ -1,0 +1,234 @@
+description: 03_04_gmail tool eval (error and no-result paths)
+
+prompts:
+  - "{{message}}"
+
+providers:
+  - id: file://provider.mjs
+    label: gmail-agent
+    config:
+      maxTurns: 6
+      instructions: >-
+        You are a Gmail assistant running deterministic tool error/no-result evaluations.
+        For each prompt, call the directly referenced tool first using user-provided IDs and values verbatim.
+        Do not substitute IDs/labels or switch to another tool to recover unless explicitly requested.
+        After tool output, explain the result briefly and accurately.
+
+tests: datasets/tools/errors.yaml
+
+evaluateOptions:
+  maxConcurrency: 10
+
+defaultTest:
+  assert:
+    - type: is-json
+      metric: valid_json
+
+    - type: javascript
+      metric: valid_eval_payload
+      value: |
+        const data = JSON.parse(output);
+        const isValid =
+          data &&
+          typeof data === 'object' &&
+          !data.error &&
+          typeof data.finalText === 'string' &&
+          Number.isFinite(Number(data.turns)) &&
+          typeof data.reachedMaxTurns === 'boolean' &&
+          Array.isArray(data.toolCalls);
+        if (isValid) return true;
+        return {
+          pass: false,
+          score: 0,
+          reason: `Invalid eval payload: ${output.slice(0, 280)}`,
+        };
+
+    - type: javascript
+      metric: required_tools
+      value: |
+        const data = JSON.parse(output);
+        const used = Array.isArray(data.toolCalls) ? data.toolCalls.map((tool) => tool.name) : [];
+        const required = String(context.vars.required_tools_csv ?? '')
+          .split(',')
+          .map((name) => name.trim())
+          .filter((name) => name.length > 0);
+        const missing = required.filter((name) => !used.includes(name));
+        if (missing.length === 0) return true;
+        return {
+          pass: false,
+          score: 0,
+          reason: `Missing required tools: ${missing.join(', ')}; used=[${used.join(', ')}]`,
+        };
+
+    - type: javascript
+      metric: forbidden_tools
+      value: |
+        const data = JSON.parse(output);
+        const used = Array.isArray(data.toolCalls) ? data.toolCalls.map((tool) => tool.name) : [];
+        const forbidden = String(context.vars.forbidden_tools_csv ?? '')
+          .split(',')
+          .map((name) => name.trim())
+          .filter((name) => name.length > 0);
+        const violated = forbidden.filter((name) => used.includes(name));
+        if (violated.length === 0) return true;
+        return {
+          pass: false,
+          score: 0,
+          reason: `Forbidden tools used: ${violated.join(', ')}; used=[${used.join(', ')}]`,
+        };
+
+    - type: javascript
+      metric: expected_primary_tool
+      value: |
+        const expected = String(context.vars.expected_primary_tool ?? '').trim();
+        if (!expected) return true;
+        const data = JSON.parse(output);
+        const used = Array.isArray(data.toolCalls) ? data.toolCalls.map((tool) => tool.name) : [];
+        if (used.includes(expected)) return true;
+        return {
+          pass: false,
+          score: 0,
+          reason: `Expected primary tool ${expected} was not used; used=[${used.join(', ')}]`,
+        };
+
+    - type: javascript
+      metric: hint_status
+      value: |
+        const expectedStatus = String(context.vars.expected_hint_status ?? '').trim();
+        if (!expectedStatus) return true;
+
+        const expectedTool = String(context.vars.expected_primary_tool ?? '').trim();
+        const data = JSON.parse(output);
+        const calls = Array.isArray(data.toolCalls) ? data.toolCalls : [];
+        const targetCalls = expectedTool
+          ? calls.filter((tool) => tool.name === expectedTool)
+          : calls;
+        if (targetCalls.length === 0) {
+          return { pass: false, score: 0, reason: 'Expected target tool call but none found' };
+        }
+
+        const matched = targetCalls.some(
+          (call) =>
+            call?.output &&
+            typeof call.output === 'object' &&
+            call.output.hint &&
+            typeof call.output.hint === 'object' &&
+            String(call.output.hint.status ?? '').trim() === expectedStatus,
+        );
+        if (matched) return true;
+
+        const observed = targetCalls
+          .map((call) => String(call?.output?.hint?.status ?? ''))
+          .filter(Boolean);
+        return {
+          pass: false,
+          score: 0,
+          reason: `Expected hint.status=${expectedStatus}; observed=[${observed.join(', ')}]`,
+        };
+
+    - type: javascript
+      metric: hint_reason_code
+      value: |
+        const expectedReason = String(context.vars.expected_hint_reason_code ?? '').trim();
+        if (!expectedReason) return true;
+
+        const expectedTool = String(context.vars.expected_primary_tool ?? '').trim();
+        const data = JSON.parse(output);
+        const calls = Array.isArray(data.toolCalls) ? data.toolCalls : [];
+        const targetCalls = expectedTool
+          ? calls.filter((tool) => tool.name === expectedTool)
+          : calls;
+        if (targetCalls.length === 0) {
+          return { pass: false, score: 0, reason: 'Expected target tool call but none found' };
+        }
+
+        const matched = targetCalls.some(
+          (call) =>
+            call?.output &&
+            typeof call.output === 'object' &&
+            call.output.hint &&
+            typeof call.output.hint === 'object' &&
+            String(call.output.hint.reasonCode ?? '').trim() === expectedReason,
+        );
+        if (matched) return true;
+
+        const observed = targetCalls
+          .map((call) => String(call?.output?.hint?.reasonCode ?? ''))
+          .filter(Boolean);
+        return {
+          pass: false,
+          score: 0,
+          reason: `Expected hint.reasonCode=${expectedReason}; observed=[${observed.join(', ')}]`,
+        };
+
+    - type: javascript
+      metric: next_action_tool
+      value: |
+        const expectedTool = String(context.vars.expected_next_action_tool ?? '').trim();
+        if (!expectedTool) return true;
+
+        const primaryTool = String(context.vars.expected_primary_tool ?? '').trim();
+        const data = JSON.parse(output);
+        const calls = Array.isArray(data.toolCalls) ? data.toolCalls : [];
+        const targetCalls = primaryTool
+          ? calls.filter((tool) => tool.name === primaryTool)
+          : calls;
+        if (targetCalls.length === 0) {
+          return { pass: false, score: 0, reason: 'Expected target tool call but none found' };
+        }
+
+        const matched = targetCalls.some((call) => {
+          const actions = Array.isArray(call?.output?.hint?.nextActions)
+            ? call.output.hint.nextActions
+            : [];
+          return actions.some((action) => String(action?.tool ?? '').trim() === expectedTool);
+        });
+        if (matched) return true;
+        return {
+          pass: false,
+          score: 0,
+          reason: `Expected hint.nextActions to include tool=${expectedTool}`,
+        };
+
+    - type: javascript
+      metric: expected_error_contains
+      value: |
+        const needle = String(context.vars.expected_error_contains ?? '').trim().toLowerCase();
+        if (!needle) return true;
+
+        const expectedTool = String(context.vars.expected_primary_tool ?? '').trim();
+        const data = JSON.parse(output);
+        const calls = Array.isArray(data.toolCalls) ? data.toolCalls : [];
+        const targetCalls = expectedTool
+          ? calls.filter((tool) => tool.name === expectedTool)
+          : calls;
+        if (targetCalls.length === 0) {
+          return { pass: false, score: 0, reason: 'Expected target tool call but none found' };
+        }
+
+        const matched = targetCalls.some((call) =>
+          String(call?.error ?? '').toLowerCase().includes(needle),
+        );
+        if (matched) return true;
+
+        const observed = targetCalls
+          .map((call) => String(call?.error ?? '').trim())
+          .filter(Boolean);
+        return {
+          pass: false,
+          score: 0,
+          reason: `Expected tool error to include "${needle}"; observed=[${observed.join(' | ')}]`,
+        };
+
+    - type: javascript
+      metric: turn_budget
+      value: |
+        const data = JSON.parse(output);
+        const maxTurns = Number(context.vars.max_turns ?? 6);
+        const turns = Number(data.turns ?? 0);
+        if (Number.isFinite(turns) && turns <= maxTurns) return true;
+        return {
+          pass: false,
+          score: 0,
+          reason: `Turn budget exceeded: ${turns} > ${maxTurns}`,
+        };

@@ -301,3 +301,21 @@ npm run lesson13:browser          # start chatting, e.g. "List all books by Jim 
 ```
 
 `03_03_language` requires `GEMINI_API_KEY`.
+
+## Lesson 14
+
+| Example | Run | Description |
+|---------|-----|-------------|
+| `03_04_gmail` | `npm run lesson14:gmail` | Native Gmail tools agent with OAuth, Zod schemas, and Promptfoo evals |
+
+Install dependencies:
+
+```bash
+npm run lesson14:install
+```
+
+Requires Google OAuth credentials (`credentials.json`) and a one-time auth flow:
+
+```bash
+npm run lesson14:gmail:auth
+```

@@ -1,0 +1,39 @@
+{
+  "name": "03_04_gmail",
+  "type": "module",
+  "scripts": {
+    "start": "bun src/index.ts",
+    "auth": "bun src/auth.ts",
+    "probe:shapes": "bun src/scripts/probe-gmail-api-shapes.ts",
+    "eval:tools:search": "bunx promptfoo eval -c evals/promptfoo/promptfooconfig.tools.gmail_search.yaml",
+    "eval:tools:read": "bunx promptfoo eval -c evals/promptfoo/promptfooconfig.tools.gmail_read.yaml",
+    "eval:tools:send": "bunx promptfoo eval -c evals/promptfoo/promptfooconfig.tools.gmail_send.yaml",
+    "eval:tools:modify": "bunx promptfoo eval -c evals/promptfoo/promptfooconfig.tools.gmail_modify.yaml",
+    "eval:tools:attachment": "bunx promptfoo eval -c evals/promptfoo/promptfooconfig.tools.gmail_attachment.yaml",
+    "eval:tools:errors": "bunx promptfoo eval -c evals/promptfoo/promptfooconfig.tools.errors.yaml",
+    "eval:tools:live": "bun run eval:tools:search && bun run eval:tools:read && bun run eval:tools:send && bun run eval:tools:modify && bun run eval:tools:attachment && bun run eval:tools:errors",
+    "eval:tools": "EVAL_MOCK_GMAIL=1 bun run eval:tools:live",
+    "eval:scenarios:readonly": "bunx promptfoo eval -c evals/promptfoo/promptfooconfig.scenarios.readonly.yaml",
+    "eval:scenarios:actions": "bunx promptfoo eval -c evals/promptfoo/promptfooconfig.scenarios.actions.yaml",
+    "eval:scenarios:safety": "bunx promptfoo eval -c evals/promptfoo/promptfooconfig.scenarios.safety.yaml",
+    "eval:scenarios:live": "bun run eval:scenarios:readonly && bun run eval:scenarios:actions && bun run eval:scenarios:safety",
+    "eval:scenarios": "EVAL_MOCK_GMAIL=1 bun run eval:scenarios:live",
+    "eval:all:live": "bun run eval:tools:live && bun run eval:scenarios:live",
+    "eval:all": "EVAL_MOCK_GMAIL=1 bun run eval:all:live",
+    "eval:tools:mock": "bun run eval:tools",
+    "eval:scenarios:mock": "bun run eval:scenarios",
+    "eval:all:mock": "bun run eval:all",
+    "typecheck": "bunx tsc --noEmit"
+  },
+  "dependencies": {
+    "@google-cloud/local-auth": "^3.0.1",
+    "googleapis": "^154.1.0",
+    "openai": "^6.15.0",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.3.5",
+    "promptfoo": "^0.120.25",
+    "typescript": "^5.8.3"
+  }
+}

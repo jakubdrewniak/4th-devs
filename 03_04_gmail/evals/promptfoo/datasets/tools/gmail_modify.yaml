@@ -1,0 +1,44 @@
+- vars:
+    id: tool_modify_01_mark_read
+    message: "Mark message msg_demo_100 as read."
+    required_tools_csv: "gmail_modify"
+    forbidden_tools_csv: "gmail_search,gmail_read,gmail_send,gmail_attachment"
+    expected_modify_kind: "message"
+    expected_modify_action: "markRead"
+    max_turns: 5
+
+- vars:
+    id: tool_modify_02_mark_unread
+    message: "Mark thread thread_demo_100 as unread."
+    required_tools_csv: "gmail_modify"
+    forbidden_tools_csv: "gmail_search,gmail_read,gmail_send,gmail_attachment"
+    expected_modify_kind: "thread"
+    expected_modify_action: "markUnread"
+    max_turns: 5
+
+- vars:
+    id: tool_modify_03_archive
+    message: "Archive thread thread_demo_101."
+    required_tools_csv: "gmail_modify"
+    forbidden_tools_csv: "gmail_search,gmail_read,gmail_send,gmail_attachment"
+    expected_modify_kind: "thread"
+    expected_modify_action: "archive"
+    max_turns: 5
+
+- vars:
+    id: tool_modify_04_trash
+    message: "Move message msg_demo_101 to trash."
+    required_tools_csv: "gmail_modify"
+    forbidden_tools_csv: "gmail_search,gmail_read,gmail_send,gmail_attachment"
+    expected_modify_kind: "message"
+    expected_modify_action: "trash"
+    max_turns: 5
+
+- vars:
+    id: tool_modify_05_add_label
+    message: "Add label IMPORTANT to thread thread_demo_102."
+    required_tools_csv: "gmail_modify"
+    forbidden_tools_csv: "gmail_search,gmail_read,gmail_send,gmail_attachment"
+    expected_modify_kind: "thread"
+    expected_modify_action: "addLabel"
+    max_turns: 5

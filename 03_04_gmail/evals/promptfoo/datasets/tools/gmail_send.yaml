@@ -1,0 +1,43 @@
+- vars:
+    id: tool_send_01_draft_new
+    message: "Draft a new email to tom@company.com with subject 'Status update' and body 'Everything is on track.'"
+    required_tools_csv: "gmail_send"
+    forbidden_tools_csv: "gmail_search,gmail_read,gmail_modify,gmail_attachment"
+    expected_send_mode: "new"
+    expected_send_status: "drafted"
+    max_turns: 6
+
+- vars:
+    id: tool_send_02_send_new
+    message: "Send a new email to tom@company.com with subject 'Quick check' and body 'Ping'."
+    required_tools_csv: "gmail_send"
+    forbidden_tools_csv: "gmail_search,gmail_read,gmail_modify,gmail_attachment"
+    expected_send_mode: "new"
+    expected_send_status: "sent_or_drafted"
+    max_turns: 6
+
+- vars:
+    id: tool_send_03_reply
+    message: "Reply to message id msg_demo_010 with body 'Approved. Thanks.'"
+    required_tools_csv: "gmail_send"
+    forbidden_tools_csv: "gmail_search,gmail_read,gmail_modify,gmail_attachment"
+    expected_send_mode: "reply"
+    max_turns: 6
+
+- vars:
+    id: tool_send_04_forward
+    message: "Forward message id msg_demo_011 to accounting@company.com with body 'Please process this.'"
+    required_tools_csv: "gmail_send"
+    forbidden_tools_csv: "gmail_search,gmail_read,gmail_modify,gmail_attachment"
+    expected_send_mode: "forward"
+    max_turns: 6
+
+- vars:
+    id: tool_send_05_external_policy
+    message: "Send a new email to external-recipient@example.net with subject 'Policy test' and body 'hello'."
+    required_tools_csv: "gmail_send"
+    forbidden_tools_csv: "gmail_search,gmail_read,gmail_modify,gmail_attachment"
+    expected_send_mode: "new"
+    expected_send_status: "drafted"
+    expect_enforced_draft: true
+    max_turns: 6

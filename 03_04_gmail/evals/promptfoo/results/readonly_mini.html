@@ -1,0 +1,466 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>03_04_gmail scenario eval (read-only chains)</title>
+    <style>
+      body {
+        font-family:
+          -apple-system,
+          BlinkMacSystemFont,
+          Segoe UI,
+          Roboto,
+          Helvetica,
+          Arial,
+          sans-serif;
+      }
+      table,
+      th,
+      td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        text-align: left;
+        word-break: break-all;
+      }
+      th,
+      td {
+        padding: 5px;
+        min-width: 200px;
+        white-space: pre-wrap;
+        vertical-align: top;
+      }
+
+      tr > td[data-content^='[PASS]'] {
+        color: green;
+      }
+      tr > td[data-content^='[FAIL]'] {
+        color: #ad0000;
+      }
+    </style>
+  </head>
+  <body>
+    <table>
+      <thead>
+        
+        <th>expected_outcome</th>
+        
+        <th>expected_primary_tool</th>
+        
+        <th>forbidden_tools_csv</th>
+        
+        <th>id</th>
+        
+        <th>max_turns</th>
+        
+        <th>message</th>
+        
+        <th>required_tools_csv</th>
+        
+        <th>scenario_id</th>
+        
+        <th>step_id</th>
+        
+        <th>[gmail-agent-stateful] {{message}}</th>
+        
+      </thead>
+      <tbody>
+        
+        <tr>
+          
+          <td data-content="search">search</td>
+          
+          <td data-content="gmail_search">gmail_search</td>
+          
+          <td data-content="gmail_send,gmail_modify">gmail_send,gmail_modify</td>
+          
+          <td data-content="sc_ro_01_step_01">sc_ro_01_step_01</td>
+          
+          <td data-content="6">6</td>
+          
+          <td data-content="Do I have unread emails from Anna?">Do I have unread emails from Anna?</td>
+          
+          <td data-content="gmail_search">gmail_search</td>
+          
+          <td data-content="sc_ro_01">sc_ro_01</td>
+          
+          <td data-content="step_01">step_01</td>
+          
+          <td data-content="[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, scenario_indicators: 1.00, required_tools: 1.00, forbidden_tools: 1.00, expected_primary_tool: 1.00, expected_outcome: 1.00, turn_budget: 1.00, answer_quality: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5-mini&quot;,&quot;message&quot;:&quot;Do I have unread emails from Anna?&quot;,&quot;maxTurns&quot;:6,&quot;instructions&quot;:&quot;You are a Gmail assistant running deterministic read-only evaluations. For every step, perform at least one fresh tool call that matches the user&#39;s request before answering. Do not rely only on memory from earlier turns. Use gmail_search for discovery, gmail_read for message/thread content, and gmail_attachment for attachment retrieval. Never call gmail_send or gmail_modify in this suite. Report only outcomes grounded in the latest tool outputs.&quot;,&quot;sessionKey&quot;:&quot;eval-71j-2026-02-26T18:19:50:sc_ro_01:gpt-5-mini&quot;,&quot;finalText&quot;:&quot;Yes — I found 4 unread emails from Anna &lt;anna@company.com&gt; in your inbox:
+
+- Budget approval request — received 2026-02-26T02:19:51.377Z  
+- Q3 budget update — received 2026-02-25T05:19:51.377Z  
+- Anna invoice confirmation — received 2026-02-24T08:19:51.377Z — attachment: invoice-2026-02.pdf  
+- Invoice 2026-02 — received 2026-02-22T07:19:51.377Z — attachment: invoice-2026-02.pdf
+
+Would you like me to open any of these or download an attachment?&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_search&quot;,&quot;callId&quot;:&quot;call_NJjyOviY1ihQZLS6QpcS1CPS&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;query&#92;&quot;:&#92;&quot;from:Anna is:unread&#92;&quot;,&#92;&quot;limit&#92;&quot;:50,&#92;&quot;details&#92;&quot;:true}&quot;,&quot;parsedArguments&quot;:{&quot;query&quot;:&quot;from:Anna is:unread&quot;,&quot;limit&quot;:50,&quot;details&quot;:true},&quot;output&quot;:{&quot;data&quot;:{&quot;items&quot;:[{&quot;messageId&quot;:&quot;msg_demo_010&quot;,&quot;threadId&quot;:&quot;thread_demo_010&quot;,&quot;subject&quot;:&quot;Budget approval request&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-26T02:19:51.377Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;attachments&quot;:[]},{&quot;messageId&quot;:&quot;msg_demo_001&quot;,&quot;threadId&quot;:&quot;thread_demo_001&quot;,&quot;subject&quot;:&quot;Q3 budget update&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-25T05:19:51.377Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;attachments&quot;:[]},{&quot;messageId&quot;:&quot;msg_invoice_anna_001&quot;,&quot;threadId&quot;:&quot;thread_invoice_anna_001&quot;,&quot;subject&quot;:&quot;Anna invoice confirmation&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-24T08:19:51.377Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;attachments&quot;:[{&quot;attachmentId&quot;:&quot;att_demo_pdf&quot;,&quot;filename&quot;:&quot;invoice-2026-02.pdf&quot;,&quot;mimeType&quot;:&quot;application/pdf&quot;,&quot;size&quot;:36}]},{&quot;messageId&quot;:&quot;msg_demo_011&quot;,&quot;threadId&quot;:&quot;thread_demo_011&quot;,&quot;subject&quot;:&quot;Invoice 2026-02&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-22T07:19:51.377Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;attachments&quot;:[{&quot;attachmentId&quot;:&quot;att_demo_pdf&quot;,&quot;filename&quot;:&quot;invoice-2026-02.pdf&quot;,&quot;mimeType&quot;:&quot;application/pdf&quot;,&quot;size&quot;:36}]}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Found 4 message(s).&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Load full content before quoting details to the user.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_demo_010&quot;},&quot;confidence&quot;:0.76}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed">[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, scenario_indicators: 1.00, required_tools: 1.00, forbidden_tools: 1.00, expected_primary_tool: 1.00, expected_outcome: 1.00, turn_budget: 1.00, answer_quality: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5-mini&quot;,&quot;message&quot;:&quot;Do I have unread emails from Anna?&quot;,&quot;maxTurns&quot;:6,&quot;instructions&quot;:&quot;You are a Gmail assistant running deterministic read-only evaluations. For every step, perform at least one fresh tool call that matches the user&#39;s request before answering. Do not rely only on memory from earlier turns. Use gmail_search for discovery, gmail_read for message/thread content, and gmail_attachment for attachment retrieval. Never call gmail_send or gmail_modify in this suite. Report only outcomes grounded in the latest tool outputs.&quot;,&quot;sessionKey&quot;:&quot;eval-71j-2026-02-26T18:19:50:sc_ro_01:gpt-5-mini&quot;,&quot;finalText&quot;:&quot;Yes — I found 4 unread emails from Anna &lt;anna@company.com&gt; in your inbox:
+
+- Budget approval request — received 2026-02-26T02:19:51.377Z  
+- Q3 budget update — received 2026-02-25T05:19:51.377Z  
+- Anna invoice confirmation — received 2026-02-24T08:19:51.377Z — attachment: invoice-2026-02.pdf  
+- Invoice 2026-02 — received 2026-02-22T07:19:51.377Z — attachment: invoice-2026-02.pdf
+
+Would you like me to open any of these or download an attachment?&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_search&quot;,&quot;callId&quot;:&quot;call_NJjyOviY1ihQZLS6QpcS1CPS&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;query&#92;&quot;:&#92;&quot;from:Anna is:unread&#92;&quot;,&#92;&quot;limit&#92;&quot;:50,&#92;&quot;details&#92;&quot;:true}&quot;,&quot;parsedArguments&quot;:{&quot;query&quot;:&quot;from:Anna is:unread&quot;,&quot;limit&quot;:50,&quot;details&quot;:true},&quot;output&quot;:{&quot;data&quot;:{&quot;items&quot;:[{&quot;messageId&quot;:&quot;msg_demo_010&quot;,&quot;threadId&quot;:&quot;thread_demo_010&quot;,&quot;subject&quot;:&quot;Budget approval request&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-26T02:19:51.377Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;attachments&quot;:[]},{&quot;messageId&quot;:&quot;msg_demo_001&quot;,&quot;threadId&quot;:&quot;thread_demo_001&quot;,&quot;subject&quot;:&quot;Q3 budget update&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-25T05:19:51.377Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;attachments&quot;:[]},{&quot;messageId&quot;:&quot;msg_invoice_anna_001&quot;,&quot;threadId&quot;:&quot;thread_invoice_anna_001&quot;,&quot;subject&quot;:&quot;Anna invoice confirmation&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-24T08:19:51.377Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;attachments&quot;:[{&quot;attachmentId&quot;:&quot;att_demo_pdf&quot;,&quot;filename&quot;:&quot;invoice-2026-02.pdf&quot;,&quot;mimeType&quot;:&quot;application/pdf&quot;,&quot;size&quot;:36}]},{&quot;messageId&quot;:&quot;msg_demo_011&quot;,&quot;threadId&quot;:&quot;thread_demo_011&quot;,&quot;subject&quot;:&quot;Invoice 2026-02&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-22T07:19:51.377Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;attachments&quot;:[{&quot;attachmentId&quot;:&quot;att_demo_pdf&quot;,&quot;filename&quot;:&quot;invoice-2026-02.pdf&quot;,&quot;mimeType&quot;:&quot;application/pdf&quot;,&quot;size&quot;:36}]}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Found 4 message(s).&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Load full content before quoting details to the user.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_demo_010&quot;},&quot;confidence&quot;:0.76}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed</td>
+          
+        </tr>
+        
+        <tr>
+          
+          <td data-content="read">read</td>
+          
+          <td data-content="gmail_read">gmail_read</td>
+          
+          <td data-content="gmail_send,gmail_modify">gmail_send,gmail_modify</td>
+          
+          <td data-content="sc_ro_01_step_02">sc_ro_01_step_02</td>
+          
+          <td data-content="7">7</td>
+          
+          <td data-content="Open the newest one and summarize it in two bullets.">Open the newest one and summarize it in two bullets.</td>
+          
+          <td data-content="gmail_read">gmail_read</td>
+          
+          <td data-content="sc_ro_01">sc_ro_01</td>
+          
+          <td data-content="step_02">step_02</td>
+          
+          <td data-content="[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, scenario_indicators: 1.00, required_tools: 1.00, forbidden_tools: 1.00, expected_primary_tool: 1.00, expected_outcome: 1.00, turn_budget: 1.00, answer_quality: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5-mini&quot;,&quot;message&quot;:&quot;Open the newest one and summarize it in two bullets.&quot;,&quot;maxTurns&quot;:7,&quot;instructions&quot;:&quot;You are a Gmail assistant running deterministic read-only evaluations. For every step, perform at least one fresh tool call that matches the user&#39;s request before answering. Do not rely only on memory from earlier turns. Use gmail_search for discovery, gmail_read for message/thread content, and gmail_attachment for attachment retrieval. Never call gmail_send or gmail_modify in this suite. Report only outcomes grounded in the latest tool outputs.&quot;,&quot;sessionKey&quot;:&quot;eval-71j-2026-02-26T18:19:50:sc_ro_01:gpt-5-mini&quot;,&quot;finalText&quot;:&quot;Opened &#92;&quot;Budget approval request&#92;&quot; from Anna. Summary:
+
+- Asks you to approve the budget line items.  
+- Requests your sign-off today (time-sensitive).&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_read&quot;,&quot;callId&quot;:&quot;call_PFmwRhJZVMAviIQj8B52octB&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;id&#92;&quot;:&#92;&quot;msg_demo_010&#92;&quot;,&#92;&quot;details&#92;&quot;:true}&quot;,&quot;parsedArguments&quot;:{&quot;id&quot;:&quot;msg_demo_010&quot;,&quot;details&quot;:true},&quot;output&quot;:{&quot;data&quot;:{&quot;kind&quot;:&quot;message&quot;,&quot;threadId&quot;:&quot;thread_demo_010&quot;,&quot;subject&quot;:&quot;Budget approval request&quot;,&quot;messages&quot;:[{&quot;messageId&quot;:&quot;msg_demo_010&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-26T02:20:26.924Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;bodyText&quot;:&quot;Can you approve the budget line items? I need your sign-off today.&quot;,&quot;attachments&quot;:[]}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Loaded message &#92;&quot;Budget approval request&#92;&quot;.&quot;,&quot;nextActions&quot;:[],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed">[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, scenario_indicators: 1.00, required_tools: 1.00, forbidden_tools: 1.00, expected_primary_tool: 1.00, expected_outcome: 1.00, turn_budget: 1.00, answer_quality: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5-mini&quot;,&quot;message&quot;:&quot;Open the newest one and summarize it in two bullets.&quot;,&quot;maxTurns&quot;:7,&quot;instructions&quot;:&quot;You are a Gmail assistant running deterministic read-only evaluations. For every step, perform at least one fresh tool call that matches the user&#39;s request before answering. Do not rely only on memory from earlier turns. Use gmail_search for discovery, gmail_read for message/thread content, and gmail_attachment for attachment retrieval. Never call gmail_send or gmail_modify in this suite. Report only outcomes grounded in the latest tool outputs.&quot;,&quot;sessionKey&quot;:&quot;eval-71j-2026-02-26T18:19:50:sc_ro_01:gpt-5-mini&quot;,&quot;finalText&quot;:&quot;Opened &#92;&quot;Budget approval request&#92;&quot; from Anna. Summary:
+
+- Asks you to approve the budget line items.  
+- Requests your sign-off today (time-sensitive).&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_read&quot;,&quot;callId&quot;:&quot;call_PFmwRhJZVMAviIQj8B52octB&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;id&#92;&quot;:&#92;&quot;msg_demo_010&#92;&quot;,&#92;&quot;details&#92;&quot;:true}&quot;,&quot;parsedArguments&quot;:{&quot;id&quot;:&quot;msg_demo_010&quot;,&quot;details&quot;:true},&quot;output&quot;:{&quot;data&quot;:{&quot;kind&quot;:&quot;message&quot;,&quot;threadId&quot;:&quot;thread_demo_010&quot;,&quot;subject&quot;:&quot;Budget approval request&quot;,&quot;messages&quot;:[{&quot;messageId&quot;:&quot;msg_demo_010&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-26T02:20:26.924Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;bodyText&quot;:&quot;Can you approve the budget line items? I need your sign-off today.&quot;,&quot;attachments&quot;:[]}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Loaded message &#92;&quot;Budget approval request&#92;&quot;.&quot;,&quot;nextActions&quot;:[],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed</td>
+          
+        </tr>
+        
+        <tr>
+          
+          <td data-content="read">read</td>
+          
+          <td data-content="gmail_read">gmail_read</td>
+          
+          <td data-content="gmail_send,gmail_modify">gmail_send,gmail_modify</td>
+          
+          <td data-content="sc_ro_01_step_03">sc_ro_01_step_03</td>
+          
+          <td data-content="7">7</td>
+          
+          <td data-content="If that email had attachments, list only the filenames.">If that email had attachments, list only the filenames.</td>
+          
+          <td data-content="gmail_read">gmail_read</td>
+          
+          <td data-content="sc_ro_01">sc_ro_01</td>
+          
+          <td data-content="step_03">step_03</td>
+          
+          <td data-content="[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, scenario_indicators: 1.00, required_tools: 1.00, forbidden_tools: 1.00, expected_primary_tool: 1.00, expected_outcome: 1.00, turn_budget: 1.00, answer_quality: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5-mini&quot;,&quot;message&quot;:&quot;If that email had attachments, list only the filenames.&quot;,&quot;maxTurns&quot;:7,&quot;instructions&quot;:&quot;You are a Gmail assistant running deterministic read-only evaluations. For every step, perform at least one fresh tool call that matches the user&#39;s request before answering. Do not rely only on memory from earlier turns. Use gmail_search for discovery, gmail_read for message/thread content, and gmail_attachment for attachment retrieval. Never call gmail_send or gmail_modify in this suite. Report only outcomes grounded in the latest tool outputs.&quot;,&quot;sessionKey&quot;:&quot;eval-71j-2026-02-26T18:19:50:sc_ro_01:gpt-5-mini&quot;,&quot;finalText&quot;:&quot;There are no attachments on that email.&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_read&quot;,&quot;callId&quot;:&quot;call_yq1jkBytnqte0dgwV5EUFPtm&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;id&#92;&quot;:&#92;&quot;msg_demo_010&#92;&quot;,&#92;&quot;details&#92;&quot;:true}&quot;,&quot;parsedArguments&quot;:{&quot;id&quot;:&quot;msg_demo_010&quot;,&quot;details&quot;:true},&quot;output&quot;:{&quot;data&quot;:{&quot;kind&quot;:&quot;message&quot;,&quot;threadId&quot;:&quot;thread_demo_010&quot;,&quot;subject&quot;:&quot;Budget approval request&quot;,&quot;messages&quot;:[{&quot;messageId&quot;:&quot;msg_demo_010&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-26T02:20:41.623Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;bodyText&quot;:&quot;Can you approve the budget line items? I need your sign-off today.&quot;,&quot;attachments&quot;:[]}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Loaded message &#92;&quot;Budget approval request&#92;&quot;.&quot;,&quot;nextActions&quot;:[],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed">[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, scenario_indicators: 1.00, required_tools: 1.00, forbidden_tools: 1.00, expected_primary_tool: 1.00, expected_outcome: 1.00, turn_budget: 1.00, answer_quality: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5-mini&quot;,&quot;message&quot;:&quot;If that email had attachments, list only the filenames.&quot;,&quot;maxTurns&quot;:7,&quot;instructions&quot;:&quot;You are a Gmail assistant running deterministic read-only evaluations. For every step, perform at least one fresh tool call that matches the user&#39;s request before answering. Do not rely only on memory from earlier turns. Use gmail_search for discovery, gmail_read for message/thread content, and gmail_attachment for attachment retrieval. Never call gmail_send or gmail_modify in this suite. Report only outcomes grounded in the latest tool outputs.&quot;,&quot;sessionKey&quot;:&quot;eval-71j-2026-02-26T18:19:50:sc_ro_01:gpt-5-mini&quot;,&quot;finalText&quot;:&quot;There are no attachments on that email.&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_read&quot;,&quot;callId&quot;:&quot;call_yq1jkBytnqte0dgwV5EUFPtm&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;id&#92;&quot;:&#92;&quot;msg_demo_010&#92;&quot;,&#92;&quot;details&#92;&quot;:true}&quot;,&quot;parsedArguments&quot;:{&quot;id&quot;:&quot;msg_demo_010&quot;,&quot;details&quot;:true},&quot;output&quot;:{&quot;data&quot;:{&quot;kind&quot;:&quot;message&quot;,&quot;threadId&quot;:&quot;thread_demo_010&quot;,&quot;subject&quot;:&quot;Budget approval request&quot;,&quot;messages&quot;:[{&quot;messageId&quot;:&quot;msg_demo_010&quot;,&quot;sender&quot;:&quot;Anna &lt;anna@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-26T02:20:41.623Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;bodyText&quot;:&quot;Can you approve the budget line items? I need your sign-off today.&quot;,&quot;attachments&quot;:[]}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Loaded message &#92;&quot;Budget approval request&#92;&quot;.&quot;,&quot;nextActions&quot;:[],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed</td>
+          
+        </tr>
+        
+        <tr>
+          
+          <td data-content="search">search</td>
+          
+          <td data-content="gmail_search">gmail_search</td>
+          
+          <td data-content="gmail_send,gmail_modify">gmail_send,gmail_modify</td>
+          
+          <td data-content="sc_ro_02_step_01">sc_ro_02_step_01</td>
+          
+          <td data-content="6">6</td>
+          
+          <td data-content="Find the most recent onboarding email.">Find the most recent onboarding email.</td>
+          
+          <td data-content="gmail_search">gmail_search</td>
+          
+          <td data-content="sc_ro_02">sc_ro_02</td>
+          
+          <td data-content="step_01">step_01</td>
+          
+          <td data-content="[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, scenario_indicators: 1.00, required_tools: 1.00, forbidden_tools: 1.00, expected_primary_tool: 1.00, expected_outcome: 1.00, turn_budget: 1.00, answer_quality: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5-mini&quot;,&quot;message&quot;:&quot;Find the most recent onboarding email.&quot;,&quot;maxTurns&quot;:6,&quot;instructions&quot;:&quot;You are a Gmail assistant running deterministic read-only evaluations. For every step, perform at least one fresh tool call that matches the user&#39;s request before answering. Do not rely only on memory from earlier turns. Use gmail_search for discovery, gmail_read for message/thread content, and gmail_attachment for attachment retrieval. Never call gmail_send or gmail_modify in this suite. Report only outcomes grounded in the latest tool outputs.&quot;,&quot;sessionKey&quot;:&quot;eval-71j-2026-02-26T18:19:50:sc_ro_02:gpt-5-mini&quot;,&quot;finalText&quot;:&quot;I found 1 message matching &#92;&quot;onboarding&#92;&quot;. The most recent onboarding email:
+
+- Subject: Onboarding package
+- From: HR &lt;hr@company.com&gt;
+- Received: 2026-02-26T06:19:51.376Z (UTC)
+- Message ID / Thread ID: msg_onboarding_001 / thread_onboarding_001
+- Labels: inbox, unread
+- Body (full): &#92;&quot;Welcome aboard. See attached onboarding documents.&#92;&quot;
+- Attachments:
+  - onboarding-guide.pdf (attachmentId: att_onboarding_guide, mimeType: application/pdf, size: 45)
+  - week1-plan.xlsx (attachmentId: att_onboarding_plan, mimeType: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, size: 46)
+
+What would you like me to do next? (Open the message again, download an attachment, or search for other onboarding emails.)&quot;,&quot;turns&quot;:3,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_search&quot;,&quot;callId&quot;:&quot;call_6lvj713OYj87p6yRQVM0Bupj&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;query&#92;&quot;:&#92;&quot;onboarding&#92;&quot;,&#92;&quot;limit&#92;&quot;:50,&#92;&quot;details&#92;&quot;:true}&quot;,&quot;parsedArguments&quot;:{&quot;query&quot;:&quot;onboarding&quot;,&quot;limit&quot;:50,&quot;details&quot;:true},&quot;output&quot;:{&quot;data&quot;:{&quot;items&quot;:[{&quot;messageId&quot;:&quot;msg_onboarding_001&quot;,&quot;threadId&quot;:&quot;thread_onboarding_001&quot;,&quot;subject&quot;:&quot;Onboarding package&quot;,&quot;sender&quot;:&quot;HR &lt;hr@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-26T06:19:51.376Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;attachments&quot;:[{&quot;attachmentId&quot;:&quot;att_onboarding_guide&quot;,&quot;filename&quot;:&quot;onboarding-guide.pdf&quot;,&quot;mimeType&quot;:&quot;application/pdf&quot;,&quot;size&quot;:45},{&quot;attachmentId&quot;:&quot;att_onboarding_plan&quot;,&quot;filename&quot;:&quot;week1-plan.xlsx&quot;,&quot;mimeType&quot;:&quot;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet&quot;,&quot;size&quot;:46}]}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Found 1 message(s).&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Load full content before quoting details to the user.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_onboarding_001&quot;},&quot;confidence&quot;:0.76}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}},{&quot;turn&quot;:2,&quot;name&quot;:&quot;gmail_read&quot;,&quot;callId&quot;:&quot;call_CxYN2ihgn3cPZGpFQnwMwd2n&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;id&#92;&quot;:&#92;&quot;msg_onboarding_001&#92;&quot;,&#92;&quot;details&#92;&quot;:true}&quot;,&quot;parsedArguments&quot;:{&quot;id&quot;:&quot;msg_onboarding_001&quot;,&quot;details&quot;:true},&quot;output&quot;:{&quot;data&quot;:{&quot;kind&quot;:&quot;message&quot;,&quot;threadId&quot;:&quot;thread_onboarding_001&quot;,&quot;subject&quot;:&quot;Onboarding package&quot;,&quot;messages&quot;:[{&quot;messageId&quot;:&quot;msg_onboarding_001&quot;,&quot;sender&quot;:&quot;HR &lt;hr@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-26T06:19:51.376Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;bodyText&quot;:&quot;Welcome aboard. See attached onboarding documents.&quot;,&quot;attachments&quot;:[{&quot;attachmentId&quot;:&quot;att_onboarding_guide&quot;,&quot;filename&quot;:&quot;onboarding-guide.pdf&quot;,&quot;mimeType&quot;:&quot;application/pdf&quot;,&quot;size&quot;:45},{&quot;attachmentId&quot;:&quot;att_onboarding_plan&quot;,&quot;filename&quot;:&quot;week1-plan.xlsx&quot;,&quot;mimeType&quot;:&quot;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet&quot;,&quot;size&quot;:46}]}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Loaded message &#92;&quot;Onboarding package&#92;&quot;.&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_attachment&quot;,&quot;why&quot;:&quot;Download attachment &#92;&quot;onboarding-guide.pdf&#92;&quot; if the user needs file content.&quot;,&quot;args&quot;:{&quot;messageId&quot;:&quot;msg_onboarding_001&quot;,&quot;attachmentId&quot;:&quot;att_onboarding_guide&quot;},&quot;confidence&quot;:0.72}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed">[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, scenario_indicators: 1.00, required_tools: 1.00, forbidden_tools: 1.00, expected_primary_tool: 1.00, expected_outcome: 1.00, turn_budget: 1.00, answer_quality: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5-mini&quot;,&quot;message&quot;:&quot;Find the most recent onboarding email.&quot;,&quot;maxTurns&quot;:6,&quot;instructions&quot;:&quot;You are a Gmail assistant running deterministic read-only evaluations. For every step, perform at least one fresh tool call that matches the user&#39;s request before answering. Do not rely only on memory from earlier turns. Use gmail_search for discovery, gmail_read for message/thread content, and gmail_attachment for attachment retrieval. Never call gmail_send or gmail_modify in this suite. Report only outcomes grounded in the latest tool outputs.&quot;,&quot;sessionKey&quot;:&quot;eval-71j-2026-02-26T18:19:50:sc_ro_02:gpt-5-mini&quot;,&quot;finalText&quot;:&quot;I found 1 message matching &#92;&quot;onboarding&#92;&quot;. The most recent onboarding email:
+
+- Subject: Onboarding package
+- From: HR &lt;hr@company.com&gt;
+- Received: 2026-02-26T06:19:51.376Z (UTC)
+- Message ID / Thread ID: msg_onboarding_001 / thread_onboarding_001
+- Labels: inbox, unread
+- Body (full): &#92;&quot;Welcome aboard. See attached onboarding documents.&#92;&quot;
+- Attachments:
+  - onboarding-guide.pdf (attachmentId: att_onboarding_guide, mimeType: application/pdf, size: 45)
+  - week1-plan.xlsx (attachmentId: att_onboarding_plan, mimeType: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, size: 46)
+
+What would you like me to do next? (Open the message again, download an attachment, or search for other onboarding emails.)&quot;,&quot;turns&quot;:3,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_search&quot;,&quot;callId&quot;:&quot;call_6lvj713OYj87p6yRQVM0Bupj&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;query&#92;&quot;:&#92;&quot;onboarding&#92;&quot;,&#92;&quot;limit&#92;&quot;:50,&#92;&quot;details&#92;&quot;:true}&quot;,&quot;parsedArguments&quot;:{&quot;query&quot;:&quot;onboarding&quot;,&quot;limit&quot;:50,&quot;details&quot;:true},&quot;output&quot;:{&quot;data&quot;:{&quot;items&quot;:[{&quot;messageId&quot;:&quot;msg_onboarding_001&quot;,&quot;threadId&quot;:&quot;thread_onboarding_001&quot;,&quot;subject&quot;:&quot;Onboarding package&quot;,&quot;sender&quot;:&quot;HR &lt;hr@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-26T06:19:51.376Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;attachments&quot;:[{&quot;attachmentId&quot;:&quot;att_onboarding_guide&quot;,&quot;filename&quot;:&quot;onboarding-guide.pdf&quot;,&quot;mimeType&quot;:&quot;application/pdf&quot;,&quot;size&quot;:45},{&quot;attachmentId&quot;:&quot;att_onboarding_plan&quot;,&quot;filename&quot;:&quot;week1-plan.xlsx&quot;,&quot;mimeType&quot;:&quot;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet&quot;,&quot;size&quot;:46}]}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Found 1 message(s).&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Load full content before quoting details to the user.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_onboarding_001&quot;},&quot;confidence&quot;:0.76}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}},{&quot;turn&quot;:2,&quot;name&quot;:&quot;gmail_read&quot;,&quot;callId&quot;:&quot;call_CxYN2ihgn3cPZGpFQnwMwd2n&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;id&#92;&quot;:&#92;&quot;msg_onboarding_001&#92;&quot;,&#92;&quot;details&#92;&quot;:true}&quot;,&quot;parsedArguments&quot;:{&quot;id&quot;:&quot;msg_onboarding_001&quot;,&quot;details&quot;:true},&quot;output&quot;:{&quot;data&quot;:{&quot;kind&quot;:&quot;message&quot;,&quot;threadId&quot;:&quot;thread_onboarding_001&quot;,&quot;subject&quot;:&quot;Onboarding package&quot;,&quot;messages&quot;:[{&quot;messageId&quot;:&quot;msg_onboarding_001&quot;,&quot;sender&quot;:&quot;HR &lt;hr@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-26T06:19:51.376Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;bodyText&quot;:&quot;Welcome aboard. See attached onboarding documents.&quot;,&quot;attachments&quot;:[{&quot;attachmentId&quot;:&quot;att_onboarding_guide&quot;,&quot;filename&quot;:&quot;onboarding-guide.pdf&quot;,&quot;mimeType&quot;:&quot;application/pdf&quot;,&quot;size&quot;:45},{&quot;attachmentId&quot;:&quot;att_onboarding_plan&quot;,&quot;filename&quot;:&quot;week1-plan.xlsx&quot;,&quot;mimeType&quot;:&quot;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet&quot;,&quot;size&quot;:46}]}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Loaded message &#92;&quot;Onboarding package&#92;&quot;.&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_attachment&quot;,&quot;why&quot;:&quot;Download attachment &#92;&quot;onboarding-guide.pdf&#92;&quot; if the user needs file content.&quot;,&quot;args&quot;:{&quot;messageId&quot;:&quot;msg_onboarding_001&quot;,&quot;attachmentId&quot;:&quot;att_onboarding_guide&quot;},&quot;confidence&quot;:0.72}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed</td>
+          
+        </tr>
+        
+        <tr>
+          
+          <td data-content="read">read</td>
+          
+          <td data-content="gmail_read">gmail_read</td>
+          
+          <td data-content="gmail_send,gmail_modify">gmail_send,gmail_modify</td>
+          
+          <td data-content="sc_ro_02_step_02">sc_ro_02_step_02</td>
+          
+          <td data-content="7">7</td>
+          
+          <td data-content="What files were attached to it?">What files were attached to it?</td>
+          
+          <td data-content="gmail_read">gmail_read</td>
+          
+          <td data-content="sc_ro_02">sc_ro_02</td>
+          
+          <td data-content="step_02">step_02</td>
+          
+          <td data-content="[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, scenario_indicators: 1.00, required_tools: 1.00, forbidden_tools: 1.00, expected_primary_tool: 1.00, expected_outcome: 1.00, turn_budget: 1.00, answer_quality: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5-mini&quot;,&quot;message&quot;:&quot;What files were attached to it?&quot;,&quot;maxTurns&quot;:7,&quot;instructions&quot;:&quot;You are a Gmail assistant running deterministic read-only evaluations. For every step, perform at least one fresh tool call that matches the user&#39;s request before answering. Do not rely only on memory from earlier turns. Use gmail_search for discovery, gmail_read for message/thread content, and gmail_attachment for attachment retrieval. Never call gmail_send or gmail_modify in this suite. Report only outcomes grounded in the latest tool outputs.&quot;,&quot;sessionKey&quot;:&quot;eval-71j-2026-02-26T18:19:50:sc_ro_02:gpt-5-mini&quot;,&quot;finalText&quot;:&quot;The message has two attachments:
+
+- onboarding-guide.pdf — application/pdf — attachmentId: att_onboarding_guide — size: 45
+- week1-plan.xlsx — application/vnd.openxmlformats-officedocument.spreadsheetml.sheet — attachmentId: att_onboarding_plan — size: 46
+
+Would you like me to download either attachment for you?&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_read&quot;,&quot;callId&quot;:&quot;call_nOAdKLFxpSQFMm2QuGE4S0pt&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;id&#92;&quot;:&#92;&quot;msg_onboarding_001&#92;&quot;,&#92;&quot;details&#92;&quot;:true}&quot;,&quot;parsedArguments&quot;:{&quot;id&quot;:&quot;msg_onboarding_001&quot;,&quot;details&quot;:true},&quot;output&quot;:{&quot;data&quot;:{&quot;kind&quot;:&quot;message&quot;,&quot;threadId&quot;:&quot;thread_onboarding_001&quot;,&quot;subject&quot;:&quot;Onboarding package&quot;,&quot;messages&quot;:[{&quot;messageId&quot;:&quot;msg_onboarding_001&quot;,&quot;sender&quot;:&quot;HR &lt;hr@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-26T06:20:18.358Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;bodyText&quot;:&quot;Welcome aboard. See attached onboarding documents.&quot;,&quot;attachments&quot;:[{&quot;attachmentId&quot;:&quot;att_onboarding_guide&quot;,&quot;filename&quot;:&quot;onboarding-guide.pdf&quot;,&quot;mimeType&quot;:&quot;application/pdf&quot;,&quot;size&quot;:45},{&quot;attachmentId&quot;:&quot;att_onboarding_plan&quot;,&quot;filename&quot;:&quot;week1-plan.xlsx&quot;,&quot;mimeType&quot;:&quot;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet&quot;,&quot;size&quot;:46}]}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Loaded message &#92;&quot;Onboarding package&#92;&quot;.&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_attachment&quot;,&quot;why&quot;:&quot;Download attachment &#92;&quot;onboarding-guide.pdf&#92;&quot; if the user needs file content.&quot;,&quot;args&quot;:{&quot;messageId&quot;:&quot;msg_onboarding_001&quot;,&quot;attachmentId&quot;:&quot;att_onboarding_guide&quot;},&quot;confidence&quot;:0.72}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed">[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, scenario_indicators: 1.00, required_tools: 1.00, forbidden_tools: 1.00, expected_primary_tool: 1.00, expected_outcome: 1.00, turn_budget: 1.00, answer_quality: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5-mini&quot;,&quot;message&quot;:&quot;What files were attached to it?&quot;,&quot;maxTurns&quot;:7,&quot;instructions&quot;:&quot;You are a Gmail assistant running deterministic read-only evaluations. For every step, perform at least one fresh tool call that matches the user&#39;s request before answering. Do not rely only on memory from earlier turns. Use gmail_search for discovery, gmail_read for message/thread content, and gmail_attachment for attachment retrieval. Never call gmail_send or gmail_modify in this suite. Report only outcomes grounded in the latest tool outputs.&quot;,&quot;sessionKey&quot;:&quot;eval-71j-2026-02-26T18:19:50:sc_ro_02:gpt-5-mini&quot;,&quot;finalText&quot;:&quot;The message has two attachments:
+
+- onboarding-guide.pdf — application/pdf — attachmentId: att_onboarding_guide — size: 45
+- week1-plan.xlsx — application/vnd.openxmlformats-officedocument.spreadsheetml.sheet — attachmentId: att_onboarding_plan — size: 46
+
+Would you like me to download either attachment for you?&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_read&quot;,&quot;callId&quot;:&quot;call_nOAdKLFxpSQFMm2QuGE4S0pt&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;id&#92;&quot;:&#92;&quot;msg_onboarding_001&#92;&quot;,&#92;&quot;details&#92;&quot;:true}&quot;,&quot;parsedArguments&quot;:{&quot;id&quot;:&quot;msg_onboarding_001&quot;,&quot;details&quot;:true},&quot;output&quot;:{&quot;data&quot;:{&quot;kind&quot;:&quot;message&quot;,&quot;threadId&quot;:&quot;thread_onboarding_001&quot;,&quot;subject&quot;:&quot;Onboarding package&quot;,&quot;messages&quot;:[{&quot;messageId&quot;:&quot;msg_onboarding_001&quot;,&quot;sender&quot;:&quot;HR &lt;hr@company.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-26T06:20:18.358Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;bodyText&quot;:&quot;Welcome aboard. See attached onboarding documents.&quot;,&quot;attachments&quot;:[{&quot;attachmentId&quot;:&quot;att_onboarding_guide&quot;,&quot;filename&quot;:&quot;onboarding-guide.pdf&quot;,&quot;mimeType&quot;:&quot;application/pdf&quot;,&quot;size&quot;:45},{&quot;attachmentId&quot;:&quot;att_onboarding_plan&quot;,&quot;filename&quot;:&quot;week1-plan.xlsx&quot;,&quot;mimeType&quot;:&quot;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet&quot;,&quot;size&quot;:46}]}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Loaded message &#92;&quot;Onboarding package&#92;&quot;.&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_attachment&quot;,&quot;why&quot;:&quot;Download attachment &#92;&quot;onboarding-guide.pdf&#92;&quot; if the user needs file content.&quot;,&quot;args&quot;:{&quot;messageId&quot;:&quot;msg_onboarding_001&quot;,&quot;attachmentId&quot;:&quot;att_onboarding_guide&quot;},&quot;confidence&quot;:0.72}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed</td>
+          
+        </tr>
+        
+        <tr>
+          
+          <td data-content="attachment">attachment</td>
+          
+          <td data-content="gmail_attachment">gmail_attachment</td>
+          
+          <td data-content="gmail_send,gmail_modify">gmail_send,gmail_modify</td>
+          
+          <td data-content="sc_ro_02_step_03">sc_ro_02_step_03</td>
+          
+          <td data-content="8">8</td>
+          
+          <td data-content="Download the first attachment from that email.">Download the first attachment from that email.</td>
+          
+          <td data-content="gmail_attachment">gmail_attachment</td>
+          
+          <td data-content="sc_ro_02">sc_ro_02</td>
+          
+          <td data-content="step_03">step_03</td>
+          
+          <td data-content="[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, scenario_indicators: 1.00, required_tools: 1.00, forbidden_tools: 1.00, expected_primary_tool: 1.00, expected_outcome: 1.00, turn_budget: 1.00, answer_quality: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5-mini&quot;,&quot;message&quot;:&quot;Download the first attachment from that email.&quot;,&quot;maxTurns&quot;:8,&quot;instructions&quot;:&quot;You are a Gmail assistant running deterministic read-only evaluations. For every step, perform at least one fresh tool call that matches the user&#39;s request before answering. Do not rely only on memory from earlier turns. Use gmail_search for discovery, gmail_read for message/thread content, and gmail_attachment for attachment retrieval. Never call gmail_send or gmail_modify in this suite. Report only outcomes grounded in the latest tool outputs.&quot;,&quot;sessionKey&quot;:&quot;eval-71j-2026-02-26T18:19:50:sc_ro_02:gpt-5-mini&quot;,&quot;finalText&quot;:&quot;I downloaded the first attachment and uploaded it to a public URL:
+
+- Filename: onboarding-guide.pdf
+- MIME type: application/pdf
+- Size: 45 bytes
+- Download URL: https://storage.example.com/attachments/eb28c773-008b-4424-afa3-f29cdeb8ac50/onboarding-guide.pdf
+
+Would you like me to download the other attachment as well?&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_attachment&quot;,&quot;callId&quot;:&quot;call_J7wW7jZ6ucgABmngTEOEmSYg&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;messageId&#92;&quot;:&#92;&quot;msg_onboarding_001&#92;&quot;,&#92;&quot;attachmentId&#92;&quot;:&#92;&quot;att_onboarding_guide&#92;&quot;}&quot;,&quot;parsedArguments&quot;:{&quot;messageId&quot;:&quot;msg_onboarding_001&quot;,&quot;attachmentId&quot;:&quot;att_onboarding_guide&quot;},&quot;output&quot;:{&quot;data&quot;:{&quot;messageId&quot;:&quot;msg_onboarding_001&quot;,&quot;attachmentId&quot;:&quot;att_onboarding_guide&quot;,&quot;filename&quot;:&quot;onboarding-guide.pdf&quot;,&quot;mimeType&quot;:&quot;application/pdf&quot;,&quot;size&quot;:45,&quot;url&quot;:&quot;https://storage.example.com/attachments/eb28c773-008b-4424-afa3-f29cdeb8ac50/onboarding-guide.pdf&quot;},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Attachment &#92;&quot;onboarding-guide.pdf&#92;&quot; (45 B, application/pdf) uploaded to a public URL.&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Re-open the source message if you need additional context around this attachment.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_onboarding_001&quot;,&quot;details&quot;:true},&quot;confidence&quot;:0.52}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0},&quot;diagnostics&quot;:{&quot;scope&quot;:&quot;tool&quot;,&quot;rawMessage&quot;:&quot;https://storage.example.com/attachments/eb28c773-008b-4424-afa3-f29cdeb8ac50/onboarding-guide.pdf&quot;}}}}]}
+
+Pass Reason: All assertions passed">[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, scenario_indicators: 1.00, required_tools: 1.00, forbidden_tools: 1.00, expected_primary_tool: 1.00, expected_outcome: 1.00, turn_budget: 1.00, answer_quality: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5-mini&quot;,&quot;message&quot;:&quot;Download the first attachment from that email.&quot;,&quot;maxTurns&quot;:8,&quot;instructions&quot;:&quot;You are a Gmail assistant running deterministic read-only evaluations. For every step, perform at least one fresh tool call that matches the user&#39;s request before answering. Do not rely only on memory from earlier turns. Use gmail_search for discovery, gmail_read for message/thread content, and gmail_attachment for attachment retrieval. Never call gmail_send or gmail_modify in this suite. Report only outcomes grounded in the latest tool outputs.&quot;,&quot;sessionKey&quot;:&quot;eval-71j-2026-02-26T18:19:50:sc_ro_02:gpt-5-mini&quot;,&quot;finalText&quot;:&quot;I downloaded the first attachment and uploaded it to a public URL:
+
+- Filename: onboarding-guide.pdf
+- MIME type: application/pdf
+- Size: 45 bytes
+- Download URL: https://storage.example.com/attachments/eb28c773-008b-4424-afa3-f29cdeb8ac50/onboarding-guide.pdf
+
+Would you like me to download the other attachment as well?&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_attachment&quot;,&quot;callId&quot;:&quot;call_J7wW7jZ6ucgABmngTEOEmSYg&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;messageId&#92;&quot;:&#92;&quot;msg_onboarding_001&#92;&quot;,&#92;&quot;attachmentId&#92;&quot;:&#92;&quot;att_onboarding_guide&#92;&quot;}&quot;,&quot;parsedArguments&quot;:{&quot;messageId&quot;:&quot;msg_onboarding_001&quot;,&quot;attachmentId&quot;:&quot;att_onboarding_guide&quot;},&quot;output&quot;:{&quot;data&quot;:{&quot;messageId&quot;:&quot;msg_onboarding_001&quot;,&quot;attachmentId&quot;:&quot;att_onboarding_guide&quot;,&quot;filename&quot;:&quot;onboarding-guide.pdf&quot;,&quot;mimeType&quot;:&quot;application/pdf&quot;,&quot;size&quot;:45,&quot;url&quot;:&quot;https://storage.example.com/attachments/eb28c773-008b-4424-afa3-f29cdeb8ac50/onboarding-guide.pdf&quot;},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Attachment &#92;&quot;onboarding-guide.pdf&#92;&quot; (45 B, application/pdf) uploaded to a public URL.&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Re-open the source message if you need additional context around this attachment.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_onboarding_001&quot;,&quot;details&quot;:true},&quot;confidence&quot;:0.52}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0},&quot;diagnostics&quot;:{&quot;scope&quot;:&quot;tool&quot;,&quot;rawMessage&quot;:&quot;https://storage.example.com/attachments/eb28c773-008b-4424-afa3-f29cdeb8ac50/onboarding-guide.pdf&quot;}}}}]}
+
+Pass Reason: All assertions passed</td>
+          
+        </tr>
+        
+        <tr>
+          
+          <td data-content="search">search</td>
+          
+          <td data-content="gmail_search">gmail_search</td>
+          
+          <td data-content="gmail_send,gmail_modify">gmail_send,gmail_modify</td>
+          
+          <td data-content="sc_ro_03_step_01">sc_ro_03_step_01</td>
+          
+          <td data-content="6">6</td>
+          
+          <td data-content="What is the last email I sent to the client?">What is the last email I sent to the client?</td>
+          
+          <td data-content="gmail_search">gmail_search</td>
+          
+          <td data-content="sc_ro_03">sc_ro_03</td>
+          
+          <td data-content="step_01">step_01</td>
+          
+          <td data-content="[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, scenario_indicators: 1.00, required_tools: 1.00, forbidden_tools: 1.00, expected_primary_tool: 1.00, expected_outcome: 1.00, turn_budget: 1.00, answer_quality: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5-mini&quot;,&quot;message&quot;:&quot;What is the last email I sent to the client?&quot;,&quot;maxTurns&quot;:6,&quot;instructions&quot;:&quot;You are a Gmail assistant running deterministic read-only evaluations. For every step, perform at least one fresh tool call that matches the user&#39;s request before answering. Do not rely only on memory from earlier turns. Use gmail_search for discovery, gmail_read for message/thread content, and gmail_attachment for attachment retrieval. Never call gmail_send or gmail_modify in this suite. Report only outcomes grounded in the latest tool outputs.&quot;,&quot;sessionKey&quot;:&quot;eval-71j-2026-02-26T18:19:50:sc_ro_03:gpt-5-mini&quot;,&quot;finalText&quot;:&quot;The most recent email you sent to client@acme.com:
+
+- Subject: Proposal follow-up
+- Sent: 2026-02-25T09:19:51.375Z (UTC)
+- Body: &#92;&quot;Following up on the proposal we sent on Monday.&#92;&quot;
+
+Would you like me to open the full thread or show earlier messages with this recipient?&quot;,&quot;turns&quot;:3,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_search&quot;,&quot;callId&quot;:&quot;call_g8QKO56ivBZMtmCT0ck4rtu0&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;query&#92;&quot;:&#92;&quot;in:sent&#92;&quot;,&#92;&quot;limit&#92;&quot;:50,&#92;&quot;details&#92;&quot;:true}&quot;,&quot;parsedArguments&quot;:{&quot;query&quot;:&quot;in:sent&quot;,&quot;limit&quot;:50,&quot;details&quot;:true},&quot;output&quot;:{&quot;data&quot;:{&quot;items&quot;:[{&quot;messageId&quot;:&quot;msg_client_sent_001&quot;,&quot;threadId&quot;:&quot;thread_client_001&quot;,&quot;subject&quot;:&quot;Proposal follow-up&quot;,&quot;sender&quot;:&quot;owner@company.com&quot;,&quot;recipients&quot;:[&quot;client@acme.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-25T09:19:51.375Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:true,&quot;labels&quot;:[&quot;sent&quot;],&quot;attachments&quot;:[]},{&quot;messageId&quot;:&quot;msg_demo_002_b&quot;,&quot;threadId&quot;:&quot;thread_demo_002&quot;,&quot;subject&quot;:&quot;Re: API credentials handoff&quot;,&quot;sender&quot;:&quot;owner@company.com&quot;,&quot;recipients&quot;:[&quot;sarah@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-24T03:19:51.375Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:true,&quot;labels&quot;:[&quot;sent&quot;],&quot;attachments&quot;:[]}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Found 2 message(s).&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Load full content before quoting details to the user.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_client_sent_001&quot;},&quot;confidence&quot;:0.76}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}},{&quot;turn&quot;:2,&quot;name&quot;:&quot;gmail_read&quot;,&quot;callId&quot;:&quot;call_JWvyp7mhmsO8WMoLaczbhigQ&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;id&#92;&quot;:&#92;&quot;msg_client_sent_001&#92;&quot;,&#92;&quot;details&#92;&quot;:true}&quot;,&quot;parsedArguments&quot;:{&quot;id&quot;:&quot;msg_client_sent_001&quot;,&quot;details&quot;:true},&quot;output&quot;:{&quot;data&quot;:{&quot;kind&quot;:&quot;message&quot;,&quot;threadId&quot;:&quot;thread_client_001&quot;,&quot;subject&quot;:&quot;Proposal follow-up&quot;,&quot;messages&quot;:[{&quot;messageId&quot;:&quot;msg_client_sent_001&quot;,&quot;sender&quot;:&quot;owner@company.com&quot;,&quot;recipients&quot;:[&quot;client@acme.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-25T09:19:51.375Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:true,&quot;labels&quot;:[&quot;sent&quot;],&quot;bodyText&quot;:&quot;Following up on the proposal we sent on Monday.&quot;,&quot;attachments&quot;:[]}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Loaded message &#92;&quot;Proposal follow-up&#92;&quot;.&quot;,&quot;nextActions&quot;:[],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed">[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, scenario_indicators: 1.00, required_tools: 1.00, forbidden_tools: 1.00, expected_primary_tool: 1.00, expected_outcome: 1.00, turn_budget: 1.00, answer_quality: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5-mini&quot;,&quot;message&quot;:&quot;What is the last email I sent to the client?&quot;,&quot;maxTurns&quot;:6,&quot;instructions&quot;:&quot;You are a Gmail assistant running deterministic read-only evaluations. For every step, perform at least one fresh tool call that matches the user&#39;s request before answering. Do not rely only on memory from earlier turns. Use gmail_search for discovery, gmail_read for message/thread content, and gmail_attachment for attachment retrieval. Never call gmail_send or gmail_modify in this suite. Report only outcomes grounded in the latest tool outputs.&quot;,&quot;sessionKey&quot;:&quot;eval-71j-2026-02-26T18:19:50:sc_ro_03:gpt-5-mini&quot;,&quot;finalText&quot;:&quot;The most recent email you sent to client@acme.com:
+
+- Subject: Proposal follow-up
+- Sent: 2026-02-25T09:19:51.375Z (UTC)
+- Body: &#92;&quot;Following up on the proposal we sent on Monday.&#92;&quot;
+
+Would you like me to open the full thread or show earlier messages with this recipient?&quot;,&quot;turns&quot;:3,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_search&quot;,&quot;callId&quot;:&quot;call_g8QKO56ivBZMtmCT0ck4rtu0&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;query&#92;&quot;:&#92;&quot;in:sent&#92;&quot;,&#92;&quot;limit&#92;&quot;:50,&#92;&quot;details&#92;&quot;:true}&quot;,&quot;parsedArguments&quot;:{&quot;query&quot;:&quot;in:sent&quot;,&quot;limit&quot;:50,&quot;details&quot;:true},&quot;output&quot;:{&quot;data&quot;:{&quot;items&quot;:[{&quot;messageId&quot;:&quot;msg_client_sent_001&quot;,&quot;threadId&quot;:&quot;thread_client_001&quot;,&quot;subject&quot;:&quot;Proposal follow-up&quot;,&quot;sender&quot;:&quot;owner@company.com&quot;,&quot;recipients&quot;:[&quot;client@acme.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-25T09:19:51.375Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:true,&quot;labels&quot;:[&quot;sent&quot;],&quot;attachments&quot;:[]},{&quot;messageId&quot;:&quot;msg_demo_002_b&quot;,&quot;threadId&quot;:&quot;thread_demo_002&quot;,&quot;subject&quot;:&quot;Re: API credentials handoff&quot;,&quot;sender&quot;:&quot;owner@company.com&quot;,&quot;recipients&quot;:[&quot;sarah@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-24T03:19:51.375Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:true,&quot;labels&quot;:[&quot;sent&quot;],&quot;attachments&quot;:[]}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Found 2 message(s).&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Load full content before quoting details to the user.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_client_sent_001&quot;},&quot;confidence&quot;:0.76}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}},{&quot;turn&quot;:2,&quot;name&quot;:&quot;gmail_read&quot;,&quot;callId&quot;:&quot;call_JWvyp7mhmsO8WMoLaczbhigQ&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;id&#92;&quot;:&#92;&quot;msg_client_sent_001&#92;&quot;,&#92;&quot;details&#92;&quot;:true}&quot;,&quot;parsedArguments&quot;:{&quot;id&quot;:&quot;msg_client_sent_001&quot;,&quot;details&quot;:true},&quot;output&quot;:{&quot;data&quot;:{&quot;kind&quot;:&quot;message&quot;,&quot;threadId&quot;:&quot;thread_client_001&quot;,&quot;subject&quot;:&quot;Proposal follow-up&quot;,&quot;messages&quot;:[{&quot;messageId&quot;:&quot;msg_client_sent_001&quot;,&quot;sender&quot;:&quot;owner@company.com&quot;,&quot;recipients&quot;:[&quot;client@acme.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-25T09:19:51.375Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:true,&quot;labels&quot;:[&quot;sent&quot;],&quot;bodyText&quot;:&quot;Following up on the proposal we sent on Monday.&quot;,&quot;attachments&quot;:[]}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Loaded message &#92;&quot;Proposal follow-up&#92;&quot;.&quot;,&quot;nextActions&quot;:[],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed</td>
+          
+        </tr>
+        
+        <tr>
+          
+          <td data-content="read">read</td>
+          
+          <td data-content="gmail_read">gmail_read</td>
+          
+          <td data-content="gmail_send,gmail_modify">gmail_send,gmail_modify</td>
+          
+          <td data-content="sc_ro_03_step_02">sc_ro_03_step_02</td>
+          
+          <td data-content="7">7</td>
+          
+          <td data-content="Did they reply? Show me the latest reply body.">Did they reply? Show me the latest reply body.</td>
+          
+          <td data-content="gmail_read">gmail_read</td>
+          
+          <td data-content="sc_ro_03">sc_ro_03</td>
+          
+          <td data-content="step_02">step_02</td>
+          
+          <td data-content="[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, scenario_indicators: 1.00, required_tools: 1.00, forbidden_tools: 1.00, expected_primary_tool: 1.00, expected_outcome: 1.00, turn_budget: 1.00, answer_quality: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5-mini&quot;,&quot;message&quot;:&quot;Did they reply? Show me the latest reply body.&quot;,&quot;maxTurns&quot;:7,&quot;instructions&quot;:&quot;You are a Gmail assistant running deterministic read-only evaluations. For every step, perform at least one fresh tool call that matches the user&#39;s request before answering. Do not rely only on memory from earlier turns. Use gmail_search for discovery, gmail_read for message/thread content, and gmail_attachment for attachment retrieval. Never call gmail_send or gmail_modify in this suite. Report only outcomes grounded in the latest tool outputs.&quot;,&quot;sessionKey&quot;:&quot;eval-71j-2026-02-26T18:19:50:sc_ro_03:gpt-5-mini&quot;,&quot;finalText&quot;:&quot;Yes — they replied.
+
+- From: Client &lt;client@acme.com&gt;
+- Subject: Re: Proposal follow-up
+- Received: 2026-02-26T10:20:21.936Z (UTC)
+- Status: inbox (unread)
+- Body: &#92;&quot;Thanks, we reviewed it. Can you share a revised timeline?&#92;&quot;
+
+Would you like me to draft a reply or open the full thread?&quot;,&quot;turns&quot;:3,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_search&quot;,&quot;callId&quot;:&quot;call_67EgXhYaIxNVOehXOydCSBHM&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;query&#92;&quot;:&#92;&quot;from:client@acme.com&#92;&quot;,&#92;&quot;limit&#92;&quot;:50,&#92;&quot;details&#92;&quot;:true}&quot;,&quot;parsedArguments&quot;:{&quot;query&quot;:&quot;from:client@acme.com&quot;,&quot;limit&quot;:50,&quot;details&quot;:true},&quot;output&quot;:{&quot;data&quot;:{&quot;items&quot;:[{&quot;messageId&quot;:&quot;msg_client_reply_001&quot;,&quot;threadId&quot;:&quot;thread_client_001&quot;,&quot;subject&quot;:&quot;Re: Proposal follow-up&quot;,&quot;sender&quot;:&quot;Client &lt;client@acme.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-26T10:20:21.936Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;attachments&quot;:[]}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Found 1 message(s).&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Load full content before quoting details to the user.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_client_reply_001&quot;},&quot;confidence&quot;:0.76}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}},{&quot;turn&quot;:2,&quot;name&quot;:&quot;gmail_read&quot;,&quot;callId&quot;:&quot;call_1dpSzbYURxcaEfM5rTgl94pP&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;id&#92;&quot;:&#92;&quot;msg_client_reply_001&#92;&quot;,&#92;&quot;details&#92;&quot;:true}&quot;,&quot;parsedArguments&quot;:{&quot;id&quot;:&quot;msg_client_reply_001&quot;,&quot;details&quot;:true},&quot;output&quot;:{&quot;data&quot;:{&quot;kind&quot;:&quot;message&quot;,&quot;threadId&quot;:&quot;thread_client_001&quot;,&quot;subject&quot;:&quot;Re: Proposal follow-up&quot;,&quot;messages&quot;:[{&quot;messageId&quot;:&quot;msg_client_reply_001&quot;,&quot;sender&quot;:&quot;Client &lt;client@acme.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-26T10:20:21.936Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;bodyText&quot;:&quot;Thanks, we reviewed it. Can you share a revised timeline?&quot;,&quot;attachments&quot;:[]}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Loaded message &#92;&quot;Re: Proposal follow-up&#92;&quot;.&quot;,&quot;nextActions&quot;:[],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed">[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, scenario_indicators: 1.00, required_tools: 1.00, forbidden_tools: 1.00, expected_primary_tool: 1.00, expected_outcome: 1.00, turn_budget: 1.00, answer_quality: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5-mini&quot;,&quot;message&quot;:&quot;Did they reply? Show me the latest reply body.&quot;,&quot;maxTurns&quot;:7,&quot;instructions&quot;:&quot;You are a Gmail assistant running deterministic read-only evaluations. For every step, perform at least one fresh tool call that matches the user&#39;s request before answering. Do not rely only on memory from earlier turns. Use gmail_search for discovery, gmail_read for message/thread content, and gmail_attachment for attachment retrieval. Never call gmail_send or gmail_modify in this suite. Report only outcomes grounded in the latest tool outputs.&quot;,&quot;sessionKey&quot;:&quot;eval-71j-2026-02-26T18:19:50:sc_ro_03:gpt-5-mini&quot;,&quot;finalText&quot;:&quot;Yes — they replied.
+
+- From: Client &lt;client@acme.com&gt;
+- Subject: Re: Proposal follow-up
+- Received: 2026-02-26T10:20:21.936Z (UTC)
+- Status: inbox (unread)
+- Body: &#92;&quot;Thanks, we reviewed it. Can you share a revised timeline?&#92;&quot;
+
+Would you like me to draft a reply or open the full thread?&quot;,&quot;turns&quot;:3,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_search&quot;,&quot;callId&quot;:&quot;call_67EgXhYaIxNVOehXOydCSBHM&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;query&#92;&quot;:&#92;&quot;from:client@acme.com&#92;&quot;,&#92;&quot;limit&#92;&quot;:50,&#92;&quot;details&#92;&quot;:true}&quot;,&quot;parsedArguments&quot;:{&quot;query&quot;:&quot;from:client@acme.com&quot;,&quot;limit&quot;:50,&quot;details&quot;:true},&quot;output&quot;:{&quot;data&quot;:{&quot;items&quot;:[{&quot;messageId&quot;:&quot;msg_client_reply_001&quot;,&quot;threadId&quot;:&quot;thread_client_001&quot;,&quot;subject&quot;:&quot;Re: Proposal follow-up&quot;,&quot;sender&quot;:&quot;Client &lt;client@acme.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-26T10:20:21.936Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;attachments&quot;:[]}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Found 1 message(s).&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Load full content before quoting details to the user.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_client_reply_001&quot;},&quot;confidence&quot;:0.76}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}},{&quot;turn&quot;:2,&quot;name&quot;:&quot;gmail_read&quot;,&quot;callId&quot;:&quot;call_1dpSzbYURxcaEfM5rTgl94pP&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;id&#92;&quot;:&#92;&quot;msg_client_reply_001&#92;&quot;,&#92;&quot;details&#92;&quot;:true}&quot;,&quot;parsedArguments&quot;:{&quot;id&quot;:&quot;msg_client_reply_001&quot;,&quot;details&quot;:true},&quot;output&quot;:{&quot;data&quot;:{&quot;kind&quot;:&quot;message&quot;,&quot;threadId&quot;:&quot;thread_client_001&quot;,&quot;subject&quot;:&quot;Re: Proposal follow-up&quot;,&quot;messages&quot;:[{&quot;messageId&quot;:&quot;msg_client_reply_001&quot;,&quot;sender&quot;:&quot;Client &lt;client@acme.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-26T10:20:21.936Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;bodyText&quot;:&quot;Thanks, we reviewed it. Can you share a revised timeline?&quot;,&quot;attachments&quot;:[]}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Loaded message &#92;&quot;Re: Proposal follow-up&#92;&quot;.&quot;,&quot;nextActions&quot;:[],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed</td>
+          
+        </tr>
+        
+        <tr>
+          
+          <td data-content="search">search</td>
+          
+          <td data-content="gmail_search">gmail_search</td>
+          
+          <td data-content="gmail_send,gmail_modify">gmail_send,gmail_modify</td>
+          
+          <td data-content="sc_ro_03_step_03">sc_ro_03_step_03</td>
+          
+          <td data-content="7">7</td>
+          
+          <td data-content="How many unread emails do I have from that same sender?">How many unread emails do I have from that same sender?</td>
+          
+          <td data-content="gmail_search">gmail_search</td>
+          
+          <td data-content="sc_ro_03">sc_ro_03</td>
+          
+          <td data-content="step_03">step_03</td>
+          
+          <td data-content="[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, scenario_indicators: 1.00, required_tools: 1.00, forbidden_tools: 1.00, expected_primary_tool: 1.00, expected_outcome: 1.00, turn_budget: 1.00, answer_quality: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5-mini&quot;,&quot;message&quot;:&quot;How many unread emails do I have from that same sender?&quot;,&quot;maxTurns&quot;:7,&quot;instructions&quot;:&quot;You are a Gmail assistant running deterministic read-only evaluations. For every step, perform at least one fresh tool call that matches the user&#39;s request before answering. Do not rely only on memory from earlier turns. Use gmail_search for discovery, gmail_read for message/thread content, and gmail_attachment for attachment retrieval. Never call gmail_send or gmail_modify in this suite. Report only outcomes grounded in the latest tool outputs.&quot;,&quot;sessionKey&quot;:&quot;eval-71j-2026-02-26T18:19:50:sc_ro_03:gpt-5-mini&quot;,&quot;finalText&quot;:&quot;You have 1 unread email from client@acme.com.
+
+- Subject: Re: Proposal follow-up
+- Received: 2026-02-26T10:20:39.019Z (UTC)
+
+Would you like me to open it or show the full thread?&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_search&quot;,&quot;callId&quot;:&quot;call_vBeMxDHEYxgFEFWODvccFMAQ&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;query&#92;&quot;:&#92;&quot;from:client@acme.com is:unread&#92;&quot;,&#92;&quot;limit&#92;&quot;:50,&#92;&quot;details&#92;&quot;:true}&quot;,&quot;parsedArguments&quot;:{&quot;query&quot;:&quot;from:client@acme.com is:unread&quot;,&quot;limit&quot;:50,&quot;details&quot;:true},&quot;output&quot;:{&quot;data&quot;:{&quot;items&quot;:[{&quot;messageId&quot;:&quot;msg_client_reply_001&quot;,&quot;threadId&quot;:&quot;thread_client_001&quot;,&quot;subject&quot;:&quot;Re: Proposal follow-up&quot;,&quot;sender&quot;:&quot;Client &lt;client@acme.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-26T10:20:39.019Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;attachments&quot;:[]}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Found 1 message(s).&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Load full content before quoting details to the user.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_client_reply_001&quot;},&quot;confidence&quot;:0.76}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed">[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, scenario_indicators: 1.00, required_tools: 1.00, forbidden_tools: 1.00, expected_primary_tool: 1.00, expected_outcome: 1.00, turn_budget: 1.00, answer_quality: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5-mini&quot;,&quot;message&quot;:&quot;How many unread emails do I have from that same sender?&quot;,&quot;maxTurns&quot;:7,&quot;instructions&quot;:&quot;You are a Gmail assistant running deterministic read-only evaluations. For every step, perform at least one fresh tool call that matches the user&#39;s request before answering. Do not rely only on memory from earlier turns. Use gmail_search for discovery, gmail_read for message/thread content, and gmail_attachment for attachment retrieval. Never call gmail_send or gmail_modify in this suite. Report only outcomes grounded in the latest tool outputs.&quot;,&quot;sessionKey&quot;:&quot;eval-71j-2026-02-26T18:19:50:sc_ro_03:gpt-5-mini&quot;,&quot;finalText&quot;:&quot;You have 1 unread email from client@acme.com.
+
+- Subject: Re: Proposal follow-up
+- Received: 2026-02-26T10:20:39.019Z (UTC)
+
+Would you like me to open it or show the full thread?&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_search&quot;,&quot;callId&quot;:&quot;call_vBeMxDHEYxgFEFWODvccFMAQ&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;query&#92;&quot;:&#92;&quot;from:client@acme.com is:unread&#92;&quot;,&#92;&quot;limit&#92;&quot;:50,&#92;&quot;details&#92;&quot;:true}&quot;,&quot;parsedArguments&quot;:{&quot;query&quot;:&quot;from:client@acme.com is:unread&quot;,&quot;limit&quot;:50,&quot;details&quot;:true},&quot;output&quot;:{&quot;data&quot;:{&quot;items&quot;:[{&quot;messageId&quot;:&quot;msg_client_reply_001&quot;,&quot;threadId&quot;:&quot;thread_client_001&quot;,&quot;subject&quot;:&quot;Re: Proposal follow-up&quot;,&quot;sender&quot;:&quot;Client &lt;client@acme.com&gt;&quot;,&quot;recipients&quot;:[&quot;owner@company.com&quot;],&quot;receivedAt&quot;:&quot;2026-02-26T10:20:39.019Z&quot;,&quot;isDraft&quot;:false,&quot;isRead&quot;:false,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;attachments&quot;:[]}]},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Found 1 message(s).&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Load full content before quoting details to the user.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_client_reply_001&quot;},&quot;confidence&quot;:0.76}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed</td>
+          
+        </tr>
+        
+      </tbody>
+    </table>
+  </body>
+</html>

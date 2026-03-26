@@ -1,0 +1,134 @@
+description: 03_04_gmail tool eval (gmail_modify)
+
+prompts:
+  - "{{message}}"
+
+providers:
+  - id: file://provider.mjs
+    label: gmail-agent
+    config:
+      maxTurns: 6
+
+tests: datasets/tools/gmail_modify.yaml
+
+evaluateOptions:
+  maxConcurrency: 10
+
+defaultTest:
+  assert:
+    - type: is-json
+      metric: valid_json
+
+    - type: javascript
+      metric: valid_eval_payload
+      value: |
+        const data = JSON.parse(output);
+        const isValid =
+          data &&
+          typeof data === 'object' &&
+          !data.error &&
+          typeof data.finalText === 'string' &&
+          Number.isFinite(Number(data.turns)) &&
+          typeof data.reachedMaxTurns === 'boolean' &&
+          Array.isArray(data.toolCalls);
+        if (isValid) return true;
+        return {
+          pass: false,
+          score: 0,
+          reason: `Invalid eval payload: ${output.slice(0, 280)}`,
+        };
+
+    - type: javascript
+      metric: required_tools
+      value: |
+        const data = JSON.parse(output);
+        const used = Array.isArray(data.toolCalls) ? data.toolCalls.map((tool) => tool.name) : [];
+        const required = String(context.vars.required_tools_csv ?? '')
+          .split(',')
+          .map((name) => name.trim())
+          .filter((name) => name.length > 0);
+        const missing = required.filter((name) => !used.includes(name));
+        if (missing.length === 0) return true;
+        return {
+          pass: false,
+          score: 0,
+          reason: `Missing required tools: ${missing.join(', ')}; used=[${used.join(', ')}]`,
+        };
+
+    - type: javascript
+      metric: forbidden_tools
+      value: |
+        const data = JSON.parse(output);
+        const used = Array.isArray(data.toolCalls) ? data.toolCalls.map((tool) => tool.name) : [];
+        const forbidden = String(context.vars.forbidden_tools_csv ?? '')
+          .split(',')
+          .map((name) => name.trim())
+          .filter((name) => name.length > 0);
+        const violated = forbidden.filter((name) => used.includes(name));
+        if (violated.length === 0) return true;
+        return {
+          pass: false,
+          score: 0,
+          reason: `Forbidden tools used: ${violated.join(', ')}; used=[${used.join(', ')}]`,
+        };
+
+    - type: javascript
+      metric: modify_action
+      value: |
+        const expectedAction = String(context.vars.expected_modify_action ?? '').trim();
+        if (!expectedAction) return true;
+
+        const data = JSON.parse(output);
+        const modifyCalls = Array.isArray(data.toolCalls)
+          ? data.toolCalls.filter((tool) => tool.name === 'gmail_modify')
+          : [];
+        if (modifyCalls.length === 0) {
+          return { pass: false, score: 0, reason: 'Expected gmail_modify call but none found' };
+        }
+
+        const matched = modifyCalls.some(
+          (call) => String(call?.parsedArguments?.action ?? '').trim() === expectedAction,
+        );
+        if (matched) return true;
+        return {
+          pass: false,
+          score: 0,
+          reason: `Expected gmail_modify action=${expectedAction}`,
+        };
+
+    - type: javascript
+      metric: modify_kind
+      value: |
+        const expectedKind = String(context.vars.expected_modify_kind ?? '').trim();
+        if (!expectedKind) return true;
+
+        const data = JSON.parse(output);
+        const modifyCalls = Array.isArray(data.toolCalls)
+          ? data.toolCalls.filter((tool) => tool.name === 'gmail_modify')
+          : [];
+        if (modifyCalls.length === 0) {
+          return { pass: false, score: 0, reason: 'Expected gmail_modify call but none found' };
+        }
+
+        const matched = modifyCalls.some(
+          (call) => String(call?.parsedArguments?.kind ?? '').trim() === expectedKind,
+        );
+        if (matched) return true;
+        return {
+          pass: false,
+          score: 0,
+          reason: `Expected gmail_modify kind=${expectedKind}`,
+        };
+
+    - type: javascript
+      metric: turn_budget
+      value: |
+        const data = JSON.parse(output);
+        const maxTurns = Number(context.vars.max_turns ?? 6);
+        const turns = Number(data.turns ?? 0);
+        if (Number.isFinite(turns) && turns <= maxTurns) return true;
+        return {
+          pass: false,
+          score: 0,
+          reason: `Turn budget exceeded: ${turns} > ${maxTurns}`,
+        };

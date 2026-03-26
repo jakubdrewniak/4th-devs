@@ -1,0 +1,35 @@
+- vars:
+    id: tool_search_01_unread
+    message: "Search for messages matching query: from:anna@company.com is:unread"
+    required_tools_csv: "gmail_search"
+    forbidden_tools_csv: "gmail_read,gmail_send,gmail_modify,gmail_attachment"
+    expected_primary_tool: "gmail_search"
+    expected_query_contains: "from:anna@company.com"
+    max_turns: 5
+
+- vars:
+    id: tool_search_02_drafts
+    message: "Search for messages matching query: is:draft"
+    required_tools_csv: "gmail_search"
+    forbidden_tools_csv: "gmail_read,gmail_send,gmail_modify,gmail_attachment"
+    expected_primary_tool: "gmail_search"
+    expected_query_contains: "is:draft"
+    max_turns: 5
+
+- vars:
+    id: tool_search_03_attachments
+    message: "Search for messages matching query: has:attachment newer_than:7d"
+    required_tools_csv: "gmail_search"
+    forbidden_tools_csv: "gmail_read,gmail_send,gmail_modify,gmail_attachment"
+    expected_primary_tool: "gmail_search"
+    expected_query_contains: "has:attachment"
+    max_turns: 5
+
+- vars:
+    id: tool_search_04_invoice
+    message: "Search for messages matching query: subject:(invoice OR faktura)"
+    required_tools_csv: "gmail_search"
+    forbidden_tools_csv: "gmail_read,gmail_send,gmail_modify,gmail_attachment"
+    expected_primary_tool: "gmail_search"
+    expected_query_contains: "invoice"
+    max_turns: 5

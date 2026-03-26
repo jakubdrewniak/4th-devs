@@ -1,0 +1,208 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>03_04_gmail tool eval (gmail_modify)</title>
+    <style>
+      body {
+        font-family:
+          -apple-system,
+          BlinkMacSystemFont,
+          Segoe UI,
+          Roboto,
+          Helvetica,
+          Arial,
+          sans-serif;
+      }
+      table,
+      th,
+      td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        text-align: left;
+        word-break: break-all;
+      }
+      th,
+      td {
+        padding: 5px;
+        min-width: 200px;
+        white-space: pre-wrap;
+        vertical-align: top;
+      }
+
+      tr > td[data-content^='[PASS]'] {
+        color: green;
+      }
+      tr > td[data-content^='[FAIL]'] {
+        color: #ad0000;
+      }
+    </style>
+  </head>
+  <body>
+    <table>
+      <thead>
+        
+        <th>expected_modify_action</th>
+        
+        <th>expected_modify_kind</th>
+        
+        <th>forbidden_tools_csv</th>
+        
+        <th>id</th>
+        
+        <th>max_turns</th>
+        
+        <th>message</th>
+        
+        <th>required_tools_csv</th>
+        
+        <th>[gmail-agent] {{message}}</th>
+        
+      </thead>
+      <tbody>
+        
+        <tr>
+          
+          <td data-content="markRead">markRead</td>
+          
+          <td data-content="message">message</td>
+          
+          <td data-content="gmail_search,gmail_read,gmail_send,gmail_attachment">gmail_search,gmail_read,gmail_send,gmail_attachment</td>
+          
+          <td data-content="tool_modify_01_mark_read">tool_modify_01_mark_read</td>
+          
+          <td data-content="5">5</td>
+          
+          <td data-content="Mark message msg_demo_100 as read.">Mark message msg_demo_100 as read.</td>
+          
+          <td data-content="gmail_modify">gmail_modify</td>
+          
+          <td data-content="[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, required_tools: 1.00, forbidden_tools: 1.00, modify_action: 1.00, modify_kind: 1.00, turn_budget: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Mark message msg_demo_100 as read.&quot;,&quot;maxTurns&quot;:5,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:null,&quot;finalText&quot;:&quot;Message `msg_demo_100` has been marked as read.&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_modify&quot;,&quot;callId&quot;:&quot;call_V2IpW2bH5lSxcevNpFTgF0Rd&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;kind&#92;&quot;:&#92;&quot;message&#92;&quot;,&#92;&quot;id&#92;&quot;:&#92;&quot;msg_demo_100&#92;&quot;,&#92;&quot;action&#92;&quot;:&#92;&quot;markRead&#92;&quot;}&quot;,&quot;parsedArguments&quot;:{&quot;kind&quot;:&quot;message&quot;,&quot;id&quot;:&quot;msg_demo_100&quot;,&quot;action&quot;:&quot;markRead&quot;},&quot;output&quot;:{&quot;data&quot;:{&quot;kind&quot;:&quot;message&quot;,&quot;id&quot;:&quot;msg_demo_100&quot;,&quot;appliedAction&quot;:&quot;markRead&quot;,&quot;labels&quot;:[&quot;inbox&quot;],&quot;updatedState&quot;:{&quot;labels&quot;:[&quot;inbox&quot;],&quot;isRead&quot;:true,&quot;inInbox&quot;:true,&quot;inTrash&quot;:false,&quot;isDraft&quot;:false},&quot;applied&quot;:{&quot;action&quot;:&quot;markRead&quot;}},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;message &#92;&quot;msg_demo_100&#92;&quot; updated with action &#92;&quot;markRead&#92;&quot;. isRead=true, inInbox=true, inTrash=false, isDraft=false.&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Re-open the updated target if you need full message content after this state change.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_demo_100&quot;,&quot;details&quot;:true},&quot;confidence&quot;:0.55}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed">[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, required_tools: 1.00, forbidden_tools: 1.00, modify_action: 1.00, modify_kind: 1.00, turn_budget: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Mark message msg_demo_100 as read.&quot;,&quot;maxTurns&quot;:5,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:null,&quot;finalText&quot;:&quot;Message `msg_demo_100` has been marked as read.&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_modify&quot;,&quot;callId&quot;:&quot;call_V2IpW2bH5lSxcevNpFTgF0Rd&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;kind&#92;&quot;:&#92;&quot;message&#92;&quot;,&#92;&quot;id&#92;&quot;:&#92;&quot;msg_demo_100&#92;&quot;,&#92;&quot;action&#92;&quot;:&#92;&quot;markRead&#92;&quot;}&quot;,&quot;parsedArguments&quot;:{&quot;kind&quot;:&quot;message&quot;,&quot;id&quot;:&quot;msg_demo_100&quot;,&quot;action&quot;:&quot;markRead&quot;},&quot;output&quot;:{&quot;data&quot;:{&quot;kind&quot;:&quot;message&quot;,&quot;id&quot;:&quot;msg_demo_100&quot;,&quot;appliedAction&quot;:&quot;markRead&quot;,&quot;labels&quot;:[&quot;inbox&quot;],&quot;updatedState&quot;:{&quot;labels&quot;:[&quot;inbox&quot;],&quot;isRead&quot;:true,&quot;inInbox&quot;:true,&quot;inTrash&quot;:false,&quot;isDraft&quot;:false},&quot;applied&quot;:{&quot;action&quot;:&quot;markRead&quot;}},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;message &#92;&quot;msg_demo_100&#92;&quot; updated with action &#92;&quot;markRead&#92;&quot;. isRead=true, inInbox=true, inTrash=false, isDraft=false.&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Re-open the updated target if you need full message content after this state change.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_demo_100&quot;,&quot;details&quot;:true},&quot;confidence&quot;:0.55}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed</td>
+          
+        </tr>
+        
+        <tr>
+          
+          <td data-content="markUnread">markUnread</td>
+          
+          <td data-content="thread">thread</td>
+          
+          <td data-content="gmail_search,gmail_read,gmail_send,gmail_attachment">gmail_search,gmail_read,gmail_send,gmail_attachment</td>
+          
+          <td data-content="tool_modify_02_mark_unread">tool_modify_02_mark_unread</td>
+          
+          <td data-content="5">5</td>
+          
+          <td data-content="Mark thread thread_demo_100 as unread.">Mark thread thread_demo_100 as unread.</td>
+          
+          <td data-content="gmail_modify">gmail_modify</td>
+          
+          <td data-content="[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, required_tools: 1.00, forbidden_tools: 1.00, modify_action: 1.00, modify_kind: 1.00, turn_budget: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Mark thread thread_demo_100 as unread.&quot;,&quot;maxTurns&quot;:5,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:null,&quot;finalText&quot;:&quot;Thread `thread_demo_100` has been marked as **unread** (now labeled `unread`).&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_modify&quot;,&quot;callId&quot;:&quot;call_e34Db9xx5318DkG6koPacffg&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;kind&#92;&quot;:&#92;&quot;thread&#92;&quot;,&#92;&quot;id&#92;&quot;:&#92;&quot;thread_demo_100&#92;&quot;,&#92;&quot;action&#92;&quot;:&#92;&quot;markUnread&#92;&quot;}&quot;,&quot;parsedArguments&quot;:{&quot;kind&quot;:&quot;thread&quot;,&quot;id&quot;:&quot;thread_demo_100&quot;,&quot;action&quot;:&quot;markUnread&quot;},&quot;output&quot;:{&quot;data&quot;:{&quot;kind&quot;:&quot;thread&quot;,&quot;id&quot;:&quot;thread_demo_100&quot;,&quot;appliedAction&quot;:&quot;markUnread&quot;,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;updatedState&quot;:{&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;isRead&quot;:false,&quot;inInbox&quot;:true,&quot;inTrash&quot;:false,&quot;isDraft&quot;:false},&quot;applied&quot;:{&quot;action&quot;:&quot;markUnread&quot;}},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;thread &#92;&quot;thread_demo_100&#92;&quot; updated with action &#92;&quot;markUnread&#92;&quot;. isRead=false, inInbox=true, inTrash=false, isDraft=false.&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Re-open the updated target if you need full message content after this state change.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;thread_demo_100&quot;,&quot;details&quot;:true},&quot;confidence&quot;:0.55}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed">[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, required_tools: 1.00, forbidden_tools: 1.00, modify_action: 1.00, modify_kind: 1.00, turn_budget: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Mark thread thread_demo_100 as unread.&quot;,&quot;maxTurns&quot;:5,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:null,&quot;finalText&quot;:&quot;Thread `thread_demo_100` has been marked as **unread** (now labeled `unread`).&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_modify&quot;,&quot;callId&quot;:&quot;call_e34Db9xx5318DkG6koPacffg&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;kind&#92;&quot;:&#92;&quot;thread&#92;&quot;,&#92;&quot;id&#92;&quot;:&#92;&quot;thread_demo_100&#92;&quot;,&#92;&quot;action&#92;&quot;:&#92;&quot;markUnread&#92;&quot;}&quot;,&quot;parsedArguments&quot;:{&quot;kind&quot;:&quot;thread&quot;,&quot;id&quot;:&quot;thread_demo_100&quot;,&quot;action&quot;:&quot;markUnread&quot;},&quot;output&quot;:{&quot;data&quot;:{&quot;kind&quot;:&quot;thread&quot;,&quot;id&quot;:&quot;thread_demo_100&quot;,&quot;appliedAction&quot;:&quot;markUnread&quot;,&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;updatedState&quot;:{&quot;labels&quot;:[&quot;inbox&quot;,&quot;unread&quot;],&quot;isRead&quot;:false,&quot;inInbox&quot;:true,&quot;inTrash&quot;:false,&quot;isDraft&quot;:false},&quot;applied&quot;:{&quot;action&quot;:&quot;markUnread&quot;}},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;thread &#92;&quot;thread_demo_100&#92;&quot; updated with action &#92;&quot;markUnread&#92;&quot;. isRead=false, inInbox=true, inTrash=false, isDraft=false.&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Re-open the updated target if you need full message content after this state change.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;thread_demo_100&quot;,&quot;details&quot;:true},&quot;confidence&quot;:0.55}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed</td>
+          
+        </tr>
+        
+        <tr>
+          
+          <td data-content="archive">archive</td>
+          
+          <td data-content="thread">thread</td>
+          
+          <td data-content="gmail_search,gmail_read,gmail_send,gmail_attachment">gmail_search,gmail_read,gmail_send,gmail_attachment</td>
+          
+          <td data-content="tool_modify_03_archive">tool_modify_03_archive</td>
+          
+          <td data-content="5">5</td>
+          
+          <td data-content="Archive thread thread_demo_101.">Archive thread thread_demo_101.</td>
+          
+          <td data-content="gmail_modify">gmail_modify</td>
+          
+          <td data-content="[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, required_tools: 1.00, forbidden_tools: 1.00, modify_action: 1.00, modify_kind: 1.00, turn_budget: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Archive thread thread_demo_101.&quot;,&quot;maxTurns&quot;:5,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:null,&quot;finalText&quot;:&quot;Archived thread `thread_demo_101` (removed from Inbox).&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_modify&quot;,&quot;callId&quot;:&quot;call_usk776hz7MRuijdYxExIAPCq&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;kind&#92;&quot;:&#92;&quot;thread&#92;&quot;,&#92;&quot;id&#92;&quot;:&#92;&quot;thread_demo_101&#92;&quot;,&#92;&quot;action&#92;&quot;:&#92;&quot;archive&#92;&quot;}&quot;,&quot;parsedArguments&quot;:{&quot;kind&quot;:&quot;thread&quot;,&quot;id&quot;:&quot;thread_demo_101&quot;,&quot;action&quot;:&quot;archive&quot;},&quot;output&quot;:{&quot;data&quot;:{&quot;kind&quot;:&quot;thread&quot;,&quot;id&quot;:&quot;thread_demo_101&quot;,&quot;appliedAction&quot;:&quot;archive&quot;,&quot;labels&quot;:[],&quot;updatedState&quot;:{&quot;labels&quot;:[],&quot;isRead&quot;:true,&quot;inInbox&quot;:false,&quot;inTrash&quot;:false,&quot;isDraft&quot;:false},&quot;applied&quot;:{&quot;action&quot;:&quot;archive&quot;}},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;thread &#92;&quot;thread_demo_101&#92;&quot; updated with action &#92;&quot;archive&#92;&quot;. isRead=true, inInbox=false, inTrash=false, isDraft=false.&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Re-open the updated target if you need full message content after this state change.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;thread_demo_101&quot;,&quot;details&quot;:true},&quot;confidence&quot;:0.55}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed">[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, required_tools: 1.00, forbidden_tools: 1.00, modify_action: 1.00, modify_kind: 1.00, turn_budget: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Archive thread thread_demo_101.&quot;,&quot;maxTurns&quot;:5,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:null,&quot;finalText&quot;:&quot;Archived thread `thread_demo_101` (removed from Inbox).&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_modify&quot;,&quot;callId&quot;:&quot;call_usk776hz7MRuijdYxExIAPCq&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;kind&#92;&quot;:&#92;&quot;thread&#92;&quot;,&#92;&quot;id&#92;&quot;:&#92;&quot;thread_demo_101&#92;&quot;,&#92;&quot;action&#92;&quot;:&#92;&quot;archive&#92;&quot;}&quot;,&quot;parsedArguments&quot;:{&quot;kind&quot;:&quot;thread&quot;,&quot;id&quot;:&quot;thread_demo_101&quot;,&quot;action&quot;:&quot;archive&quot;},&quot;output&quot;:{&quot;data&quot;:{&quot;kind&quot;:&quot;thread&quot;,&quot;id&quot;:&quot;thread_demo_101&quot;,&quot;appliedAction&quot;:&quot;archive&quot;,&quot;labels&quot;:[],&quot;updatedState&quot;:{&quot;labels&quot;:[],&quot;isRead&quot;:true,&quot;inInbox&quot;:false,&quot;inTrash&quot;:false,&quot;isDraft&quot;:false},&quot;applied&quot;:{&quot;action&quot;:&quot;archive&quot;}},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;thread &#92;&quot;thread_demo_101&#92;&quot; updated with action &#92;&quot;archive&#92;&quot;. isRead=true, inInbox=false, inTrash=false, isDraft=false.&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Re-open the updated target if you need full message content after this state change.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;thread_demo_101&quot;,&quot;details&quot;:true},&quot;confidence&quot;:0.55}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed</td>
+          
+        </tr>
+        
+        <tr>
+          
+          <td data-content="trash">trash</td>
+          
+          <td data-content="message">message</td>
+          
+          <td data-content="gmail_search,gmail_read,gmail_send,gmail_attachment">gmail_search,gmail_read,gmail_send,gmail_attachment</td>
+          
+          <td data-content="tool_modify_04_trash">tool_modify_04_trash</td>
+          
+          <td data-content="5">5</td>
+          
+          <td data-content="Move message msg_demo_101 to trash.">Move message msg_demo_101 to trash.</td>
+          
+          <td data-content="gmail_modify">gmail_modify</td>
+          
+          <td data-content="[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, required_tools: 1.00, forbidden_tools: 1.00, modify_action: 1.00, modify_kind: 1.00, turn_budget: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Move message msg_demo_101 to trash.&quot;,&quot;maxTurns&quot;:5,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:null,&quot;finalText&quot;:&quot;Message **msg_demo_101** has been moved to **Trash** (inInbox=false, inTrash=true).&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_modify&quot;,&quot;callId&quot;:&quot;call_HMX43Ie38xlj8uy9LfrRmDYE&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;kind&#92;&quot;:&#92;&quot;message&#92;&quot;,&#92;&quot;id&#92;&quot;:&#92;&quot;msg_demo_101&#92;&quot;,&#92;&quot;action&#92;&quot;:&#92;&quot;trash&#92;&quot;}&quot;,&quot;parsedArguments&quot;:{&quot;kind&quot;:&quot;message&quot;,&quot;id&quot;:&quot;msg_demo_101&quot;,&quot;action&quot;:&quot;trash&quot;},&quot;output&quot;:{&quot;data&quot;:{&quot;kind&quot;:&quot;message&quot;,&quot;id&quot;:&quot;msg_demo_101&quot;,&quot;appliedAction&quot;:&quot;trash&quot;,&quot;labels&quot;:[&quot;trash&quot;],&quot;updatedState&quot;:{&quot;labels&quot;:[&quot;trash&quot;],&quot;isRead&quot;:true,&quot;inInbox&quot;:false,&quot;inTrash&quot;:true,&quot;isDraft&quot;:false},&quot;applied&quot;:{&quot;action&quot;:&quot;trash&quot;}},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;message &#92;&quot;msg_demo_101&#92;&quot; updated with action &#92;&quot;trash&#92;&quot;. isRead=true, inInbox=false, inTrash=true, isDraft=false.&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Re-open the updated target if you need full message content after this state change.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_demo_101&quot;,&quot;details&quot;:true},&quot;confidence&quot;:0.55}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed">[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, required_tools: 1.00, forbidden_tools: 1.00, modify_action: 1.00, modify_kind: 1.00, turn_budget: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Move message msg_demo_101 to trash.&quot;,&quot;maxTurns&quot;:5,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:null,&quot;finalText&quot;:&quot;Message **msg_demo_101** has been moved to **Trash** (inInbox=false, inTrash=true).&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_modify&quot;,&quot;callId&quot;:&quot;call_HMX43Ie38xlj8uy9LfrRmDYE&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;kind&#92;&quot;:&#92;&quot;message&#92;&quot;,&#92;&quot;id&#92;&quot;:&#92;&quot;msg_demo_101&#92;&quot;,&#92;&quot;action&#92;&quot;:&#92;&quot;trash&#92;&quot;}&quot;,&quot;parsedArguments&quot;:{&quot;kind&quot;:&quot;message&quot;,&quot;id&quot;:&quot;msg_demo_101&quot;,&quot;action&quot;:&quot;trash&quot;},&quot;output&quot;:{&quot;data&quot;:{&quot;kind&quot;:&quot;message&quot;,&quot;id&quot;:&quot;msg_demo_101&quot;,&quot;appliedAction&quot;:&quot;trash&quot;,&quot;labels&quot;:[&quot;trash&quot;],&quot;updatedState&quot;:{&quot;labels&quot;:[&quot;trash&quot;],&quot;isRead&quot;:true,&quot;inInbox&quot;:false,&quot;inTrash&quot;:true,&quot;isDraft&quot;:false},&quot;applied&quot;:{&quot;action&quot;:&quot;trash&quot;}},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;message &#92;&quot;msg_demo_101&#92;&quot; updated with action &#92;&quot;trash&#92;&quot;. isRead=true, inInbox=false, inTrash=true, isDraft=false.&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Re-open the updated target if you need full message content after this state change.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_demo_101&quot;,&quot;details&quot;:true},&quot;confidence&quot;:0.55}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed</td>
+          
+        </tr>
+        
+        <tr>
+          
+          <td data-content="addLabel">addLabel</td>
+          
+          <td data-content="thread">thread</td>
+          
+          <td data-content="gmail_search,gmail_read,gmail_send,gmail_attachment">gmail_search,gmail_read,gmail_send,gmail_attachment</td>
+          
+          <td data-content="tool_modify_05_add_label">tool_modify_05_add_label</td>
+          
+          <td data-content="5">5</td>
+          
+          <td data-content="Add label IMPORTANT to thread thread_demo_102.">Add label IMPORTANT to thread thread_demo_102.</td>
+          
+          <td data-content="gmail_modify">gmail_modify</td>
+          
+          <td data-content="[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, required_tools: 1.00, forbidden_tools: 1.00, modify_action: 1.00, modify_kind: 1.00, turn_budget: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Add label IMPORTANT to thread thread_demo_102.&quot;,&quot;maxTurns&quot;:5,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:null,&quot;finalText&quot;:&quot;Label **IMPORTANT** added to thread **thread_demo_102**.&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_modify&quot;,&quot;callId&quot;:&quot;call_6i5vivZCT3uzUtvEfKMWq52R&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;kind&#92;&quot;:&#92;&quot;thread&#92;&quot;,&#92;&quot;id&#92;&quot;:&#92;&quot;thread_demo_102&#92;&quot;,&#92;&quot;action&#92;&quot;:&#92;&quot;addLabel&#92;&quot;,&#92;&quot;label&#92;&quot;:&#92;&quot;IMPORTANT&#92;&quot;}&quot;,&quot;parsedArguments&quot;:{&quot;kind&quot;:&quot;thread&quot;,&quot;id&quot;:&quot;thread_demo_102&quot;,&quot;action&quot;:&quot;addLabel&quot;,&quot;label&quot;:&quot;IMPORTANT&quot;},&quot;output&quot;:{&quot;data&quot;:{&quot;kind&quot;:&quot;thread&quot;,&quot;id&quot;:&quot;thread_demo_102&quot;,&quot;appliedAction&quot;:&quot;addLabel&quot;,&quot;labels&quot;:[&quot;inbox&quot;,&quot;important&quot;],&quot;updatedState&quot;:{&quot;labels&quot;:[&quot;inbox&quot;,&quot;important&quot;],&quot;isRead&quot;:true,&quot;inInbox&quot;:true,&quot;inTrash&quot;:false,&quot;isDraft&quot;:false},&quot;applied&quot;:{&quot;action&quot;:&quot;addLabel&quot;,&quot;label&quot;:&quot;IMPORTANT&quot;}},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;thread &#92;&quot;thread_demo_102&#92;&quot; updated with action &#92;&quot;addLabel&#92;&quot; using label &#92;&quot;IMPORTANT&#92;&quot;. isRead=true, inInbox=true, inTrash=false, isDraft=false.&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Re-open the updated target if you need full message content after this state change.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;thread_demo_102&quot;,&quot;details&quot;:true},&quot;confidence&quot;:0.55}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed">[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, required_tools: 1.00, forbidden_tools: 1.00, modify_action: 1.00, modify_kind: 1.00, turn_budget: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Add label IMPORTANT to thread thread_demo_102.&quot;,&quot;maxTurns&quot;:5,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:null,&quot;finalText&quot;:&quot;Label **IMPORTANT** added to thread **thread_demo_102**.&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_modify&quot;,&quot;callId&quot;:&quot;call_6i5vivZCT3uzUtvEfKMWq52R&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;kind&#92;&quot;:&#92;&quot;thread&#92;&quot;,&#92;&quot;id&#92;&quot;:&#92;&quot;thread_demo_102&#92;&quot;,&#92;&quot;action&#92;&quot;:&#92;&quot;addLabel&#92;&quot;,&#92;&quot;label&#92;&quot;:&#92;&quot;IMPORTANT&#92;&quot;}&quot;,&quot;parsedArguments&quot;:{&quot;kind&quot;:&quot;thread&quot;,&quot;id&quot;:&quot;thread_demo_102&quot;,&quot;action&quot;:&quot;addLabel&quot;,&quot;label&quot;:&quot;IMPORTANT&quot;},&quot;output&quot;:{&quot;data&quot;:{&quot;kind&quot;:&quot;thread&quot;,&quot;id&quot;:&quot;thread_demo_102&quot;,&quot;appliedAction&quot;:&quot;addLabel&quot;,&quot;labels&quot;:[&quot;inbox&quot;,&quot;important&quot;],&quot;updatedState&quot;:{&quot;labels&quot;:[&quot;inbox&quot;,&quot;important&quot;],&quot;isRead&quot;:true,&quot;inInbox&quot;:true,&quot;inTrash&quot;:false,&quot;isDraft&quot;:false},&quot;applied&quot;:{&quot;action&quot;:&quot;addLabel&quot;,&quot;label&quot;:&quot;IMPORTANT&quot;}},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;thread &#92;&quot;thread_demo_102&#92;&quot; updated with action &#92;&quot;addLabel&#92;&quot; using label &#92;&quot;IMPORTANT&#92;&quot;. isRead=true, inInbox=true, inTrash=false, isDraft=false.&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Re-open the updated target if you need full message content after this state change.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;thread_demo_102&quot;,&quot;details&quot;:true},&quot;confidence&quot;:0.55}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed</td>
+          
+        </tr>
+        
+      </tbody>
+    </table>
+  </body>
+</html>

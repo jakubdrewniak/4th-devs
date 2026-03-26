@@ -1,0 +1,264 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>03_04_gmail tool eval (gmail_send)</title>
+    <style>
+      body {
+        font-family:
+          -apple-system,
+          BlinkMacSystemFont,
+          Segoe UI,
+          Roboto,
+          Helvetica,
+          Arial,
+          sans-serif;
+      }
+      table,
+      th,
+      td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        text-align: left;
+        word-break: break-all;
+      }
+      th,
+      td {
+        padding: 5px;
+        min-width: 200px;
+        white-space: pre-wrap;
+        vertical-align: top;
+      }
+
+      tr > td[data-content^='[PASS]'] {
+        color: green;
+      }
+      tr > td[data-content^='[FAIL]'] {
+        color: #ad0000;
+      }
+    </style>
+  </head>
+  <body>
+    <table>
+      <thead>
+        
+        <th>expect_enforced_draft</th>
+        
+        <th>expected_send_mode</th>
+        
+        <th>expected_send_status</th>
+        
+        <th>forbidden_tools_csv</th>
+        
+        <th>id</th>
+        
+        <th>max_turns</th>
+        
+        <th>message</th>
+        
+        <th>required_tools_csv</th>
+        
+        <th>[gmail-agent] {{message}}</th>
+        
+      </thead>
+      <tbody>
+        
+        <tr>
+          
+          <td data-content=""></td>
+          
+          <td data-content="new">new</td>
+          
+          <td data-content="drafted">drafted</td>
+          
+          <td data-content="gmail_search,gmail_read,gmail_modify,gmail_attachment">gmail_search,gmail_read,gmail_modify,gmail_attachment</td>
+          
+          <td data-content="tool_send_01_draft_new">tool_send_01_draft_new</td>
+          
+          <td data-content="6">6</td>
+          
+          <td data-content="Draft a new email to tom@company.com with subject &#39;Status update&#39; and body &#39;Everything is on track.&#39;">Draft a new email to tom@company.com with subject &#39;Status update&#39; and body &#39;Everything is on track.&#39;</td>
+          
+          <td data-content="gmail_send">gmail_send</td>
+          
+          <td data-content="[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, required_tools: 1.00, forbidden_tools: 1.00, send_mode: 1.00, send_status: 1.00, send_policy_enforced: 1.00, turn_budget: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Draft a new email to tom@company.com with subject &#39;Status update&#39; and body &#39;Everything is on track.&#39;&quot;,&quot;maxTurns&quot;:6,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:null,&quot;finalText&quot;:&quot;Draft created.
+
+- To: tom@company.com  
+- Subject: Status update  
+- Body: Everything is on track.  
+- Draft ID: draft_mock_0001 (Message ID: msg_mock_draft_0001)&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_send&quot;,&quot;callId&quot;:&quot;call_T9tbaSuzgFUvHddaWm3FNH25&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;mode&#92;&quot;:&#92;&quot;new&#92;&quot;,&#92;&quot;to&#92;&quot;:[&#92;&quot;tom@company.com&#92;&quot;],&#92;&quot;subject&#92;&quot;:&#92;&quot;Status update&#92;&quot;,&#92;&quot;bodyText&#92;&quot;:&#92;&quot;Everything is on track.&#92;&quot;,&#92;&quot;saveAsDraft&#92;&quot;:true}&quot;,&quot;parsedArguments&quot;:{&quot;mode&quot;:&quot;new&quot;,&quot;to&quot;:[&quot;tom@company.com&quot;],&quot;subject&quot;:&quot;Status update&quot;,&quot;bodyText&quot;:&quot;Everything is on track.&quot;,&quot;saveAsDraft&quot;:true},&quot;output&quot;:{&quot;data&quot;:{&quot;status&quot;:&quot;drafted&quot;,&quot;mode&quot;:&quot;new&quot;,&quot;messageId&quot;:&quot;msg_mock_draft_0001&quot;,&quot;threadId&quot;:&quot;thread_mock_0001&quot;,&quot;draftId&quot;:&quot;draft_mock_0001&quot;,&quot;policy&quot;:{&quot;enforcedDraft&quot;:false,&quot;blockedRecipients&quot;:[],&quot;whitelist&quot;:[&quot;owner@company.com&quot;,&quot;tom@company.com&quot;,&quot;anna@company.com&quot;,&quot;accounting@company.com&quot;,&quot;client@acme.com&quot;]}},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Draft created successfully (draftId=draft_mock_0001).&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Open the sent or drafted message to verify final content.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_mock_draft_0001&quot;},&quot;confidence&quot;:0.58}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed">[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, required_tools: 1.00, forbidden_tools: 1.00, send_mode: 1.00, send_status: 1.00, send_policy_enforced: 1.00, turn_budget: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Draft a new email to tom@company.com with subject &#39;Status update&#39; and body &#39;Everything is on track.&#39;&quot;,&quot;maxTurns&quot;:6,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:null,&quot;finalText&quot;:&quot;Draft created.
+
+- To: tom@company.com  
+- Subject: Status update  
+- Body: Everything is on track.  
+- Draft ID: draft_mock_0001 (Message ID: msg_mock_draft_0001)&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_send&quot;,&quot;callId&quot;:&quot;call_T9tbaSuzgFUvHddaWm3FNH25&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;mode&#92;&quot;:&#92;&quot;new&#92;&quot;,&#92;&quot;to&#92;&quot;:[&#92;&quot;tom@company.com&#92;&quot;],&#92;&quot;subject&#92;&quot;:&#92;&quot;Status update&#92;&quot;,&#92;&quot;bodyText&#92;&quot;:&#92;&quot;Everything is on track.&#92;&quot;,&#92;&quot;saveAsDraft&#92;&quot;:true}&quot;,&quot;parsedArguments&quot;:{&quot;mode&quot;:&quot;new&quot;,&quot;to&quot;:[&quot;tom@company.com&quot;],&quot;subject&quot;:&quot;Status update&quot;,&quot;bodyText&quot;:&quot;Everything is on track.&quot;,&quot;saveAsDraft&quot;:true},&quot;output&quot;:{&quot;data&quot;:{&quot;status&quot;:&quot;drafted&quot;,&quot;mode&quot;:&quot;new&quot;,&quot;messageId&quot;:&quot;msg_mock_draft_0001&quot;,&quot;threadId&quot;:&quot;thread_mock_0001&quot;,&quot;draftId&quot;:&quot;draft_mock_0001&quot;,&quot;policy&quot;:{&quot;enforcedDraft&quot;:false,&quot;blockedRecipients&quot;:[],&quot;whitelist&quot;:[&quot;owner@company.com&quot;,&quot;tom@company.com&quot;,&quot;anna@company.com&quot;,&quot;accounting@company.com&quot;,&quot;client@acme.com&quot;]}},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Draft created successfully (draftId=draft_mock_0001).&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Open the sent or drafted message to verify final content.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_mock_draft_0001&quot;},&quot;confidence&quot;:0.58}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed</td>
+          
+        </tr>
+        
+        <tr>
+          
+          <td data-content=""></td>
+          
+          <td data-content="new">new</td>
+          
+          <td data-content="sent_or_drafted">sent_or_drafted</td>
+          
+          <td data-content="gmail_search,gmail_read,gmail_modify,gmail_attachment">gmail_search,gmail_read,gmail_modify,gmail_attachment</td>
+          
+          <td data-content="tool_send_02_send_new">tool_send_02_send_new</td>
+          
+          <td data-content="6">6</td>
+          
+          <td data-content="Send a new email to tom@company.com with subject &#39;Quick check&#39; and body &#39;Ping&#39;.">Send a new email to tom@company.com with subject &#39;Quick check&#39; and body &#39;Ping&#39;.</td>
+          
+          <td data-content="gmail_send">gmail_send</td>
+          
+          <td data-content="[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, required_tools: 1.00, forbidden_tools: 1.00, send_mode: 1.00, send_status: 1.00, send_policy_enforced: 1.00, turn_budget: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Send a new email to tom@company.com with subject &#39;Quick check&#39; and body &#39;Ping&#39;.&quot;,&quot;maxTurns&quot;:6,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:null,&quot;finalText&quot;:&quot;Email sent to **tom@company.com** with subject **“Quick check”** and body:
+
+&gt; Ping
+
+Message ID: **msg_mock_sent_0001**&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_send&quot;,&quot;callId&quot;:&quot;call_ZXLQv978SyVYZsPlZS2WIZPo&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;mode&#92;&quot;:&#92;&quot;new&#92;&quot;,&#92;&quot;to&#92;&quot;:[&#92;&quot;tom@company.com&#92;&quot;],&#92;&quot;subject&#92;&quot;:&#92;&quot;Quick check&#92;&quot;,&#92;&quot;bodyText&#92;&quot;:&#92;&quot;Ping&#92;&quot;}&quot;,&quot;parsedArguments&quot;:{&quot;mode&quot;:&quot;new&quot;,&quot;to&quot;:[&quot;tom@company.com&quot;],&quot;subject&quot;:&quot;Quick check&quot;,&quot;bodyText&quot;:&quot;Ping&quot;},&quot;output&quot;:{&quot;data&quot;:{&quot;status&quot;:&quot;sent&quot;,&quot;mode&quot;:&quot;new&quot;,&quot;messageId&quot;:&quot;msg_mock_sent_0001&quot;,&quot;threadId&quot;:&quot;thread_mock_0001&quot;,&quot;draftId&quot;:null,&quot;policy&quot;:{&quot;enforcedDraft&quot;:false,&quot;blockedRecipients&quot;:[],&quot;whitelist&quot;:[&quot;owner@company.com&quot;,&quot;tom@company.com&quot;,&quot;anna@company.com&quot;,&quot;accounting@company.com&quot;,&quot;client@acme.com&quot;]}},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Message sent successfully (messageId=msg_mock_sent_0001).&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Open the sent or drafted message to verify final content.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_mock_sent_0001&quot;},&quot;confidence&quot;:0.58}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed">[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, required_tools: 1.00, forbidden_tools: 1.00, send_mode: 1.00, send_status: 1.00, send_policy_enforced: 1.00, turn_budget: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Send a new email to tom@company.com with subject &#39;Quick check&#39; and body &#39;Ping&#39;.&quot;,&quot;maxTurns&quot;:6,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:null,&quot;finalText&quot;:&quot;Email sent to **tom@company.com** with subject **“Quick check”** and body:
+
+&gt; Ping
+
+Message ID: **msg_mock_sent_0001**&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_send&quot;,&quot;callId&quot;:&quot;call_ZXLQv978SyVYZsPlZS2WIZPo&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;mode&#92;&quot;:&#92;&quot;new&#92;&quot;,&#92;&quot;to&#92;&quot;:[&#92;&quot;tom@company.com&#92;&quot;],&#92;&quot;subject&#92;&quot;:&#92;&quot;Quick check&#92;&quot;,&#92;&quot;bodyText&#92;&quot;:&#92;&quot;Ping&#92;&quot;}&quot;,&quot;parsedArguments&quot;:{&quot;mode&quot;:&quot;new&quot;,&quot;to&quot;:[&quot;tom@company.com&quot;],&quot;subject&quot;:&quot;Quick check&quot;,&quot;bodyText&quot;:&quot;Ping&quot;},&quot;output&quot;:{&quot;data&quot;:{&quot;status&quot;:&quot;sent&quot;,&quot;mode&quot;:&quot;new&quot;,&quot;messageId&quot;:&quot;msg_mock_sent_0001&quot;,&quot;threadId&quot;:&quot;thread_mock_0001&quot;,&quot;draftId&quot;:null,&quot;policy&quot;:{&quot;enforcedDraft&quot;:false,&quot;blockedRecipients&quot;:[],&quot;whitelist&quot;:[&quot;owner@company.com&quot;,&quot;tom@company.com&quot;,&quot;anna@company.com&quot;,&quot;accounting@company.com&quot;,&quot;client@acme.com&quot;]}},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Message sent successfully (messageId=msg_mock_sent_0001).&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Open the sent or drafted message to verify final content.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_mock_sent_0001&quot;},&quot;confidence&quot;:0.58}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed</td>
+          
+        </tr>
+        
+        <tr>
+          
+          <td data-content=""></td>
+          
+          <td data-content="reply">reply</td>
+          
+          <td data-content=""></td>
+          
+          <td data-content="gmail_search,gmail_read,gmail_modify,gmail_attachment">gmail_search,gmail_read,gmail_modify,gmail_attachment</td>
+          
+          <td data-content="tool_send_03_reply">tool_send_03_reply</td>
+          
+          <td data-content="6">6</td>
+          
+          <td data-content="Reply to message id msg_demo_010 with body &#39;Approved. Thanks.&#39;">Reply to message id msg_demo_010 with body &#39;Approved. Thanks.&#39;</td>
+          
+          <td data-content="gmail_send">gmail_send</td>
+          
+          <td data-content="[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, required_tools: 1.00, forbidden_tools: 1.00, send_mode: 1.00, send_status: 1.00, send_policy_enforced: 1.00, turn_budget: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Reply to message id msg_demo_010 with body &#39;Approved. Thanks.&#39;&quot;,&quot;maxTurns&quot;:6,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:null,&quot;finalText&quot;:&quot;Replied to `msg_demo_010` with:
+
+“Approved. Thanks.”
+
+Sent successfully (messageId: `msg_mock_sent_0001`, threadId: `thread_demo_010`).&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_send&quot;,&quot;callId&quot;:&quot;call_Ibrr46CHUOp4cb0V7OBTBY1D&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;mode&#92;&quot;:&#92;&quot;reply&#92;&quot;,&#92;&quot;bodyText&#92;&quot;:&#92;&quot;Approved. Thanks.&#92;&quot;,&#92;&quot;replyToMessageId&#92;&quot;:&#92;&quot;msg_demo_010&#92;&quot;}&quot;,&quot;parsedArguments&quot;:{&quot;mode&quot;:&quot;reply&quot;,&quot;bodyText&quot;:&quot;Approved. Thanks.&quot;,&quot;replyToMessageId&quot;:&quot;msg_demo_010&quot;},&quot;output&quot;:{&quot;data&quot;:{&quot;status&quot;:&quot;sent&quot;,&quot;mode&quot;:&quot;reply&quot;,&quot;messageId&quot;:&quot;msg_mock_sent_0001&quot;,&quot;threadId&quot;:&quot;thread_demo_010&quot;,&quot;draftId&quot;:null,&quot;policy&quot;:{&quot;enforcedDraft&quot;:false,&quot;blockedRecipients&quot;:[],&quot;whitelist&quot;:[&quot;owner@company.com&quot;,&quot;tom@company.com&quot;,&quot;anna@company.com&quot;,&quot;accounting@company.com&quot;,&quot;client@acme.com&quot;]}},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Message sent successfully (messageId=msg_mock_sent_0001).&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Open the sent or drafted message to verify final content.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_mock_sent_0001&quot;},&quot;confidence&quot;:0.58}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed">[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, required_tools: 1.00, forbidden_tools: 1.00, send_mode: 1.00, send_status: 1.00, send_policy_enforced: 1.00, turn_budget: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Reply to message id msg_demo_010 with body &#39;Approved. Thanks.&#39;&quot;,&quot;maxTurns&quot;:6,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:null,&quot;finalText&quot;:&quot;Replied to `msg_demo_010` with:
+
+“Approved. Thanks.”
+
+Sent successfully (messageId: `msg_mock_sent_0001`, threadId: `thread_demo_010`).&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_send&quot;,&quot;callId&quot;:&quot;call_Ibrr46CHUOp4cb0V7OBTBY1D&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;mode&#92;&quot;:&#92;&quot;reply&#92;&quot;,&#92;&quot;bodyText&#92;&quot;:&#92;&quot;Approved. Thanks.&#92;&quot;,&#92;&quot;replyToMessageId&#92;&quot;:&#92;&quot;msg_demo_010&#92;&quot;}&quot;,&quot;parsedArguments&quot;:{&quot;mode&quot;:&quot;reply&quot;,&quot;bodyText&quot;:&quot;Approved. Thanks.&quot;,&quot;replyToMessageId&quot;:&quot;msg_demo_010&quot;},&quot;output&quot;:{&quot;data&quot;:{&quot;status&quot;:&quot;sent&quot;,&quot;mode&quot;:&quot;reply&quot;,&quot;messageId&quot;:&quot;msg_mock_sent_0001&quot;,&quot;threadId&quot;:&quot;thread_demo_010&quot;,&quot;draftId&quot;:null,&quot;policy&quot;:{&quot;enforcedDraft&quot;:false,&quot;blockedRecipients&quot;:[],&quot;whitelist&quot;:[&quot;owner@company.com&quot;,&quot;tom@company.com&quot;,&quot;anna@company.com&quot;,&quot;accounting@company.com&quot;,&quot;client@acme.com&quot;]}},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Message sent successfully (messageId=msg_mock_sent_0001).&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Open the sent or drafted message to verify final content.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_mock_sent_0001&quot;},&quot;confidence&quot;:0.58}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed</td>
+          
+        </tr>
+        
+        <tr>
+          
+          <td data-content=""></td>
+          
+          <td data-content="forward">forward</td>
+          
+          <td data-content=""></td>
+          
+          <td data-content="gmail_search,gmail_read,gmail_modify,gmail_attachment">gmail_search,gmail_read,gmail_modify,gmail_attachment</td>
+          
+          <td data-content="tool_send_04_forward">tool_send_04_forward</td>
+          
+          <td data-content="6">6</td>
+          
+          <td data-content="Forward message id msg_demo_011 to accounting@company.com with body &#39;Please process this.&#39;">Forward message id msg_demo_011 to accounting@company.com with body &#39;Please process this.&#39;</td>
+          
+          <td data-content="gmail_send">gmail_send</td>
+          
+          <td data-content="[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, required_tools: 1.00, forbidden_tools: 1.00, send_mode: 1.00, send_status: 1.00, send_policy_enforced: 1.00, turn_budget: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Forward message id msg_demo_011 to accounting@company.com with body &#39;Please process this.&#39;&quot;,&quot;maxTurns&quot;:6,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:null,&quot;finalText&quot;:&quot;Forwarded message `msg_demo_011` to `accounting@company.com` with body:
+
+&gt; Please process this.
+
+Sent successfully (new message id: `msg_mock_sent_0001`).&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_send&quot;,&quot;callId&quot;:&quot;call_tzKe3vuqnH5ThOdnroMA93Xq&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;mode&#92;&quot;:&#92;&quot;forward&#92;&quot;,&#92;&quot;to&#92;&quot;:[&#92;&quot;accounting@company.com&#92;&quot;],&#92;&quot;bodyText&#92;&quot;:&#92;&quot;Please process this.&#92;&quot;,&#92;&quot;forwardMessageId&#92;&quot;:&#92;&quot;msg_demo_011&#92;&quot;}&quot;,&quot;parsedArguments&quot;:{&quot;mode&quot;:&quot;forward&quot;,&quot;to&quot;:[&quot;accounting@company.com&quot;],&quot;bodyText&quot;:&quot;Please process this.&quot;,&quot;forwardMessageId&quot;:&quot;msg_demo_011&quot;},&quot;output&quot;:{&quot;data&quot;:{&quot;status&quot;:&quot;sent&quot;,&quot;mode&quot;:&quot;forward&quot;,&quot;messageId&quot;:&quot;msg_mock_sent_0001&quot;,&quot;threadId&quot;:&quot;thread_mock_0001&quot;,&quot;draftId&quot;:null,&quot;policy&quot;:{&quot;enforcedDraft&quot;:false,&quot;blockedRecipients&quot;:[],&quot;whitelist&quot;:[&quot;owner@company.com&quot;,&quot;tom@company.com&quot;,&quot;anna@company.com&quot;,&quot;accounting@company.com&quot;,&quot;client@acme.com&quot;]}},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Message sent successfully (messageId=msg_mock_sent_0001).&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Open the sent or drafted message to verify final content.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_mock_sent_0001&quot;},&quot;confidence&quot;:0.58}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed">[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, required_tools: 1.00, forbidden_tools: 1.00, send_mode: 1.00, send_status: 1.00, send_policy_enforced: 1.00, turn_budget: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Forward message id msg_demo_011 to accounting@company.com with body &#39;Please process this.&#39;&quot;,&quot;maxTurns&quot;:6,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:null,&quot;finalText&quot;:&quot;Forwarded message `msg_demo_011` to `accounting@company.com` with body:
+
+&gt; Please process this.
+
+Sent successfully (new message id: `msg_mock_sent_0001`).&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_send&quot;,&quot;callId&quot;:&quot;call_tzKe3vuqnH5ThOdnroMA93Xq&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;mode&#92;&quot;:&#92;&quot;forward&#92;&quot;,&#92;&quot;to&#92;&quot;:[&#92;&quot;accounting@company.com&#92;&quot;],&#92;&quot;bodyText&#92;&quot;:&#92;&quot;Please process this.&#92;&quot;,&#92;&quot;forwardMessageId&#92;&quot;:&#92;&quot;msg_demo_011&#92;&quot;}&quot;,&quot;parsedArguments&quot;:{&quot;mode&quot;:&quot;forward&quot;,&quot;to&quot;:[&quot;accounting@company.com&quot;],&quot;bodyText&quot;:&quot;Please process this.&quot;,&quot;forwardMessageId&quot;:&quot;msg_demo_011&quot;},&quot;output&quot;:{&quot;data&quot;:{&quot;status&quot;:&quot;sent&quot;,&quot;mode&quot;:&quot;forward&quot;,&quot;messageId&quot;:&quot;msg_mock_sent_0001&quot;,&quot;threadId&quot;:&quot;thread_mock_0001&quot;,&quot;draftId&quot;:null,&quot;policy&quot;:{&quot;enforcedDraft&quot;:false,&quot;blockedRecipients&quot;:[],&quot;whitelist&quot;:[&quot;owner@company.com&quot;,&quot;tom@company.com&quot;,&quot;anna@company.com&quot;,&quot;accounting@company.com&quot;,&quot;client@acme.com&quot;]}},&quot;hint&quot;:{&quot;status&quot;:&quot;success&quot;,&quot;reasonCode&quot;:&quot;OK&quot;,&quot;summary&quot;:&quot;Message sent successfully (messageId=msg_mock_sent_0001).&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Open the sent or drafted message to verify final content.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_mock_sent_0001&quot;},&quot;confidence&quot;:0.58}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed</td>
+          
+        </tr>
+        
+        <tr>
+          
+          <td data-content="true">true</td>
+          
+          <td data-content="new">new</td>
+          
+          <td data-content="drafted">drafted</td>
+          
+          <td data-content="gmail_search,gmail_read,gmail_modify,gmail_attachment">gmail_search,gmail_read,gmail_modify,gmail_attachment</td>
+          
+          <td data-content="tool_send_05_external_policy">tool_send_05_external_policy</td>
+          
+          <td data-content="6">6</td>
+          
+          <td data-content="Send a new email to external-recipient@example.net with subject &#39;Policy test&#39; and body &#39;hello&#39;.">Send a new email to external-recipient@example.net with subject &#39;Policy test&#39; and body &#39;hello&#39;.</td>
+          
+          <td data-content="gmail_send">gmail_send</td>
+          
+          <td data-content="[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, required_tools: 1.00, forbidden_tools: 1.00, send_mode: 1.00, send_status: 1.00, send_policy_enforced: 1.00, turn_budget: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Send a new email to external-recipient@example.net with subject &#39;Policy test&#39; and body &#39;hello&#39;.&quot;,&quot;maxTurns&quot;:6,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:null,&quot;finalText&quot;:&quot;Couldn’t send it because **external-recipient@example.net** is outside the allowed recipient whitelist. The message was **saved as a draft** instead.
+
+- Draft ID: **draft_mock_0001**
+- Message ID: **msg_mock_draft_0001**
+- Subject: **Policy test**
+- Body: **hello**&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_send&quot;,&quot;callId&quot;:&quot;call_gxsVgzf9Vig5eKxyC8qdzGXb&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;mode&#92;&quot;:&#92;&quot;new&#92;&quot;,&#92;&quot;to&#92;&quot;:[&#92;&quot;external-recipient@example.net&#92;&quot;],&#92;&quot;subject&#92;&quot;:&#92;&quot;Policy test&#92;&quot;,&#92;&quot;bodyText&#92;&quot;:&#92;&quot;hello&#92;&quot;}&quot;,&quot;parsedArguments&quot;:{&quot;mode&quot;:&quot;new&quot;,&quot;to&quot;:[&quot;external-recipient@example.net&quot;],&quot;subject&quot;:&quot;Policy test&quot;,&quot;bodyText&quot;:&quot;hello&quot;},&quot;output&quot;:{&quot;data&quot;:{&quot;status&quot;:&quot;drafted&quot;,&quot;mode&quot;:&quot;new&quot;,&quot;messageId&quot;:&quot;msg_mock_draft_0001&quot;,&quot;threadId&quot;:&quot;thread_mock_0001&quot;,&quot;draftId&quot;:&quot;draft_mock_0001&quot;,&quot;policy&quot;:{&quot;enforcedDraft&quot;:true,&quot;blockedRecipients&quot;:[&quot;external-recipient@example.net&quot;],&quot;whitelist&quot;:[&quot;owner@company.com&quot;,&quot;tom@company.com&quot;,&quot;anna@company.com&quot;,&quot;accounting@company.com&quot;,&quot;client@acme.com&quot;]}},&quot;hint&quot;:{&quot;status&quot;:&quot;partial&quot;,&quot;reasonCode&quot;:&quot;POLICY_BLOCKED&quot;,&quot;summary&quot;:&quot;Saved as draft because recipients are outside whitelist: external-recipient@example.net.&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Open the sent or drafted message to verify final content.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_mock_draft_0001&quot;},&quot;confidence&quot;:0.58}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed">[PASS] (1.00, valid_json: 1.00, valid_eval_payload: 1.00, required_tools: 1.00, forbidden_tools: 1.00, send_mode: 1.00, send_status: 1.00, send_policy_enforced: 1.00, turn_budget: 1.00)
+
+{&quot;model&quot;:&quot;gpt-5.2&quot;,&quot;message&quot;:&quot;Send a new email to external-recipient@example.net with subject &#39;Policy test&#39; and body &#39;hello&#39;.&quot;,&quot;maxTurns&quot;:6,&quot;instructions&quot;:&quot;You are a Gmail assistant. Use tools when they improve correctness. Never invent tool outputs. Be concise.&quot;,&quot;sessionKey&quot;:null,&quot;finalText&quot;:&quot;Couldn’t send it because **external-recipient@example.net** is outside the allowed recipient whitelist. The message was **saved as a draft** instead.
+
+- Draft ID: **draft_mock_0001**
+- Message ID: **msg_mock_draft_0001**
+- Subject: **Policy test**
+- Body: **hello**&quot;,&quot;turns&quot;:2,&quot;reachedMaxTurns&quot;:false,&quot;toolCalls&quot;:[{&quot;turn&quot;:1,&quot;name&quot;:&quot;gmail_send&quot;,&quot;callId&quot;:&quot;call_gxsVgzf9Vig5eKxyC8qdzGXb&quot;,&quot;rawArguments&quot;:&quot;{&#92;&quot;mode&#92;&quot;:&#92;&quot;new&#92;&quot;,&#92;&quot;to&#92;&quot;:[&#92;&quot;external-recipient@example.net&#92;&quot;],&#92;&quot;subject&#92;&quot;:&#92;&quot;Policy test&#92;&quot;,&#92;&quot;bodyText&#92;&quot;:&#92;&quot;hello&#92;&quot;}&quot;,&quot;parsedArguments&quot;:{&quot;mode&quot;:&quot;new&quot;,&quot;to&quot;:[&quot;external-recipient@example.net&quot;],&quot;subject&quot;:&quot;Policy test&quot;,&quot;bodyText&quot;:&quot;hello&quot;},&quot;output&quot;:{&quot;data&quot;:{&quot;status&quot;:&quot;drafted&quot;,&quot;mode&quot;:&quot;new&quot;,&quot;messageId&quot;:&quot;msg_mock_draft_0001&quot;,&quot;threadId&quot;:&quot;thread_mock_0001&quot;,&quot;draftId&quot;:&quot;draft_mock_0001&quot;,&quot;policy&quot;:{&quot;enforcedDraft&quot;:true,&quot;blockedRecipients&quot;:[&quot;external-recipient@example.net&quot;],&quot;whitelist&quot;:[&quot;owner@company.com&quot;,&quot;tom@company.com&quot;,&quot;anna@company.com&quot;,&quot;accounting@company.com&quot;,&quot;client@acme.com&quot;]}},&quot;hint&quot;:{&quot;status&quot;:&quot;partial&quot;,&quot;reasonCode&quot;:&quot;POLICY_BLOCKED&quot;,&quot;summary&quot;:&quot;Saved as draft because recipients are outside whitelist: external-recipient@example.net.&quot;,&quot;nextActions&quot;:[{&quot;tool&quot;:&quot;gmail_read&quot;,&quot;why&quot;:&quot;Open the sent or drafted message to verify final content.&quot;,&quot;args&quot;:{&quot;id&quot;:&quot;msg_mock_draft_0001&quot;},&quot;confidence&quot;:0.58}],&quot;recovery&quot;:{&quot;retryable&quot;:false,&quot;backoffMs&quot;:0,&quot;maxAttempts&quot;:0}}}}]}
+
+Pass Reason: All assertions passed</td>
+          
+        </tr>
+        
+      </tbody>
+    </table>
+  </body>
+</html>

@@ -1,0 +1,55 @@
+- vars:
+    id: tool_errors_01_search_no_results
+    message: "Search for messages matching query: from:noone@example.test zzz_no_results_eval_12345"
+    required_tools_csv: "gmail_search"
+    forbidden_tools_csv: "gmail_read,gmail_send,gmail_modify,gmail_attachment"
+    expected_primary_tool: "gmail_search"
+    expected_hint_status: "empty"
+    expected_hint_reason_code: "NO_RESULTS"
+    expected_next_action_tool: "gmail_search"
+    max_turns: 5
+
+- vars:
+    id: tool_errors_02_read_not_found
+    message: "Read message with id msg_missing_404 and summarize it."
+    required_tools_csv: "gmail_read"
+    forbidden_tools_csv: "gmail_search,gmail_send,gmail_modify,gmail_attachment"
+    expected_primary_tool: "gmail_read"
+    expected_error_contains: "No message or thread found"
+    max_turns: 5
+
+- vars:
+    id: tool_errors_03_attachment_not_found
+    message: "Download attachment att_missing_404 from message msg_demo_100."
+    required_tools_csv: "gmail_attachment"
+    forbidden_tools_csv: "gmail_search,gmail_read,gmail_send,gmail_modify"
+    expected_primary_tool: "gmail_attachment"
+    expected_error_contains: "Attachment not found"
+    max_turns: 5
+
+- vars:
+    id: tool_errors_04_send_reply_source_not_found
+    message: "Reply to message id msg_missing_404 with body 'Ping'."
+    required_tools_csv: "gmail_send"
+    forbidden_tools_csv: "gmail_search,gmail_read,gmail_modify,gmail_attachment"
+    expected_primary_tool: "gmail_send"
+    expected_error_contains: "Message not found"
+    max_turns: 6
+
+- vars:
+    id: tool_errors_05_modify_thread_not_found
+    message: "Archive thread thread_missing_404."
+    required_tools_csv: "gmail_modify"
+    forbidden_tools_csv: "gmail_search,gmail_read,gmail_send,gmail_attachment"
+    expected_primary_tool: "gmail_modify"
+    expected_error_contains: "Thread not found"
+    max_turns: 5
+
+- vars:
+    id: tool_errors_06_modify_unknown_label
+    message: "Add label DOES_NOT_EXIST to thread thread_demo_100."
+    required_tools_csv: "gmail_modify"
+    forbidden_tools_csv: "gmail_search,gmail_read,gmail_send,gmail_attachment"
+    expected_primary_tool: "gmail_modify"
+    expected_error_contains: "Unknown label"
+    max_turns: 5

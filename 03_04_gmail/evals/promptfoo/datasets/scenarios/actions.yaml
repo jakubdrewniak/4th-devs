@@ -1,0 +1,83 @@
+- vars:
+    id: sc_ac_01_step_01
+    scenario_id: sc_ac_01
+    step_id: step_01
+    message: "Create a Gmail draft to tom@company.com saying I'll be 10 minutes late."
+    required_tools_csv: "gmail_send"
+    expected_primary_tool: "gmail_send"
+    expected_outcome: "drafted"
+    max_turns: 6
+  metadata:
+    conversationId: sc_ac_01
+
+- vars:
+    id: sc_ac_01_step_02
+    scenario_id: sc_ac_01
+    step_id: step_02
+    message: "Actually send it now."
+    required_tools_csv: "gmail_send"
+    expected_primary_tool: "gmail_send"
+    expected_outcome: "sent_or_drafted"
+    max_turns: 6
+  metadata:
+    conversationId: sc_ac_01
+
+- vars:
+    id: sc_ac_02_step_01
+    scenario_id: sc_ac_02
+    step_id: step_01
+    message: "Find Anna's latest email about budget."
+    required_tools_csv: "gmail_search"
+    expected_primary_tool: "gmail_search"
+    expected_outcome: "search"
+    max_turns: 6
+  metadata:
+    conversationId: sc_ac_02
+
+- vars:
+    id: sc_ac_02_step_02
+    scenario_id: sc_ac_02
+    step_id: step_02
+    message: "Send a short Gmail reply saying approved."
+    required_tools_csv: "gmail_send"
+    expected_primary_tool: "gmail_send"
+    expected_outcome: "send_call"
+    max_turns: 7
+  metadata:
+    conversationId: sc_ac_02
+
+- vars:
+    id: sc_ac_03_step_01
+    scenario_id: sc_ac_03
+    step_id: step_01
+    message: "Find the latest newsletter email."
+    required_tools_csv: "gmail_search"
+    expected_primary_tool: "gmail_search"
+    expected_outcome: "search"
+    max_turns: 6
+  metadata:
+    conversationId: sc_ac_03
+
+- vars:
+    id: sc_ac_03_step_02
+    scenario_id: sc_ac_03
+    step_id: step_02
+    message: "Mark that thread as read."
+    required_tools_csv: "gmail_modify"
+    expected_primary_tool: "gmail_modify"
+    expected_outcome: "modified"
+    max_turns: 6
+  metadata:
+    conversationId: sc_ac_03
+
+- vars:
+    id: sc_ac_03_step_03
+    scenario_id: sc_ac_03
+    step_id: step_03
+    message: "Archive it too."
+    required_tools_csv: "gmail_modify"
+    expected_primary_tool: "gmail_modify"
+    expected_outcome: "modified"
+    max_turns: 6
+  metadata:
+    conversationId: sc_ac_03

@@ -1,0 +1,31 @@
+- vars:
+    id: tool_read_01_message
+    message: "Read message with id msg_demo_001 and summarize it."
+    required_tools_csv: "gmail_read"
+    forbidden_tools_csv: "gmail_search,gmail_send,gmail_modify,gmail_attachment"
+    expected_primary_tool: "gmail_read"
+    max_turns: 5
+
+- vars:
+    id: tool_read_02_thread
+    message: "Read thread with id thread_demo_001 and summarize it."
+    required_tools_csv: "gmail_read"
+    forbidden_tools_csv: "gmail_search,gmail_send,gmail_modify,gmail_attachment"
+    expected_primary_tool: "gmail_read"
+    max_turns: 5
+
+- vars:
+    id: tool_read_03_message_body
+    message: "Open message id msg_demo_002 and show its body."
+    required_tools_csv: "gmail_read"
+    forbidden_tools_csv: "gmail_search,gmail_send,gmail_modify,gmail_attachment"
+    expected_primary_tool: "gmail_read"
+    max_turns: 5
+
+- vars:
+    id: tool_read_04_thread_context
+    message: "Show full conversation for thread id thread_demo_002."
+    required_tools_csv: "gmail_read"
+    forbidden_tools_csv: "gmail_search,gmail_send,gmail_modify,gmail_attachment"
+    expected_primary_tool: "gmail_read"
+    max_turns: 5

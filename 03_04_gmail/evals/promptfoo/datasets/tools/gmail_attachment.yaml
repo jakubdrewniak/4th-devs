@@ -1,0 +1,26 @@
+- vars:
+    id: tool_attachment_01_download
+    message: "Download attachment att_demo_100 from message msg_demo_100."
+    required_tools_csv: "gmail_attachment"
+    forbidden_tools_csv: "gmail_search,gmail_read,gmail_send,gmail_modify"
+    expected_message_id: "msg_demo_100"
+    expected_attachment_id: "att_demo_100"
+    max_turns: 5
+
+- vars:
+    id: tool_attachment_02_fetch_pdf
+    message: "Fetch attachment att_demo_pdf from message msg_demo_200."
+    required_tools_csv: "gmail_attachment"
+    forbidden_tools_csv: "gmail_search,gmail_read,gmail_send,gmail_modify"
+    expected_message_id: "msg_demo_200"
+    expected_attachment_id: "att_demo_pdf"
+    max_turns: 5
+
+- vars:
+    id: tool_attachment_03_fetch_csv
+    message: "Get attachment att_demo_csv from message msg_demo_300."
+    required_tools_csv: "gmail_attachment"
+    forbidden_tools_csv: "gmail_search,gmail_read,gmail_send,gmail_modify"
+    expected_message_id: "msg_demo_300"
+    expected_attachment_id: "att_demo_csv"
+    max_turns: 5
