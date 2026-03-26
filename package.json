@@ -17,7 +17,8 @@
     "02_04__ex_mailbox",
     "02_05__ex_drone",
     "03_01__ex_evaluation",
-    "03_02__ex_firmware"
+    "03_02__ex_firmware",
+    "03_03__ex_reactor"
   ],
   "devDependencies": {
     "@types/node": "^25.4.0",
