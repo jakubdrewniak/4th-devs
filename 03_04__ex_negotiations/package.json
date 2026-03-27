@@ -1,0 +1,11 @@
+{
+  "name": "03_04__ex_negotiations",
+  "type": "module",
+  "scripts": {
+    "start": "tsx app.ts"
+  },
+  "dependencies": {
+    "openai": "^4.98.0",
+    "@ngrok/ngrok": "^1.4.0"
+  }
+}
