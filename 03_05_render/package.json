@@ -1,0 +1,18 @@
+{
+  "name": "03_05_render",
+  "type": "module",
+  "scripts": {
+    "start": "bun --env-file=.env src/index.ts",
+    "dev": "bun --watch --env-file=.env src/index.ts",
+    "demo": "bun --env-file=.env src/demo.ts",
+    "check": "bunx tsc --noEmit"
+  },
+  "dependencies": {
+    "openai": "^6.17.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.3.5",
+    "typescript": "^5.8.3"
+  }
+}

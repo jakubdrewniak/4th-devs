@@ -1,0 +1,5 @@
+node_modules/
+.env
+
+workspace/system/chat/history.jsonl
+workspace/system/awareness/state.json

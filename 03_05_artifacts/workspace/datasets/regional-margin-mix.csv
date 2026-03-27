@@ -1,0 +1,13 @@
+region,product,revenue_usd,cogs_usd,orders,avg_discount_pct
+North America,Core Suite,2140000,1210000,1380,9.2
+North America,Analytics Add-on,890000,402000,640,6.1
+North America,Services,760000,441000,220,3.3
+EMEA,Core Suite,1860000,1090000,1215,10.7
+EMEA,Analytics Add-on,770000,388000,580,7.2
+EMEA,Services,640000,396000,198,4.1
+APAC,Core Suite,1290000,812000,940,12.4
+APAC,Analytics Add-on,610000,321000,470,8.8
+APAC,Services,510000,335000,172,5.4
+LATAM,Core Suite,760000,489000,610,13.8
+LATAM,Analytics Add-on,330000,184000,260,10.5
+LATAM,Services,295000,192000,104,6.7

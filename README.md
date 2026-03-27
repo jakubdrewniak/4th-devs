@@ -26,7 +26,7 @@ Alternatively, download the installer directly from [nodejs.org/en/download](htt
 
 ## Setup
 
-Copy `env.example` to `.env`.
+Copy the root `env.example` to `.env` for shared repo-level examples.
 
 Set one Responses API key. You can choose between **OpenAI** and **OpenRouter**:
 
@@ -43,6 +43,8 @@ OPENAI_API_KEY=your_api_key_here
 ```
 
 If both keys are present, provider defaults to OpenAI. Override with `AI_PROVIDER=openrouter`.
+
+Lesson 15 (`03_05_*`) examples use per-project `.env` files. Each `03_05_*` directory has its own `.env.example` — copy it to `.env` and fill in any needed values.
 
 Some Lesson 04 examples also require:
 
@@ -319,3 +321,34 @@ Requires Google OAuth credentials (`credentials.json`) and a one-time auth flow:
 ```bash
 npm run lesson14:gmail:auth
 ```
+
+## Lesson 15
+
+| Example | Run | Description |
+|---------|-----|-------------|
+| `03_05_apps` | `npm run lesson15:apps` | MCP app server with CLI agent, todo/shopping list UI, and live browser preview |
+| `03_05_artifacts` | `npm run lesson15:artifacts` | CLI artifact agent with live browser preview, WebSocket sync, and capability packs |
+| `03_05_awareness` | `npm run lesson15:awareness` | Awareness agent with temporal context, memory recall, and scout delegation via MCP |
+| `03_05_render` | `npm run lesson15:render` | Component-guardrailed rendering agent with live preview and structured specs |
+
+Install dependencies:
+
+```bash
+npm run lesson15:install
+```
+
+Helpful demos:
+
+```bash
+cd 03_05_artifacts && bun run demo
+cd 03_05_awareness && bun run demo
+cd 03_05_render && bun run demo
+```
+
+Each `03_05_*` directory ships its own `.env.example` — copy it to `.env` and set the keys you need.
+
+`03_05_apps` opens a local UI plus an MCP app server for editing `todo.md` and `shopping.md`.
+
+`03_05_artifacts` and `03_05_render` can optionally force a seeded dataset with `DEMO_DATASET_FILE=sales-activities.csv bun run demo`.
+
+`03_05_awareness` requires one API key (`OPENAI_API_KEY` or `OPENROUTER_API_KEY`). The other Lesson 15 examples can also run with a local fallback when no model key is set.

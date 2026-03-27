@@ -1,0 +1,27 @@
+{
+  "name": "03_05_artifacts",
+  "type": "module",
+  "scripts": {
+    "start": "bun --env-file=.env src/index.ts",
+    "dev": "bun --watch --env-file=.env src/index.ts",
+    "demo": "bun --env-file=.env src/demo.ts",
+    "check": "bunx tsc --noEmit"
+  },
+  "dependencies": {
+    "@tailwindcss/browser": "^4.2.1",
+    "chart.js": "^4.5.1",
+    "d3": "^7.9.0",
+    "dayjs": "^1.11.19",
+    "dompurify": "^3.3.0",
+    "htm": "^3.1.1",
+    "openai": "^6.17.0",
+    "papaparse": "^5.5.3",
+    "preact": "^10.27.2",
+    "xlsx": "^0.18.5",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.3.5",
+    "typescript": "^5.8.3"
+  }
+}

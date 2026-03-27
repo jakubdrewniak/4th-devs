@@ -106,7 +106,7 @@
     "lesson13:browser": "cd 03_03_browser && bun src/index.ts chat",
     "lesson13:calendar": "cd 03_03_calendar && bun src/index.ts",
     "lesson13:language": "cd 03_03_language && bun src/index.ts",
-    "lesson14:install": "bun install --cwd ./03_04_gmail",
+    "lesson14:install": "npm install --prefix ./03_04_gmail",
     "lesson14:gmail:auth": "cd 03_04_gmail && bun src/auth.ts",
     "lesson14:gmail": "cd 03_04_gmail && bun src/index.ts",
     "lesson15:install": "npm install --prefix ./mcp/files-mcp && bun install --cwd ./03_05_apps && bun install --cwd ./03_05_artifacts && bun install --cwd ./03_05_awareness && bun install --cwd ./03_05_render",

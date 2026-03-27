@@ -1,0 +1,25 @@
+{
+  "name": "03_05_apps",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:ui": "bunx vite build",
+    "start": "bun run build:ui && bun --env-file=.env src/index.ts",
+    "dev": "bun run build:ui && bun --watch --env-file=.env src/index.ts",
+    "check": "bunx tsc --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/ext-apps": "^1.1.2",
+    "@modelcontextprotocol/sdk": "^1.27.1",
+    "openai": "^6.17.0",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.2.2",
+    "@types/bun": "^1.3.5",
+    "tailwindcss": "^4.2.2",
+    "typescript": "^5.8.3",
+    "vite": "^7.3.1",
+    "vite-plugin-singlefile": "^2.3.0"
+  }
+}

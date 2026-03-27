@@ -1,0 +1,18 @@
+{
+  "dates": [
+    {
+      "title": "Mom birthday",
+      "person": "Mom",
+      "date": "1966-03-05",
+      "recurrence": "yearly",
+      "note": "Buy flowers and call in the morning."
+    },
+    {
+      "title": "Team meetup",
+      "person": "friends",
+      "date": "2026-03-06",
+      "recurrence": "once",
+      "note": "Reserved table near Plac Zbawiciela."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "03_05_awareness",
+  "type": "module",
+  "scripts": {
+    "start": "bun --env-file=.env src/index.ts",
+    "dev": "bun --watch --env-file=.env src/index.ts",
+    "demo": "LOG_LEVEL=debug LOG_FORMAT=pretty SCOUT_COOLDOWN_SECONDS=1 WEATHER_TTL_MINUTES=1 bun --env-file=.env src/demo.ts",
+    "check": "bunx tsc --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.26.0",
+    "gray-matter": "^4.0.3",
+    "openai": "^6.17.0"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.3.5",
+    "@types/node": "^20.11.17",
+    "typescript": "^5.8.3"
+  }
+}

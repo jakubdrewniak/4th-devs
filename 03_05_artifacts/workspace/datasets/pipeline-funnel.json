@@ -1,0 +1,42 @@
+{
+  "generatedAt": "2025-06-30T12:00:00Z",
+  "quarter": "2025-Q2",
+  "stages": [
+    {
+      "stage": "Lead",
+      "deals": 1240,
+      "valueUsd": 11800000,
+      "conversionToNext": 0.58
+    },
+    {
+      "stage": "Qualified",
+      "deals": 719,
+      "valueUsd": 9240000,
+      "conversionToNext": 0.52
+    },
+    {
+      "stage": "Discovery",
+      "deals": 374,
+      "valueUsd": 7010000,
+      "conversionToNext": 0.47
+    },
+    {
+      "stage": "Proposal",
+      "deals": 176,
+      "valueUsd": 4620000,
+      "conversionToNext": 0.43
+    },
+    {
+      "stage": "Negotiation",
+      "deals": 76,
+      "valueUsd": 2410000,
+      "conversionToNext": 0.57
+    },
+    {
+      "stage": "Closed Won",
+      "deals": 43,
+      "valueUsd": 1710000,
+      "conversionToNext": 1
+    }
+  ]
+}
