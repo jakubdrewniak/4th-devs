@@ -61,7 +61,7 @@ export const agents = sqliteTable('agents', {
   }).notNull().default('pending'),
   waitingFor: text('waiting_for', { mode: 'json' }).notNull().default('[]').$type<Array<{
     callId: string
-    type: 'tool' | 'agent' | 'human'
+    type: 'tool' | 'agent'
     name: string
     description?: string
   }>>(),

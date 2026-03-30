@@ -1,3 +1,8 @@
+import OpenAI from 'openai'
+import { AI_API_KEY, CHAT_API_BASE_URL, EXTRA_API_HEADERS, resolveModelForProvider } from '../../config.js'
+
+export { resolveModelForProvider }
+
 const parsePositiveInt = (value: string | undefined, fallback: number): number => {
   if (!value) return fallback
   const parsed = Number(value)
@@ -21,33 +26,18 @@ const parseLogLevel = (value: string | undefined): 'debug' | 'info' | 'warn' | '
   return 'info'
 }
 
-const resolveProvider = (): { apiKey: string; baseURL: string; headers: Record<string, string> } => {
-  const openaiKey = process.env.OPENAI_API_KEY?.trim() ?? ''
-  const openrouterKey = process.env.OPENROUTER_API_KEY?.trim() ?? ''
-  const requested = process.env.AI_PROVIDER?.trim().toLowerCase() ?? ''
+export const hasApiKey = (AI_API_KEY as string).trim().length > 0
 
-  if (requested === 'openrouter' && openrouterKey) {
-    return { apiKey: openrouterKey, baseURL: 'https://openrouter.ai/api/v1', headers: {} }
-  }
-  if (requested === 'openai' && openaiKey) {
-    return { apiKey: openaiKey, baseURL: 'https://api.openai.com/v1', headers: {} }
-  }
-  if (openaiKey) return { apiKey: openaiKey, baseURL: 'https://api.openai.com/v1', headers: {} }
-  if (openrouterKey) return { apiKey: openrouterKey, baseURL: 'https://openrouter.ai/api/v1', headers: {} }
-  return { apiKey: '', baseURL: 'https://api.openai.com/v1', headers: {} }
-}
+export const openai = new OpenAI({
+  apiKey: AI_API_KEY as string,
+  baseURL: CHAT_API_BASE_URL as string,
+  defaultHeaders: EXTRA_API_HEADERS as Record<string, string>,
+})
 
-const provider = resolveProvider()
-const isOpenRouter = provider.baseURL.includes('openrouter')
-
-export const resolveModel = (model: string): string =>
-  isOpenRouter && !model.includes('/') ? `openai/${model}` : model
+export const AGENT_MAX_TURNS = 10
 
 export const ENV = {
-  apiKey: provider.apiKey,
-  baseURL: provider.baseURL,
-  defaultHeaders: provider.headers,
-  model: resolveModel(process.env.OPENAI_MODEL ?? 'gpt-5.3-codex'),
+  model: resolveModelForProvider(process.env.OPENAI_MODEL ?? 'gpt-5.3-codex') as string,
   reasoningEffort: 'high',
   host: process.env.RENDER_HOST ?? '127.0.0.1',
   port: parsePositiveInt(process.env.RENDER_PORT, 4321),

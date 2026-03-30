@@ -36,7 +36,6 @@ const main = async (): Promise<void> => {
     todoFilePath: ENV.todoFilePath,
     shoppingFilePath: ENV.shoppingFilePath,
     model: ENV.model,
-    modelRoutingEnabled: ENV.apiKey.trim().length > 0,
   })
 
   if (ENV.autoOpenBrowser) {

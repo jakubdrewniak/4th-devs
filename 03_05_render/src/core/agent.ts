@@ -1,292 +1,85 @@
-import OpenAI from 'openai'
-import { ENV } from '../config.js'
-import type {
-  AgentTurnResult,
-  GenerateRenderProgress,
-  RenderDocument,
-} from '../types.js'
-import { generateRenderDocument } from './spec-generator.js'
+import type OpenAI from 'openai'
+import { openai, ENV, AGENT_MAX_TURNS } from '../config.js'
+import type { AgentContext, AgentResult, Message } from '../types.js'
+import { createTools } from './tools.js'
+import { getCatalogManifestForPrompt } from './catalog.js'
+import { resolveRenderPacks } from './catalog.js'
+import { logger } from '../logger.js'
 
-interface RunAgentTurnOptions {
-  currentDocument?: RenderDocument | null
-  onProgress?: (progress: GenerateRenderProgress) => void
-}
-
-const emitProgress = (options: RunAgentTurnOptions, progress: GenerateRenderProgress): void => {
-  options.onProgress?.(progress)
-}
-
-const openai = ENV.apiKey.trim().length > 0
-  ? new OpenAI({ apiKey: ENV.apiKey, baseURL: ENV.baseURL, defaultHeaders: ENV.defaultHeaders })
-  : null
-
-interface CreateRenderToolInput {
-  prompt?: string
-  packs?: string[]
-}
-
-interface EditRenderToolInput {
-  instructions?: string
-  packs?: string[]
-}
-
-type KnownToolName = 'create_render' | 'edit_render'
-
-const ROUTER_INSTRUCTIONS = [
-  'You are a CLI render agent with two optional tools: create_render and edit_render.',
-  'Use create_render for requests to build/generate/create dashboards, reports, specs, layouts, or visualized data views.',
-  'Use edit_render for requests to modify/refine/update the current rendered document.',
-  'For normal questions, greetings, or non-render tasks, do NOT call tools and respond conversationally.',
-  'If the user request is ambiguous, ask a concise clarifying question instead of calling tools.',
-  'Prefer the minimal set of packs needed to satisfy the request.',
-  'Keep responses concise and practical.',
-].join('\n')
-
-const createRenderTool: OpenAI.Responses.FunctionTool = {
-  type: 'function',
-  name: 'create_render',
-  description: 'Generate a component-guardrailed render document (spec + state).',
-  strict: false,
-  parameters: {
-    type: 'object',
-    properties: {
-      prompt: {
-        type: 'string',
-        description: 'The user intent for generating the render document.',
-      },
-      packs: {
-        type: 'array',
-        description: 'Optional preferred packs to use.',
-        items: { type: 'string' },
-      },
-    },
-    required: ['prompt'],
-  },
-}
-
-const editRenderTool: OpenAI.Responses.FunctionTool = {
-  type: 'function',
-  name: 'edit_render',
-  description: 'Modify the currently rendered document with new instructions.',
-  strict: false,
-  parameters: {
-    type: 'object',
-    properties: {
-      instructions: {
-        type: 'string',
-        description: 'What to change in the current document.',
-      },
-      packs: {
-        type: 'array',
-        description: 'Optional pack override for regenerated document.',
-        items: { type: 'string' },
-      },
-    },
-    required: ['instructions'],
-  },
-}
-
-const parseJson = <T>(raw: string): T | null => {
-  try {
-    return JSON.parse(raw) as T
-  } catch {
-    return null
-  }
-}
-
-const parseToolPacks = (value: unknown): string[] | undefined => {
-  if (!Array.isArray(value)) return undefined
-  const packs = value.filter((item): item is string => typeof item === 'string')
-  return packs.length > 0 ? packs : undefined
-}
-
-const isKnownToolName = (value: string): value is KnownToolName =>
-  value === 'create_render' || value === 'edit_render'
-
-const extractKnownToolCall = (
-  response: OpenAI.Responses.Response,
-): (OpenAI.Responses.ResponseFunctionToolCall & { name: KnownToolName }) | null =>
-  response.output.find(
-    (item): item is OpenAI.Responses.ResponseFunctionToolCall & { name: KnownToolName } =>
-      item.type === 'function_call' && isKnownToolName(item.name),
-  ) ?? null
-
-const completeToolTurn = async (
-  baseResponseId: string,
-  callId: string,
-  output: string,
-): Promise<string> => {
-  if (!openai) return ''
-  const response = await openai.responses.create({
-    model: ENV.model,
-    reasoning: { effort: ENV.reasoningEffort },
-    previous_response_id: baseResponseId,
-    input: [{ type: 'function_call_output', call_id: callId, output }],
-  })
-  return response.output_text?.trim() ?? ''
-}
-
-const documentContextForRouter = (document: RenderDocument | null | undefined): string => {
-  if (!document) {
-    return 'Current document: none.'
-  }
-
-  const elementKeys = Object.keys(document.spec.elements)
+const buildSystemPrompt = (documentSummary: string): string => {
+  const defaultPacks = resolveRenderPacks(undefined)
   return [
-    'Current document context:',
-    `- id: ${document.id}`,
-    `- title: ${document.title}`,
-    `- packs: ${document.packs.join(', ') || 'none'}`,
-    `- elements_count: ${elementKeys.length}`,
-    `- root: ${document.spec.root}`,
-    `- summary: ${document.summary ?? 'none'}`,
-    `- sample_elements: ${elementKeys.slice(0, 8).join(', ')}`,
+    'You are a CLI agent that generates and edits component-guardrailed render documents.',
+    'You have tools to inspect, create, and edit documents displayed in a live browser preview.',
+    'When creating, choose appropriate packs for the request.',
+    'When editing, inspect the current document first with get_document so you have full context.',
+    'For greetings or general questions, respond conversationally without calling tools.',
+    'If the request is ambiguous, ask a concise clarifying question.',
+    'Keep responses concise.',
+    '',
+    getCatalogManifestForPrompt(defaultPacks.loaded),
+    '',
+    documentSummary,
   ].join('\n')
 }
 
-const buildEditPrompt = (document: RenderDocument, instructions: string): string =>
-  [
-    'You are editing an existing component-guardrailed render document.',
-    `Current title: ${document.title}`,
-    `Current summary: ${document.summary ?? 'none'}`,
-    `Current packs: ${document.packs.join(', ')}`,
-    '',
-    'Current spec:',
-    '```json',
-    JSON.stringify(document.spec, null, 2),
-    '```',
-    '',
-    'Current state:',
-    '```json',
-    JSON.stringify(document.state, null, 2),
-    '```',
-    '',
-    `Edit instructions: ${instructions}`,
-    'Regenerate an updated render document that applies these changes while preserving coherence.',
-  ].join('\n')
+const parseArgs = (raw: string): Record<string, unknown> => {
+  try {
+    const parsed = JSON.parse(raw)
+    return typeof parsed === 'object' && parsed !== null && !Array.isArray(parsed) ? parsed : {}
+  } catch {
+    return {}
+  }
+}
 
-export const runAgentTurn = async (
+export const runAgent = async (
+  messages: Message[],
   userMessage: string,
-  options: RunAgentTurnOptions = {},
-): Promise<AgentTurnResult> => {
-  const prompt = userMessage.trim()
-  if (!prompt) {
-    return { kind: 'chat', text: 'Please type a prompt.' }
-  }
+  ctx: AgentContext,
+): Promise<AgentResult> => {
+  const tools = createTools(ctx)
+  const toolsByName = new Map(tools.map((t) => [t.definition.name, t]))
+  const toolDefs = tools.map((t) => t.definition) as OpenAI.Responses.FunctionTool[]
 
-  emitProgress(options, {
-    phase: 'interpreting_request',
-    message: 'Understanding request intent...',
-  })
+  const doc = ctx.getCurrentDocument()
+  const documentSummary = doc
+    ? `Current document: "${doc.title}" (id: ${doc.id}, packs: ${doc.packs.join(', ')}, ${Object.keys(doc.spec.elements).length} elements)`
+    : 'No document currently displayed.'
 
-  if (!openai) {
-    return {
-      kind: 'chat',
-      text: 'API key is missing. Set OPENAI_API_KEY or OPENROUTER_API_KEY for agent tool routing.',
-    }
-  }
+  messages.push({ role: 'user', content: userMessage })
 
-  emitProgress(options, {
-    phase: 'calling_model',
-    message: 'Deciding whether this turn needs render tools...',
-  })
+  for (let turn = 0; turn < AGENT_MAX_TURNS; turn += 1) {
+    logger.debug('agent.turn', { turn: turn + 1, messages: messages.length })
 
-  const currentDocument = options.currentDocument ?? null
-  const firstResponse = await openai.responses.create({
-    model: ENV.model,
-    reasoning: { effort: ENV.reasoningEffort },
-    instructions: ROUTER_INSTRUCTIONS,
-    input: [`User message:\n${prompt}`, documentContextForRouter(currentDocument)].join('\n\n'),
-    tools: [createRenderTool, editRenderTool],
-    parallel_tool_calls: false,
-  })
+    const response = await openai.responses.create({
+      model: ENV.model,
+      reasoning: { effort: ENV.reasoningEffort },
+      instructions: buildSystemPrompt(documentSummary),
+      input: messages as OpenAI.Responses.ResponseInputItem[],
+      tools: toolDefs,
+      store: false,
+    })
 
-  const toolCall = extractKnownToolCall(firstResponse)
-  if (!toolCall) {
-    const text = firstResponse.output_text?.trim()
-    return {
-      kind: 'chat',
-      text: text && text.length > 0
-        ? text
-        : 'I can chat, create render documents, and update the current one.',
-    }
-  }
-
-  if (toolCall.name === 'create_render') {
-    const parsed = parseJson<CreateRenderToolInput>(toolCall.arguments) ?? {}
-    const requestedPrompt = typeof parsed.prompt === 'string' && parsed.prompt.trim().length > 0
-      ? parsed.prompt.trim()
-      : prompt
-    const requestedPacks = parseToolPacks(parsed.packs)
-
-    const document = await generateRenderDocument(
-      { prompt: requestedPrompt, packs: requestedPacks },
-      { onProgress: options.onProgress },
+    const calls = response.output.filter(
+      (item): item is OpenAI.Responses.ResponseFunctionToolCall => item.type === 'function_call',
     )
 
-    const followup = await completeToolTurn(
-      firstResponse.id,
-      toolCall.call_id,
-      JSON.stringify({
-        ok: true,
-        action: 'created',
-        documentId: document.id,
-        title: document.title,
-        packs: document.packs,
-      }),
-    )
+    if (calls.length === 0) {
+      const text = response.output_text?.trim() || 'Done.'
+      messages.push({ role: 'assistant', content: text })
+      logger.info('agent.done', { turns: turn + 1 })
+      return { text, turns: turn + 1 }
+    }
 
-    return {
-      kind: 'render',
-      text: followup || `Generated "${document.title}" using packs: ${document.packs.join(', ')}.`,
-      document,
+    for (const call of calls) {
+      messages.push({ type: 'function_call', call_id: call.call_id, name: call.name, arguments: call.arguments })
+      const args = parseArgs(call.arguments)
+      const tool = toolsByName.get(call.name)
+      logger.debug('agent.tool_call', { name: call.name, args })
+      const output = tool ? await tool.handler(args) : `Unknown tool: ${call.name}`
+      messages.push({ type: 'function_call_output', call_id: call.call_id, output })
     }
   }
 
-  if (!currentDocument) {
-    const followup = await completeToolTurn(
-      firstResponse.id,
-      toolCall.call_id,
-      JSON.stringify({
-        ok: false,
-        reason: 'No current document available to edit.',
-      }),
-    )
-    return {
-      kind: 'chat',
-      text: followup || 'No current document to edit yet. Ask me to generate one first.',
-    }
-  }
-
-  const parsedEdit = parseJson<EditRenderToolInput>(toolCall.arguments) ?? {}
-  const instructions = typeof parsedEdit.instructions === 'string' && parsedEdit.instructions.trim().length > 0
-    ? parsedEdit.instructions.trim()
-    : prompt
-  const requestedPacks = parseToolPacks(parsedEdit.packs) ?? currentDocument.packs
-
-  const document = await generateRenderDocument(
-    {
-      prompt: buildEditPrompt(currentDocument, instructions),
-      packs: requestedPacks,
-    },
-    { onProgress: options.onProgress },
-  )
-
-  const followup = await completeToolTurn(
-    firstResponse.id,
-    toolCall.call_id,
-    JSON.stringify({
-      ok: true,
-      action: 'edited',
-      documentId: document.id,
-      title: document.title,
-      packs: document.packs,
-    }),
-  )
-
-  return {
-    kind: 'render',
-    text: followup || `Updated "${document.title}" using packs: ${document.packs.join(', ')}.`,
-    document,
-  }
+  return { text: 'Reached maximum turns.', turns: AGENT_MAX_TURNS }
 }

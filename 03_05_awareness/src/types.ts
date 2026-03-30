@@ -10,14 +10,13 @@ export interface AgentTemplate {
 }
 
 export interface RecallScoutSession {
-  lastResponseId?: string
+  messages: Message[]
 }
 
 export interface Session {
   id: string
   messages: Message[]
   turns: number
-  lastResponseId?: string
   scoutSession?: RecallScoutSession
 }
 

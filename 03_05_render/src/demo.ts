@@ -1,14 +1,15 @@
 import { ENV } from './config.js'
 import { logger } from './logger.js'
 import { openBrowser } from './core/browser.js'
-import { runCli } from './core/cli.js'
+import { runCli, buildAgentContext } from './core/cli.js'
 import { startLivePreviewServer } from './core/live-preview-server.js'
-import { generateRenderDocument } from './core/spec-generator.js'
+import { runAgent } from './core/agent.js'
 import {
   buildDemoRenderPrompt,
   chooseDemoDataset,
   ensureDemoDatasets,
 } from './core/demo-datasets.js'
+import type { Message } from './types.js'
 
 const serializeError = (error: unknown): string =>
   error instanceof Error ? (error.stack ?? error.message) : String(error)
@@ -58,42 +59,25 @@ const main = async (): Promise<void> => {
     preview.updateState({
       status: 'loading',
       phase: 'interpreting_request',
-      message: `Selected dataset: ${selected.filename}. Generating render document...`,
+      message: `Selected dataset: ${selected.filename}. Asking agent to generate render...`,
       lastPrompt: `[demo] ${selected.filename}`,
       lastAssistantMessage: null,
       error: null,
     })
 
-    const document = await generateRenderDocument(
-      {
-        prompt,
-        packs: selected.suggestedPacks,
-      },
-      {
-        onProgress: (progress) => {
-          preview.updateState({
-            status: 'loading',
-            phase: progress.phase,
-            message: progress.message,
-            lastPrompt: `[demo] ${selected.filename}`,
-            error: null,
-          })
-        },
-      },
-    )
+    const messages: Message[] = []
+    const ctx = buildAgentContext(preview)
+    const result = await runAgent(messages, prompt, ctx)
 
-    const summaryText = document.summary
-      ? `Demo rendered ${selected.filename}: ${document.summary}`
-      : `Demo rendered ${selected.filename} using "${document.title}".`
+    const document = preview.getState().document
+    if (!document) {
+      throw new Error(`Demo expected render output, got: ${result.text}`)
+    }
 
     preview.updateState({
-      status: 'ready',
       phase: 'completed',
-      message: `Demo rendered ${selected.filename} using "${document.title}"`,
       lastPrompt: `[demo] ${selected.filename}`,
-      lastAssistantMessage: summaryText,
-      document,
-      error: null,
+      lastAssistantMessage: result.text,
     })
 
     logger.info('demo.document_ready', {
@@ -110,7 +94,7 @@ const main = async (): Promise<void> => {
     console.log(`demo > title: ${document.title}`)
     console.log('')
 
-    await runCli(preview)
+    await runCli(preview, { initialMessages: messages })
   } finally {
     preview.stop()
     logger.info('demo.preview_stopped')

@@ -1,7 +1,6 @@
 import { randomUUID } from 'node:crypto'
-import OpenAI from 'openai'
 import { z } from 'zod'
-import { ENV } from '../config.js'
+import { openai, hasApiKey, ENV } from '../config.js'
 import { logger } from '../logger.js'
 import { RENDER_CATALOG_MANIFEST, resolveRenderPacks } from './catalog.js'
 import { renderSpecToHtml } from './spec-to-html.js'
@@ -30,10 +29,6 @@ interface RawRenderPayload {
   state?: Record<string, unknown>
 }
 
-const openai = ENV.apiKey.trim().length > 0
-  ? new OpenAI({ apiKey: ENV.apiKey, baseURL: ENV.baseURL, defaultHeaders: ENV.defaultHeaders })
-  : null
-
 const payloadSchema: z.ZodType<RawRenderPayload> = z.object({
   title: z.string(),
   summary: z.string().nullable().optional(),
@@ -48,13 +43,6 @@ const payloadSchema: z.ZodType<RawRenderPayload> = z.object({
   }),
   state: z.record(z.string(), z.unknown()).optional(),
 })
-
-const emitProgress = (
-  options: GenerateRenderOptions,
-  progress: GenerateRenderProgress,
-): void => {
-  options.onProgress?.(progress)
-}
 
 const extractJsonCandidates = (text: string): string[] => {
   const candidates = new Set<string>()
@@ -307,7 +295,7 @@ export const generateRenderDocument = async (
     throw new Error('Prompt cannot be empty.')
   }
 
-  emitProgress(options, {
+  options.onProgress?.({
     phase: 'interpreting_request',
     message: 'Resolving component packs...',
   })
@@ -317,16 +305,16 @@ export const generateRenderDocument = async (
     logger.warn('render.packs_missing', { missing: packs.missing })
   }
 
-  if (!openai) {
-    logger.warn('render.fallback_used', { reason: 'missing_openai_api_key' })
-    emitProgress(options, {
+  if (!hasApiKey) {
+    logger.warn('render.fallback_used', { reason: 'missing_api_key' })
+    options.onProgress?.({
       phase: 'assembling_document',
       message: 'API key missing, rendering local fallback document.',
     })
     return buildFallbackDocument(prompt, packs)
   }
 
-  emitProgress(options, {
+  options.onProgress?.({
     phase: 'calling_model',
     message: `Generating render spec with ${ENV.model}...`,
   })
@@ -354,7 +342,7 @@ export const generateRenderDocument = async (
     throw new Error('Model returned an invalid payload. Expected JSON with title/spec/state.')
   }
 
-  emitProgress(options, {
+  options.onProgress?.({
     phase: 'assembling_document',
     message: 'Validating spec and preparing preview HTML...',
   })

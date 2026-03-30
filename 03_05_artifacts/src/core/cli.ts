@@ -1,8 +1,13 @@
 import { createInterface } from 'node:readline/promises'
 import { stdin as input, stdout as output } from 'node:process'
-import { runAgentTurn } from './agent.js'
+import { runAgent } from './agent.js'
 import type { LivePreviewServer } from './live-preview-server.js'
+import type { AgentContext, Message } from '../types.js'
 import { logger } from '../logger.js'
+
+interface RunCliOptions {
+  initialMessages?: Message[]
+}
 
 const isExitInput = (value: string): boolean => {
   const normalized = value.trim().toLowerCase()
@@ -32,13 +37,52 @@ const printBanner = (url: string): void => {
   console.log('')
 }
 
-export const runCli = async (preview: LivePreviewServer): Promise<void> => {
+export const buildAgentContext = (preview: LivePreviewServer): AgentContext => ({
+  serverBaseUrl: preview.url,
+  getCurrentArtifact: () => preview.getState().artifact,
+  onArtifactChanged: (artifact, action) => {
+    preview.updateState({
+      status: 'ready',
+      phase: 'completed',
+      message: action === 'edited' ? `Updated "${artifact.title}"` : `Rendered "${artifact.title}"`,
+      artifact,
+      error: null,
+    })
+    logger.info(action === 'edited' ? 'artifact.edited' : 'artifact.generated', {
+      artifactId: artifact.id,
+      title: artifact.title,
+      model: artifact.model,
+      htmlChars: artifact.html.length,
+      packs: artifact.packs,
+    })
+  },
+  onProgress: (progress) => {
+    preview.updateState({
+      status: 'loading',
+      phase: progress.phase,
+      message: progress.message,
+      error: null,
+    })
+  },
+})
+
+export const runCli = async (preview: LivePreviewServer, options: RunCliOptions = {}): Promise<void> => {
   const rl = createInterface({ input, output })
+  const messages: Message[] = options.initialMessages ?? []
+  const ctx = buildAgentContext(preview)
+
   printBanner(preview.url)
 
   try {
     while (true) {
-      const raw = await rl.question('you > ')
+      let raw: string
+      try {
+        raw = await rl.question('you > ')
+      } catch (error) {
+        if (error instanceof Error && error.message.toLowerCase().includes('readline was closed')) break
+        throw error
+      }
+
       const prompt = raw.trim()
       if (!prompt) continue
       if (isExitInput(prompt)) break
@@ -53,53 +97,16 @@ export const runCli = async (preview: LivePreviewServer): Promise<void> => {
       })
 
       try {
-        const currentArtifact = preview.getState().artifact
-        const result = await runAgentTurn(prompt, {
-          currentArtifact,
-          serverBaseUrl: preview.url,
-          onProgress: (progress) => {
-            preview.updateState({
-              status: 'loading',
-              phase: progress.phase,
-              message: progress.message,
-              lastPrompt: prompt,
-              error: null,
-            })
-          },
+        const result = await runAgent(messages, prompt, ctx)
+        const currentState = preview.getState()
+        preview.updateState({
+          status: currentState.artifact ? 'ready' : 'idle',
+          phase: 'completed',
+          message: 'Agent turn completed.',
+          lastPrompt: prompt,
+          lastAssistantMessage: result.text,
+          error: null,
         })
-
-        if (result.kind === 'artifact') {
-          preview.updateState({
-            status: 'ready',
-            phase: 'completed',
-            message: result.action === 'edited'
-              ? `Updated "${result.artifact.title}"`
-              : `Rendered "${result.artifact.title}"`,
-            lastPrompt: prompt,
-            lastAssistantMessage: result.text,
-            artifact: result.artifact,
-            error: null,
-          })
-
-          logger.info(result.action === 'edited' ? 'artifact.edited' : 'artifact.generated', {
-            artifactId: result.artifact.id,
-            title: result.artifact.title,
-            model: result.artifact.model,
-            htmlChars: result.artifact.html.length,
-            packs: result.artifact.packs,
-          })
-        } else {
-          preview.updateState({
-            status: 'idle',
-            phase: 'completed',
-            message: 'No artifact generated in this turn.',
-            lastPrompt: prompt,
-            lastAssistantMessage: result.text,
-            error: null,
-          })
-          logger.info('agent.chat_turn')
-        }
-
         console.log(`agent > ${result.text}`)
       } catch (error) {
         const message = error instanceof Error ? error.message : String(error)
@@ -112,6 +119,7 @@ export const runCli = async (preview: LivePreviewServer): Promise<void> => {
           error: message,
         })
         logger.error('agent.turn_failed', { error: message })
+        console.log(`agent > Failed: ${message}`)
       }
     }
   } finally {

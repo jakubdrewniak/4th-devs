@@ -117,14 +117,21 @@
     "lesson15:artifacts": "cd 03_05_artifacts && bun --env-file=.env src/index.ts",
     "lesson15:render": "cd 03_05_render && bun --env-file=.env src/index.ts",
     "lesson15:render:demo": "cd 03_05_render && bun --env-file=.env src/demo.ts",
+    "lesson16:install": "bun install --cwd ./04_01_garden",
+    "lesson16:garden": "cd 04_01_garden && bun run start",
+    "lesson16:garden:build": "cd 04_01_garden && bun run build",
+    "lesson16:garden:preview": "cd 04_01_garden && bun run build && bun run preview",
+    "lesson19:install": "npm install --prefix ./04_04_system",
     "prelesson19:system": "npm run ensure:files-mcp",
     "lesson19:system": "node ./04_04_system/app.js",
     "prelesson19:daily-news": "npm run ensure:files-mcp",
     "lesson19:daily-news": "node ./04_04_system/demo-daily-news.js",
     "prelesson19:examples": "npm run ensure:files-mcp",
     "lesson19:examples": "node ./04_04_system/demo-example-queries.js",
-    "lesson20:install": "cd ./05_01_agent_graph && npm install",
-    "lesson20:agent_graph": "cd ./05_01_agent_graph && npm run start",
-    "lesson20:agent_graph:clean": "cd ./05_01_agent_graph && npm run clean"
+    "lesson20:install": "npm install --prefix ./04_05_apps && npm install --prefix ./04_05_review",
+    "lesson20:apps": "cd 04_05_apps && bun run start",
+    "lesson20:apps:mcp": "cd 04_05_apps && bun run start:mcp",
+    "lesson20:review": "cd 04_05_review && bun run start",
+    "lesson20:review:dev": "cd 04_05_review && bun run dev:server"
   }
 }

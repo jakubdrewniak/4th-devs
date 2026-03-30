@@ -104,7 +104,7 @@ export function prepareAgentForNextTurn(agent: Agent): TransitionResult {
   }
 
   if (agent.status === 'waiting') {
-    return { ok: false, error: 'Session is waiting for a tool or human response.' }
+    return { ok: false, error: 'Session is waiting for a tool response.' }
   }
 
   if (agent.status === 'pending') {

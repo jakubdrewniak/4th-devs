@@ -235,43 +235,8 @@ async function handleTurnResponse(response, agent, runtime, exec, turnNumber, si
             }
             continue;
         }
-        // ── Human tool: defer for external delivery ─────────────────────
-        if (tool.type === 'human') {
-            log.info({ ...toolCtx, args: argsPreview, type: 'human', deferred: true }, `${fc.name} → deferred`);
-            waitingFor.push({
-                callId: fc.callId,
-                type: 'human',
-                name: fc.name,
-                description: typeof fc.arguments.question === 'string'
-                    ? fc.arguments.question
-                    : tool.definition.description,
-            });
-            continue;
-        }
         // ── Sync tool ────────────────────────────────────────────────────
         if (tool.type === 'sync') {
-            // Intercept send_message: needs RuntimeContext for cross-agent write
-            if (fc.name === 'send_message') {
-                runtime.events.emit({ type: 'tool.called', ctx: makeCtx(exec, agent), callId: fc.callId, name: fc.name, arguments: fc.arguments });
-                const smStart = Date.now();
-                const smResult = await handleSendMessage(fc.callId, fc.arguments, agent, runtime, turnNumber);
-                const smMs = Date.now() - smStart;
-                if (!smResult.ok) {
-                    await runtime.repositories.items.create(agent.id, {
-                        type: 'function_call_output',
-                        callId: fc.callId,
-                        output: smResult.error,
-                        isError: true,
-                        turnNumber,
-                    });
-                    runtime.events.emit({ type: 'tool.failed', ctx: makeCtx(exec, agent), callId: fc.callId, name: fc.name, arguments: fc.arguments, error: smResult.error, durationMs: smMs, startTime: smStart });
-                }
-                else {
-                    runtime.events.emit({ type: 'tool.completed', ctx: makeCtx(exec, agent), callId: fc.callId, name: fc.name, arguments: fc.arguments, output: 'Message delivered', durationMs: smMs, startTime: smStart });
-                }
-                hasSyncTools = true;
-                continue;
-            }
             log.info({ ...toolCtx, args: argsPreview }, `${fc.name}`);
             runtime.events.emit({ type: 'tool.called', ctx: makeCtx(exec, agent), callId: fc.callId, name: fc.name, arguments: fc.arguments });
             const start = Date.now();
@@ -373,7 +338,7 @@ async function handleDelegation(callId, args, parent, runtime, exec, turnNumber,
         }, `delegate ← ${agentName} completed`);
         return { type: 'completed' };
     }
-    // Child is waiting (e.g. needs human input) — parent also waits
+    // Child is waiting on an external dependency — parent also waits
     if (childResult.ok && childResult.status === 'waiting') {
         log.info({
             parentId: parent.id, childId: child.id, traceId: exec.traceId,
@@ -413,37 +378,6 @@ function extractAgentResult(items) {
             .filter(p => p.type === 'text')
             .map(p => p.type === 'text' ? p.text : '')
             .join('');
-}
-// ── Send message: write to target agent's conversation ────────────────────
-async function handleSendMessage(callId, args, sender, runtime, turnNumber) {
-    const { to, message } = args;
-    if (!to || !message) {
-        return { ok: false, error: 'send_message requires "to" and "message"' };
-    }
-    // Verify target agent exists
-    const target = await runtime.repositories.agents.getById(to);
-    if (!target) {
-        return { ok: false, error: `Target agent not found: ${to}` };
-    }
-    // Write message into target agent's items
-    await runtime.repositories.items.create(target.id, {
-        type: 'message',
-        role: 'system',
-        content: `[Message from agent ${sender.id}]\n\n${message}`,
-    });
-    // Store success output on sender
-    await runtime.repositories.items.create(sender.id, {
-        type: 'function_call_output',
-        callId,
-        output: `Message delivered to agent ${to}`,
-        isError: false,
-        turnNumber,
-    });
-    log.info({
-        senderId: sender.id, targetId: to,
-        message: truncate(message),
-    }, 'send_message delivered');
-    return { ok: true };
 }
 /** Load agent and session, create execution context */
 async function loadAgentLoop(agentId, runtime, options) {
@@ -658,7 +592,7 @@ export async function runAgent(agentId, runtime, options = {}) {
  *
  * When a child agent completes, the runner automatically propagates
  * the result upward to the parent via this function (see runAgent
- * and handleDelegation).  External systems (humans, async tools) also
+ * and handleDelegation). External systems and async tools also
  * call this through the HTTP deliver endpoint.
  */
 export async function deliverResult(agentId, callId, result, runtime, execution) {

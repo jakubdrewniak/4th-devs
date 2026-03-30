@@ -1,0 +1,10 @@
+{
+  "title": "Digital Garden",
+  "base": "/demo",
+  "items": [
+    { "label": "Home", "path": "/" },
+    { "label": "Signal", "path": "/signal" },
+    { "label": "Shelf", "path": "/shelf" },
+    { "label": "Lab", "path": "/lab" }
+  ]
+}

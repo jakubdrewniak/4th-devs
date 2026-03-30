@@ -116,13 +116,52 @@ export interface ResolvedRenderPacks {
   manifestForPrompt: string
 }
 
-export type AgentTurnResult =
-  | {
-      kind: 'chat'
-      text: string
-    }
-  | {
-      kind: 'render'
-      text: string
-      document: RenderDocument
-    }
+// --- Conversation ---
+
+export type TextMessage = {
+  role: 'user' | 'assistant'
+  content: string
+}
+
+export type FunctionCallItem = {
+  type: 'function_call'
+  call_id: string
+  name: string
+  arguments: string
+}
+
+export type FunctionCallOutputItem = {
+  type: 'function_call_output'
+  call_id: string
+  output: string
+}
+
+export type Message = TextMessage | FunctionCallItem | FunctionCallOutputItem
+
+// --- Tools ---
+
+export interface ToolDefinition {
+  type: 'function'
+  name: string
+  description: string
+  parameters: Record<string, unknown>
+  strict: boolean
+}
+
+export interface Tool {
+  definition: ToolDefinition
+  handler: (args: Record<string, unknown>) => Promise<string>
+}
+
+// --- Agent ---
+
+export interface AgentContext {
+  getCurrentDocument: () => RenderDocument | null
+  onDocumentChanged: (document: RenderDocument) => void
+  onProgress?: (progress: GenerateRenderProgress) => void
+}
+
+export interface AgentResult {
+  text: string
+  turns: number
+}

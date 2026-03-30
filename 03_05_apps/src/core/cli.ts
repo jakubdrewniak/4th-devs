@@ -1,12 +1,10 @@
 import { createInterface } from 'node:readline/promises'
 import { stdin as input, stdout as output } from 'node:process'
-import { runAgentTurn } from './agent.js'
-import { openBrowser } from './browser.js'
-import { readListsState, summarizeLists, type ListsFilePaths } from './list-files.js'
+import { runAgent } from './agent.js'
 import { logger } from '../logger.js'
+import type { AgentContext, Message } from '../types.js'
 
-interface RunCliInput extends ListsFilePaths {
-  uiUrl: string
+export interface RunCliInput extends AgentContext {
   mcpUrl: string
 }
 
@@ -30,9 +28,9 @@ const printBanner = (uiUrl: string, mcpUrl: string): void => {
   console.log(`  ${dim('MCP endpoint')}  ${cyan(mcpUrl)}`)
   console.log('')
   console.log(dim('  What you can do:'))
-  console.log(`  ${dim('•')} Ask to open your ${bold('todo')} or ${bold('shopping')} list`)
-  console.log(`  ${dim('•')} The browser UI will open so you can add, edit,`)
-  console.log(`    check off, or delete items, then hit ${bold('Save')}`)
+  console.log(`  ${dim('•')} Manage your ${bold('todo')} and ${bold('shopping')} lists via chat`)
+  console.log(`  ${dim('•')} Ask the agent to add, remove, or check off items`)
+  console.log(`  ${dim('•')} Ask to ${bold('open')} the browser UI for interactive editing`)
   console.log(`  ${dim('•')} Chat about anything — unrelated questions work too`)
   console.log(`  ${dim('•')} Type ${bold('exit')} or ${bold('quit')} to stop`)
   console.log('')
@@ -40,14 +38,15 @@ const printBanner = (uiUrl: string, mcpUrl: string): void => {
   console.log('')
 }
 
-const managerUrlForFocus = (baseUrl: string, focus: 'todo' | 'shopping'): string => {
-  const url = new URL(baseUrl)
-  url.searchParams.set('focus', focus)
-  return url.toString()
-}
-
 export const runCli = async (options: RunCliInput): Promise<void> => {
   const rl = createInterface({ input, output })
+  const messages: Message[] = []
+  const ctx: AgentContext = {
+    todoFilePath: options.todoFilePath,
+    shoppingFilePath: options.shoppingFilePath,
+    uiUrl: options.uiUrl,
+  }
+
   printBanner(options.uiUrl, options.mcpUrl)
 
   try {
@@ -67,20 +66,7 @@ export const runCli = async (options: RunCliInput): Promise<void> => {
       if (isExitInput(prompt)) break
 
       try {
-        const currentState = await readListsState(options)
-        const summary = summarizeLists(currentState)
-        const result = await runAgentTurn(prompt, {
-          listsSummary: summary,
-        })
-
-        if (result.kind === 'open_manager') {
-          const url = managerUrlForFocus(options.uiUrl, result.focus)
-          openBrowser(url)
-          logger.info('manager.opened', { focus: result.focus, url })
-        } else {
-          logger.info('agent.chat_turn')
-        }
-
+        const result = await runAgent(messages, prompt, ctx)
         console.log(`agent > ${result.text}`)
       } catch (error) {
         const message = error instanceof Error ? error.message : String(error)

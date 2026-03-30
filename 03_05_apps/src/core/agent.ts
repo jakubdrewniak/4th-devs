@@ -1,150 +1,68 @@
-import OpenAI from 'openai'
-import { ENV } from '../config.js'
-import type { AgentTurnResult, ManagerFocus } from '../types.js'
+import type OpenAI from 'openai'
+import { openai, ENV, AGENT_MAX_TURNS } from '../config.js'
+import type { AgentContext, AgentResult, Message } from '../types.js'
+import { createTools } from './tools.js'
+import { logger } from '../logger.js'
 
-interface RunAgentTurnOptions {
-  listsSummary?: string
-}
-
-interface OpenListManagerToolInput {
-  focus?: string
-}
-
-type KnownToolName = 'open_list_manager'
-
-const parseJson = <T>(value: string): T | null => {
-  try {
-    return JSON.parse(value) as T
-  } catch {
-    return null
-  }
-}
-
-const parseFocus = (value: unknown): ManagerFocus => {
-  if (value === 'todo' || value === 'shopping') return value
-  return 'todo'
-}
-
-const localFallback = (): string =>
-  'Opened todo list manager. Add OPENAI_API_KEY or OPENROUTER_API_KEY for model-based intent routing.'
-
-const openai = ENV.apiKey.trim().length > 0
-  ? new OpenAI({ apiKey: ENV.apiKey, baseURL: ENV.baseURL, defaultHeaders: ENV.defaultHeaders })
-  : null
-
-const ROUTER_INSTRUCTIONS = [
-  'You are a CLI assistant with one optional tool: open_list_manager.',
-  'open_list_manager ONLY opens a browser UI — it does NOT add, remove, or modify any items.',
-  'You cannot change list data yourself. The user must edit items in the browser UI.',
-  'NEVER claim you have added, removed, or changed any item. Only say you opened the UI.',
-  'Use open_list_manager for any request to manage, edit, update, or review todo/shopping lists.',
-  'If the user asks for todo only, set focus=todo.',
-  'If the user asks for shopping only, set focus=shopping.',
-  'If both or unclear, set focus=todo.',
-  'For unrelated conversation, do not call tools.',
+const SYSTEM_PROMPT = [
+  'You are a CLI assistant that manages todo and shopping lists.',
+  'You have tools to read lists, save changes, and open a browser UI.',
+  'Always read lists before modifying them so you work with the latest state.',
+  'When saving, send full replacement arrays for the lists you are changing.',
   'Keep responses concise and practical.',
 ].join('\n')
 
-const openListManagerTool: OpenAI.Responses.FunctionTool = {
-  type: 'function',
-  name: 'open_list_manager',
-  description: 'Open browser UI to manage todo/shopping lists stored in markdown files.',
-  strict: false,
-  parameters: {
-    type: 'object',
-    properties: {
-      focus: {
-        type: 'string',
-        enum: ['todo', 'shopping'],
-        description: 'Preferred section to focus in UI.',
-      },
-    },
-    required: [],
-  },
+const parseArgs = (raw: string): Record<string, unknown> => {
+  try {
+    const parsed = JSON.parse(raw)
+    return typeof parsed === 'object' && parsed !== null && !Array.isArray(parsed) ? parsed : {}
+  } catch {
+    return {}
+  }
 }
 
-const extractToolCall = (
-  response: OpenAI.Responses.Response,
-): (OpenAI.Responses.ResponseFunctionToolCall & { name: KnownToolName }) | null =>
-  response.output.find(
-    (item): item is OpenAI.Responses.ResponseFunctionToolCall & { name: KnownToolName } =>
-      item.type === 'function_call' && item.name === 'open_list_manager',
-  ) ?? null
-
-const completeToolTurn = async (
-  baseResponseId: string,
-  callId: string,
-  output: string,
-): Promise<string> => {
-  if (!openai) return ''
-  const response = await openai.responses.create({
-    model: ENV.model,
-    reasoning: { effort: 'high' },
-    previous_response_id: baseResponseId,
-    input: [{ type: 'function_call_output', call_id: callId, output }],
-  })
-  return response.output_text?.trim() ?? ''
-}
-
-export const runAgentTurn = async (
+export const runAgent = async (
+  messages: Message[],
   userMessage: string,
-  options: RunAgentTurnOptions = {},
-): Promise<AgentTurnResult> => {
-  const prompt = userMessage.trim()
-  if (!prompt) {
-    return {
-      kind: 'chat',
-      text: 'Please type a prompt.',
+  ctx: AgentContext,
+): Promise<AgentResult> => {
+  const tools = createTools(ctx)
+  const toolsByName = new Map(tools.map((t) => [t.definition.name, t]))
+  const toolDefs = tools.map((t) => t.definition) as OpenAI.Responses.FunctionTool[]
+
+  messages.push({ role: 'user', content: userMessage })
+
+  for (let turn = 0; turn < AGENT_MAX_TURNS; turn += 1) {
+    logger.debug('agent.turn', { turn: turn + 1, messages: messages.length })
+
+    const response = await openai.responses.create({
+      model: ENV.model,
+      instructions: SYSTEM_PROMPT,
+      input: messages as OpenAI.Responses.ResponseInputItem[],
+      tools: toolDefs,
+      store: false,
+    })
+
+    const calls = response.output.filter(
+      (item): item is OpenAI.Responses.ResponseFunctionToolCall => item.type === 'function_call',
+    )
+
+    if (calls.length === 0) {
+      const text = response.output_text?.trim() || 'Done.'
+      messages.push({ role: 'assistant', content: text })
+      logger.info('agent.done', { turns: turn + 1 })
+      return { text, turns: turn + 1 }
+    }
+
+    for (const call of calls) {
+      messages.push({ type: 'function_call', call_id: call.call_id, name: call.name, arguments: call.arguments })
+      const args = parseArgs(call.arguments)
+      const tool = toolsByName.get(call.name)
+      logger.debug('agent.tool_call', { name: call.name, args })
+      const output = tool ? await tool.handler(args) : `Unknown tool: ${call.name}`
+      messages.push({ type: 'function_call_output', call_id: call.call_id, output })
     }
   }
 
-  if (!openai) {
-    return {
-      kind: 'open_manager',
-      focus: 'todo',
-      text: localFallback(),
-    }
-  }
-
-  const response = await openai.responses.create({
-    model: ENV.model,
-    reasoning: { effort: 'high' },
-    instructions: ROUTER_INSTRUCTIONS,
-    input: [
-      `User message:\n${prompt}`,
-      `Current lists summary:\n${options.listsSummary ?? 'No state available.'}`,
-    ].join('\n\n'),
-    tools: [openListManagerTool],
-    parallel_tool_calls: false,
-  })
-
-  const toolCall = extractToolCall(response)
-  if (!toolCall) {
-    const text = response.output_text?.trim()
-    return {
-      kind: 'chat',
-      text: text && text.length > 0
-        ? text
-        : 'I can open the list manager for todo/shopping updates.',
-    }
-  }
-
-  const parsed = parseJson<OpenListManagerToolInput>(toolCall.arguments) ?? {}
-  const focus = parseFocus(parsed.focus)
-  const followup = await completeToolTurn(
-    response.id,
-    toolCall.call_id,
-    JSON.stringify({
-      ok: true,
-      action: 'browser_opened',
-      focus,
-      note: 'Browser UI was opened. No items were added or modified. The user will make changes in the UI.',
-    }),
-  )
-
-  return {
-    kind: 'open_manager',
-    focus,
-    text: followup || `Opening list manager (${focus}).`,
-  }
+  return { text: 'Reached maximum turns.', turns: AGENT_MAX_TURNS }
 }

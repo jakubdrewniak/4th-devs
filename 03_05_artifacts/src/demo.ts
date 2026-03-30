@@ -2,14 +2,15 @@ import { ENV } from './config.js'
 import { logger } from './logger.js'
 import { openBrowser } from './core/browser.js'
 import { prewarmPackFiles } from './core/capabilities.js'
-import { runCli } from './core/cli.js'
+import { runCli, buildAgentContext } from './core/cli.js'
 import { startLivePreviewServer } from './core/live-preview-server.js'
-import { runAgentTurn } from './core/agent.js'
+import { runAgent } from './core/agent.js'
 import {
   buildDemoVisualizationPrompt,
   chooseDemoDataset,
   ensureDemoDatasets,
 } from './core/demo-datasets.js'
+import type { Message } from './types.js'
 
 const serializeError = (error: unknown): string =>
   error instanceof Error ? (error.stack ?? error.message) : String(error)
@@ -66,49 +67,35 @@ const main = async (): Promise<void> => {
       error: null,
     })
 
-    const initialResult = await runAgentTurn(prompt, {
-      currentArtifact: null,
-      serverBaseUrl: preview.url,
-      onProgress: (progress) => {
-        preview.updateState({
-          status: 'loading',
-          phase: progress.phase,
-          message: progress.message,
-          lastPrompt: `[demo] ${selected.filename}`,
-          error: null,
-        })
-      },
-    })
+    const messages: Message[] = []
+    const ctx = buildAgentContext(preview)
+    const result = await runAgent(messages, prompt, ctx)
 
-    if (initialResult.kind !== 'artifact') {
-      throw new Error(`Demo expected artifact output, got chat output: ${initialResult.text}`)
+    const artifact = preview.getState().artifact
+    if (!artifact) {
+      throw new Error(`Demo expected artifact output, got: ${result.text}`)
     }
 
     preview.updateState({
-      status: 'ready',
       phase: 'completed',
-      message: `Demo rendered ${selected.filename} using "${initialResult.artifact.title}"`,
       lastPrompt: `[demo] ${selected.filename}`,
-      lastAssistantMessage: initialResult.text,
-      artifact: initialResult.artifact,
-      error: null,
+      lastAssistantMessage: result.text,
     })
 
     logger.info('demo.artifact_ready', {
       filename: selected.filename,
-      artifactId: initialResult.artifact.id,
-      title: initialResult.artifact.title,
-      packs: initialResult.artifact.packs,
-      action: initialResult.action,
+      artifactId: artifact.id,
+      title: artifact.title,
+      packs: artifact.packs,
     })
 
     console.log('')
     console.log(`demo > dataset: ${selected.filename}`)
     console.log(`demo > objective: ${selected.objective}`)
-    console.log(`agent > ${initialResult.text}`)
+    console.log(`agent > ${result.text}`)
     console.log('')
 
-    await runCli(preview)
+    await runCli(preview, { initialMessages: messages })
   } finally {
     preview.stop()
     logger.info('demo.preview_stopped')

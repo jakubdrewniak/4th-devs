@@ -1,5 +1,8 @@
-import { resolveModelForProvider } from '../../config.js'
+import OpenAI from 'openai'
+import { AI_API_KEY, CHAT_API_BASE_URL, EXTRA_API_HEADERS, resolveModelForProvider } from '../../config.js'
 import { join } from 'node:path'
+
+export { resolveModelForProvider }
 
 const parsePositiveInt = (value: string | undefined, fallback: number): number => {
   if (!value) return fallback
@@ -7,6 +10,12 @@ const parsePositiveInt = (value: string | undefined, fallback: number): number =
   if (!Number.isFinite(parsed) || parsed <= 0) return fallback
   return Math.floor(parsed)
 }
+
+export const openai = new OpenAI({
+  apiKey: AI_API_KEY as string,
+  baseURL: CHAT_API_BASE_URL as string,
+  defaultHeaders: EXTRA_API_HEADERS as Record<string, string>,
+})
 
 export const PATHS = {
   projectRoot: process.cwd(),

@@ -34,7 +34,7 @@ export function prepareAgentForNextTurn(agent) {
         return { ok: false, error: 'Session is already running.' };
     }
     if (agent.status === 'waiting') {
-        return { ok: false, error: 'Session is waiting for a tool or human response.' };
+        return { ok: false, error: 'Session is waiting for a tool response.' };
     }
     if (agent.status === 'pending') {
         return { ok: true, agent };

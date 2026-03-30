@@ -12,8 +12,8 @@ export type ToolHandler = (
   signal?: AbortSignal
 ) => Promise<ToolResult>
 
-/** Tool execution type: sync (immediate), async (background), agent (sub-agent), human (confirmation) */
-export type ToolType = 'sync' | 'async' | 'agent' | 'human'
+/** Tool execution type: sync (immediate), async (background), or agent (sub-agent). */
+export type ToolType = 'sync' | 'async' | 'agent'
 
 export interface Tool {
   type: ToolType

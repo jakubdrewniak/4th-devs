@@ -1,8 +1,7 @@
-import { resolveModelForProvider } from '../../../config.js'
 import { readFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import matter from 'gray-matter'
-import { ENV, PATHS } from '../config.js'
+import { ENV, PATHS, resolveModelForProvider } from '../config.js'
 import type { AgentTemplate } from '../types.js'
 
 export const loadAgentTemplate = async (name: string): Promise<AgentTemplate> => {

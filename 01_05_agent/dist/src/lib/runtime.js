@@ -7,7 +7,7 @@ import { createEventEmitter } from '../events/index.js';
 import { createSQLiteRepositories } from '../repositories/index.js';
 import { createContext } from '../runtime/index.js';
 import { registerProvider, createOpenAIProvider, createGeminiProvider, listProviders } from '../providers/index.js';
-import { createToolRegistry, calculatorTool, delegateTool, sendMessageTool, askUserTool } from '../tools/index.js';
+import { createToolRegistry, calculatorTool, delegateTool } from '../tools/index.js';
 import { createMcpManager } from '../mcp/index.js';
 import { listAgentNames, resolveAgent } from '../workspace/index.js';
 import { config } from './config.js';
@@ -70,8 +70,6 @@ export async function initRuntime() {
     const tools = createToolRegistry();
     tools.register(calculatorTool);
     tools.register(delegateTool);
-    tools.register(sendMessageTool);
-    tools.register(askUserTool);
     log.info({ tools: tools.list().map(t => t.name) }, 'tools registered');
     // Initialize MCP clients
     const baseUrl = `http://${config.host}:${config.port}`;

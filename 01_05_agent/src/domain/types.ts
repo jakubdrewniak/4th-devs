@@ -39,7 +39,7 @@ export type ContentPart =
 export type Content = string | ContentPart[]
 
 // Waiting
-export type WaitType = 'tool' | 'agent' | 'human'
+export type WaitType = 'tool' | 'agent'
 
 export interface WaitingFor {
   callId: CallId

@@ -22,11 +22,12 @@ interface ScoutRunOptions {
   startNewSession?: boolean
 }
 
-export const parseJson = <T>(raw: string): T | null => {
+const parseArgs = (raw: string): Record<string, unknown> => {
   try {
-    return JSON.parse(raw) as T
+    const parsed = JSON.parse(raw)
+    return typeof parsed === 'object' && parsed !== null && !Array.isArray(parsed) ? parsed : {}
   } catch {
-    return null
+    return {}
   }
 }
 
@@ -80,8 +81,8 @@ export const runScout = async (
   options?: ScoutRunOptions,
 ): Promise<ScoutResult> => {
   const session: RecallScoutSession = options?.startNewSession === true
-    ? {}
-    : { lastResponseId: previousSession?.lastResponseId }
+    ? { messages: [] }
+    : { messages: [...(previousSession?.messages ?? [])] }
 
   if (!mcp) return { text: 'No MCP connection available for recall.', session }
 
@@ -91,7 +92,7 @@ export const runScout = async (
   const workspaceIndex = await loadWorkspaceIndex()
   const weatherHint = await buildWeatherHint(userMessage, goal)
 
-  const isNewConversation = !session.lastResponseId
+  const isNewConversation = session.messages.length === 0
   const scoutInput: string = [
     isNewConversation ? `## Workspace Index\n\n${workspaceIndex}` : '',
     `## Goal\n\n${goal}`,
@@ -105,24 +106,21 @@ export const runScout = async (
     continuing: !isNewConversation,
   })
 
-  const initialInput: string | OpenAI.Responses.ResponseInput = session.lastResponseId
-    ? [{ role: 'user', content: scoutInput }]
-    : scoutInput
+  session.messages.push({ role: 'user', content: scoutInput })
 
   const loopResult = await runResponsesToolLoop({
     model: template.model,
     instructions: template.systemPrompt,
     tools,
-    initialInput,
-    previousResponseId: session.lastResponseId,
+    initialInput: [...session.messages],
     maxTurns: MAX_SCOUT_TURNS,
     traceLabel: 'scout',
-    onTurnStart: ({ turn, inputItems, hasPreviousResponseId }) => {
-      logger.debug('scout.turn', { turn, inputItems, hasPreviousResponseId })
+    onTurnStart: ({ turn, inputItems }) => {
+      logger.debug('scout.turn', { turn, inputItems })
     },
     executeTool: async (call): Promise<string> => {
       try {
-        const args = parseJson<Record<string, unknown>>(call.arguments) ?? {}
+        const args = parseArgs(call.arguments)
         const result = await mcp.callTool(call.name, args)
         logger.debug('scout.tool.ok', { tool: call.name, chars: result.length })
         return result
@@ -134,7 +132,9 @@ export const runScout = async (
     },
   })
 
-  session.lastResponseId = loopResult.lastResponseId
+  if (loopResult.fromModel && loopResult.text.trim().length > 0) {
+    session.messages.push({ role: 'assistant', content: loopResult.text })
+  }
   const text = loopResult.text.trim().length > 0
     ? loopResult.text
     : 'No relevant context found for this recall goal.'

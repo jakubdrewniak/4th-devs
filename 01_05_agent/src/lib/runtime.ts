@@ -7,7 +7,7 @@ import { createEventEmitter } from '../events/index.js'
 import { createSQLiteRepositories } from '../repositories/index.js'
 import { createContext, type RuntimeContext } from '../runtime/index.js'
 import { registerProvider, createOpenAIProvider, createGeminiProvider, listProviders } from '../providers/index.js'
-import { createToolRegistry, calculatorTool, delegateTool, sendMessageTool, askUserTool } from '../tools/index.js'
+import { createToolRegistry, calculatorTool, delegateTool } from '../tools/index.js'
 import { createMcpManager, type McpManager } from '../mcp/index.js'
 import { listAgentNames, resolveAgent, type LoadedAgent } from '../workspace/index.js'
 import { config } from './config.js'
@@ -80,8 +80,6 @@ export async function initRuntime(): Promise<RuntimeContext> {
   const tools = createToolRegistry()
   tools.register(calculatorTool)
   tools.register(delegateTool)
-  tools.register(sendMessageTool)
-  tools.register(askUserTool)
   log.info({ tools: tools.list().map(t => t.name) }, 'tools registered')
 
   // Initialize MCP clients

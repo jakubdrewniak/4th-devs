@@ -1,6 +1,5 @@
 import { randomUUID } from 'node:crypto'
-import OpenAI from 'openai'
-import { ENV } from '../config.js'
+import { openai, hasApiKey, ENV } from '../config.js'
 import { logger } from '../logger.js'
 import { resolveCapabilityPacks } from './capabilities.js'
 import type {
@@ -72,17 +71,6 @@ const GENERIC_SCROLLBAR_STYLES = `
 interface RawArtifactPayload {
   title: string
   html: string
-}
-
-const openai = ENV.apiKey.trim().length > 0
-  ? new OpenAI({ apiKey: ENV.apiKey, baseURL: ENV.baseURL, defaultHeaders: ENV.defaultHeaders })
-  : null
-
-const emitProgress = (
-  options: GenerateArtifactOptions,
-  progress: GenerateArtifactProgress,
-): void => {
-  options.onProgress?.(progress)
 }
 
 const escapeHtml = (value: string): string =>
@@ -285,7 +273,7 @@ export const generateArtifact = async (
     throw new Error('Prompt cannot be empty.')
   }
 
-  emitProgress(options, {
+  options.onProgress?.({
     phase: 'interpreting_request',
     message: 'Resolving capability packs...',
   })
@@ -302,16 +290,16 @@ export const generateArtifact = async (
   const selectedPackIds = packs.loaded.map((pack) => pack.id)
   const selectedPackList = selectedPackIds.length > 0 ? selectedPackIds.join(', ') : 'core'
 
-  if (!openai) {
-    logger.warn('artifact.fallback_used', { reason: 'missing_openai_api_key' })
-    emitProgress(options, {
+  if (!hasApiKey) {
+    logger.warn('artifact.fallback_used', { reason: 'missing_api_key' })
+    options.onProgress?.({
       phase: 'assembling_document',
       message: 'API key missing, rendering local fallback artifact.',
     })
     return buildFallbackArtifact(prompt, packs, csp)
   }
 
-  emitProgress(options, {
+  options.onProgress?.({
     phase: 'calling_model',
     message: `Generating artifact with ${ENV.model} (packs: ${selectedPackList})...`,
   })
@@ -339,7 +327,7 @@ export const generateArtifact = async (
     throw new Error('Model returned an invalid payload. Expected JSON with title and html.')
   }
 
-  emitProgress(options, {
+  options.onProgress?.({
     phase: 'assembling_document',
     message: 'Preparing artifact document...',
   })
