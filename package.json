@@ -20,7 +20,8 @@
     "03_02__ex_firmware",
     "03_03__ex_reactor",
     "03_04__ex_negotiations",
-    "03_05__ex_savethem"
+    "03_05__ex_savethem",
+    "04_01__ex_okoeditor"
   ],
   "devDependencies": {
     "@types/node": "^25.4.0",
