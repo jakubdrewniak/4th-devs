@@ -1,0 +1,12 @@
+{
+  "name": "03_05__ex_savethem",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "tsx app.ts"
+  },
+  "dependencies": {
+    "openai": "^4.77.0"
+  }
+}
