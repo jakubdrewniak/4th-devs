@@ -1,0 +1,8 @@
+node_modules/
+.DS_Store
+
+workspace/reviews/*.json
+!workspace/reviews/.gitkeep
+
+public/assets/
+public/index.html

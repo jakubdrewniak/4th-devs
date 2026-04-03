@@ -1,0 +1,24 @@
+{
+  "mcpServers": {
+    "files": {
+      "transport": "stdio",
+      "command": "npx",
+      "args": ["tsx", "../mcp/files-mcp/src/index.ts"],
+      "env": {
+        "LOG_LEVEL": "info",
+        "FS_ROOT": "./workspace"
+      }
+    },
+    "web": {
+      "transport": "stdio",
+      "command": "npx",
+      "args": ["tsx", "../mcp/web/src/index.ts"],
+      "env": {
+        "LOG_LEVEL": "info",
+        "FIRECRAWL_API_KEY": "fc-...",
+        "FIRECRAWL_OUTPUT_MODE": "file",
+        "FIRECRAWL_OUTPUT_DIR": "./workspace/system/agents/ellie/scratch"
+      }
+    }
+  }
+}

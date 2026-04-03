@@ -1,0 +1,17 @@
+{
+  "name": "04_05_apps",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "bun app.js",
+    "start:host": "bun app.js",
+    "start:mcp": "bun --cwd mcp start",
+    "dev": "bun --watch app.js",
+    "dev:mcp": "bun --cwd mcp dev"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/ext-apps": "^1.2.2",
+    "@modelcontextprotocol/sdk": "^1.27.1",
+    "zod": "^4.3.6"
+  }
+}

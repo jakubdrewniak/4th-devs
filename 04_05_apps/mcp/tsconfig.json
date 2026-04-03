@@ -1,0 +1,46 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "composite": false,
+    "strict": true,
+    "downlevelIteration": true,
+    "skipLibCheck": true,
+    "jsx": "react-jsx",
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowJs": true,
+    "types": ["bun-types"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": [
+    "src/client/runtime.js",
+    "src/index.ts",
+    "src/config/env.ts",
+    "src/core/capabilities.ts",
+    "src/core/mcp.ts",
+    "src/core/marketing-server.js",
+    "src/interfaces/campaign-detail-app.js",
+    "src/interfaces/coupon-app.js",
+    "src/interfaces/newsletter-app.js",
+    "src/interfaces/sales-app.js",
+    "src/interfaces/shared.js",
+    "src/interfaces/stripe-app.js",
+    "src/interfaces/todo-app.js",
+    "src/http/app.ts",
+    "src/http/routes/health.ts",
+    "src/http/routes/mcp.ts",
+    "src/store/newsletters.js",
+    "src/store/stripe.js",
+    "src/store/todos.js"
+  ],
+  "exclude": ["node_modules", "dist"]
+}

@@ -378,3 +378,54 @@ npm run lesson16:garden:preview
 `04_01_garden` reads the shared repo-level `.env` through the workspace `config.js`, so it can run with either `OPENAI_API_KEY` or `OPENROUTER_API_KEY`. If both keys are present, it defaults to OpenAI unless you set `AI_PROVIDER=openrouter`.
 
 A good first exercise is to ask the agent to add 3-4 favorite books to the shelf, then run `npm run lesson16:garden:preview` to rebuild the grove and open the generated site locally.
+
+## Lesson 19
+
+| Example | Run | Description |
+|---------|-----|-------------|
+| `04_04_system` | `npm run lesson19:system` | Multi-agent system with MCP tools, agent delegation, and a markdown workspace |
+| `04_04_system` (daily news) | `npm run lesson19:daily-news` | Daily-news workflow demo with sequential phase delegation |
+| `04_04_system` (examples) | `npm run lesson19:examples` | Example queries: ideas, knowledge notes, contacts, tools, and sources |
+
+Install dependencies:
+
+```bash
+npm run lesson19:install
+```
+
+`04_04_system` reads the shared repo-level `.env` through the workspace `config.js`, so it can run with either `OPENAI_API_KEY` or `OPENROUTER_API_KEY`.
+
+Run individual example queries by number (1-7):
+
+```bash
+npm run lesson19:examples -- 1
+```
+
+## Lesson 20
+
+| Example | Run | Description |
+|---------|-----|-------------|
+| `04_05_apps` | `npm run lesson20:apps` | Marketing ops agent with MCP-powered dashboard apps (todos, newsletters, sales, coupons, Stripe) |
+| `04_05_apps` (MCP server) | `npm run lesson20:apps:mcp` | MCP server backing the apps agent |
+| `04_05_review` | `npm run lesson20:review` | AI-powered markdown document review with inline comments, suggestions, and a Svelte UI |
+
+Install dependencies:
+
+```bash
+npm run lesson20:install
+```
+
+`04_05_apps` requires the MCP server running in a separate terminal **before** starting the app:
+
+```bash
+npm run lesson20:apps:mcp    # terminal 1: start MCP server
+npm run lesson20:apps        # terminal 2: start the app
+```
+
+`04_05_review` builds the Svelte frontend and starts the server in one step:
+
+```bash
+npm run lesson20:review
+```
+
+Both examples read the shared repo-level `.env` through the workspace `config.js`, so they can run with either `OPENAI_API_KEY` or `OPENROUTER_API_KEY`.

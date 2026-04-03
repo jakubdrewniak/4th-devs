@@ -1,0 +1,24 @@
+[
+  {
+    "id": "prod_starter",
+    "name": "Starter Plan",
+    "description": "For individuals and small teams getting started.",
+    "price": 2900,
+    "currency": "usd",
+    "interval": "month",
+    "active": true,
+    "features": ["5 projects", "1 team member", "Basic analytics", "Email support"],
+    "createdAt": "2025-09-01T00:00:00Z"
+  },
+  {
+    "id": "prod_growth",
+    "name": "Growth Plan",
+    "description": "For growing teams that need more power.",
+    "price": 7900,
+    "currency": "usd",
+    "interval": "month",
+    "active": true,
+    "features": ["Unlimited projects", "10 team members", "Advanced analytics", "Priority support", "Custom integrations"],
+    "createdAt": "2025-09-01T00:00:00Z"
+  }
+]

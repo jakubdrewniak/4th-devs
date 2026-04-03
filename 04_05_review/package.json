@@ -1,0 +1,23 @@
+{
+  "name": "04_05_review",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev:server": "bun run app.js",
+    "dev:client": "bunx vite",
+    "build": "bunx vite build",
+    "start": "bunx vite build && bun run app.js"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3",
+    "marked": "^17.0.4",
+    "remark-gfm": "^4.0.1",
+    "remark-parse": "^11.0.0",
+    "unified": "^11.0.5"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^6.2.4",
+    "svelte": "^5.53.10",
+    "vite": "^7.3.1"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "generatedAt": "2026-03-13T08:00:00Z",
+  "period": { "from": "2026-02-12", "to": "2026-03-13" },
+  "daily": [
+    { "date": "2026-02-12", "prod_starter": { "sales": 3, "revenue": 8700 }, "prod_growth": { "sales": 1, "revenue": 7900 } },
+    { "date": "2026-02-13", "prod_starter": { "sales": 2, "revenue": 5800 }, "prod_growth": { "sales": 0, "revenue": 0 } },
+    { "date": "2026-02-14", "prod_starter": { "sales": 4, "revenue": 11600 }, "prod_growth": { "sales": 2, "revenue": 15800 } },
+    { "date": "2026-02-15", "prod_starter": { "sales": 8, "revenue": 23200 }, "prod_growth": { "sales": 3, "revenue": 23700 } },
+    { "date": "2026-02-16", "prod_starter": { "sales": 12, "revenue": 34800 }, "prod_growth": { "sales": 5, "revenue": 39500 } },
+    { "date": "2026-02-17", "prod_starter": { "sales": 9, "revenue": 26100 }, "prod_growth": { "sales": 4, "revenue": 31600 } },
+    { "date": "2026-02-18", "prod_starter": { "sales": 6, "revenue": 17400 }, "prod_growth": { "sales": 2, "revenue": 15800 } },
+    { "date": "2026-02-19", "prod_starter": { "sales": 4, "revenue": 11600 }, "prod_growth": { "sales": 1, "revenue": 7900 } },
+    { "date": "2026-02-20", "prod_starter": { "sales": 3, "revenue": 8700 }, "prod_growth": { "sales": 1, "revenue": 7900 } },
+    { "date": "2026-02-21", "prod_starter": { "sales": 2, "revenue": 5800 }, "prod_growth": { "sales": 1, "revenue": 7900 } },
+    { "date": "2026-02-22", "prod_starter": { "sales": 3, "revenue": 8700 }, "prod_growth": { "sales": 0, "revenue": 0 } },
+    { "date": "2026-02-23", "prod_starter": { "sales": 2, "revenue": 5800 }, "prod_growth": { "sales": 1, "revenue": 7900 } },
+    { "date": "2026-02-24", "prod_starter": { "sales": 3, "revenue": 8700 }, "prod_growth": { "sales": 2, "revenue": 15800 } },
+    { "date": "2026-02-25", "prod_starter": { "sales": 4, "revenue": 11600 }, "prod_growth": { "sales": 1, "revenue": 7900 } },
+    { "date": "2026-02-26", "prod_starter": { "sales": 3, "revenue": 8700 }, "prod_growth": { "sales": 2, "revenue": 15800 } },
+    { "date": "2026-02-27", "prod_starter": { "sales": 2, "revenue": 5800 }, "prod_growth": { "sales": 1, "revenue": 7900 } },
+    { "date": "2026-02-28", "prod_starter": { "sales": 3, "revenue": 8700 }, "prod_growth": { "sales": 1, "revenue": 7900 } },
+    { "date": "2026-03-01", "prod_starter": { "sales": 4, "revenue": 11600 }, "prod_growth": { "sales": 2, "revenue": 15800 } },
+    { "date": "2026-03-02", "prod_starter": { "sales": 3, "revenue": 8700 }, "prod_growth": { "sales": 1, "revenue": 7900 } },
+    { "date": "2026-03-03", "prod_starter": { "sales": 5, "revenue": 14500 }, "prod_growth": { "sales": 2, "revenue": 15800 } },
+    { "date": "2026-03-04", "prod_starter": { "sales": 3, "revenue": 8700 }, "prod_growth": { "sales": 1, "revenue": 7900 } },
+    { "date": "2026-03-05", "prod_starter": { "sales": 2, "revenue": 5800 }, "prod_growth": { "sales": 1, "revenue": 7900 } },
+    { "date": "2026-03-06", "prod_starter": { "sales": 4, "revenue": 11600 }, "prod_growth": { "sales": 2, "revenue": 15800 } },
+    { "date": "2026-03-07", "prod_starter": { "sales": 3, "revenue": 8700 }, "prod_growth": { "sales": 1, "revenue": 7900 } },
+    { "date": "2026-03-08", "prod_starter": { "sales": 2, "revenue": 5800 }, "prod_growth": { "sales": 0, "revenue": 0 } },
+    { "date": "2026-03-09", "prod_starter": { "sales": 3, "revenue": 8700 }, "prod_growth": { "sales": 2, "revenue": 15800 } },
+    { "date": "2026-03-10", "prod_starter": { "sales": 4, "revenue": 11600 }, "prod_growth": { "sales": 1, "revenue": 7900 } },
+    { "date": "2026-03-11", "prod_starter": { "sales": 3, "revenue": 8700 }, "prod_growth": { "sales": 2, "revenue": 15800 } },
+    { "date": "2026-03-12", "prod_starter": { "sales": 5, "revenue": 14500 }, "prod_growth": { "sales": 3, "revenue": 23700 } },
+    { "date": "2026-03-13", "prod_starter": { "sales": 2, "revenue": 5800 }, "prod_growth": { "sales": 1, "revenue": 7900 } }
+  ],
+  "totals": {
+    "prod_starter": { "sales": 107, "revenue": 310300 },
+    "prod_growth": { "sales": 43, "revenue": 339700 }
+  }
+}

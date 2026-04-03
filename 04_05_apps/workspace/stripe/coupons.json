@@ -1,0 +1,38 @@
+[
+  {
+    "id": "cpn_launch10",
+    "code": "LAUNCH10",
+    "percentOff": 10,
+    "productId": null,
+    "campaignId": "cmp_spring_launch",
+    "maxRedemptions": 200,
+    "timesRedeemed": 47,
+    "active": false,
+    "expiresAt": "2026-03-31T23:59:59Z",
+    "createdAt": "2026-02-15T00:00:00Z"
+  },
+  {
+    "id": "cpn_d9536130",
+    "code": "GROWTH20",
+    "percentOff": 20,
+    "productId": "prod_growth",
+    "campaignId": null,
+    "maxRedemptions": 100,
+    "timesRedeemed": 0,
+    "active": true,
+    "expiresAt": "2026-04-13T11:49:45.297Z",
+    "createdAt": "2026-03-14T11:49:45.297Z"
+  },
+  {
+    "id": "cpn_f1e89c88",
+    "code": "40OFF2026",
+    "percentOff": 40,
+    "productId": null,
+    "campaignId": null,
+    "maxRedemptions": 100,
+    "timesRedeemed": 0,
+    "active": true,
+    "expiresAt": "2026-04-13T13:00:54.624Z",
+    "createdAt": "2026-03-14T13:00:54.624Z"
+  }
+]
