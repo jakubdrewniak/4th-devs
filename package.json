@@ -22,7 +22,8 @@
     "03_04__ex_negotiations",
     "03_05__ex_savethem",
     "04_01__ex_okoeditor",
-    "04_02__ex_windpower"
+    "04_02__ex_windpower",
+    "04_03__ex_domatowo"
   ],
   "devDependencies": {
     "@types/node": "^25.4.0",
