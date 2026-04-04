@@ -23,7 +23,8 @@
     "03_05__ex_savethem",
     "04_01__ex_okoeditor",
     "04_02__ex_windpower",
-    "04_03__ex_domatowo"
+    "04_03__ex_domatowo",
+    "04_04__ex_filesystem"
   ],
   "devDependencies": {
     "@types/node": "^25.4.0",
