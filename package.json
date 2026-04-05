@@ -24,7 +24,8 @@
     "04_01__ex_okoeditor",
     "04_02__ex_windpower",
     "04_03__ex_domatowo",
-    "04_04__ex_filesystem"
+    "04_04__ex_filesystem",
+    "04_05__ex_foodwarehouse"
   ],
   "devDependencies": {
     "@types/node": "^25.4.0",
