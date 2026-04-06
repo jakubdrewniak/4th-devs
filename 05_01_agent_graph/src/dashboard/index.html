@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Multi-Agent Dashboard</title>
+  <link rel="stylesheet" href="/dashboard/styles.css">
+</head>
+<body>
+
+<div class="layout">
+  <header>
+    <h1>Multi-Agent Dashboard</h1>
+    <span class="badge" id="model">—</span>
+    <div class="conn">
+      <span class="conn-dot" id="connDot"></span>
+      <span id="connLabel">connecting…</span>
+    </div>
+  </header>
+
+  <div class="pipeline" id="pipeline"></div>
+
+  <div class="feed" id="feed"></div>
+
+  <div class="right-panel">
+    <div class="graph-section" id="graphSection">
+      <div class="graph-toolbar">
+        <div class="graph-tabs">
+          <button class="graph-tab active" data-graph-view="execution">Execution</button>
+          <button class="graph-tab" data-graph-view="artifacts">Artifacts</button>
+        </div>
+        <div class="graph-toolbar-right">
+          <div class="graph-controls">
+            <button class="graph-control" data-graph-action="zoom-out" aria-label="Zoom out">-</button>
+            <button class="graph-control" data-graph-action="zoom-in" aria-label="Zoom in">+</button>
+            <button class="graph-control graph-control-wide" data-graph-action="fit">Fit</button>
+            <button class="graph-control graph-control-wide" data-graph-action="fullscreen" id="fullscreenBtn">Expand</button>
+          </div>
+          <div class="graph-help">Drag background to pan. Scroll or use buttons to zoom.</div>
+        </div>
+      </div>
+      <div class="graph-legend" id="graphLegend"></div>
+      <div class="graph-canvas" id="graphCanvas"></div>
+      <div class="graph-empty" id="graphEmpty">Waiting for graph data…</div>
+    </div>
+
+    <div class="data-panels">
+      <section>
+        <h3 class="section-title">Overview</h3>
+        <div class="stat-grid" id="stats"></div>
+      </section>
+      <section>
+        <h3 class="section-title">Tasks</h3>
+        <div id="tasks"></div>
+      </section>
+      <section>
+        <h3 class="section-title">Artifacts</h3>
+        <div id="artifacts"></div>
+      </section>
+      <section>
+        <h3 class="section-title">Relations</h3>
+        <div id="relations"></div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<!-- Detail drawer -->
+<div class="drawer-backdrop" id="backdrop"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-header">
+    <span class="drawer-kind" id="drawerKind"></span>
+    <span class="drawer-title" id="drawerTitle"></span>
+    <button class="drawer-close" id="drawerClose">Close</button>
+  </div>
+  <div class="drawer-body" id="drawerBody"></div>
+</div>
+
+<script src="/vendor/cytoscape.min.js"></script>
+<script src="/vendor/elk.bundled.js"></script>
+<script src="/vendor/cytoscape-elk.js"></script>
+<script src="/dashboard/app.js"></script>
+</body>
+</html>

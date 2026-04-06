@@ -401,6 +401,28 @@ Run individual example queries by number (1-7):
 npm run lesson19:examples -- 1
 ```
 
+## Lesson 21
+
+| Example | Run | Description |
+|---------|-----|-------------|
+| `05_01_agent_graph` | `npm run lesson21:agent_graph` | Multi-agent graph with orchestrator, task delegation, artifact writing, and a live Cytoscape dashboard |
+
+Install dependencies:
+
+```bash
+npm run lesson21:install
+```
+
+`05_01_agent_graph` reads the shared repo-level `.env` through the workspace `config.js`, so it can run with either `OPENAI_API_KEY` or `OPENROUTER_API_KEY`.
+
+Pass a custom task as the first argument (defaults to a TypeScript 5.0 blog post):
+
+```bash
+cd 05_01_agent_graph && npm start "Research and summarise the latest advances in WebAssembly"
+```
+
+The dashboard opens automatically in the browser at `http://127.0.0.1:3001` (or the next available port). All session data is persisted to `.data/` and cleared on each run.
+
 ## Lesson 20
 
 | Example | Run | Description |

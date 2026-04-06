@@ -1,0 +1,23 @@
+{
+  "name": "05_01_agent_graph",
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "postbuild": "node --input-type=module -e \"import { cpSync, mkdirSync } from 'node:fs'; mkdirSync('dist', { recursive: true }); cpSync('src/dashboard', 'dist/dashboard', { recursive: true });\"",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "prestart": "npm run clean && npm run build",
+    "start": "node --enable-source-maps dist/index.js",
+    "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('.data', { recursive: true, force: true }); rmSync('dist', { recursive: true, force: true });\""
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "typescript": "^5.7.0"
+  },
+  "dependencies": {
+    "cytoscape": "^3.33.1",
+    "cytoscape-elk": "^2.3.0",
+    "elkjs": "^0.11.1",
+    "openai": "^6.31.0"
+  }
+}

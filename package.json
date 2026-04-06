@@ -133,6 +133,8 @@
     "lesson19:daily-news": "node ./04_04_system/demo-daily-news.js",
     "prelesson19:examples": "npm run ensure:files-mcp",
     "lesson19:examples": "node ./04_04_system/demo-example-queries.js",
+    "lesson21:install": "npm install --prefix ./05_01_agent_graph",
+    "lesson21:agent_graph": "cd 05_01_agent_graph && npm start",
     "lesson20:install": "npm install --prefix ./04_05_apps && npm install --prefix ./04_05_review",
     "lesson20:apps": "cd 04_05_apps && bun run start",
     "lesson20:apps:mcp": "cd 04_05_apps && bun run start:mcp",
