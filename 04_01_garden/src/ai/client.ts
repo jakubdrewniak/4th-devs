@@ -1,9 +1,8 @@
 import type { AnyTool, ResponseInput } from "../types";
-import { config, openai, resolveModelForProvider } from "../config";
+import { config, openai, isOpenRouter, resolveModelForProvider } from "../config";
 import type {
   Response,
   ResponseCreateParamsNonStreaming,
-  ResponseIncludable,
 } from "openai/resources/responses/responses";
 import type { ReasoningEffort } from "openai/resources/shared";
 
@@ -15,21 +14,45 @@ interface CompletionParams {
   previousResponseId?: string;
 }
 
+const ONLINE_SUFFIX = ":online";
+
+function separateWebSearch(tools: AnyTool[]): {
+  filtered: AnyTool[];
+  hasWebSearch: boolean;
+} {
+  const filtered = tools.filter((t) => t.type !== "web_search");
+  return { filtered, hasWebSearch: filtered.length < tools.length };
+}
+
 function createRequest(
   params: CompletionParams,
   effort: ReasoningEffort,
 ): ResponseCreateParamsNonStreaming {
-  const include: ResponseIncludable[] = ["web_search_call.action.sources"];
+  let model = resolveModelForProvider(params.model);
+  let tools: AnyTool[] = params.tools;
 
-  return {
-    model: resolveModelForProvider(params.model),
+  if (isOpenRouter) {
+    const { filtered, hasWebSearch } = separateWebSearch(tools);
+    tools = filtered;
+    if (hasWebSearch && !model.endsWith(ONLINE_SUFFIX)) {
+      model = `${model}${ONLINE_SUFFIX}`;
+    }
+  }
+
+  const request: ResponseCreateParamsNonStreaming = {
+    model,
     instructions: params.instructions,
     input: params.input,
-    tools: params.tools,
-    previous_response_id: params.previousResponseId,
-    include,
+    tools,
     reasoning: { effort },
   };
+
+  if (!isOpenRouter) {
+    request.previous_response_id = params.previousResponseId;
+    request.include = ["web_search_call.action.sources"];
+  }
+
+  return request;
 }
 
 function shouldFallbackToHigh(error: unknown): boolean {

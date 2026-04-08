@@ -1,0 +1,13 @@
+# Iteration 6 - discard - score: 0.9131
+Candidate: balanced
+Operation: REWORD
+Reasoning: The prompt already covers every scored section at a basic level, so the main problem is not missing schema coverage but an ambiguous task-boundary rule. The dominant errors are task OMISSION and HALLUCINATION in the highest-weighted section: the model is turning milestones or nested troubleshooting steps into tasks while missing scheduled event tasks like demos. I chose REWORD on the existing task-extraction rule to sharpen what counts as a task without adding competing instructions; I rejected ADD as duplicative and date-focused changes because they do not address the largest weighted loss.
+Section scores: projects:1.00 tasks:0.87 decisions:0.83 people:1.00
+Section deltas: decisions:-0.04 tasks:+0.01
+Candidates:
+- balanced: 0.9131 (discard) decisions:-0.04 tasks:+0.01
+- coverage: 0.8965 (discard) projects:-0.50 decisions:+0.13 tasks:+0.07
+- simplify: 0.7678 (discard) projects:-0.50 decisions:-0.38
+
+- - Treat explicit assignments, planned next steps, and scheduled deliverables as tasks, and set assignee or deadline only when that exact task is directly stated with one; otherwise use null.
++ - Treat explicit assignments, planned work items, and explicitly scheduled events such as demos or reviews as tasks, but not outcome-only milestones or substeps nested inside another task; set assignee or deadline only when that exact task is directly stated with one, otherwise use null.

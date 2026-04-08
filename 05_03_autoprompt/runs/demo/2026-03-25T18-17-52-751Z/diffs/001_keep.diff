@@ -1,0 +1,12 @@
+# Iteration 1 - keep - score: 0.7179
+Candidate: simplify
+Operation: ADD
+Reasoning: The dominant error type is OMISSION in the highest-weighted section: the model is missing tasks that are phrased as future commitments, planned next steps, or scheduled deliverables, and it also overfills task deadlines when they are not tied to a specific task. I chose ADD because the current prompt has no rule defining what counts as a task or when task exact fields should default to null, so this is a genuine schema-coverage gap rather than a wording issue. I rejected a decision-focused change because decisions are lower-weighted, and I rejected REWORD because the existing rule already covers explicit sourcing in general but not the missing task-category boundary.
+Section scores: projects:0.50 tasks:0.73 decisions:0.50 people:1.00
+Section deltas: tasks:+0.01
+Candidates:
+- balanced: 0.7179 (keep) tasks:+0.01
+- coverage: 0.6518 (discard) people:-0.25
+- simplify: 0.7179 (keep) tasks:+0.01
+
++ - Treat explicit assignments, planned next steps, and scheduled deliverables as tasks, and set assignee or deadline only when that exact task is directly stated with one; otherwise use null.

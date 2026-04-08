@@ -1,0 +1,13 @@
+# Iteration 7 - discard - score: 0.8929
+Candidate: coverage
+Operation: REWORD
+Reasoning: After auditing the schema and eval policy, the biggest scored weakness is still task selection: the prompt already has task coverage, but its current wording is too broad for transient troubleshooting and too weak on deferred backlog work and scheduled demos. I chose REWORD because this concern is already covered by an existing rule, and prior ADD-style attempts on future/planned tasks have already been tried. I rejected adding a new decisions/people boundary rule because those hallucinations are lower-impact here and the dominant scored misses are in the tasks section.
+Section scores: projects:1.00 tasks:0.73 decisions:1.00 people:1.00
+Section deltas: tasks:-0.13
+Candidates:
+- balanced: 0.8179 (discard) decisions:-0.50 tasks:-0.06
+- coverage: 0.8929 (discard) tasks:-0.13
+- simplify: 0.8179 (discard) decisions:-0.50 tasks:-0.06
+
+- - Treat explicit assignments, next steps, planned follow-ups, and scheduled deliverables as tasks even when they are phrased in future tense or have no assignee yet.
++ - Treat tasks as durable backlog or deliverable items: extract explicit assignments, next steps, deferred phase work, and scheduled demos or deliverables even when they are phrased in future tense or have no assignee yet, but do not extract brief investigative or troubleshooting actions that merely support another task.

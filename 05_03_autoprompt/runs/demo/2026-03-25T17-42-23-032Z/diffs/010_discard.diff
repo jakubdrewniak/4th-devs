@@ -1,0 +1,12 @@
+# Iteration 10 - discard - score: 0.8557
+Candidate: simplify
+Operation: ADD
+Reasoning: The dominant remaining errors are boundary hallucinations: the model still turns goals, roadmap statements, and descriptive updates into tasks or decisions, which hurts the highest-weight sections. I chose ADD because the current prompt has no task-specific boundary rule, and that gap is directly exposed by the eval failures. I rejected further rewording of the existing explicit-sourcing rule because that approach has already been tried and discarded, and MERGE/REMOVE would reduce already-minimal coverage.
+Section scores: projects:0.67 tasks:0.82 decisions:0.89 people:1.00
+Section deltas: projects:-0.33 decisions:+0.05 tasks:-0.04
+Candidates:
+- balanced: 0.8017 (discard) projects:-0.33 decisions:-0.22 tasks:-0.04
+- coverage: 0.8089 (discard) projects:-0.33 decisions:-0.17 tasks:-0.05
+- simplify: 0.8557 (discard) projects:-0.33 decisions:+0.05 tasks:-0.04
+
++ - Tasks are concrete units of assigned, planned, in-progress, blocked, or completed work; do not extract goals, desired outcomes, roadmap ideas, recommendations, or conditional future possibilities as tasks unless they are stated as actual work items.

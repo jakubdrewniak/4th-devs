@@ -1,0 +1,12 @@
+iteration	score	status	description
+0	0.8762	baseline	initial prompt (±0.0000)
+1	0.6929	discard	+1/-1 lines
+2	0.8345	discard	+1/-0 lines
+3	0.7678	discard	+1/-1 lines
+4	0.8012	discard	+1/-1 lines
+5	0.6970	discard	+1/-1 lines
+6	0.8965	keep	+0/-1 lines
+7	0.8631	discard	+1/-1 lines
+8	0.7929	discard	+1/-1 lines
+9	0.9131	keep	+1/-1 lines
+10	0.9500	keep	+1/-1 lines

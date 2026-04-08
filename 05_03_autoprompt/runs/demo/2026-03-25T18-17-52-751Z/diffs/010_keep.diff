@@ -1,0 +1,13 @@
+# Iteration 10 - keep - score: 0.9465
+Candidate: coverage
+Operation: REWORD
+Reasoning: The dominant scored issue is task-boundary error: the model omits durable future work like planned design work and scheduled demos, while also hallucinating transient troubleshooting follow-ups as standalone tasks. I chose REWORD because the prompt already has a task-extraction rule, but its current phrasing over-includes any “next step” and under-specifies what kind of future work counts as a trackable task. I rejected ADD because that would duplicate existing task guidance in a prompt that is already close to optimal, and I rejected changing the decision rule because tasks are the main source of score loss.
+Section scores: projects:1.00 tasks:0.87 decisions:1.00 people:1.00
+Section deltas: tasks:+0.01
+Candidates:
+- balanced: 0.7678 (discard) projects:-0.50 decisions:-0.50
+- coverage: 0.9465 (keep) tasks:+0.01
+- simplify: 0.7893 (discard) decisions:-0.50 tasks:-0.13
+
+- - Treat explicit assignments, planned next steps, and scheduled deliverables as tasks, and set assignee or deadline only when that exact task is directly stated with one; otherwise use null.
++ - Treat durable project work items as tasks: explicit assignments, committed build or design work, and scheduled demos or deliverables; set assignee or deadline only when that exact task is directly stated with one, otherwise use null, and exclude tentative troubleshooting, generic intentions, or discussion notes that are not framed as a trackable work item.

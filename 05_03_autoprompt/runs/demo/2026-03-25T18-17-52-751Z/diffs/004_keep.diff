@@ -1,0 +1,12 @@
+# Iteration 4 - keep - score: 0.8339
+Candidate: balanced
+Operation: ADD
+Reasoning: The biggest uncovered scored field is task status: the schema and evaluation score it exactly, but the current prompt gives no rule for mapping transcript language to todo/in_progress/done/blocked/paused. I chose ADD because this is a true coverage gap, and prior history shows rewording task guidance was already tried and caused regressions elsewhere. I rejected changing task inclusion or the combined projects/decisions/people rule because those concerns already have some guidance, while status has none and is driving high-weight task errors.
+Section scores: projects:0.50 tasks:0.93 decisions:1.00 people:0.75
+Section deltas: people:-0.25 tasks:+0.20 decisions:+0.17
+Candidates:
+- balanced: 0.8339 (keep) people:-0.25 tasks:+0.20 decisions:+0.17
+- coverage: 0.7678 (discard) decisions:-0.33 tasks:+0.13
+- simplify: 0.7429 (discard) decisions:-0.33 tasks:+0.06
+
++ - Set task status from explicit progress language: use done when the task's core outcome is already finished or working even if follow-up polish remains, in_progress when someone is actively working on it or explicitly moving to it next, blocked or paused only when stated, and todo for assigned, planned, or scheduled work with no started-work evidence.

@@ -1,0 +1,13 @@
+# Iteration 5 - discard - score: 0.8335
+Candidate: coverage
+Operation: REWORD
+Reasoning: The dominant remaining errors are misclassification and exact-field mistakes around dates: the model includes weekday/context text in exact date fields and still over-extracts some borderline decisions/tasks. Since ADD is forbidden and the prompt lacks any date-format rule, the highest-impact single change is to REWORD the existing explicit-sourcing rule so it also instructs exact-field normalization to the minimal stated value. I rejected REORDER because position alone will not fix the repeated date mismatches, and REMOVE would weaken already-useful boundary control.
+Section scores: projects:0.67 tasks:0.82 decisions:0.78 people:1.00
+Section deltas: projects:-0.33 decisions:-0.06 tasks:-0.04
+Candidates:
+- balanced: 0.8311 (discard) projects:-0.33 decisions:-0.16
+- coverage: 0.8335 (discard) projects:-0.33 decisions:-0.06 tasks:-0.04
+- simplify: 0.7978 (discard) projects:-0.33 tasks:-0.13 decisions:-0.06
+
+- - Extract only what is explicitly stated in the transcript.
++ - Extract only what is explicitly stated in the transcript, and for exact string fields copy the minimal stated value rather than added context or formatting details.

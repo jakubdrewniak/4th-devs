@@ -1,0 +1,13 @@
+# Iteration 9 - keep - score: 0.9429
+Candidate: balanced
+Operation: REWORD
+Reasoning: Audit first: the prompt already has coverage for every scored section, but the exact field `decisions.date` and the semantic boundary for what counts as a decision are still under-specified inside an existing rule. The dominant remaining errors are decision misclassification and missing decision dates, so I chose REWORD to tighten that rule rather than ADD, which would duplicate existing coverage and dilute attention. I rejected another task-focused edit because history shows that task-boundary changes have already been tried and produced little gain or regressions.
+Section scores: projects:1.00 tasks:0.86 decisions:1.00 people:1.00
+Section deltas: decisions:+0.13
+Candidates:
+- balanced: 0.9429 (keep) decisions:+0.13
+- coverage: 0.7678 (discard) projects:-0.50 decisions:-0.38
+- simplify: 0.7678 (discard) projects:-0.50 decisions:-0.38
+
+- - For projects, decisions, and people, set project owner only from explicit ownership or lead language about the project or one of its sides, preserve each person's explicitly stated function or responsibility as their role rather than compressing it to a generic title, record decisions only as explicit agreed or adopted concrete choices rather than names, staffing, or tentative plans, use calendar dates without weekdays and null when no date is stated, and include only human participants in people.
++ - For projects, decisions, and people, set project owner only from explicit ownership or lead language about the project or one of its sides, preserve each person's explicitly stated function or responsibility as their role rather than compressing it to a generic title, record decisions only as explicit agreed or adopted project choices rather than staffing, tentative plans, or detailed implementation descriptions, use the meeting's calendar date for decisions made in that meeting unless a different calendar date is directly stated, otherwise use null, format dates without weekdays, and include only human participants in people.

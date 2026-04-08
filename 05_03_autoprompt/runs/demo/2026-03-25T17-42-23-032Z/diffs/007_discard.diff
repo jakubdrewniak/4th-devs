@@ -1,0 +1,13 @@
+# Iteration 7 - discard - score: 0.8628
+Candidate: simplify
+Operation: REWORD
+Reasoning: The dominant scored failures are hallucination and boundary errors, especially future plans and descriptive statements being extracted as tasks or decisions. Existing rules already cover explicit sourcing and decision boundaries, so adding more would likely repeat failed approaches; the higher-value simplification is to reword the sourcing rule to define what counts as extractable work more precisely. I rejected ADD because multiple prior additions on similar concerns were discarded, and MERGE/REMOVE would reduce already minimal coverage.
+Section scores: projects:0.67 tasks:0.86 decisions:0.84 people:1.00
+Section deltas: projects:-0.33
+Candidates:
+- balanced: 0.8311 (discard) projects:-0.33 decisions:-0.06 tasks:-0.05
+- coverage: 0.8533 (discard) projects:-0.33 decisions:-0.05
+- simplify: 0.8628 (discard) projects:-0.33
+
+- - Extract only what is explicitly stated in the transcript.
++ - Extract only items that the transcript explicitly presents as current project state: named projects, assigned or status-bearing tasks, explicit decisions, and stated people/roles; do not convert goals, aspirations, recommendations, possibilities, or explanatory descriptions into records.

@@ -1,0 +1,5 @@
+# Iteration 10 - discard - score: 0.9128
+Operation: ADD
+Reasoning: The dominant remaining errors are task OMISSION and HALLUCINATION caused by an unclear boundary around what counts as a task when work is mentioned as descriptive progress versus a maintained work item. Existing rules cover task/decision boundaries and status mapping, but they do not explicitly tell the model to keep only durable work items and exclude incidental substeps or demo-prep details, which explains the missing "Design feedback loop" and extra one-off tasks. I chose ADD because this concern is not directly covered by any current rule, and I rejected rewording the decision rule since prior attempts on that theme were already discarded and the main misses are now in task inclusion criteria.
+
++ - For tasks, extract durable work items that represent owned deliverables or maintained pieces of project work, including unassigned planned work when stated; do not extract incidental substeps, explanatory details, or one-off prep/checklist actions unless they are clearly tracked as standalone work items.

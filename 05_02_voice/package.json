@@ -1,0 +1,22 @@
+{
+  "name": "05_02_voice",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun src/token-server.js & node src/agent.js dev --log-level info",
+    "start": "bun src/token-server.js & node src/agent.js start"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.19.11",
+    "@livekit/agents": "^1.2.0",
+    "@livekit/agents-plugin-google": "^1.2.0",
+    "@livekit/agents-plugin-openai": "^1.2.0",
+    "@livekit/agents-plugin-silero": "^1.2.0",
+    "@livekit/rtc-node": "^0.13.24",
+    "@modelcontextprotocol/sdk": "^1.27.1",
+    "hono": "^4.12.8",
+    "livekit-server-sdk": "^2.14.1",
+    "ws": "^8.19.0",
+    "zod": "^3.25.0"
+  }
+}

@@ -1,0 +1,13 @@
+# Iteration 3 - keep - score: 0.8714
+Candidate: balanced
+Operation: REWORD
+Reasoning: Exact-field misclassification is the dominant scored failure: decision dates, task deadlines, and project owner are wrong, and the current prompt directly causes some of that by telling the model to keep dates in transcript-style natural language. I chose REWORD on the existing exact/context-fields rule because the concern is already covered, but the phrasing is harmful and underspecified. I rejected ADD because prior additive attempts already failed, and a new decision- or task-specific rule would not remove the current date-formatting error source.
+Section scores: projects:0.50 tasks:0.87 decisions:1.00 people:1.00
+Section deltas: decisions:+0.50 tasks:+0.06
+Candidates:
+- balanced: 0.8714 (keep) decisions:+0.50 tasks:+0.06
+- coverage: 0.6929 (discard) decisions:-0.13 tasks:-0.07
+- simplify: 0.7179 (discard) tasks:-0.07
+
+- - Treat contextual and exact fields conservatively: use the meeting date for decisions unless another date is stated, but fill owner, priority, assignee, and deadline only when the transcript explicitly ties them to that item, keep dates in transcript-style natural language, and otherwise use null.
++ - Treat contextual and exact fields conservatively: use the meeting date for decisions unless another date is stated; when a date is given with a weekday, omit the weekday and copy the remaining date phrase exactly; fill owner only when someone is explicitly described as owning that project, and fill priority, assignee, and deadline only when explicitly tied to that item; otherwise use null.

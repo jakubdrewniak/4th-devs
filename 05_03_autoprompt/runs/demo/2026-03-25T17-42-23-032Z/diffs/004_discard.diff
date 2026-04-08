@@ -1,0 +1,12 @@
+# Iteration 4 - discard - score: 0.8724
+Candidate: coverage
+Operation: ADD
+Reasoning: The dominant remaining errors are exact-field mismatches on date/deadline formatting, plus some spillover hallucinations, but the scored misses most consistently come from including weekday/context words in exact date fields. The current prompt has no rule covering exact string normalization for dates, so an ADD is justified by the schema/evaluation audit. I rejected broader task/decision boundary edits because that angle was already tried and the prompt already has partial coverage there, while exact date formatting is an uncovered scored concern.
+Section scores: projects:0.67 tasks:0.86 decisions:0.89 people:1.00
+Section deltas: projects:-0.33 decisions:+0.05
+Candidates:
+- balanced: 0.8279 (discard) projects:-0.33 decisions:-0.17
+- coverage: 0.8724 (discard) projects:-0.33 decisions:+0.05
+- simplify: 0.8533 (discard) projects:-0.33 tasks:-0.05 decisions:+0.05
+
++ - Dates and deadlines must use the core stated date only, omitting weekday names and extra context words; for example, use "March 16" rather than "Monday, March 16" and "March 27" rather than "Friday March 27".

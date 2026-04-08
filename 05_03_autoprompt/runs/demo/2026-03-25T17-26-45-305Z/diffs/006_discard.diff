@@ -1,0 +1,5 @@
+# Iteration 6 - discard - score: 0.9069
+Operation: ADD
+Reasoning: The dominant remaining errors are MISCLASSIFICATION and semantic drift in task extraction: the model captures the right underlying work but often copies descriptive phrasing too literally, misses assignees implied by ownership of completed work, and includes subordinate implementation edits as standalone tasks. Existing rules cover extraction boundaries and status/date normalization, but there is no rule for canonicalizing task identity, which is heavily scored in the tasks section. I chose ADD to introduce one general task-labeling rule that should improve matching and reduce both omissions and hallucinated sub-tasks; I rejected rewording because no current rule directly covers stable semantic task naming.
+
++ - Write task names as canonical work items: use a short label for the main deliverable or outcome, collapse descriptive wording to the core task, infer the assignee when the transcript attributes that completed or active work to a named person, and do not split supporting edits or examples into separate tasks when they are just part of a larger created or updated deliverable.

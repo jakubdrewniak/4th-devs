@@ -1,0 +1,12 @@
+# Iteration 6 - discard - score: 0.7872
+Candidate: simplify
+Operation: ADD
+Reasoning: The dominant remaining errors are boundary mistakes that cause hallucinated tasks and over-broad or mis-split decisions, while date formatting has already been tried and discarded. I chose ADD because the current prompt has no rule covering what counts as a task, despite tasks being the highest-weighted section and the main source of misses. I rejected REMOVE and MERGE because the prompt is already very short and the existing rules are not redundant; a single categorical task-boundary rule adds missing coverage without repeating the failed date-focused approach.
+Section scores: projects:0.67 tasks:0.78 decisions:0.62 people:1.00
+Section deltas: projects:-0.33 decisions:-0.22 tasks:-0.08
+Candidates:
+- balanced: 0.7851 (discard) projects:-0.33 decisions:-0.22 tasks:-0.08
+- coverage: 0.7827 (discard) projects:-0.33 decisions:-0.22 tasks:-0.09
+- simplify: 0.7872 (discard) projects:-0.33 decisions:-0.22 tasks:-0.08
+
++ - Tasks are concrete units of work that someone is doing, will do, or is blocked on; do not extract goals, hopes, recommendations, scope notes, or conditional future plans as tasks unless they are stated as committed work items.

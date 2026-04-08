@@ -1,0 +1,13 @@
+# Iteration 3 - discard - score: 0.7678
+Candidate: coverage
+Operation: REWORD
+Reasoning: The dominant losses are in the highest-weighted section, tasks: the model lacks clear status boundaries and is also over/under-including task-like statements. I chose REWORD because the prompt already has a task rule, but its current wording is too broad on what counts as a task and gives no guidance for the scored status field. I rejected ADD because prior task-coverage additions already underperformed, and another separate task rule would likely duplicate intent and split attention.
+Section scores: projects:0.50 tasks:0.86 decisions:0.50 people:1.00
+Section deltas: decisions:-0.33 tasks:+0.13
+Candidates:
+- balanced: 0.6804 (discard) decisions:-0.33 people:-0.25 tasks:+0.06
+- coverage: 0.7678 (discard) decisions:-0.33 tasks:+0.13
+- simplify: 0.6554 (discard) decisions:-0.33 people:-0.25
+
+- - Treat explicit assignments, planned next steps, and scheduled deliverables as tasks, and set assignee or deadline only when that exact task is directly stated with one; otherwise use null.
++ - Treat tasks as explicit, concrete work items or deliverables, including assignments, next steps, ongoing work, and scheduled deliverables, but not open-ended investigation with no named deliverable; set status to done when the task is explicitly described as completed, finished, or already working for its stated scope even if follow-up improvements remain, in_progress when it is explicitly underway or being started next, blocked or paused only when stated, todo for future work not yet underway, and set assignee or deadline only when that exact task is directly stated with one; otherwise use null.

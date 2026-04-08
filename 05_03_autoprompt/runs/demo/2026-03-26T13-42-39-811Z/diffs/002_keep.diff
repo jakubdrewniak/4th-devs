@@ -1,0 +1,12 @@
+# Iteration 2 - keep - score: 0.7465
+Candidate: coverage
+Operation: ADD
+Reasoning: OMISSION is the dominant error type, especially in the highest-weighted tasks section: the model misses planned follow-ups, future-tense commitments, and scheduled deliverables that should still be tracked as tasks. I chose ADD because the prompt has no rule defining what kinds of statements count as tasks, so this is a true coverage gap rather than a wording problem. I rejected another date/decision-focused change because prior history already targeted exact-field/date behavior, and repeating that angle would risk same-idea cycling.
+Section scores: projects:0.50 tasks:0.80 decisions:0.50 people:1.00
+Section deltas: tasks:+0.01
+Candidates:
+- balanced: 0.7179 (discard) tasks:-0.06
+- coverage: 0.7465 (keep) tasks:+0.01
+- simplify: 0.7143 (discard) tasks:-0.07
+
++ - Treat explicit assignments, next steps, planned follow-ups, and scheduled deliverables as tasks even when they are phrased in future tense or have no assignee yet.

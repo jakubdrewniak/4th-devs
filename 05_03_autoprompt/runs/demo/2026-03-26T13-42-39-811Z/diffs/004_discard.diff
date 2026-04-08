@@ -1,0 +1,13 @@
+# Iteration 4 - discard - score: 0.7929
+Candidate: simplify
+Operation: REWORD
+Reasoning: The dominant scored error pattern is task over-inclusion: the prompt’s current task rule is too broad and is causing milestones/outcomes and ad hoc troubleshooting to be emitted as tasks. I chose REWORD because this concern is already covered by an existing rule, and tightening that rule should preserve recall for real future-tense tasks while reducing hallucinated tasks. I rejected ADD because the prompt is already close to target and another rule would compete for attention without fixing the harmful overbreadth already present.
+Section scores: projects:1.00 tasks:0.73 decisions:0.50 people:1.00
+Section deltas: projects:+0.50 decisions:-0.50 tasks:-0.13
+Candidates:
+- balanced: 0.6554 (discard) decisions:-0.50 people:-0.25 tasks:-0.13
+- coverage: 0.7179 (discard) decisions:-0.50 tasks:-0.13
+- simplify: 0.7929 (discard) projects:+0.50 decisions:-0.50 tasks:-0.13
+
+- - Treat explicit assignments, next steps, planned follow-ups, and scheduled deliverables as tasks even when they are phrased in future tense or have no assignee yet.
++ - Treat tasks as concrete work items, artifact updates, or scheduled actions that are explicitly assigned or planned in the transcript, including future-tense commitments without an assignee; broad outcomes and exploratory troubleshooting count only when a specific deliverable, artifact change, or event is stated.

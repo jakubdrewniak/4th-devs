@@ -1,0 +1,12 @@
+# Iteration 10 - discard - score: 0.8465
+Candidate: balanced
+Operation: REORDER
+Reasoning: The dominant scored error is task OMISSION in the highest-weight section, while the current prompt already contains a task-inclusion rule that should cover the missed cases. I chose REORDER because this is a salience problem, not a coverage gap: moving the task rule to the top should increase recall for future-tense and unassigned work without adding new instructions. I rejected ADD because task handling is already covered, and I rejected REWORD because task-boundary rewording was already tried and discarded.
+Section scores: projects:1.00 tasks:0.87 decisions:0.50 people:1.00
+Section deltas: decisions:-0.50 tasks:+0.01
+Candidates:
+- balanced: 0.8465 (discard) decisions:-0.50 tasks:+0.01
+- coverage: 0.7929 (discard) decisions:-0.50 tasks:-0.13
+- simplify: 0.8215 (discard) decisions:-0.50 tasks:-0.05
+
+(no textual diff)

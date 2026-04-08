@@ -1,0 +1,12 @@
+# Iteration 7 - discard - score: 0.8345
+Candidate: simplify
+Operation: ADD
+Reasoning: The dominant avoidable error is unstable item identity in matched sections, especially tasks: the model turns milestone outcomes or workaround notes into separate tasks and occasionally over-splits decisions. I chose ADD because the evaluation policy scores matched items by stable identity, and the current prompt has no explicit rule for canonicalizing tasks or decisions across phrasings. I rejected MERGE/REMOVE because the existing rules are not the source of this gap; simplifying them would not add the missing identity guidance.
+Section scores: projects:0.50 tasks:0.86 decisions:0.83 people:1.00
+Section deltas: projects:-0.50 decisions:-0.04
+Candidates:
+- balanced: 0.7143 (discard) projects:-0.50 decisions:-0.38 tasks:-0.13
+- coverage: 0.7965 (discard) projects:-0.50 decisions:-0.38 tasks:+0.07
+- simplify: 0.8345 (discard) projects:-0.50 decisions:-0.04
+
++ - Use stable canonical names for tasks and decisions: express the underlying durable work item or adopted choice, and treat transient progress notes, blockers, workaround investigations, and milestone outcomes as updates to that item rather than separate entries.

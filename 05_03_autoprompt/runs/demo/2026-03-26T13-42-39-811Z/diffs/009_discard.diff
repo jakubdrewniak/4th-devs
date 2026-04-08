@@ -1,0 +1,13 @@
+# Iteration 9 - discard - score: 0.8215
+Candidate: simplify
+Operation: MERGE
+Reasoning: After auditing the schema and eval policy, the main uncovered concerns are semantic section boundaries, but the dominant scored failure in the provided cases is still task OMISSION in the highest-weight section, and the prompt already has task coverage. I chose MERGE to combine the generic extraction rule with the task-inclusion rule so planned future work becomes part of the primary extraction instruction while shortening the prompt. I rejected ADD because it would duplicate existing task coverage and previous additions hurt performance, and I rejected another task REWORD because that approach was already tried and discarded.
+Section scores: projects:1.00 tasks:0.80 decisions:0.50 people:1.00
+Section deltas: decisions:-0.50 tasks:-0.05
+Candidates:
+- balanced: 0.7929 (discard) decisions:-0.50 tasks:-0.13
+- simplify: 0.8215 (discard) decisions:-0.50 tasks:-0.05
+
+- - Extract only what is explicitly stated in the transcript.
+- - Treat explicit assignments, next steps, planned follow-ups, and scheduled deliverables as tasks even when they are phrased in future tense or have no assignee yet.
++ - Extract only explicitly stated project-state items; for tasks, include explicit assignments, next steps, planned follow-ups, and scheduled deliverables even when they are phrased in future tense or have no assignee yet.

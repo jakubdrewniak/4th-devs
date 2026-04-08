@@ -1,0 +1,12 @@
+# Iteration 2 - keep - score: 0.7845
+Candidate: simplify
+Operation: ADD
+Reasoning: The largest avoidable loss is missing schema coverage outside the task rule: projects, decisions, and people have no field-level guidance, which is causing the missing owner, hallucinated decisions, non-human people, and exact date-format errors. I chose ADD because this concern is currently uncovered; MERGE or REMOVE would only shorten an already underspecified prompt, and another task-focused change would repeat the previously tried direction. The new rule gives categorical boundaries for owner, decisions, people, and dates without overfitting to the test cases.
+Section scores: projects:0.50 tasks:0.73 decisions:0.83 people:1.00
+Section deltas: decisions:+0.33
+Candidates:
+- balanced: 0.7429 (keep) tasks:+0.06
+- coverage: 0.6804 (discard) people:-0.25 tasks:+0.06
+- simplify: 0.7845 (keep) decisions:+0.33
+
++ - For projects, decisions, and people, set project owner only from explicit ownership language, record decisions only as explicit agreed or adopted concrete choices rather than names, staffing, or tentative plans, use calendar dates without weekdays and null when no date is stated, and include only human participants in people.

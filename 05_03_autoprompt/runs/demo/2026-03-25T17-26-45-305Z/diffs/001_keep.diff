@@ -1,0 +1,5 @@
+# Iteration 1 - keep - score: 0.8418
+Operation: ADD
+Reasoning: The dominant failure is hallucination and boundary confusion, especially in tasks and decisions: the model is turning general descriptions, role statements, and future plans into extracted items. The current prompt has no rule covering what counts as a task vs a decision vs background, so an ADD is justified by the schema and evaluation gaps. I chose one categorical boundary rule because it should reduce extra items while also improving missed owner/task interpretation; I rejected rewording the only existing rule since "explicitly stated" alone does not define extractable entity types.
+
++ - Treat items as extractable only when they are stated as concrete project state: tasks are assigned, planned, in-progress, blocked, or completed work items; decisions are explicit agreements or adopted choices; people are named individuals with roles; project owner is the person stated as owning the project or product side. Do not extract background descriptions, role statements, aspirations, or possible future ideas as tasks or decisions.

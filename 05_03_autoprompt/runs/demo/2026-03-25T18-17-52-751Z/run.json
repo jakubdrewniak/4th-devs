@@ -1,0 +1,27 @@
+{
+  "project": "demo",
+  "models": {
+    "execution": {
+      "model": "gpt-5.4-mini",
+      "reasoning": {
+        "effort": "none"
+      }
+    },
+    "judge": {
+      "model": "gpt-5.4",
+      "reasoning": {
+        "effort": "high"
+      }
+    },
+    "improver": {
+      "model": "gpt-5.4",
+      "reasoning": {
+        "effort": "high"
+      }
+    }
+  },
+  "evalRuns": 1,
+  "maxIterations": 10,
+  "baselineScore": 0.7143,
+  "bestScore": 0.9465
+}

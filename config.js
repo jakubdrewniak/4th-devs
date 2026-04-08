@@ -93,15 +93,6 @@ const requestedProvider = process.env.AI_PROVIDER?.trim().toLowerCase() ?? "";
 const hasOpenAIKey = Boolean(OPENAI_API_KEY);
 const hasOpenRouterKey = Boolean(OPENROUTER_API_KEY);
 
-if (!hasOpenAIKey && !hasOpenRouterKey) {
-  console.error("\x1b[31mError: API key is not set\x1b[0m");
-  console.error(`       Create: ${ROOT_ENV_FILE}`);
-  console.error("       Add one of:");
-  console.error("       OPENAI_API_KEY=sk-...");
-  console.error("       OPENROUTER_API_KEY=sk-or-v1-...");
-  process.exit(1);
-}
-
 if (requestedProvider && !VALID_PROVIDERS.has(requestedProvider)) {
   console.error("\x1b[31mError: AI_PROVIDER must be one of: openai, openrouter\x1b[0m");
   process.exit(1);
@@ -122,7 +113,9 @@ const resolveProvider = () => {
     return requestedProvider;
   }
 
-  return hasOpenAIKey ? "openai" : "openrouter";
+  if (hasOpenAIKey) return "openai";
+  if (hasOpenRouterKey) return "openrouter";
+  return "openai";
 };
 
 export const AI_PROVIDER = resolveProvider();

@@ -1,0 +1,12 @@
+# Iteration 3 - discard - score: 0.8390
+Candidate: balanced
+Operation: ADD
+Reasoning: The dominant errors are boundary and exact-field issues around dates/deadlines, with repeated mismatches like "Monday, March 16" vs "March 16" and "Friday March 27" vs "March 27" in scored exact fields. Existing rules cover explicit extraction and decision boundaries, but they do not cover normalization for exact string date fields, so a single ADD is justified and higher impact than rewording the decision rule. I rejected task/decision boundary changes because similar additions were already tried and the remaining errors are more consistently driven by date formatting mismatches across tasks and decisions.
+Section scores: projects:0.67 tasks:0.78 decisions:0.89 people:1.00
+Section deltas: projects:-0.33 tasks:-0.08 decisions:+0.05
+Candidates:
+- balanced: 0.8390 (discard) projects:-0.33 tasks:-0.08 decisions:+0.05
+- coverage: 0.7898 (discard) projects:-0.33 decisions:-0.27 tasks:-0.05
+- simplify: 0.7634 (discard) projects:-0.33 decisions:-0.27 tasks:-0.11
+
++ - For any date or deadline field, copy only the core calendar date and omit weekday words or extra modifiers; for example, use "March 16" rather than "Monday, March 16" and "March 27" rather than "Friday March 27".

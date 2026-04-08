@@ -1,0 +1,12 @@
+# Iteration 8 - discard - score: 0.8846
+Candidate: simplify
+Operation: ADD
+Reasoning: Audit first: the prompt already covers exact-field handling and broad task inclusion, but it lacks a rule for the scored semantic boundary between tasks and decisions. The dominant scored failure is task omission of planned future work, paired with the same content drifting into decisions, so I chose ADD to supply missing coverage rather than rewording an existing task rule. I rejected another task-selection reword because that approach was already tried and regressed recall, while this adds a new categorical boundary the prompt does not currently state.
+Section scores: projects:1.00 tasks:0.79 decisions:0.83 people:1.00
+Section deltas: decisions:-0.17 tasks:-0.06
+Candidates:
+- balanced: 0.7678 (discard) projects:-0.50 decisions:-0.50
+- coverage: 0.7590 (discard) decisions:-0.50 people:-0.25 tasks:-0.05
+- simplify: 0.8846 (discard) decisions:-0.17 tasks:-0.06
+
++ - Use a task/decision boundary: decisions are explicit agreements to adopt, change, or confirm an approach, while planned work items or scheduled outputs belong in tasks.

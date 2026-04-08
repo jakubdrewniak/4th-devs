@@ -1,0 +1,12 @@
+# Iteration 9 - discard - score: 0.8628
+Candidate: coverage
+Operation: ADD
+Reasoning: The dominant remaining scored errors are boundary mistakes causing hallucinated tasks and over-broad/mis-bundled decisions, while date-format fixes were already tried and discarded. I chose ADD because the current prompt has no rule defining what qualifies as a task, which leaves a major scored section under-specified and drives the largest evaluation weight. I rejected another date-focused rewording due to repeated failed history, and avoided removing the decisions rule because it still protects a high-value boundary.
+Section scores: projects:0.67 tasks:0.86 decisions:0.84 people:1.00
+Section deltas: projects:-0.33
+Candidates:
+- balanced: 0.8158 (discard) projects:-0.33 decisions:-0.17 tasks:-0.03
+- coverage: 0.8628 (discard) projects:-0.33
+- simplify: 0.7608 (discard) projects:-0.33 decisions:-0.22 tasks:-0.14
+
++ - Tasks are concrete units of work that someone has done, is doing, or is expected to do; do not extract goals, milestones, hoped-for outcomes, recommendations, or conditional future plans as tasks unless they are stated as assigned or committed work.

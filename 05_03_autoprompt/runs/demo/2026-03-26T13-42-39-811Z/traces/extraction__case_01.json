@@ -1,0 +1,777 @@
+[
+  {
+    "timestamp": "2026-03-26T13:03:30.476Z",
+    "stage": "extraction/case_01",
+    "request": {
+      "model": "gpt-5.4-mini",
+      "instructions": "You are an incremental project state tracker.\n\n<objective>\nExtract project state from the meeting transcript as JSON matching the provided schema.\n</objective>\n\n<rules>\n- Extract only what is explicitly stated in the transcript.\n</rules>\n",
+      "input": "# Kickoff — Monday, March 16\n\nAlright so me and Alice sat down today to plan out this self-improving agent project. The idea is simple — an AI agent that processes tasks using markdown skill files, and then gets better at those tasks based on user feedback.\n\nWe're calling it SkillAgent for now. Bob is handling all the engineering, Alice is owning the product side — skill design, prompt writing, eval criteria.\n\nArchitecture-wise we agreed on: an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output. Skills are markdown files with a schema section and rules. We'll use gpt-4.1 through the OpenAI Responses API.\n\nFor the workspace, Bob will set up MCP file server integration so the agent can read and write files. Alice said she'll write the skill format specification first so Bob knows what to parse.\n\nTasks we identified:\n- Bob: build the core agent loop with tool calling\n- Bob: set up MCP file server connection\n- Alice: write the skill format spec (what a skill.md looks like)\n- Alice: create the first test skill for data extraction\n- Bob: wire up the LLM tool so the agent can make inner LLM calls\n\nWe also need to figure out the feedback loop — how does the agent learn from corrections? But that's phase two. For now let's get the basic agent working first.\n\nTarget is to have a running MVP by end of next week. Alice wants to demo it to the team on Friday March 27.\n",
+      "schema": "project_state"
+    },
+    "response": {
+      "text": "{\"projects\":[{\"name\":\"SkillAgent\",\"status\":\"active\",\"owner\":null,\"priority\":\"P1\"}],\"tasks\":[{\"task\":\"build the core agent loop with tool calling\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":\"2026-03-27\"},{\"task\":\"set up MCP file server connection\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":\"2026-03-27\"},{\"task\":\"write the skill format spec (what a skill.md looks like)\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":\"2026-03-27\"},{\"task\":\"create the first test skill for data extraction\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":\"2026-03-27\"},{\"task\":\"wire up the LLM tool so the agent can make inner LLM calls\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":\"2026-03-27\"}],\"decisions\":[{\"decision\":\"Create SkillAgent as a self-improving agent project that processes tasks using markdown skill files and improves from user feedback.\",\"date\":\"2026-03-16\"},{\"decision\":\"Use an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output.\",\"date\":\"2026-03-16\"},{\"decision\":\"Use markdown skill files with a schema section and rules.\",\"date\":\"2026-03-16\"},{\"decision\":\"Use gpt-4.1 through the OpenAI Responses API.\",\"date\":\"2026-03-16\"},{\"decision\":\"Use MCP file server integration so the agent can read and write files.\",\"date\":\"2026-03-16\"},{\"decision\":\"Defer the feedback loop to phase two and focus first on a basic working agent MVP.\",\"date\":\"2026-03-16\"}],\"people\":[{\"name\":\"Alice\",\"role\":\"Product owner; skill design, prompt writing, eval criteria\"},{\"name\":\"Bob\",\"role\":\"Engineering owner\"}]}",
+      "usage": {
+        "input_tokens": 586,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 423,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1009
+      }
+    },
+    "durationMs": 2857
+  },
+  {
+    "timestamp": "2026-03-26T13:06:24.118Z",
+    "stage": "extraction/case_01",
+    "request": {
+      "model": "gpt-5.4-mini",
+      "instructions": "You are an incremental project state tracker.\n\n<objective>\nExtract project state from the meeting transcript as JSON matching the provided schema.\n</objective>\n\n<rules>\n- Extract only what is explicitly stated in the transcript.\n- Treat contextual and exact fields conservatively: use the meeting date for decisions unless another date is stated, but fill owner, priority, assignee, and deadline only when the transcript explicitly ties them to that item, keep dates in transcript-style natural language, and otherwise use null.\n</rules>",
+      "input": "# Kickoff — Monday, March 16\n\nAlright so me and Alice sat down today to plan out this self-improving agent project. The idea is simple — an AI agent that processes tasks using markdown skill files, and then gets better at those tasks based on user feedback.\n\nWe're calling it SkillAgent for now. Bob is handling all the engineering, Alice is owning the product side — skill design, prompt writing, eval criteria.\n\nArchitecture-wise we agreed on: an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output. Skills are markdown files with a schema section and rules. We'll use gpt-4.1 through the OpenAI Responses API.\n\nFor the workspace, Bob will set up MCP file server integration so the agent can read and write files. Alice said she'll write the skill format specification first so Bob knows what to parse.\n\nTasks we identified:\n- Bob: build the core agent loop with tool calling\n- Bob: set up MCP file server connection\n- Alice: write the skill format spec (what a skill.md looks like)\n- Alice: create the first test skill for data extraction\n- Bob: wire up the LLM tool so the agent can make inner LLM calls\n\nWe also need to figure out the feedback loop — how does the agent learn from corrections? But that's phase two. For now let's get the basic agent working first.\n\nTarget is to have a running MVP by end of next week. Alice wants to demo it to the team on Friday March 27.\n",
+      "schema": "project_state"
+    },
+    "response": {
+      "text": "{\"projects\":[{\"name\":\"SkillAgent\",\"status\":\"active\",\"owner\":null,\"priority\":null}],\"tasks\":[{\"task\":\"build the core agent loop with tool calling\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"set up MCP file server connection\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"write the skill format spec (what a skill.md looks like)\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"create the first test skill for data extraction\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"wire up the LLM tool so the agent can make inner LLM calls\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null}],\"decisions\":[{\"decision\":\"The project will be called SkillAgent for now.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The agent will use markdown skill files with a schema section and rules.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The system will use gpt-4.1 through the OpenAI Responses API.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The workspace will use MCP file server integration so the agent can read and write files.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Phase two will cover the feedback loop for how the agent learns from corrections.\",\"date\":\"Monday, March 16\"}],\"people\":[{\"name\":\"Alice\",\"role\":\"product owner; skill design, prompt writing, eval criteria\"},{\"name\":\"Bob\",\"role\":\"engineering\"},{\"name\":\"gpt-4.1\",\"role\":\"LLM\"}]}",
+      "usage": {
+        "input_tokens": 642,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 361,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1003
+      }
+    },
+    "durationMs": 2511
+  },
+  {
+    "timestamp": "2026-03-26T13:06:24.308Z",
+    "stage": "extraction/case_01",
+    "request": {
+      "model": "gpt-5.4-mini",
+      "instructions": "You are an incremental project state tracker.\n\n<objective>\nExtract project state from the meeting transcript as JSON matching the provided schema.\n</objective>\n\n<rules>\n- Extract only information explicitly stated for that specific item in the transcript; for exact-match fields, copy the source wording as written and use null when the value is not explicitly given for that item.\n</rules>",
+      "input": "# Kickoff — Monday, March 16\n\nAlright so me and Alice sat down today to plan out this self-improving agent project. The idea is simple — an AI agent that processes tasks using markdown skill files, and then gets better at those tasks based on user feedback.\n\nWe're calling it SkillAgent for now. Bob is handling all the engineering, Alice is owning the product side — skill design, prompt writing, eval criteria.\n\nArchitecture-wise we agreed on: an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output. Skills are markdown files with a schema section and rules. We'll use gpt-4.1 through the OpenAI Responses API.\n\nFor the workspace, Bob will set up MCP file server integration so the agent can read and write files. Alice said she'll write the skill format specification first so Bob knows what to parse.\n\nTasks we identified:\n- Bob: build the core agent loop with tool calling\n- Bob: set up MCP file server connection\n- Alice: write the skill format spec (what a skill.md looks like)\n- Alice: create the first test skill for data extraction\n- Bob: wire up the LLM tool so the agent can make inner LLM calls\n\nWe also need to figure out the feedback loop — how does the agent learn from corrections? But that's phase two. For now let's get the basic agent working first.\n\nTarget is to have a running MVP by end of next week. Alice wants to demo it to the team on Friday March 27.\n",
+      "schema": "project_state"
+    },
+    "response": {
+      "text": "{\"projects\":[{\"name\":\"SkillAgent\",\"status\":\"active\",\"owner\":null,\"priority\":null}],\"tasks\":[{\"task\":\"build the core agent loop with tool calling\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":\"end of next week\"},{\"task\":\"set up MCP file server connection\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"write the skill format spec (what a skill.md looks like)\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"create the first test skill for data extraction\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"wire up the LLM tool so the agent can make inner LLM calls\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null}],\"decisions\":[{\"decision\":\"The project will be called SkillAgent for now.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Use an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Skills are markdown files with a schema section and rules.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Use gpt-4.1 through the OpenAI Responses API.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Bob will set up MCP file server integration so the agent can read and write files.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Alice will write the skill format specification first so Bob knows what to parse.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The feedback loop will be phase two; first priority is getting the basic agent working.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Target is to have a running MVP by end of next week.\",\"date\":\"Monday, March 16\"}],\"people\":[{\"name\":\"Bob\",\"role\":\"engineering\"},{\"name\":\"Alice\",\"role\":\"product\"}]}",
+      "usage": {
+        "input_tokens": 614,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 419,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1033
+      }
+    },
+    "durationMs": 2701
+  },
+  {
+    "timestamp": "2026-03-26T13:06:24.365Z",
+    "stage": "extraction/case_01",
+    "request": {
+      "model": "gpt-5.4-mini",
+      "instructions": "You are an incremental project state tracker.\n\n<objective>\nExtract project state from the meeting transcript as JSON matching the provided schema.\n</objective>\n\n<rules>\n- Extract only what is explicitly stated in the transcript.\n- Extract all explicit projects, tasks, decisions, and people, including future or planned work stated as an assignment, next step, or deliverable, and fill optional fields only when the value is stated for that specific item; otherwise use null and preserve date wording exactly as written.\n</rules>",
+      "input": "# Kickoff — Monday, March 16\n\nAlright so me and Alice sat down today to plan out this self-improving agent project. The idea is simple — an AI agent that processes tasks using markdown skill files, and then gets better at those tasks based on user feedback.\n\nWe're calling it SkillAgent for now. Bob is handling all the engineering, Alice is owning the product side — skill design, prompt writing, eval criteria.\n\nArchitecture-wise we agreed on: an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output. Skills are markdown files with a schema section and rules. We'll use gpt-4.1 through the OpenAI Responses API.\n\nFor the workspace, Bob will set up MCP file server integration so the agent can read and write files. Alice said she'll write the skill format specification first so Bob knows what to parse.\n\nTasks we identified:\n- Bob: build the core agent loop with tool calling\n- Bob: set up MCP file server connection\n- Alice: write the skill format spec (what a skill.md looks like)\n- Alice: create the first test skill for data extraction\n- Bob: wire up the LLM tool so the agent can make inner LLM calls\n\nWe also need to figure out the feedback loop — how does the agent learn from corrections? But that's phase two. For now let's get the basic agent working first.\n\nTarget is to have a running MVP by end of next week. Alice wants to demo it to the team on Friday March 27.\n",
+      "schema": "project_state"
+    },
+    "response": {
+      "text": "{\"projects\":[{\"name\":\"SkillAgent\",\"status\":\"active\",\"owner\":null,\"priority\":null}],\"tasks\":[{\"task\":\"build the core agent loop with tool calling\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":\"end of next week\"},{\"task\":\"set up MCP file server connection\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"write the skill format spec (what a skill.md looks like)\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"create the first test skill for data extraction\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"wire up the LLM tool so the agent can make inner LLM calls\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null}],\"decisions\":[{\"decision\":\"Name the project SkillAgent for now.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Use an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Skills will be markdown files with a schema section and rules.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Use gpt-4.1 through the OpenAI Responses API.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Use MCP file server integration so the agent can read and write files.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Figure out the feedback loop in phase two; focus on getting the basic agent working first.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Target a running MVP by end of next week.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Alice wants to demo it to the team on Friday March 27.\",\"date\":\"Monday, March 16\"}],\"people\":[{\"name\":\"Alice\",\"role\":\"product owner; skill design, prompt writing, eval criteria\"},{\"name\":\"Bob\",\"role\":\"engineering\"}]}",
+      "usage": {
+        "input_tokens": 642,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 422,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1064
+      }
+    },
+    "durationMs": 2759
+  },
+  {
+    "timestamp": "2026-03-26T13:09:02.066Z",
+    "stage": "extraction/case_01",
+    "request": {
+      "model": "gpt-5.4-mini",
+      "instructions": "You are an incremental project state tracker.\n\n<objective>\nExtract project state from the meeting transcript as JSON matching the provided schema.\n</objective>\n\n<rules>\n- Extract only what is explicitly stated in the transcript.\n- Treat any explicit work item, next step, follow-up, assigned action, or scheduled deliverable as a task, even if it is phrased as future or planned work rather than as a formal action item.\n- Treat contextual and exact fields conservatively: use the meeting date for decisions unless another date is stated, but fill owner, priority, assignee, and deadline only when the transcript explicitly ties them to that item, keep dates in transcript-style natural language, and otherwise use null.\n</rules>",
+      "input": "# Kickoff — Monday, March 16\n\nAlright so me and Alice sat down today to plan out this self-improving agent project. The idea is simple — an AI agent that processes tasks using markdown skill files, and then gets better at those tasks based on user feedback.\n\nWe're calling it SkillAgent for now. Bob is handling all the engineering, Alice is owning the product side — skill design, prompt writing, eval criteria.\n\nArchitecture-wise we agreed on: an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output. Skills are markdown files with a schema section and rules. We'll use gpt-4.1 through the OpenAI Responses API.\n\nFor the workspace, Bob will set up MCP file server integration so the agent can read and write files. Alice said she'll write the skill format specification first so Bob knows what to parse.\n\nTasks we identified:\n- Bob: build the core agent loop with tool calling\n- Bob: set up MCP file server connection\n- Alice: write the skill format spec (what a skill.md looks like)\n- Alice: create the first test skill for data extraction\n- Bob: wire up the LLM tool so the agent can make inner LLM calls\n\nWe also need to figure out the feedback loop — how does the agent learn from corrections? But that's phase two. For now let's get the basic agent working first.\n\nTarget is to have a running MVP by end of next week. Alice wants to demo it to the team on Friday March 27.\n",
+      "schema": "project_state"
+    },
+    "response": {
+      "text": "{\"projects\":[{\"name\":\"SkillAgent\",\"status\":\"active\",\"owner\":null,\"priority\":null}],\"tasks\":[{\"task\":\"build the core agent loop with tool calling\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"set up MCP file server connection\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"write the skill format spec (what a skill.md looks like)\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"create the first test skill for data extraction\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"wire up the LLM tool so the agent can make inner LLM calls\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null}],\"decisions\":[{\"decision\":\"The project will be called SkillAgent for now.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The agent will use markdown skill files with a schema section and rules.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The agent loop will read a skill file, call the LLM with the skill as instructions, and write structured output.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The system will use gpt-4.1 through the OpenAI Responses API.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Bob is handling the engineering and Alice is owning the product side, including skill design, prompt writing, and eval criteria.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The feedback loop for learning from corrections is phase two; the initial focus is getting the basic agent working first.\",\"date\":\"Monday, March 16\"}],\"people\":[{\"name\":\"Alice\",\"role\":\"Product owner; skill design, prompt writing, eval criteria\"},{\"name\":\"Bob\",\"role\":\"Engineering owner\"}]}",
+      "usage": {
+        "input_tokens": 685,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 396,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1081
+      }
+    },
+    "durationMs": 2389
+  },
+  {
+    "timestamp": "2026-03-26T13:09:02.445Z",
+    "stage": "extraction/case_01",
+    "request": {
+      "model": "gpt-5.4-mini",
+      "instructions": "You are an incremental project state tracker.\n\n<objective>\nExtract project state from the meeting transcript as JSON matching the provided schema.\n</objective>\n\n<rules>\n- Extract only what is explicitly stated in the transcript.\n- Treat contextual and exact fields conservatively: use the meeting date for decisions unless another date is stated, but fill owner, priority, assignee, and deadline only when the transcript explicitly ties them to that item, keep dates in transcript-style natural language, and otherwise use null.\n- Extract a task only when the transcript states a concrete work item or deliverable; include future commitments to specific work as todo, but do not create tasks from vague exploratory intentions unless the work item is clearly defined.\n</rules>",
+      "input": "# Kickoff — Monday, March 16\n\nAlright so me and Alice sat down today to plan out this self-improving agent project. The idea is simple — an AI agent that processes tasks using markdown skill files, and then gets better at those tasks based on user feedback.\n\nWe're calling it SkillAgent for now. Bob is handling all the engineering, Alice is owning the product side — skill design, prompt writing, eval criteria.\n\nArchitecture-wise we agreed on: an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output. Skills are markdown files with a schema section and rules. We'll use gpt-4.1 through the OpenAI Responses API.\n\nFor the workspace, Bob will set up MCP file server integration so the agent can read and write files. Alice said she'll write the skill format specification first so Bob knows what to parse.\n\nTasks we identified:\n- Bob: build the core agent loop with tool calling\n- Bob: set up MCP file server connection\n- Alice: write the skill format spec (what a skill.md looks like)\n- Alice: create the first test skill for data extraction\n- Bob: wire up the LLM tool so the agent can make inner LLM calls\n\nWe also need to figure out the feedback loop — how does the agent learn from corrections? But that's phase two. For now let's get the basic agent working first.\n\nTarget is to have a running MVP by end of next week. Alice wants to demo it to the team on Friday March 27.\n",
+      "schema": "project_state"
+    },
+    "response": {
+      "text": "{\"projects\":[{\"name\":\"SkillAgent\",\"status\":\"active\",\"owner\":null,\"priority\":null}],\"tasks\":[{\"task\":\"build the core agent loop with tool calling\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":\"end of next week\"},{\"task\":\"set up MCP file server connection\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"write the skill format spec (what a skill.md looks like)\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"create the first test skill for data extraction\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"wire up the LLM tool so the agent can make inner LLM calls\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null}],\"decisions\":[{\"decision\":\"The project will be called SkillAgent for now.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The agent will read markdown skill files with a schema section and rules, call gpt-4.1 through the OpenAI Responses API, and write structured output.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Bob is handling all the engineering, and Alice is owning the product side including skill design, prompt writing, and eval criteria.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The workspace will use MCP file server integration so the agent can read and write files.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Phase two will address the feedback loop for learning from corrections; the team will focus first on getting the basic agent working.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The target is to have a running MVP by end of next week, with a demo to the team on Friday March 27.\",\"date\":\"Monday, March 16\"}],\"people\":[{\"name\":\"Alice\",\"role\":\"product owner; skill design, prompt writing, eval criteria\"},{\"name\":\"Bob\",\"role\":\"engineering\"}]}",
+      "usage": {
+        "input_tokens": 685,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 422,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1107
+      }
+    },
+    "durationMs": 2766
+  },
+  {
+    "timestamp": "2026-03-26T13:09:02.748Z",
+    "stage": "extraction/case_01",
+    "request": {
+      "model": "gpt-5.4-mini",
+      "instructions": "You are an incremental project state tracker.\n\n<objective>\nExtract project state from the meeting transcript as JSON matching the provided schema.\n</objective>\n\n<rules>\n- Extract only what is explicitly stated in the transcript.\n- Treat contextual and exact fields conservatively: use the meeting date for decisions unless another date is stated, but fill owner, priority, assignee, and deadline only when the transcript explicitly ties them to that item, keep dates in transcript-style natural language, and otherwise use null.\n- Treat explicit assignments, next steps, planned follow-ups, and scheduled deliverables as tasks even when they are phrased in future tense or have no assignee yet.\n</rules>",
+      "input": "# Kickoff — Monday, March 16\n\nAlright so me and Alice sat down today to plan out this self-improving agent project. The idea is simple — an AI agent that processes tasks using markdown skill files, and then gets better at those tasks based on user feedback.\n\nWe're calling it SkillAgent for now. Bob is handling all the engineering, Alice is owning the product side — skill design, prompt writing, eval criteria.\n\nArchitecture-wise we agreed on: an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output. Skills are markdown files with a schema section and rules. We'll use gpt-4.1 through the OpenAI Responses API.\n\nFor the workspace, Bob will set up MCP file server integration so the agent can read and write files. Alice said she'll write the skill format specification first so Bob knows what to parse.\n\nTasks we identified:\n- Bob: build the core agent loop with tool calling\n- Bob: set up MCP file server connection\n- Alice: write the skill format spec (what a skill.md looks like)\n- Alice: create the first test skill for data extraction\n- Bob: wire up the LLM tool so the agent can make inner LLM calls\n\nWe also need to figure out the feedback loop — how does the agent learn from corrections? But that's phase two. For now let's get the basic agent working first.\n\nTarget is to have a running MVP by end of next week. Alice wants to demo it to the team on Friday March 27.\n",
+      "schema": "project_state"
+    },
+    "response": {
+      "text": "{\"projects\":[{\"name\":\"SkillAgent\",\"status\":\"active\",\"owner\":null,\"priority\":null}],\"tasks\":[{\"task\":\"build the core agent loop with tool calling\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"set up MCP file server connection\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"write the skill format spec (what a skill.md looks like)\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"create the first test skill for data extraction\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"wire up the LLM tool so the agent can make inner LLM calls\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"figure out the feedback loop for how the agent learns from corrections\",\"project\":\"SkillAgent\",\"assignee\":null,\"status\":\"todo\",\"deadline\":null},{\"task\":\"get the basic agent working\",\"project\":\"SkillAgent\",\"assignee\":null,\"status\":\"todo\",\"deadline\":\"end of next week\"},{\"task\":\"demo it to the team\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":\"Friday March 27\"}],\"decisions\":[{\"decision\":\"The project will be called SkillAgent for now.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Bob will handle the engineering.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Alice will own the product side, including skill design, prompt writing, and eval criteria.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The architecture will use an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Skills will be markdown files with a schema section and rules.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The project will use gpt-4.1 through the OpenAI Responses API.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Bob will set up MCP file server integration so the agent can read and write files.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Alice will write the skill format specification first so Bob knows what to parse.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The feedback loop for learning from corrections is phase two.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The basic agent should be built first before the feedback loop.\",\"date\":\"Monday, March 16\"}],\"people\":[{\"name\":\"Alice\",\"role\":\"Product owner; skill design, prompt writing, eval criteria\"},{\"name\":\"Bob\",\"role\":\"Engineering\"}]}",
+      "usage": {
+        "input_tokens": 676,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 561,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1237
+      }
+    },
+    "durationMs": 3070
+  },
+  {
+    "timestamp": "2026-03-26T13:13:09.764Z",
+    "stage": "extraction/case_01",
+    "request": {
+      "model": "gpt-5.4-mini",
+      "instructions": "You are an incremental project state tracker.\n\n<objective>\nExtract project state from the meeting transcript as JSON matching the provided schema.\n</objective>\n\n<rules>\n- Extract only what is explicitly stated in the transcript.\n- Treat decisions and exact/contextual fields conservatively: record a decision only when the transcript explicitly adopts a concrete tool, format, interface, policy, or other stable project choice—not when it names the project, summarizes implementation work, assigns work, or describes someone's role; use the meeting's calendar date without weekday words unless another date is stated; fill owner, priority, assignee, and deadline only when explicitly tied to that item, and otherwise use null.\n- Treat explicit assignments, next steps, planned follow-ups, and scheduled deliverables as tasks even when they are phrased in future tense or have no assignee yet.\n</rules>",
+      "input": "# Kickoff — Monday, March 16\n\nAlright so me and Alice sat down today to plan out this self-improving agent project. The idea is simple — an AI agent that processes tasks using markdown skill files, and then gets better at those tasks based on user feedback.\n\nWe're calling it SkillAgent for now. Bob is handling all the engineering, Alice is owning the product side — skill design, prompt writing, eval criteria.\n\nArchitecture-wise we agreed on: an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output. Skills are markdown files with a schema section and rules. We'll use gpt-4.1 through the OpenAI Responses API.\n\nFor the workspace, Bob will set up MCP file server integration so the agent can read and write files. Alice said she'll write the skill format specification first so Bob knows what to parse.\n\nTasks we identified:\n- Bob: build the core agent loop with tool calling\n- Bob: set up MCP file server connection\n- Alice: write the skill format spec (what a skill.md looks like)\n- Alice: create the first test skill for data extraction\n- Bob: wire up the LLM tool so the agent can make inner LLM calls\n\nWe also need to figure out the feedback loop — how does the agent learn from corrections? But that's phase two. For now let's get the basic agent working first.\n\nTarget is to have a running MVP by end of next week. Alice wants to demo it to the team on Friday March 27.\n",
+      "schema": "project_state"
+    },
+    "response": {
+      "text": "{\"projects\":[{\"name\":\"SkillAgent\",\"status\":\"active\",\"owner\":null,\"priority\":null}],\"tasks\":[{\"task\":\"build the core agent loop with tool calling\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"set up MCP file server connection\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"write the skill format spec (what a skill.md looks like)\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"create the first test skill for data extraction\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"wire up the LLM tool so the agent can make inner LLM calls\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"have a running MVP\",\"project\":\"SkillAgent\",\"assignee\":null,\"status\":\"todo\",\"deadline\":\"2026-03-27\"}],\"decisions\":[{\"decision\":\"Use markdown skill files with a schema section and rules\",\"date\":\"2026-03-16\"},{\"decision\":\"Use gpt-4.1 through the OpenAI Responses API\",\"date\":\"2026-03-16\"},{\"decision\":\"Use MCP file server integration so the agent can read and write files\",\"date\":\"2026-03-16\"},{\"decision\":\"Build the agent around an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output\",\"date\":\"2026-03-16\"}],\"people\":[{\"name\":\"Alice\",\"role\":\"product owner; skill design, prompt writing, eval criteria\"},{\"name\":\"Bob\",\"role\":\"engineering\"}]}",
+      "usage": {
+        "input_tokens": 712,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 365,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1077
+      }
+    },
+    "durationMs": 2371
+  },
+  {
+    "timestamp": "2026-03-26T13:13:10.626Z",
+    "stage": "extraction/case_01",
+    "request": {
+      "model": "gpt-5.4-mini",
+      "instructions": "You are an incremental project state tracker.\n\n<objective>\nExtract project state from the meeting transcript as JSON matching the provided schema.\n</objective>\n\n<rules>\n- Extract only what is explicitly stated in the transcript.\n- Treat contextual and exact fields conservatively: use the meeting date for decisions unless another date is stated; when a date is given with a weekday, omit the weekday and copy the remaining date phrase exactly; fill owner only when someone is explicitly described as owning that project, and fill priority, assignee, and deadline only when explicitly tied to that item; otherwise use null.\n- Treat explicit assignments, next steps, planned follow-ups, and scheduled deliverables as tasks even when they are phrased in future tense or have no assignee yet.\n</rules>",
+      "input": "# Kickoff — Monday, March 16\n\nAlright so me and Alice sat down today to plan out this self-improving agent project. The idea is simple — an AI agent that processes tasks using markdown skill files, and then gets better at those tasks based on user feedback.\n\nWe're calling it SkillAgent for now. Bob is handling all the engineering, Alice is owning the product side — skill design, prompt writing, eval criteria.\n\nArchitecture-wise we agreed on: an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output. Skills are markdown files with a schema section and rules. We'll use gpt-4.1 through the OpenAI Responses API.\n\nFor the workspace, Bob will set up MCP file server integration so the agent can read and write files. Alice said she'll write the skill format specification first so Bob knows what to parse.\n\nTasks we identified:\n- Bob: build the core agent loop with tool calling\n- Bob: set up MCP file server connection\n- Alice: write the skill format spec (what a skill.md looks like)\n- Alice: create the first test skill for data extraction\n- Bob: wire up the LLM tool so the agent can make inner LLM calls\n\nWe also need to figure out the feedback loop — how does the agent learn from corrections? But that's phase two. For now let's get the basic agent working first.\n\nTarget is to have a running MVP by end of next week. Alice wants to demo it to the team on Friday March 27.\n",
+      "schema": "project_state"
+    },
+    "response": {
+      "text": "{\"projects\":[{\"name\":\"SkillAgent\",\"status\":\"active\",\"owner\":null,\"priority\":null}],\"tasks\":[{\"task\":\"build the core agent loop with tool calling\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"set up MCP file server connection\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"write the skill format spec (what a skill.md looks like)\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"create the first test skill for data extraction\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"wire up the LLM tool so the agent can make inner LLM calls\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"figure out the feedback loop for learning from corrections\",\"project\":\"SkillAgent\",\"assignee\":null,\"status\":\"todo\",\"deadline\":null},{\"task\":\"have a running MVP\",\"project\":\"SkillAgent\",\"assignee\":null,\"status\":\"todo\",\"deadline\":\"end of next week\"},{\"task\":\"demo it to the team\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":\"Friday March 27\"}],\"decisions\":[{\"decision\":\"Create a project called SkillAgent for a self-improving agent that processes tasks using markdown skill files and improves from user feedback.\",\"date\":\"March 16\"},{\"decision\":\"Bob is handling the engineering work and Alice is owning the product side, including skill design, prompt writing, and eval criteria.\",\"date\":\"March 16\"},{\"decision\":\"Use an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output.\",\"date\":\"March 16\"},{\"decision\":\"Skills will be markdown files with a schema section and rules.\",\"date\":\"March 16\"},{\"decision\":\"Use gpt-4.1 through the OpenAI Responses API.\",\"date\":\"March 16\"},{\"decision\":\"Set up MCP file server integration so the agent can read and write files.\",\"date\":\"March 16\"},{\"decision\":\"Alice will write the skill format specification first so Bob knows what to parse.\",\"date\":\"March 16\"},{\"decision\":\"Phase two will address the feedback loop for learning from corrections; focus first on a basic working agent MVP.\",\"date\":\"March 16\"}],\"people\":[{\"name\":\"Alice\",\"role\":\"product owner\"},{\"name\":\"Bob\",\"role\":\"engineering\"}]}",
+      "usage": {
+        "input_tokens": 695,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 519,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1214
+      }
+    },
+    "durationMs": 3235
+  },
+  {
+    "timestamp": "2026-03-26T13:13:11.345Z",
+    "stage": "extraction/case_01",
+    "request": {
+      "model": "gpt-5.4-mini",
+      "instructions": "You are an incremental project state tracker.\n\n<objective>\nExtract project state from the meeting transcript as JSON matching the provided schema.\n</objective>\n\n<rules>\n- Extract decisions only when the transcript explicitly adopts, changes, or confirms a project choice; exclude names, roles, assignments, sequencing, and broad goals, and copy any date as the smallest exact phrase stated.\n- Extract only what is explicitly stated in the transcript.\n- Treat contextual and exact fields conservatively: use the meeting date for decisions unless another date is stated, but fill owner, priority, assignee, and deadline only when the transcript explicitly ties them to that item, keep dates in transcript-style natural language, and otherwise use null.\n- Treat explicit assignments, next steps, planned follow-ups, and scheduled deliverables as tasks even when they are phrased in future tense or have no assignee yet.\n</rules>",
+      "input": "# Kickoff — Monday, March 16\n\nAlright so me and Alice sat down today to plan out this self-improving agent project. The idea is simple — an AI agent that processes tasks using markdown skill files, and then gets better at those tasks based on user feedback.\n\nWe're calling it SkillAgent for now. Bob is handling all the engineering, Alice is owning the product side — skill design, prompt writing, eval criteria.\n\nArchitecture-wise we agreed on: an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output. Skills are markdown files with a schema section and rules. We'll use gpt-4.1 through the OpenAI Responses API.\n\nFor the workspace, Bob will set up MCP file server integration so the agent can read and write files. Alice said she'll write the skill format specification first so Bob knows what to parse.\n\nTasks we identified:\n- Bob: build the core agent loop with tool calling\n- Bob: set up MCP file server connection\n- Alice: write the skill format spec (what a skill.md looks like)\n- Alice: create the first test skill for data extraction\n- Bob: wire up the LLM tool so the agent can make inner LLM calls\n\nWe also need to figure out the feedback loop — how does the agent learn from corrections? But that's phase two. For now let's get the basic agent working first.\n\nTarget is to have a running MVP by end of next week. Alice wants to demo it to the team on Friday March 27.\n",
+      "schema": "project_state"
+    },
+    "response": {
+      "text": "{\"projects\":[{\"name\":\"SkillAgent\",\"status\":\"active\",\"owner\":null,\"priority\":null}],\"tasks\":[{\"task\":\"build the core agent loop with tool calling\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"set up MCP file server connection\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"write the skill format spec (what a skill.md looks like)\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"create the first test skill for data extraction\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"wire up the LLM tool so the agent can make inner LLM calls\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null}],\"decisions\":[{\"decision\":\"Use an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Skills will be markdown files with a schema section and rules.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Use gpt-4.1 through the OpenAI Responses API.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Set up MCP file server integration so the agent can read and write files.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Focus on the basic agent first; the feedback loop is phase two.\",\"date\":\"Monday, March 16\"}],\"people\":[{\"name\":\"Alice\",\"role\":\"product owner; skill design, prompt writing, eval criteria\"},{\"name\":\"Bob\",\"role\":\"engineering\"}]}",
+      "usage": {
+        "input_tokens": 718,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 354,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1072
+      }
+    },
+    "durationMs": 3953
+  },
+  {
+    "timestamp": "2026-03-26T13:16:42.676Z",
+    "stage": "extraction/case_01",
+    "request": {
+      "model": "gpt-5.4-mini",
+      "instructions": "You are an incremental project state tracker.\n\n<objective>\nExtract project state from the meeting transcript as JSON matching the provided schema.\n</objective>\n\n<rules>\n- Extract only what is explicitly stated in the transcript.\n- Treat contextual and exact fields conservatively: use the meeting date for decisions unless another date is stated; when a date is given with a weekday, omit the weekday and copy the remaining date phrase exactly; fill owner only when someone is explicitly described as owning that project, and fill priority, assignee, and deadline only when explicitly tied to that item; otherwise use null.\n- Treat tasks as concrete work items, artifact updates, or scheduled actions that are explicitly assigned or planned in the transcript, including future-tense commitments without an assignee; broad outcomes and exploratory troubleshooting count only when a specific deliverable, artifact change, or event is stated.\n</rules>",
+      "input": "# Kickoff — Monday, March 16\n\nAlright so me and Alice sat down today to plan out this self-improving agent project. The idea is simple — an AI agent that processes tasks using markdown skill files, and then gets better at those tasks based on user feedback.\n\nWe're calling it SkillAgent for now. Bob is handling all the engineering, Alice is owning the product side — skill design, prompt writing, eval criteria.\n\nArchitecture-wise we agreed on: an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output. Skills are markdown files with a schema section and rules. We'll use gpt-4.1 through the OpenAI Responses API.\n\nFor the workspace, Bob will set up MCP file server integration so the agent can read and write files. Alice said she'll write the skill format specification first so Bob knows what to parse.\n\nTasks we identified:\n- Bob: build the core agent loop with tool calling\n- Bob: set up MCP file server connection\n- Alice: write the skill format spec (what a skill.md looks like)\n- Alice: create the first test skill for data extraction\n- Bob: wire up the LLM tool so the agent can make inner LLM calls\n\nWe also need to figure out the feedback loop — how does the agent learn from corrections? But that's phase two. For now let's get the basic agent working first.\n\nTarget is to have a running MVP by end of next week. Alice wants to demo it to the team on Friday March 27.\n",
+      "schema": "project_state"
+    },
+    "response": {
+      "text": "{\"projects\":[{\"name\":\"SkillAgent\",\"status\":\"active\",\"owner\":\"Alice\",\"priority\":null}],\"tasks\":[{\"task\":\"build the core agent loop with tool calling\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"set up MCP file server connection\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"write the skill format spec (what a skill.md looks like)\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"create the first test skill for data extraction\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"wire up the LLM tool so the agent can make inner LLM calls\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null}],\"decisions\":[{\"decision\":\"The project will be called SkillAgent for now.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The agent will use markdown skill files with a schema section and rules, read a skill file, call the LLM with the skill as instructions, and write structured output.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The implementation will use gpt-4.1 through the OpenAI Responses API.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The workspace will use MCP file server integration so the agent can read and write files.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The feedback loop for learning from corrections is phase two; the team will focus on getting the basic agent working first.\",\"date\":\"Monday, March 16\"}],\"people\":[{\"name\":\"Bob\",\"role\":\"engineering\"},{\"name\":\"Alice\",\"role\":\"product side: skill design, prompt writing, eval criteria\"}]}",
+      "usage": {
+        "input_tokens": 716,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 375,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1091
+      }
+    },
+    "durationMs": 2244
+  },
+  {
+    "timestamp": "2026-03-26T13:16:42.682Z",
+    "stage": "extraction/case_01",
+    "request": {
+      "model": "gpt-5.4-mini",
+      "instructions": "You are an incremental project state tracker.\n\n<objective>\nExtract project state from the meeting transcript as JSON matching the provided schema.\n</objective>\n\n<rules>\n- Extract only what is explicitly stated in the transcript.\n- Treat contextual and exact fields conservatively: use the meeting date for decisions unless another date is stated; when a date is given with a weekday, omit the weekday and copy the remaining date phrase exactly; fill owner only when someone is explicitly described as owning that project, and fill priority, assignee, and deadline only when explicitly tied to that item; otherwise use null.\n- Treat as tasks only concrete actionable work items or scheduled meetings that are explicitly assigned or committed in the transcript, including future-tense follow-ups and spec updates; treat high-level goals, milestones, and troubleshooting steps within an existing task as status or context rather than separate tasks.\n</rules>",
+      "input": "# Kickoff — Monday, March 16\n\nAlright so me and Alice sat down today to plan out this self-improving agent project. The idea is simple — an AI agent that processes tasks using markdown skill files, and then gets better at those tasks based on user feedback.\n\nWe're calling it SkillAgent for now. Bob is handling all the engineering, Alice is owning the product side — skill design, prompt writing, eval criteria.\n\nArchitecture-wise we agreed on: an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output. Skills are markdown files with a schema section and rules. We'll use gpt-4.1 through the OpenAI Responses API.\n\nFor the workspace, Bob will set up MCP file server integration so the agent can read and write files. Alice said she'll write the skill format specification first so Bob knows what to parse.\n\nTasks we identified:\n- Bob: build the core agent loop with tool calling\n- Bob: set up MCP file server connection\n- Alice: write the skill format spec (what a skill.md looks like)\n- Alice: create the first test skill for data extraction\n- Bob: wire up the LLM tool so the agent can make inner LLM calls\n\nWe also need to figure out the feedback loop — how does the agent learn from corrections? But that's phase two. For now let's get the basic agent working first.\n\nTarget is to have a running MVP by end of next week. Alice wants to demo it to the team on Friday March 27.\n",
+      "schema": "project_state"
+    },
+    "response": {
+      "text": "{\"projects\":[{\"name\":\"SkillAgent\",\"status\":\"active\",\"owner\":null,\"priority\":null}],\"tasks\":[{\"task\":\"build the core agent loop with tool calling\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"set up MCP file server connection\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"write the skill format spec (what a skill.md looks like)\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"create the first test skill for data extraction\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"wire up the LLM tool so the agent can make inner LLM calls\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"demo it to the team\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":\"Friday March 27\"}],\"decisions\":[{\"decision\":\"Create a project called SkillAgent for the self-improving agent project\",\"date\":\"Monday, March 16\"},{\"decision\":\"Use an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output\",\"date\":\"Monday, March 16\"},{\"decision\":\"Use markdown skill files with a schema section and rules\",\"date\":\"Monday, March 16\"},{\"decision\":\"Use gpt-4.1 through the OpenAI Responses API\",\"date\":\"Monday, March 16\"},{\"decision\":\"Set up MCP file server integration so the agent can read and write files\",\"date\":\"Monday, March 16\"},{\"decision\":\"Defer the feedback loop / learning from corrections to phase two\",\"date\":\"Monday, March 16\"}],\"people\":[{\"name\":\"Bob\",\"role\":\"engineering\"},{\"name\":\"Alice\",\"role\":\"product\"}]}",
+      "usage": {
+        "input_tokens": 716,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 396,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1112
+      }
+    },
+    "durationMs": 2251
+  },
+  {
+    "timestamp": "2026-03-26T13:16:42.736Z",
+    "stage": "extraction/case_01",
+    "request": {
+      "model": "gpt-5.4-mini",
+      "instructions": "You are an incremental project state tracker.\n\n<objective>\nExtract project state from the meeting transcript as JSON matching the provided schema.\n</objective>\n\n<rules>\n- Extract only what is explicitly stated in the transcript.\n- Treat contextual and exact fields conservatively: use the meeting date for decisions unless another date is stated; when a date is given with a weekday, omit the weekday and copy the remaining date phrase exactly; fill owner only when someone is explicitly described as owning that project, and fill priority, assignee, and deadline only when explicitly tied to that item; otherwise use null.\n- Treat explicit assignments, next steps, planned follow-ups, and scheduled deliverables as tasks even when they are phrased in future tense or have no assignee yet.\n- Use one canonical task per work item: include concrete actionable work, but fold project-level goals and troubleshooting or status details into the existing task instead of creating separate tasks.\n</rules>",
+      "input": "# Kickoff — Monday, March 16\n\nAlright so me and Alice sat down today to plan out this self-improving agent project. The idea is simple — an AI agent that processes tasks using markdown skill files, and then gets better at those tasks based on user feedback.\n\nWe're calling it SkillAgent for now. Bob is handling all the engineering, Alice is owning the product side — skill design, prompt writing, eval criteria.\n\nArchitecture-wise we agreed on: an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output. Skills are markdown files with a schema section and rules. We'll use gpt-4.1 through the OpenAI Responses API.\n\nFor the workspace, Bob will set up MCP file server integration so the agent can read and write files. Alice said she'll write the skill format specification first so Bob knows what to parse.\n\nTasks we identified:\n- Bob: build the core agent loop with tool calling\n- Bob: set up MCP file server connection\n- Alice: write the skill format spec (what a skill.md looks like)\n- Alice: create the first test skill for data extraction\n- Bob: wire up the LLM tool so the agent can make inner LLM calls\n\nWe also need to figure out the feedback loop — how does the agent learn from corrections? But that's phase two. For now let's get the basic agent working first.\n\nTarget is to have a running MVP by end of next week. Alice wants to demo it to the team on Friday March 27.\n",
+      "schema": "project_state"
+    },
+    "response": {
+      "text": "{\"projects\":[{\"name\":\"SkillAgent\",\"status\":\"active\",\"owner\":null,\"priority\":null}],\"tasks\":[{\"task\":\"Build the core agent loop with tool calling\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"Set up MCP file server connection\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"Write the skill format spec (what a skill.md looks like)\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"Create the first test skill for data extraction\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"Wire up the LLM tool so the agent can make inner LLM calls\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null}],\"decisions\":[{\"decision\":\"The project will be called SkillAgent for now.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The agent will use markdown skill files with a schema section and rules, read a skill file, call the LLM with the skill as instructions, and write structured output.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The project will use gpt-4.1 through the OpenAI Responses API.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The workspace will include MCP file server integration so the agent can read and write files.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Phase two will address the feedback loop; the team will first get the basic agent working.\",\"date\":\"Monday, March 16\"}],\"people\":[{\"name\":\"Bob\",\"role\":\"Engineering\"},{\"name\":\"Alice\",\"role\":\"Product: skill design, prompt writing, eval criteria\"}]}",
+      "usage": {
+        "input_tokens": 729,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 369,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1098
+      }
+    },
+    "durationMs": 2304
+  },
+  {
+    "timestamp": "2026-03-26T13:20:14.456Z",
+    "stage": "extraction/case_01",
+    "request": {
+      "model": "gpt-5.4-mini",
+      "instructions": "You are an incremental project state tracker.\n\n<objective>\nExtract project state from the meeting transcript as JSON matching the provided schema.\n</objective>\n\n<rules>\n- Extract only what is explicitly stated in the transcript.\n- Treat contextual and exact fields conservatively: use the meeting date for decisions unless another date is stated; when a date is given with a weekday, omit the weekday and copy the remaining date phrase exactly; fill owner only when someone is explicitly described as owning that project, and fill priority, assignee, and deadline only when explicitly tied to that item; otherwise use null.\n- Treat explicit assignments, next steps, planned follow-ups, and scheduled deliverables as tasks even when they are phrased in future tense or have no assignee yet.\n- Set task status from explicit progress language: use done for finished/completed/working successfully, in_progress for starting/continuing/working on/moving on to the work, blocked for explicit blockers, paused for explicit holds, and todo for assigned or planned work without evidence it has started.\n</rules>",
+      "input": "# Kickoff — Monday, March 16\n\nAlright so me and Alice sat down today to plan out this self-improving agent project. The idea is simple — an AI agent that processes tasks using markdown skill files, and then gets better at those tasks based on user feedback.\n\nWe're calling it SkillAgent for now. Bob is handling all the engineering, Alice is owning the product side — skill design, prompt writing, eval criteria.\n\nArchitecture-wise we agreed on: an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output. Skills are markdown files with a schema section and rules. We'll use gpt-4.1 through the OpenAI Responses API.\n\nFor the workspace, Bob will set up MCP file server integration so the agent can read and write files. Alice said she'll write the skill format specification first so Bob knows what to parse.\n\nTasks we identified:\n- Bob: build the core agent loop with tool calling\n- Bob: set up MCP file server connection\n- Alice: write the skill format spec (what a skill.md looks like)\n- Alice: create the first test skill for data extraction\n- Bob: wire up the LLM tool so the agent can make inner LLM calls\n\nWe also need to figure out the feedback loop — how does the agent learn from corrections? But that's phase two. For now let's get the basic agent working first.\n\nTarget is to have a running MVP by end of next week. Alice wants to demo it to the team on Friday March 27.\n",
+      "schema": "project_state"
+    },
+    "response": {
+      "text": "{\"projects\":[{\"name\":\"SkillAgent\",\"status\":\"active\",\"owner\":null,\"priority\":null}],\"tasks\":[{\"task\":\"build the core agent loop with tool calling\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":\"end of next week\"},{\"task\":\"set up MCP file server connection\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"write the skill format spec (what a skill.md looks like)\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"create the first test skill for data extraction\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"wire up the LLM tool so the agent can make inner LLM calls\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null}],\"decisions\":[{\"decision\":\"Project name will be SkillAgent for now.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The agent will use markdown skill files with a schema section and rules.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The agent loop will read a skill file, call the LLM with the skill as instructions, and write structured output.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Skills will be markdown files with a schema section and rules.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The project will use gpt-4.1 through the OpenAI Responses API.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Bob will set up MCP file server integration so the agent can read and write files.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Alice will write the skill format specification first so Bob knows what to parse.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Phase two will address the feedback loop for learning from corrections.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The target is a running MVP by end of next week.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Alice wants to demo the project to the team on Friday March 27.\",\"date\":\"Monday, March 16\"}],\"people\":[{\"name\":\"Alice\",\"role\":\"product owner; skill design, prompt writing, eval criteria\"},{\"name\":\"Bob\",\"role\":\"engineering\"}]}",
+      "usage": {
+        "input_tokens": 754,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 474,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1228
+      }
+    },
+    "durationMs": 2817
+  },
+  {
+    "timestamp": "2026-03-26T13:20:14.549Z",
+    "stage": "extraction/case_01",
+    "request": {
+      "model": "gpt-5.4-mini",
+      "instructions": "You are an incremental project state tracker.\n\n<objective>\nExtract project state from the meeting transcript as JSON matching the provided schema.\n</objective>\n\n<rules>\n- Extract only what is explicitly stated in the transcript.\n- Treat exact and contextual fields as item-specific copies: decisions use the meeting date unless another date is stated; if a date phrase includes a weekday, remove the weekday and keep the remaining phrase verbatim; set project owner only from explicit ownership language, including someone explicitly owning a named side of that project; set priority, assignee, and deadline only when explicitly tied to that item; otherwise use null.\n- Treat explicit assignments, next steps, planned follow-ups, and scheduled deliverables as tasks even when they are phrased in future tense or have no assignee yet.\n</rules>",
+      "input": "# Kickoff — Monday, March 16\n\nAlright so me and Alice sat down today to plan out this self-improving agent project. The idea is simple — an AI agent that processes tasks using markdown skill files, and then gets better at those tasks based on user feedback.\n\nWe're calling it SkillAgent for now. Bob is handling all the engineering, Alice is owning the product side — skill design, prompt writing, eval criteria.\n\nArchitecture-wise we agreed on: an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output. Skills are markdown files with a schema section and rules. We'll use gpt-4.1 through the OpenAI Responses API.\n\nFor the workspace, Bob will set up MCP file server integration so the agent can read and write files. Alice said she'll write the skill format specification first so Bob knows what to parse.\n\nTasks we identified:\n- Bob: build the core agent loop with tool calling\n- Bob: set up MCP file server connection\n- Alice: write the skill format spec (what a skill.md looks like)\n- Alice: create the first test skill for data extraction\n- Bob: wire up the LLM tool so the agent can make inner LLM calls\n\nWe also need to figure out the feedback loop — how does the agent learn from corrections? But that's phase two. For now let's get the basic agent working first.\n\nTarget is to have a running MVP by end of next week. Alice wants to demo it to the team on Friday March 27.\n",
+      "schema": "project_state"
+    },
+    "response": {
+      "text": "{\"projects\":[{\"name\":\"SkillAgent\",\"status\":\"active\",\"owner\":null,\"priority\":null}],\"tasks\":[{\"task\":\"build the core agent loop with tool calling\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"set up MCP file server connection\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"write the skill format spec (what a skill.md looks like)\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"create the first test skill for data extraction\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"wire up the LLM tool so the agent can make inner LLM calls\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"have a running MVP by end of next week\",\"project\":\"SkillAgent\",\"assignee\":null,\"status\":\"todo\",\"deadline\":\"end of next week\"},{\"task\":\"demo it to the team\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":\"Friday March 27\"}],\"decisions\":[{\"decision\":\"The project will be called SkillAgent for now.\",\"date\":\"March 16\"},{\"decision\":\"Bob is handling all the engineering.\",\"date\":\"March 16\"},{\"decision\":\"Alice is owning the product side, including skill design, prompt writing, and eval criteria.\",\"date\":\"March 16\"},{\"decision\":\"The agent will use an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output.\",\"date\":\"March 16\"},{\"decision\":\"Skills will be markdown files with a schema section and rules.\",\"date\":\"March 16\"},{\"decision\":\"The project will use gpt-4.1 through the OpenAI Responses API.\",\"date\":\"March 16\"},{\"decision\":\"Bob will set up MCP file server integration so the agent can read and write files.\",\"date\":\"March 16\"},{\"decision\":\"Alice will write the skill format specification first so Bob knows what to parse.\",\"date\":\"March 16\"},{\"decision\":\"The feedback loop is phase two; the basic agent will be built first.\",\"date\":\"March 16\"}],\"people\":[{\"name\":\"Bob\",\"role\":\"engineering\"},{\"name\":\"Alice\",\"role\":\"product side\"}]}",
+      "usage": {
+        "input_tokens": 701,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 488,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1189
+      }
+    },
+    "durationMs": 2909
+  },
+  {
+    "timestamp": "2026-03-26T13:20:14.932Z",
+    "stage": "extraction/case_01",
+    "request": {
+      "model": "gpt-5.4-mini",
+      "instructions": "You are an incremental project state tracker.\n\n<objective>\nExtract project state from the meeting transcript as JSON matching the provided schema.\n</objective>\n\n<rules>\n- Extract only what is explicitly stated in the transcript.\n- Treat explicit assignments, next steps, planned follow-ups, and scheduled deliverables as tasks even when they are phrased in future tense or have no assignee yet.\n- Treat contextual and exact fields conservatively: use the meeting date for decisions unless another date is stated; when a date is given with a weekday, omit the weekday and copy the remaining date phrase exactly; fill owner only when someone is explicitly described as owning that project, and fill priority, assignee, and deadline only when explicitly tied to that item; otherwise use null.\n</rules>",
+      "input": "# Kickoff — Monday, March 16\n\nAlright so me and Alice sat down today to plan out this self-improving agent project. The idea is simple — an AI agent that processes tasks using markdown skill files, and then gets better at those tasks based on user feedback.\n\nWe're calling it SkillAgent for now. Bob is handling all the engineering, Alice is owning the product side — skill design, prompt writing, eval criteria.\n\nArchitecture-wise we agreed on: an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output. Skills are markdown files with a schema section and rules. We'll use gpt-4.1 through the OpenAI Responses API.\n\nFor the workspace, Bob will set up MCP file server integration so the agent can read and write files. Alice said she'll write the skill format specification first so Bob knows what to parse.\n\nTasks we identified:\n- Bob: build the core agent loop with tool calling\n- Bob: set up MCP file server connection\n- Alice: write the skill format spec (what a skill.md looks like)\n- Alice: create the first test skill for data extraction\n- Bob: wire up the LLM tool so the agent can make inner LLM calls\n\nWe also need to figure out the feedback loop — how does the agent learn from corrections? But that's phase two. For now let's get the basic agent working first.\n\nTarget is to have a running MVP by end of next week. Alice wants to demo it to the team on Friday March 27.\n",
+      "schema": "project_state"
+    },
+    "response": {
+      "text": "{\"projects\":[{\"name\":\"SkillAgent\",\"status\":\"active\",\"owner\":null,\"priority\":null}],\"tasks\":[{\"task\":\"build the core agent loop with tool calling\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"set up MCP file server connection\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"write the skill format spec (what a skill.md looks like)\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"create the first test skill for data extraction\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"wire up the LLM tool so the agent can make inner LLM calls\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"figure out the feedback loop — how does the agent learn from corrections?\",\"project\":\"SkillAgent\",\"assignee\":null,\"status\":\"todo\",\"deadline\":null},{\"task\":\"have a running MVP\",\"project\":\"SkillAgent\",\"assignee\":null,\"status\":\"todo\",\"deadline\":\"end of next week\"},{\"task\":\"demo it to the team\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":\"Friday March 27\"}],\"decisions\":[{\"decision\":\"Create a project called SkillAgent for a self-improving agent that processes tasks using markdown skill files and improves from user feedback.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Use an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Skills will be markdown files with a schema section and rules.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Use gpt-4.1 through the OpenAI Responses API.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Set up MCP file server integration so the agent can read and write files.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Alice will write the skill format specification first so Bob knows what to parse.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Phase two will address the feedback loop; the basic agent should be built first.\",\"date\":\"Monday, March 16\"}],\"people\":[{\"name\":\"Alice\",\"role\":\"owning product side — skill design, prompt writing, eval criteria\"},{\"name\":\"Bob\",\"role\":\"engineering\"}]}",
+      "usage": {
+        "input_tokens": 695,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 511,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1206
+      }
+    },
+    "durationMs": 3292
+  },
+  {
+    "timestamp": "2026-03-26T13:23:10.588Z",
+    "stage": "extraction/case_01",
+    "request": {
+      "model": "gpt-5.4-mini",
+      "instructions": "You are an incremental project state tracker.\n\n<objective>\nExtract project state from the meeting transcript as JSON matching the provided schema.\n</objective>\n\n<rules>\n- Extract items only when explicitly supported by the transcript, and source exact/contextual fields conservatively: use the meeting date for decisions unless another date is stated, omit weekdays from date phrases while otherwise copying the remaining date text exactly, set project owner when someone is explicitly said to own the project or its product side, and set priority, assignee, and deadline only when explicitly tied to that item; otherwise use null.\n- Treat explicit assignments, next steps, planned follow-ups, and scheduled deliverables as tasks even when they are phrased in future tense or have no assignee yet.\n</rules>",
+      "input": "# Kickoff — Monday, March 16\n\nAlright so me and Alice sat down today to plan out this self-improving agent project. The idea is simple — an AI agent that processes tasks using markdown skill files, and then gets better at those tasks based on user feedback.\n\nWe're calling it SkillAgent for now. Bob is handling all the engineering, Alice is owning the product side — skill design, prompt writing, eval criteria.\n\nArchitecture-wise we agreed on: an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output. Skills are markdown files with a schema section and rules. We'll use gpt-4.1 through the OpenAI Responses API.\n\nFor the workspace, Bob will set up MCP file server integration so the agent can read and write files. Alice said she'll write the skill format specification first so Bob knows what to parse.\n\nTasks we identified:\n- Bob: build the core agent loop with tool calling\n- Bob: set up MCP file server connection\n- Alice: write the skill format spec (what a skill.md looks like)\n- Alice: create the first test skill for data extraction\n- Bob: wire up the LLM tool so the agent can make inner LLM calls\n\nWe also need to figure out the feedback loop — how does the agent learn from corrections? But that's phase two. For now let's get the basic agent working first.\n\nTarget is to have a running MVP by end of next week. Alice wants to demo it to the team on Friday March 27.\n",
+      "schema": "project_state"
+    },
+    "response": {
+      "text": "{\"projects\":[{\"name\":\"SkillAgent\",\"status\":\"active\",\"owner\":\"Alice\",\"priority\":null}],\"tasks\":[{\"task\":\"build the core agent loop with tool calling\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"set up MCP file server connection\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"write the skill format spec (what a skill.md looks like)\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"create the first test skill for data extraction\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"wire up the LLM tool so the agent can make inner LLM calls\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"have a running MVP\",\"project\":\"SkillAgent\",\"assignee\":null,\"status\":\"todo\",\"deadline\":\"end of next week\"},{\"task\":\"demo it to the team\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":\"Friday March 27\"}],\"decisions\":[{\"decision\":\"Create a self-improving agent project called SkillAgent that processes tasks using markdown skill files and improves from user feedback.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Use an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Use markdown skill files with a schema section and rules.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Use gpt-4.1 through the OpenAI Responses API.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Use MCP file server integration so the agent can read and write files.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Defer the feedback-learning loop to phase two and focus first on getting the basic agent working.\",\"date\":\"Monday, March 16\"}],\"people\":[{\"name\":\"Alice\",\"role\":\"product owner\"},{\"name\":\"Bob\",\"role\":\"engineering\"}]}",
+      "usage": {
+        "input_tokens": 693,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 439,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1132
+      }
+    },
+    "durationMs": 2875
+  },
+  {
+    "timestamp": "2026-03-26T13:23:12.083Z",
+    "stage": "extraction/case_01",
+    "request": {
+      "model": "gpt-5.4-mini",
+      "instructions": "You are an incremental project state tracker.\n\n<objective>\nExtract project state from the meeting transcript as JSON matching the provided schema.\n</objective>\n\n<rules>\n- Extract only what is explicitly stated in the transcript.\n- Treat contextual and exact fields conservatively: use the meeting date for decisions unless another date is stated; if a date includes a weekday, remove the weekday and copy the remaining date phrase exactly; set project owner only when someone is explicitly described as owning the project or product side, not merely handling implementation; fill priority, assignee, and deadline only when explicitly tied to that item; otherwise use null.\n- Treat explicit assignments, next steps, planned follow-ups, and scheduled deliverables as tasks even when they are phrased in future tense or have no assignee yet.\n</rules>",
+      "input": "# Kickoff — Monday, March 16\n\nAlright so me and Alice sat down today to plan out this self-improving agent project. The idea is simple — an AI agent that processes tasks using markdown skill files, and then gets better at those tasks based on user feedback.\n\nWe're calling it SkillAgent for now. Bob is handling all the engineering, Alice is owning the product side — skill design, prompt writing, eval criteria.\n\nArchitecture-wise we agreed on: an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output. Skills are markdown files with a schema section and rules. We'll use gpt-4.1 through the OpenAI Responses API.\n\nFor the workspace, Bob will set up MCP file server integration so the agent can read and write files. Alice said she'll write the skill format specification first so Bob knows what to parse.\n\nTasks we identified:\n- Bob: build the core agent loop with tool calling\n- Bob: set up MCP file server connection\n- Alice: write the skill format spec (what a skill.md looks like)\n- Alice: create the first test skill for data extraction\n- Bob: wire up the LLM tool so the agent can make inner LLM calls\n\nWe also need to figure out the feedback loop — how does the agent learn from corrections? But that's phase two. For now let's get the basic agent working first.\n\nTarget is to have a running MVP by end of next week. Alice wants to demo it to the team on Friday March 27.\n",
+      "schema": "project_state"
+    },
+    "response": {
+      "text": "{\"projects\":[{\"name\":\"SkillAgent\",\"status\":\"active\",\"owner\":\"Alice\",\"priority\":null}],\"tasks\":[{\"task\":\"build the core agent loop with tool calling\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"set up MCP file server connection\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"write the skill format spec (what a skill.md looks like)\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"create the first test skill for data extraction\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"wire up the LLM tool so the agent can make inner LLM calls\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"figure out the feedback loop for how the agent learns from corrections\",\"project\":\"SkillAgent\",\"assignee\":null,\"status\":\"todo\",\"deadline\":null},{\"task\":\"have a running MVP\",\"project\":\"SkillAgent\",\"assignee\":null,\"status\":\"todo\",\"deadline\":\"end of next week\"},{\"task\":\"demo it to the team\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":\"Friday March 27\"}],\"decisions\":[{\"decision\":\"The project will be called SkillAgent for now.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Alice is owning the product side, including skill design, prompt writing, and eval criteria.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Bob is handling all the engineering.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The architecture will use an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Skills will be markdown files with a schema section and rules.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The project will use gpt-4.1 through the OpenAI Responses API.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The feedback loop is phase two; the basic agent should be built first.\",\"date\":\"Monday, March 16\"}],\"people\":[{\"name\":\"Alice\",\"role\":\"Product owner; skill design, prompt writing, eval criteria\"},{\"name\":\"Bob\",\"role\":\"Engineering\"}]}",
+      "usage": {
+        "input_tokens": 701,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 491,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1192
+      }
+    },
+    "durationMs": 4373
+  },
+  {
+    "timestamp": "2026-03-26T13:23:15.886Z",
+    "stage": "extraction/case_01",
+    "request": {
+      "model": "gpt-5.4-mini",
+      "instructions": "You are an incremental project state tracker.\n\n<objective>\nExtract project state from the meeting transcript as JSON matching the provided schema.\n</objective>\n\n<rules>\n- Extract only what is explicitly stated in the transcript.\n- Treat contextual and exact fields conservatively: use the meeting date for decisions unless another date is stated; if a date is given with a weekday, drop the weekday and copy the remaining date phrase exactly; set project owner when someone is explicitly described as owning the project or the product side of that project; set priority, assignee, and deadline only when they are explicitly tied to that item; otherwise use null.\n- Treat explicit assignments, next steps, planned follow-ups, and scheduled deliverables as tasks even when they are phrased in future tense or have no assignee yet.\n</rules>",
+      "input": "# Kickoff — Monday, March 16\n\nAlright so me and Alice sat down today to plan out this self-improving agent project. The idea is simple — an AI agent that processes tasks using markdown skill files, and then gets better at those tasks based on user feedback.\n\nWe're calling it SkillAgent for now. Bob is handling all the engineering, Alice is owning the product side — skill design, prompt writing, eval criteria.\n\nArchitecture-wise we agreed on: an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output. Skills are markdown files with a schema section and rules. We'll use gpt-4.1 through the OpenAI Responses API.\n\nFor the workspace, Bob will set up MCP file server integration so the agent can read and write files. Alice said she'll write the skill format specification first so Bob knows what to parse.\n\nTasks we identified:\n- Bob: build the core agent loop with tool calling\n- Bob: set up MCP file server connection\n- Alice: write the skill format spec (what a skill.md looks like)\n- Alice: create the first test skill for data extraction\n- Bob: wire up the LLM tool so the agent can make inner LLM calls\n\nWe also need to figure out the feedback loop — how does the agent learn from corrections? But that's phase two. For now let's get the basic agent working first.\n\nTarget is to have a running MVP by end of next week. Alice wants to demo it to the team on Friday March 27.\n",
+      "schema": "project_state"
+    },
+    "response": {
+      "text": "{\"projects\":[{\"name\":\"SkillAgent\",\"status\":\"active\",\"owner\":\"Alice\",\"priority\":null}],\"tasks\":[{\"task\":\"build the core agent loop with tool calling\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"set up MCP file server connection\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"write the skill format spec (what a skill.md looks like)\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"create the first test skill for data extraction\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"wire up the LLM tool so the agent can make inner LLM calls\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null}],\"decisions\":[{\"decision\":\"SkillAgent will use an agent loop that reads a markdown skill file, calls the LLM with the skill as instructions, and writes structured output.\",\"date\":\"March 16\"},{\"decision\":\"Skills will be markdown files with a schema section and rules.\",\"date\":\"March 16\"},{\"decision\":\"SkillAgent will use gpt-4.1 through the OpenAI Responses API.\",\"date\":\"March 16\"},{\"decision\":\"The workspace will use MCP file server integration so the agent can read and write files.\",\"date\":\"March 16\"},{\"decision\":\"The feedback loop / learning from corrections is phase two; the basic agent will be built first.\",\"date\":\"March 16\"}],\"people\":[{\"name\":\"Alice\",\"role\":\"product owner; skill design and prompt writing\"},{\"name\":\"Bob\",\"role\":\"engineering\"},{\"name\":\"gpt-4.1\",\"role\":\"LLM model\"}]}",
+      "usage": {
+        "input_tokens": 703,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 370,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1073
+      }
+    },
+    "durationMs": 8175
+  },
+  {
+    "timestamp": "2026-03-26T13:27:00.406Z",
+    "stage": "extraction/case_01",
+    "request": {
+      "model": "gpt-5.4-mini",
+      "instructions": "You are an incremental project state tracker.\n\n<objective>\nExtract project state from the meeting transcript as JSON matching the provided schema.\n</objective>\n\n<rules>\n- Extract only what is explicitly stated in the transcript; for exact and contextual fields, use the meeting date for decisions unless another date is stated, drop any weekday from a stated date and copy the remaining date phrase exactly, set project owner when someone is explicitly described as owning the project or the product side of that project, and set priority, assignee, and deadline only when they are explicitly tied to that item; otherwise use null.\n- Treat explicit assignments, next steps, planned follow-ups, and scheduled deliverables as tasks even when they are phrased in future tense or have no assignee yet.\n</rules>",
+      "input": "# Kickoff — Monday, March 16\n\nAlright so me and Alice sat down today to plan out this self-improving agent project. The idea is simple — an AI agent that processes tasks using markdown skill files, and then gets better at those tasks based on user feedback.\n\nWe're calling it SkillAgent for now. Bob is handling all the engineering, Alice is owning the product side — skill design, prompt writing, eval criteria.\n\nArchitecture-wise we agreed on: an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output. Skills are markdown files with a schema section and rules. We'll use gpt-4.1 through the OpenAI Responses API.\n\nFor the workspace, Bob will set up MCP file server integration so the agent can read and write files. Alice said she'll write the skill format specification first so Bob knows what to parse.\n\nTasks we identified:\n- Bob: build the core agent loop with tool calling\n- Bob: set up MCP file server connection\n- Alice: write the skill format spec (what a skill.md looks like)\n- Alice: create the first test skill for data extraction\n- Bob: wire up the LLM tool so the agent can make inner LLM calls\n\nWe also need to figure out the feedback loop — how does the agent learn from corrections? But that's phase two. For now let's get the basic agent working first.\n\nTarget is to have a running MVP by end of next week. Alice wants to demo it to the team on Friday March 27.\n",
+      "schema": "project_state"
+    },
+    "response": {
+      "text": "{\"projects\":[{\"name\":\"SkillAgent\",\"status\":\"active\",\"owner\":\"Alice\",\"priority\":null}],\"tasks\":[{\"task\":\"build the core agent loop with tool calling\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"set up MCP file server connection\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"write the skill format spec (what a skill.md looks like)\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"create the first test skill for data extraction\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"wire up the LLM tool so the agent can make inner LLM calls\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null}],\"decisions\":[{\"decision\":\"The project will be called SkillAgent for now.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The project will use an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Skills will be markdown files with a schema section and rules.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The project will use gpt-4.1 through the OpenAI Responses API.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The feedback loop for learning from corrections is phase two; the team will focus on getting the basic agent working first.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The target is to have a running MVP by end of next week.\",\"date\":\"Monday, March 16\"}],\"people\":[{\"name\":\"Bob\",\"role\":\"engineering\"},{\"name\":\"Alice\",\"role\":\"product side: skill design, prompt writing, eval criteria\"}]}",
+      "usage": {
+        "input_tokens": 696,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 388,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1084
+      }
+    },
+    "durationMs": 2294
+  },
+  {
+    "timestamp": "2026-03-26T13:27:00.607Z",
+    "stage": "extraction/case_01",
+    "request": {
+      "model": "gpt-5.4-mini",
+      "instructions": "You are an incremental project state tracker.\n\n<objective>\nExtract project state from the meeting transcript as JSON matching the provided schema.\n</objective>\n\n<rules>\n- Extract only what is explicitly stated in the transcript.\n- Treat contextual and exact fields conservatively: use the meeting date for decisions unless another date is stated; if a date is given with a weekday, drop the weekday and copy the remaining date phrase exactly; set project owner when someone is explicitly described as owning the project or the product side of that project; set priority, assignee, and deadline only when they are explicitly tied to that item; otherwise use null.\n- Treat tasks as durable backlog or deliverable items: extract explicit assignments, next steps, deferred phase work, and scheduled demos or deliverables even when they are phrased in future tense or have no assignee yet, but do not extract brief investigative or troubleshooting actions that merely support another task.\n</rules>",
+      "input": "# Kickoff — Monday, March 16\n\nAlright so me and Alice sat down today to plan out this self-improving agent project. The idea is simple — an AI agent that processes tasks using markdown skill files, and then gets better at those tasks based on user feedback.\n\nWe're calling it SkillAgent for now. Bob is handling all the engineering, Alice is owning the product side — skill design, prompt writing, eval criteria.\n\nArchitecture-wise we agreed on: an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output. Skills are markdown files with a schema section and rules. We'll use gpt-4.1 through the OpenAI Responses API.\n\nFor the workspace, Bob will set up MCP file server integration so the agent can read and write files. Alice said she'll write the skill format specification first so Bob knows what to parse.\n\nTasks we identified:\n- Bob: build the core agent loop with tool calling\n- Bob: set up MCP file server connection\n- Alice: write the skill format spec (what a skill.md looks like)\n- Alice: create the first test skill for data extraction\n- Bob: wire up the LLM tool so the agent can make inner LLM calls\n\nWe also need to figure out the feedback loop — how does the agent learn from corrections? But that's phase two. For now let's get the basic agent working first.\n\nTarget is to have a running MVP by end of next week. Alice wants to demo it to the team on Friday March 27.\n",
+      "schema": "project_state"
+    },
+    "response": {
+      "text": "{\"projects\":[{\"name\":\"SkillAgent\",\"status\":\"active\",\"owner\":\"Alice\",\"priority\":null}],\"tasks\":[{\"task\":\"build the core agent loop with tool calling\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"set up MCP file server connection\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"write the skill format spec (what a skill.md looks like)\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"create the first test skill for data extraction\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"wire up the LLM tool so the agent can make inner LLM calls\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"demo it to the team\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":\"Friday March 27\"}],\"decisions\":[{\"decision\":\"Build SkillAgent as an AI agent that processes tasks using markdown skill files and improves from user feedback.\",\"date\":\"March 16\"},{\"decision\":\"Use an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output.\",\"date\":\"March 16\"},{\"decision\":\"Use markdown skill files with a schema section and rules.\",\"date\":\"March 16\"},{\"decision\":\"Use gpt-4.1 through the OpenAI Responses API.\",\"date\":\"March 16\"},{\"decision\":\"Use MCP file server integration so the agent can read and write files.\",\"date\":\"March 16\"},{\"decision\":\"Prioritize getting the basic agent working first; feedback learning is phase two.\",\"date\":\"March 16\"}],\"people\":[{\"name\":\"Alice\",\"role\":\"Product owner; skill design, prompt writing, eval criteria\"},{\"name\":\"Bob\",\"role\":\"Engineering\"}]}",
+      "usage": {
+        "input_tokens": 728,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 400,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1128
+      }
+    },
+    "durationMs": 2495
+  },
+  {
+    "timestamp": "2026-03-26T13:27:00.677Z",
+    "stage": "extraction/case_01",
+    "request": {
+      "model": "gpt-5.4-mini",
+      "instructions": "You are an incremental project state tracker.\n\n<objective>\nExtract project state from the meeting transcript as JSON matching the provided schema.\n</objective>\n\n<rules>\n- Extract only what is explicitly stated in the transcript.\n- Treat contextual and exact fields conservatively: use the meeting date for decisions unless another date is stated; if a date is given with a weekday, drop the weekday and copy the remaining date phrase exactly; set project owner when someone is explicitly described as owning the project or the product side of that project; set priority, assignee, and deadline only when they are explicitly tied to that item; otherwise use null.\n- Treat explicit assignments, concrete work commitments with a named deliverable, and scheduled project events as tasks even when they are phrased in future tense or when no assignee is named yet.\n</rules>",
+      "input": "# Kickoff — Monday, March 16\n\nAlright so me and Alice sat down today to plan out this self-improving agent project. The idea is simple — an AI agent that processes tasks using markdown skill files, and then gets better at those tasks based on user feedback.\n\nWe're calling it SkillAgent for now. Bob is handling all the engineering, Alice is owning the product side — skill design, prompt writing, eval criteria.\n\nArchitecture-wise we agreed on: an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output. Skills are markdown files with a schema section and rules. We'll use gpt-4.1 through the OpenAI Responses API.\n\nFor the workspace, Bob will set up MCP file server integration so the agent can read and write files. Alice said she'll write the skill format specification first so Bob knows what to parse.\n\nTasks we identified:\n- Bob: build the core agent loop with tool calling\n- Bob: set up MCP file server connection\n- Alice: write the skill format spec (what a skill.md looks like)\n- Alice: create the first test skill for data extraction\n- Bob: wire up the LLM tool so the agent can make inner LLM calls\n\nWe also need to figure out the feedback loop — how does the agent learn from corrections? But that's phase two. For now let's get the basic agent working first.\n\nTarget is to have a running MVP by end of next week. Alice wants to demo it to the team on Friday March 27.\n",
+      "schema": "project_state"
+    },
+    "response": {
+      "text": "{\"projects\":[{\"name\":\"SkillAgent\",\"status\":\"active\",\"owner\":\"Alice\",\"priority\":null}],\"tasks\":[{\"task\":\"build the core agent loop with tool calling\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"set up MCP file server connection\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"write the skill format spec (what a skill.md looks like)\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"create the first test skill for data extraction\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"wire up the LLM tool so the agent can make inner LLM calls\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"have a running MVP\",\"project\":\"SkillAgent\",\"assignee\":null,\"status\":\"todo\",\"deadline\":\"end of next week\"},{\"task\":\"demo it to the team\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":\"Friday March 27\"}],\"decisions\":[{\"decision\":\"Build SkillAgent as an AI agent that processes tasks using markdown skill files and improves based on user feedback.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Use an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Use markdown skill files with a schema section and rules.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Use gpt-4.1 through the OpenAI Responses API.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Use MCP file server integration so the agent can read and write files.\",\"date\":\"Monday, March 16\"}],\"people\":[{\"name\":\"Alice\",\"role\":\"owns product side: skill design, prompt writing, eval criteria\"},{\"name\":\"Bob\",\"role\":\"engineering\"}]}",
+      "usage": {
+        "input_tokens": 707,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 417,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1124
+      }
+    },
+    "durationMs": 2566
+  },
+  {
+    "timestamp": "2026-03-26T13:30:07.097Z",
+    "stage": "extraction/case_01",
+    "request": {
+      "model": "gpt-5.4-mini",
+      "instructions": "You are an incremental project state tracker.\n\n<objective>\nExtract project state from the meeting transcript as JSON matching the provided schema.\n</objective>\n\n<rules>\n- Extract only what is explicitly stated in the transcript.\n- Treat contextual and exact fields conservatively: use the meeting date for decisions unless another date is stated; if a date is given with a weekday, drop the weekday and copy the remaining date phrase exactly; set project owner when someone is explicitly described as owning the project or the product side of that project; set priority, assignee, and deadline only when they are explicitly tied to that item; otherwise use null.\n- Treat explicit work commitments as tasks, including assignments, in-progress work, agreed next steps, planned follow-ups, deferred planned work, and scheduled presentations or deliverables, even when they are phrased in future tense or have no assignee; exclude architecture choices and ad hoc troubleshooting investigations unless the transcript frames them as established work items.\n</rules>",
+      "input": "# Kickoff — Monday, March 16\n\nAlright so me and Alice sat down today to plan out this self-improving agent project. The idea is simple — an AI agent that processes tasks using markdown skill files, and then gets better at those tasks based on user feedback.\n\nWe're calling it SkillAgent for now. Bob is handling all the engineering, Alice is owning the product side — skill design, prompt writing, eval criteria.\n\nArchitecture-wise we agreed on: an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output. Skills are markdown files with a schema section and rules. We'll use gpt-4.1 through the OpenAI Responses API.\n\nFor the workspace, Bob will set up MCP file server integration so the agent can read and write files. Alice said she'll write the skill format specification first so Bob knows what to parse.\n\nTasks we identified:\n- Bob: build the core agent loop with tool calling\n- Bob: set up MCP file server connection\n- Alice: write the skill format spec (what a skill.md looks like)\n- Alice: create the first test skill for data extraction\n- Bob: wire up the LLM tool so the agent can make inner LLM calls\n\nWe also need to figure out the feedback loop — how does the agent learn from corrections? But that's phase two. For now let's get the basic agent working first.\n\nTarget is to have a running MVP by end of next week. Alice wants to demo it to the team on Friday March 27.\n",
+      "schema": "project_state"
+    },
+    "response": {
+      "text": "{\"projects\":[{\"name\":\"SkillAgent\",\"status\":\"active\",\"owner\":\"Alice\",\"priority\":\"P1\"}],\"tasks\":[{\"task\":\"build the core agent loop with tool calling\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"set up MCP file server connection\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"write the skill format spec (what a skill.md looks like)\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"create the first test skill for data extraction\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"wire up the LLM tool so the agent can make inner LLM calls\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"demo it to the team\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":\"Friday March 27\"}],\"decisions\":[{\"decision\":\"The project will be called SkillAgent.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The agent will read markdown skill files with a schema section and rules, call gpt-4.1 through the OpenAI Responses API, and write structured output.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The workspace will use MCP file server integration so the agent can read and write files.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Phase two will address the feedback loop for learning from corrections; the team will first get the basic agent working.\",\"date\":\"Monday, March 16\"}],\"people\":[{\"name\":\"Bob\",\"role\":\"engineering\"},{\"name\":\"Alice\",\"role\":\"product side, skill design, prompt writing, eval criteria\"}]}",
+      "usage": {
+        "input_tokens": 736,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 374,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1110
+      }
+    },
+    "durationMs": 2237
+  },
+  {
+    "timestamp": "2026-03-26T13:30:07.177Z",
+    "stage": "extraction/case_01",
+    "request": {
+      "model": "gpt-5.4-mini",
+      "instructions": "You are an incremental project state tracker.\n\n<objective>\nExtract project state from the meeting transcript as JSON matching the provided schema.\n</objective>\n\n<rules>\n- Extract only what is explicitly stated in the transcript.\n- Treat contextual and exact fields conservatively: use the meeting date for decisions unless another date is stated; if a date is given with a weekday, drop the weekday and copy the remaining date phrase exactly; set project owner when someone is explicitly described as owning the project or the product side of that project; set priority, assignee, and deadline only when they are explicitly tied to that item; otherwise use null.\n- Use a task/decision boundary: decisions are explicit agreements to adopt, change, or confirm an approach, while planned work items or scheduled outputs belong in tasks.\n- Treat explicit assignments, next steps, planned follow-ups, and scheduled deliverables as tasks even when they are phrased in future tense or have no assignee yet.\n</rules>",
+      "input": "# Kickoff — Monday, March 16\n\nAlright so me and Alice sat down today to plan out this self-improving agent project. The idea is simple — an AI agent that processes tasks using markdown skill files, and then gets better at those tasks based on user feedback.\n\nWe're calling it SkillAgent for now. Bob is handling all the engineering, Alice is owning the product side — skill design, prompt writing, eval criteria.\n\nArchitecture-wise we agreed on: an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output. Skills are markdown files with a schema section and rules. We'll use gpt-4.1 through the OpenAI Responses API.\n\nFor the workspace, Bob will set up MCP file server integration so the agent can read and write files. Alice said she'll write the skill format specification first so Bob knows what to parse.\n\nTasks we identified:\n- Bob: build the core agent loop with tool calling\n- Bob: set up MCP file server connection\n- Alice: write the skill format spec (what a skill.md looks like)\n- Alice: create the first test skill for data extraction\n- Bob: wire up the LLM tool so the agent can make inner LLM calls\n\nWe also need to figure out the feedback loop — how does the agent learn from corrections? But that's phase two. For now let's get the basic agent working first.\n\nTarget is to have a running MVP by end of next week. Alice wants to demo it to the team on Friday March 27.\n",
+      "schema": "project_state"
+    },
+    "response": {
+      "text": "{\"projects\":[{\"name\":\"SkillAgent\",\"status\":\"active\",\"owner\":\"Alice\",\"priority\":null}],\"tasks\":[{\"task\":\"build the core agent loop with tool calling\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"set up MCP file server connection\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"write the skill format spec (what a skill.md looks like)\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"create the first test skill for data extraction\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"wire up the LLM tool so the agent can make inner LLM calls\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null}],\"decisions\":[{\"decision\":\"Build the agent around a loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output.\",\"date\":\"March 16\"},{\"decision\":\"Use markdown skill files with a schema section and rules.\",\"date\":\"March 16\"},{\"decision\":\"Use gpt-4.1 through the OpenAI Responses API.\",\"date\":\"March 16\"},{\"decision\":\"Defer the feedback loop / learning from corrections to phase two.\",\"date\":\"March 16\"}],\"people\":[{\"name\":\"Alice\",\"role\":\"Product owner; skill design, prompt writing, and eval criteria\"},{\"name\":\"Bob\",\"role\":\"Engineering\"}]}",
+      "usage": {
+        "input_tokens": 736,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 322,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1058
+      }
+    },
+    "durationMs": 2316
+  },
+  {
+    "timestamp": "2026-03-26T13:30:07.250Z",
+    "stage": "extraction/case_01",
+    "request": {
+      "model": "gpt-5.4-mini",
+      "instructions": "You are an incremental project state tracker.\n\n<objective>\nExtract project state from the meeting transcript as JSON matching the provided schema.\n</objective>\n\n<rules>\n- Treat explicit assignments, next steps, planned follow-ups, and scheduled deliverables as tasks even when they are phrased in future tense or have no assignee yet.\n- Extract only what is explicitly stated in the transcript.\n- Treat contextual and exact fields conservatively: use the meeting date for decisions unless another date is stated; if a date is given with a weekday, drop the weekday and copy the remaining date phrase exactly; set project owner when someone is explicitly described as owning the project or the product side of that project; set priority, assignee, and deadline only when they are explicitly tied to that item; otherwise use null.\n</rules>",
+      "input": "# Kickoff — Monday, March 16\n\nAlright so me and Alice sat down today to plan out this self-improving agent project. The idea is simple — an AI agent that processes tasks using markdown skill files, and then gets better at those tasks based on user feedback.\n\nWe're calling it SkillAgent for now. Bob is handling all the engineering, Alice is owning the product side — skill design, prompt writing, eval criteria.\n\nArchitecture-wise we agreed on: an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output. Skills are markdown files with a schema section and rules. We'll use gpt-4.1 through the OpenAI Responses API.\n\nFor the workspace, Bob will set up MCP file server integration so the agent can read and write files. Alice said she'll write the skill format specification first so Bob knows what to parse.\n\nTasks we identified:\n- Bob: build the core agent loop with tool calling\n- Bob: set up MCP file server connection\n- Alice: write the skill format spec (what a skill.md looks like)\n- Alice: create the first test skill for data extraction\n- Bob: wire up the LLM tool so the agent can make inner LLM calls\n\nWe also need to figure out the feedback loop — how does the agent learn from corrections? But that's phase two. For now let's get the basic agent working first.\n\nTarget is to have a running MVP by end of next week. Alice wants to demo it to the team on Friday March 27.\n",
+      "schema": "project_state"
+    },
+    "response": {
+      "text": "{\"projects\":[{\"name\":\"SkillAgent\",\"status\":\"active\",\"owner\":\"Alice\",\"priority\":null}],\"tasks\":[{\"task\":\"build the core agent loop with tool calling\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"set up MCP file server connection\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"write the skill format spec (what a skill.md looks like)\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"create the first test skill for data extraction\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"wire up the LLM tool so the agent can make inner LLM calls\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"figure out the feedback loop for how the agent learns from corrections\",\"project\":\"SkillAgent\",\"assignee\":null,\"status\":\"todo\",\"deadline\":null},{\"task\":\"get the basic agent working\",\"project\":\"SkillAgent\",\"assignee\":null,\"status\":\"todo\",\"deadline\":\"end of next week\"},{\"task\":\"demo it to the team\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":\"Friday March 27\"}],\"decisions\":[{\"decision\":\"Create a self-improving agent project called SkillAgent that processes tasks using markdown skill files and improves from user feedback.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Use an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Define skills as markdown files with a schema section and rules.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Use gpt-4.1 through the OpenAI Responses API.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Use MCP file server integration so the agent can read and write files.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Delay the feedback loop design to phase two.\",\"date\":\"Monday, March 16\"}],\"people\":[{\"name\":\"Alice\",\"role\":\"product owner\"},{\"name\":\"Bob\",\"role\":\"engineering\"}]}",
+      "usage": {
+        "input_tokens": 703,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 464,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1167
+      }
+    },
+    "durationMs": 2389
+  },
+  {
+    "timestamp": "2026-03-26T13:34:19.982Z",
+    "stage": "extraction/case_01",
+    "request": {
+      "model": "gpt-5.4-mini",
+      "instructions": "You are an incremental project state tracker.\n\n<objective>\nExtract project state from the meeting transcript as JSON matching the provided schema.\n</objective>\n\n<rules>\n- Extract only what is explicitly stated in the transcript.\n- Treat contextual and exact fields conservatively: use the meeting date for decisions unless another date is stated; if a date is given with a weekday, drop the weekday and copy the remaining date phrase exactly; set project owner when someone is explicitly described as owning the project or the product side of that project; set priority, assignee, and deadline only when they are explicitly tied to that item; otherwise use null.\n- Treat durable work items as tasks: include explicit assignments, current work with an explicit progress state, named next steps, planned future work including later-phase items, and scheduled deliverables; exclude one-off troubleshooting or investigation attempts aimed at diagnosing a blocker rather than producing a project deliverable.\n</rules>",
+      "input": "# Kickoff — Monday, March 16\n\nAlright so me and Alice sat down today to plan out this self-improving agent project. The idea is simple — an AI agent that processes tasks using markdown skill files, and then gets better at those tasks based on user feedback.\n\nWe're calling it SkillAgent for now. Bob is handling all the engineering, Alice is owning the product side — skill design, prompt writing, eval criteria.\n\nArchitecture-wise we agreed on: an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output. Skills are markdown files with a schema section and rules. We'll use gpt-4.1 through the OpenAI Responses API.\n\nFor the workspace, Bob will set up MCP file server integration so the agent can read and write files. Alice said she'll write the skill format specification first so Bob knows what to parse.\n\nTasks we identified:\n- Bob: build the core agent loop with tool calling\n- Bob: set up MCP file server connection\n- Alice: write the skill format spec (what a skill.md looks like)\n- Alice: create the first test skill for data extraction\n- Bob: wire up the LLM tool so the agent can make inner LLM calls\n\nWe also need to figure out the feedback loop — how does the agent learn from corrections? But that's phase two. For now let's get the basic agent working first.\n\nTarget is to have a running MVP by end of next week. Alice wants to demo it to the team on Friday March 27.\n",
+      "schema": "project_state"
+    },
+    "response": {
+      "text": "{\"projects\":[{\"name\":\"SkillAgent\",\"status\":\"active\",\"owner\":\"Alice\",\"priority\":null}],\"tasks\":[{\"task\":\"build the core agent loop with tool calling\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"set up MCP file server connection\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"write the skill format spec (what a skill.md looks like)\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"create the first test skill for data extraction\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"wire up the LLM tool so the agent can make inner LLM calls\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null}],\"decisions\":[{\"decision\":\"The project will be called SkillAgent for now.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The agent will use markdown skill files with a schema section and rules, and will call gpt-4.1 through the OpenAI Responses API.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The initial architecture will be an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The MCP file server integration will be used so the agent can read and write files.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Phase two will cover the feedback loop for learning from user corrections; the first phase is to get the basic agent working.\",\"date\":\"Monday, March 16\"}],\"people\":[{\"name\":\"Bob\",\"role\":\"engineering\"},{\"name\":\"Alice\",\"role\":\"product side\"}]}",
+      "usage": {
+        "input_tokens": 726,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 375,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1101
+      }
+    },
+    "durationMs": 2240
+  },
+  {
+    "timestamp": "2026-03-26T13:34:20.222Z",
+    "stage": "extraction/case_01",
+    "request": {
+      "model": "gpt-5.4-mini",
+      "instructions": "You are an incremental project state tracker.\n\n<objective>\nExtract project state from the meeting transcript as JSON matching the provided schema.\n</objective>\n\n<rules>\n- Extract only what is explicitly stated in the transcript.\n- Treat contextual and exact fields conservatively: use the meeting date for decisions unless another date is stated; if a date is given with a weekday, drop the weekday and copy the remaining date phrase exactly; set project owner when someone is explicitly described as owning the project or the product side of that project; set priority, assignee, and deadline only when they are explicitly tied to that item; otherwise use null.\n- Treat explicit assignments, next steps, planned follow-ups, and scheduled deliverables as tasks even when they are phrased in future tense or have no assignee yet.\n- Treat as tasks only concrete work items or deliverables that are planned, underway, blocked, or completed; include future planned work even without an assignee, but exclude open-ended investigation or discussion unless a specific deliverable or change is committed.\n</rules>",
+      "input": "# Kickoff — Monday, March 16\n\nAlright so me and Alice sat down today to plan out this self-improving agent project. The idea is simple — an AI agent that processes tasks using markdown skill files, and then gets better at those tasks based on user feedback.\n\nWe're calling it SkillAgent for now. Bob is handling all the engineering, Alice is owning the product side — skill design, prompt writing, eval criteria.\n\nArchitecture-wise we agreed on: an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output. Skills are markdown files with a schema section and rules. We'll use gpt-4.1 through the OpenAI Responses API.\n\nFor the workspace, Bob will set up MCP file server integration so the agent can read and write files. Alice said she'll write the skill format specification first so Bob knows what to parse.\n\nTasks we identified:\n- Bob: build the core agent loop with tool calling\n- Bob: set up MCP file server connection\n- Alice: write the skill format spec (what a skill.md looks like)\n- Alice: create the first test skill for data extraction\n- Bob: wire up the LLM tool so the agent can make inner LLM calls\n\nWe also need to figure out the feedback loop — how does the agent learn from corrections? But that's phase two. For now let's get the basic agent working first.\n\nTarget is to have a running MVP by end of next week. Alice wants to demo it to the team on Friday March 27.\n",
+      "schema": "project_state"
+    },
+    "response": {
+      "text": "{\"projects\":[{\"name\":\"SkillAgent\",\"status\":\"active\",\"owner\":\"Alice\",\"priority\":null}],\"tasks\":[{\"task\":\"build the core agent loop with tool calling\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"set up MCP file server connection\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"write the skill format spec (what a skill.md looks like)\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"create the first test skill for data extraction\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"wire up the LLM tool so the agent can make inner LLM calls\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"have a running MVP\",\"project\":\"SkillAgent\",\"assignee\":null,\"status\":\"todo\",\"deadline\":\"end of next week\"},{\"task\":\"demo it to the team\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":\"Friday March 27\"}],\"decisions\":[{\"decision\":\"Create a self-improving agent project called SkillAgent that processes tasks using markdown skill files and improves from user feedback.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Use an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Use markdown skill files with a schema section and rules.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Use gpt-4.1 through the OpenAI Responses API.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Use MCP file server integration so the agent can read and write files.\",\"date\":\"Monday, March 16\"}],\"people\":[{\"name\":\"Bob\",\"role\":\"engineering\"},{\"name\":\"Alice\",\"role\":\"product side / skill design, prompt writing, eval criteria\"}]}",
+      "usage": {
+        "input_tokens": 752,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 419,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1171
+      }
+    },
+    "durationMs": 2479
+  },
+  {
+    "timestamp": "2026-03-26T13:34:21.141Z",
+    "stage": "extraction/case_01",
+    "request": {
+      "model": "gpt-5.4-mini",
+      "instructions": "You are an incremental project state tracker.\n\n<objective>\nExtract project state from the meeting transcript as JSON matching the provided schema.\n</objective>\n\n<rules>\n- Extract only explicitly stated project-state items; for tasks, include explicit assignments, next steps, planned follow-ups, and scheduled deliverables even when they are phrased in future tense or have no assignee yet.\n- Treat contextual and exact fields conservatively: use the meeting date for decisions unless another date is stated; if a date is given with a weekday, drop the weekday and copy the remaining date phrase exactly; set project owner when someone is explicitly described as owning the project or the product side of that project; set priority, assignee, and deadline only when they are explicitly tied to that item; otherwise use null.\n</rules>",
+      "input": "# Kickoff — Monday, March 16\n\nAlright so me and Alice sat down today to plan out this self-improving agent project. The idea is simple — an AI agent that processes tasks using markdown skill files, and then gets better at those tasks based on user feedback.\n\nWe're calling it SkillAgent for now. Bob is handling all the engineering, Alice is owning the product side — skill design, prompt writing, eval criteria.\n\nArchitecture-wise we agreed on: an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output. Skills are markdown files with a schema section and rules. We'll use gpt-4.1 through the OpenAI Responses API.\n\nFor the workspace, Bob will set up MCP file server integration so the agent can read and write files. Alice said she'll write the skill format specification first so Bob knows what to parse.\n\nTasks we identified:\n- Bob: build the core agent loop with tool calling\n- Bob: set up MCP file server connection\n- Alice: write the skill format spec (what a skill.md looks like)\n- Alice: create the first test skill for data extraction\n- Bob: wire up the LLM tool so the agent can make inner LLM calls\n\nWe also need to figure out the feedback loop — how does the agent learn from corrections? But that's phase two. For now let's get the basic agent working first.\n\nTarget is to have a running MVP by end of next week. Alice wants to demo it to the team on Friday March 27.\n",
+      "schema": "project_state"
+    },
+    "response": {
+      "text": "{\"projects\":[{\"name\":\"SkillAgent\",\"status\":\"active\",\"owner\":\"Alice\",\"priority\":null}],\"tasks\":[{\"task\":\"build the core agent loop with tool calling\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"set up MCP file server connection\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"write the skill format spec (what a skill.md looks like)\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"create the first test skill for data extraction\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"wire up the LLM tool so the agent can make inner LLM calls\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"have a running MVP\",\"project\":\"SkillAgent\",\"assignee\":null,\"status\":\"todo\",\"deadline\":\"end of next week\"},{\"task\":\"demo it to the team\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":\"March 27\"}],\"decisions\":[{\"decision\":\"Build SkillAgent as an AI agent that processes tasks using markdown skill files and improves from user feedback.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Use an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Use markdown skill files with a schema section and rules.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Use gpt-4.1 through the OpenAI Responses API.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Set up MCP file server integration so the agent can read and write files.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Focus on the basic agent first; feedback loop will be phase two.\",\"date\":\"Monday, March 16\"}],\"people\":[{\"name\":\"Bob\",\"role\":\"engineering\"},{\"name\":\"Alice\",\"role\":\"product side, skill design, prompt writing, eval criteria\"}]}",
+      "usage": {
+        "input_tokens": 701,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 439,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1140
+      }
+    },
+    "durationMs": 3397
+  },
+  {
+    "timestamp": "2026-03-26T13:41:45.233Z",
+    "stage": "extraction/case_01",
+    "request": {
+      "model": "gpt-5.4-mini",
+      "instructions": "You are an incremental project state tracker.\n\n<objective>\nExtract project state from the meeting transcript as JSON matching the provided schema.\n</objective>\n\n<rules>\n- Treat explicit assignments, next steps, planned follow-ups, and scheduled deliverables as tasks even when they are phrased in future tense or have no assignee yet.\n- Extract only what is explicitly stated in the transcript.\n- Treat contextual and exact fields conservatively: use the meeting date for decisions unless another date is stated; if a date is given with a weekday, drop the weekday and copy the remaining date phrase exactly; set project owner when someone is explicitly described as owning the project or the product side of that project; set priority, assignee, and deadline only when they are explicitly tied to that item; otherwise use null.\n</rules>",
+      "input": "# Kickoff — Monday, March 16\n\nAlright so me and Alice sat down today to plan out this self-improving agent project. The idea is simple — an AI agent that processes tasks using markdown skill files, and then gets better at those tasks based on user feedback.\n\nWe're calling it SkillAgent for now. Bob is handling all the engineering, Alice is owning the product side — skill design, prompt writing, eval criteria.\n\nArchitecture-wise we agreed on: an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output. Skills are markdown files with a schema section and rules. We'll use gpt-4.1 through the OpenAI Responses API.\n\nFor the workspace, Bob will set up MCP file server integration so the agent can read and write files. Alice said she'll write the skill format specification first so Bob knows what to parse.\n\nTasks we identified:\n- Bob: build the core agent loop with tool calling\n- Bob: set up MCP file server connection\n- Alice: write the skill format spec (what a skill.md looks like)\n- Alice: create the first test skill for data extraction\n- Bob: wire up the LLM tool so the agent can make inner LLM calls\n\nWe also need to figure out the feedback loop — how does the agent learn from corrections? But that's phase two. For now let's get the basic agent working first.\n\nTarget is to have a running MVP by end of next week. Alice wants to demo it to the team on Friday March 27.\n",
+      "schema": "project_state"
+    },
+    "response": {
+      "text": "{\"projects\":[{\"name\":\"SkillAgent\",\"status\":\"active\",\"owner\":\"Alice\",\"priority\":null}],\"tasks\":[{\"task\":\"build the core agent loop with tool calling\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"set up MCP file server connection\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"write the skill format spec (what a skill.md looks like)\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"create the first test skill for data extraction\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"wire up the LLM tool so the agent can make inner LLM calls\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"figure out the feedback loop for how the agent learns from corrections\",\"project\":\"SkillAgent\",\"assignee\":null,\"status\":\"todo\",\"deadline\":null},{\"task\":\"have a running MVP\",\"project\":\"SkillAgent\",\"assignee\":null,\"status\":\"todo\",\"deadline\":\"end of next week\"},{\"task\":\"demo it to the team\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":\"Friday March 27\"}],\"decisions\":[{\"decision\":\"Create a self-improving agent project called SkillAgent that processes tasks using markdown skill files and improves based on user feedback.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Use an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Use markdown skill files with a schema section and rules.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Use gpt-4.1 through the OpenAI Responses API.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Use MCP file server integration so the agent can read and write files.\",\"date\":\"Monday, March 16\"}],\"people\":[{\"name\":\"Alice\",\"role\":\"product owner; skill design, prompt writing, eval criteria\"},{\"name\":\"Bob\",\"role\":\"engineering\"}]}",
+      "usage": {
+        "input_tokens": 703,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 453,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1156
+      }
+    },
+    "durationMs": 2446
+  },
+  {
+    "timestamp": "2026-03-26T13:41:45.402Z",
+    "stage": "extraction/case_01",
+    "request": {
+      "model": "gpt-5.4-mini",
+      "instructions": "You are an incremental project state tracker.\n\n<objective>\nExtract project state from the meeting transcript as JSON matching the provided schema.\n</objective>\n\n<rules>\n- Treat explicit assignments, next steps, planned follow-ups, and scheduled deliverables as tasks even when they are phrased in future tense or have no assignee yet.\n- Extract only what is explicitly stated in the transcript.\n- Treat contextual and exact fields conservatively: use the meeting date for decisions unless another date is stated; if a date is given with a weekday, drop the weekday and copy the remaining date phrase exactly; set project owner when someone is explicitly described as owning the project or the product side of that project; set priority, assignee, and deadline only when they are explicitly tied to that item; otherwise use null.\n</rules>",
+      "input": "# Kickoff — Monday, March 16\n\nAlright so me and Alice sat down today to plan out this self-improving agent project. The idea is simple — an AI agent that processes tasks using markdown skill files, and then gets better at those tasks based on user feedback.\n\nWe're calling it SkillAgent for now. Bob is handling all the engineering, Alice is owning the product side — skill design, prompt writing, eval criteria.\n\nArchitecture-wise we agreed on: an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output. Skills are markdown files with a schema section and rules. We'll use gpt-4.1 through the OpenAI Responses API.\n\nFor the workspace, Bob will set up MCP file server integration so the agent can read and write files. Alice said she'll write the skill format specification first so Bob knows what to parse.\n\nTasks we identified:\n- Bob: build the core agent loop with tool calling\n- Bob: set up MCP file server connection\n- Alice: write the skill format spec (what a skill.md looks like)\n- Alice: create the first test skill for data extraction\n- Bob: wire up the LLM tool so the agent can make inner LLM calls\n\nWe also need to figure out the feedback loop — how does the agent learn from corrections? But that's phase two. For now let's get the basic agent working first.\n\nTarget is to have a running MVP by end of next week. Alice wants to demo it to the team on Friday March 27.\n",
+      "schema": "project_state"
+    },
+    "response": {
+      "text": "{\"projects\":[{\"name\":\"SkillAgent\",\"status\":\"active\",\"owner\":\"Alice\",\"priority\":null}],\"tasks\":[{\"task\":\"build the core agent loop with tool calling\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"set up MCP file server connection\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"write the skill format spec (what a skill.md looks like)\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"create the first test skill for data extraction\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"wire up the LLM tool so the agent can make inner LLM calls\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"figure out the feedback loop for how the agent learns from corrections\",\"project\":\"SkillAgent\",\"assignee\":null,\"status\":\"todo\",\"deadline\":null},{\"task\":\"have a running MVP\",\"project\":\"SkillAgent\",\"assignee\":null,\"status\":\"todo\",\"deadline\":\"end of next week\"},{\"task\":\"demo it to the team\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":\"Friday March 27\"}],\"decisions\":[{\"decision\":\"The project will be called SkillAgent for now.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The agent will use markdown skill files with a schema section and rules.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The agent loop will read a skill file, call the LLM with the skill as instructions, and write structured output.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The system will use gpt-4.1 through the OpenAI Responses API.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The workspace will use MCP file server integration so the agent can read and write files.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Phase two will cover the feedback loop; the basic agent will be built first.\",\"date\":\"Monday, March 16\"}],\"people\":[{\"name\":\"Alice\",\"role\":\"product owner; skill design, prompt writing, eval criteria\"},{\"name\":\"Bob\",\"role\":\"engineering\"}]}",
+      "usage": {
+        "input_tokens": 703,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 472,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1175
+      }
+    },
+    "durationMs": 2614
+  },
+  {
+    "timestamp": "2026-03-26T13:41:45.903Z",
+    "stage": "extraction/case_01",
+    "request": {
+      "model": "gpt-5.4-mini",
+      "instructions": "You are an incremental project state tracker.\n\n<objective>\nExtract project state from the meeting transcript as JSON matching the provided schema.\n</objective>\n\n<rules>\n- Extract only what is explicitly stated in the transcript.\n- Treat contextual and exact fields conservatively: use the meeting date for decisions unless another date is stated; if a date is given with a weekday, drop the weekday and copy the remaining date phrase exactly; set project owner when someone is explicitly described as owning the project or the product side of that project; set priority, assignee, and deadline only when they are explicitly tied to that item; otherwise use null.\n- Treat explicit assignments, next steps, planned follow-ups, and scheduled deliverables as tasks even when they are phrased in future tense or have no assignee yet.\n- Tasks are committed work items or scheduled deliverables that the team intends to complete, including later-phase work and demos or presentations; exploratory investigation or troubleshooting belongs in tasks only when it is stated as a concrete deliverable.\n</rules>",
+      "input": "# Kickoff — Monday, March 16\n\nAlright so me and Alice sat down today to plan out this self-improving agent project. The idea is simple — an AI agent that processes tasks using markdown skill files, and then gets better at those tasks based on user feedback.\n\nWe're calling it SkillAgent for now. Bob is handling all the engineering, Alice is owning the product side — skill design, prompt writing, eval criteria.\n\nArchitecture-wise we agreed on: an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output. Skills are markdown files with a schema section and rules. We'll use gpt-4.1 through the OpenAI Responses API.\n\nFor the workspace, Bob will set up MCP file server integration so the agent can read and write files. Alice said she'll write the skill format specification first so Bob knows what to parse.\n\nTasks we identified:\n- Bob: build the core agent loop with tool calling\n- Bob: set up MCP file server connection\n- Alice: write the skill format spec (what a skill.md looks like)\n- Alice: create the first test skill for data extraction\n- Bob: wire up the LLM tool so the agent can make inner LLM calls\n\nWe also need to figure out the feedback loop — how does the agent learn from corrections? But that's phase two. For now let's get the basic agent working first.\n\nTarget is to have a running MVP by end of next week. Alice wants to demo it to the team on Friday March 27.\n",
+      "schema": "project_state"
+    },
+    "response": {
+      "text": "{\"projects\":[{\"name\":\"SkillAgent\",\"status\":\"active\",\"owner\":\"Alice\",\"priority\":null}],\"tasks\":[{\"task\":\"build the core agent loop with tool calling\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"set up MCP file server connection\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"write the skill format spec (what a skill.md looks like)\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"create the first test skill for data extraction\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"wire up the LLM tool so the agent can make inner LLM calls\",\"project\":\"SkillAgent\",\"assignee\":\"Bob\",\"status\":\"todo\",\"deadline\":null},{\"task\":\"have a running MVP by end of next week\",\"project\":\"SkillAgent\",\"assignee\":null,\"status\":\"todo\",\"deadline\":\"end of next week\"},{\"task\":\"demo it to the team on Friday March 27\",\"project\":\"SkillAgent\",\"assignee\":\"Alice\",\"status\":\"todo\",\"deadline\":\"Friday March 27\"}],\"decisions\":[{\"decision\":\"The project will be called SkillAgent for now.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The architecture will use an agent loop that reads a skill file, calls the LLM with the skill as instructions, and writes structured output.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Skills will be markdown files with a schema section and rules.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The project will use gpt-4.1 through the OpenAI Responses API.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Bob is handling the engineering.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Alice is owning the product side, including skill design, prompt writing, and eval criteria.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Bob will set up MCP file server integration so the agent can read and write files.\",\"date\":\"Monday, March 16\"},{\"decision\":\"Alice will write the skill format specification first so Bob knows what to parse.\",\"date\":\"Monday, March 16\"},{\"decision\":\"The feedback loop for learning from corrections is phase two; the basic agent will be built first.\",\"date\":\"Monday, March 16\"}],\"people\":[{\"name\":\"Alice\",\"role\":\"Product owner; skill design, prompt writing, eval criteria\"},{\"name\":\"Bob\",\"role\":\"Engineering\"}]}",
+      "usage": {
+        "input_tokens": 747,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 523,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1270
+      }
+    },
+    "durationMs": 3116
+  }
+]

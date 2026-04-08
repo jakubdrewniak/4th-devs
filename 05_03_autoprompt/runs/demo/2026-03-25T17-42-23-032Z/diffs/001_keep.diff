@@ -1,0 +1,12 @@
+# Iteration 1 - keep - score: 0.9128
+Candidate: balanced
+Operation: ADD
+Reasoning: The dominant errors are hallucinations and boundary mistakes about what counts as a task or decision, especially in the highest-weighted tasks section. The current prompt has no field-level guidance for decisions, so an ADD is justified by the schema/eval audit. I added one categorical rule that defines decisions as explicit agreements/adoptions, which should reduce many hallucinated decisions without overfitting; I rejected task-focused additions because they would not address the large decisions failures in Case 01 and would be a narrower fix.
+Section scores: projects:1.00 tasks:0.86 decisions:0.84 people:1.00
+Section deltas: projects:+0.33 decisions:+0.17 tasks:+0.08
+Candidates:
+- balanced: 0.9128 (keep) projects:+0.33 decisions:+0.17 tasks:+0.08
+- coverage: 0.7896 (discard) decisions:-0.05 tasks:+0.01
+- simplify: 0.7634 (discard) tasks:-0.08
+
++ - Decisions are explicit agreements to adopt, change, or confirm something; do not treat roles, task assignments, project names, or planned work as decisions unless the transcript states they were decided.

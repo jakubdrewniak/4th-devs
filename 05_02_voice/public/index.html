@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>05_02 Voice Agent</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: { sans: ["Inter", "system-ui", "sans-serif"] },
+          },
+        },
+      };
+    </script>
+    <script type="importmap">
+      {
+        "imports": {
+          "livekit-client": "https://esm.sh/livekit-client@2.13.3"
+        }
+      }
+    </script>
+  </head>
+  <body class="bg-[#0a0e1a] text-slate-200 min-h-screen flex items-center justify-center font-sans">
+    <main class="w-full max-w-xl mx-auto px-5 py-16 flex flex-col items-center gap-8">
+
+      <div class="text-center">
+        <p class="text-[11px] uppercase tracking-[0.12em] text-slate-500 mb-1.5">05_02</p>
+        <h1 class="text-3xl font-bold tracking-tight">Voice Agent</h1>
+        <p
+          id="agent-mode"
+          class="mt-2 inline-flex rounded-full border border-sky-400/20 bg-sky-400/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-sky-200"
+        >
+          Detecting mode…
+        </p>
+      </div>
+
+      <div
+        id="wave-container"
+        class="w-full h-36 rounded-2xl bg-slate-900/60 border border-white/[0.06] overflow-hidden flex items-center justify-center transition-all duration-500"
+      >
+        <p id="wave-placeholder" class="text-slate-600 text-sm select-none">Connect to start</p>
+      </div>
+
+      <div class="flex gap-3">
+        <button
+          id="btn-connect"
+          class="px-7 py-2.5 bg-sky-400 text-slate-900 font-semibold rounded-xl text-sm hover:bg-sky-300 active:scale-[0.97] transition-all disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-sky-400"
+        >
+          Connect
+        </button>
+        <button
+          id="btn-disconnect"
+          class="px-7 py-2.5 bg-slate-800 text-slate-300 font-semibold rounded-xl text-sm border border-white/[0.06] hover:bg-slate-700 active:scale-[0.97] transition-all disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-slate-800"
+          disabled
+        >
+          Disconnect
+        </button>
+      </div>
+
+      <div class="w-full grid grid-cols-3 gap-3">
+        <div class="rounded-xl bg-slate-900/60 border border-white/[0.06] px-4 py-3">
+          <div class="text-[10px] uppercase tracking-wider text-slate-500 mb-1">Connection</div>
+          <div class="font-semibold text-sm" id="st-conn">disconnected</div>
+        </div>
+        <div class="rounded-xl bg-slate-900/60 border border-white/[0.06] px-4 py-3">
+          <div class="text-[10px] uppercase tracking-wider text-slate-500 mb-1">Microphone</div>
+          <div class="font-semibold text-sm" id="st-mic">off</div>
+        </div>
+        <div class="rounded-xl bg-slate-900/60 border border-white/[0.06] px-4 py-3">
+          <div class="text-[10px] uppercase tracking-wider text-slate-500 mb-1">Agent</div>
+          <div class="font-semibold text-sm" id="st-agent">waiting</div>
+        </div>
+      </div>
+
+      <details class="w-full group" open>
+        <summary class="text-[10px] uppercase tracking-wider text-slate-500 cursor-pointer select-none mb-2 hover:text-slate-400 transition">
+          Event log
+        </summary>
+        <div class="rounded-2xl bg-slate-900/60 border border-white/[0.06] p-4">
+          <div
+            id="log"
+            class="font-mono text-[11px] max-h-48 overflow-auto text-slate-400 whitespace-pre-wrap leading-relaxed scrollbar-thin"
+          ></div>
+        </div>
+      </details>
+
+      <div id="audio-container" class="hidden"></div>
+    </main>
+
+    <script type="module">
+      import { Room, RoomEvent, Track, createLocalTracks } from "livekit-client";
+      const $ = (id) => document.getElementById(id);
+      const stConn = $("st-conn");
+      const stMic = $("st-mic");
+      const stAgent = $("st-agent");
+      const agentModeEl = $("agent-mode");
+      const btnConnect = $("btn-connect");
+      const btnDisconnect = $("btn-disconnect");
+      const logEl = $("log");
+      const audioContainer = $("audio-container");
+      const waveContainer = $("wave-container");
+      const wavePlaceholder = $("wave-placeholder");
+
+      let room = null;
+      let localIdentity = null;
+      let canvas = null;
+      let ctx2d = null;
+      let audioCtx = null;
+      let analyser = null;
+      let analyserSource = null;
+      let rafId = null;
+      let currentAmplitude = 0;
+      let phase = 0;
+
+      const MODE_BADGE_BASE =
+        "mt-2 inline-flex rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.08em]";
+      const MODE_BADGE_ACCENTS = {
+        gemini: "border-violet-400/20 bg-violet-400/10 text-violet-200",
+        elevenlabs: "border-fuchsia-400/20 bg-fuchsia-400/10 text-fuchsia-200",
+        openai: "border-sky-400/20 bg-sky-400/10 text-sky-200",
+        invalid: "border-amber-400/20 bg-amber-400/10 text-amber-200",
+      };
+
+      const WAVES = [
+        { freq: 1.0,  speed: 0.025, alpha: 0.8,  color: [56, 189, 248] },
+        { freq: 1.4,  speed: 0.032, alpha: 0.4,  color: [99, 220, 255] },
+        { freq: 0.7,  speed: 0.018, alpha: 0.3,  color: [34, 211, 238] },
+        { freq: 2.0,  speed: 0.040, alpha: 0.15, color: [147, 197, 253] },
+        { freq: 0.5,  speed: 0.012, alpha: 0.2,  color: [56, 189, 248] },
+      ];
+
+      const initWave = () => {
+        wavePlaceholder.classList.add("hidden");
+        canvas = document.createElement("canvas");
+        canvas.className = "w-full h-full";
+        waveContainer.appendChild(canvas);
+        resizeCanvas();
+        ctx2d = canvas.getContext("2d");
+        phase = 0;
+        currentAmplitude = 0;
+        drawIdle();
+      };
+
+      const resizeCanvas = () => {
+        if (!canvas) return;
+        const dpr = window.devicePixelRatio || 1;
+        const rect = waveContainer.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        canvas.style.width = rect.width + "px";
+        canvas.style.height = rect.height + "px";
+      };
+
+      const drawWaves = (amp) => {
+        const w = canvas.width;
+        const h = canvas.height;
+        const mid = h / 2;
+
+        ctx2d.clearRect(0, 0, w, h);
+
+        for (const wave of WAVES) {
+          const waveAmp = amp * wave.alpha * mid * 0.7;
+          const idleAmp = 2 + wave.alpha * 3;
+          const finalAmp = Math.max(waveAmp, idleAmp);
+
+          ctx2d.beginPath();
+
+          for (let x = 0; x <= w; x += 2) {
+            const ratio = x / w;
+            const envelope = Math.sin(ratio * Math.PI);
+            const y =
+              mid +
+              Math.sin(ratio * Math.PI * 2 * wave.freq + phase * wave.speed * 60) *
+                finalAmp *
+                envelope;
+
+            if (x === 0) ctx2d.moveTo(x, y);
+            else ctx2d.lineTo(x, y);
+          }
+
+          const [r, g, b] = wave.color;
+          const alpha = wave.alpha * (0.5 + amp * 0.5);
+
+          ctx2d.strokeStyle = `rgba(${r},${g},${b},${alpha})`;
+          ctx2d.lineWidth = 1.5 + amp * 1.5;
+          ctx2d.shadowColor = `rgba(${r},${g},${b},${alpha * 0.7})`;
+          ctx2d.shadowBlur = 8 + amp * 16;
+          ctx2d.stroke();
+          ctx2d.shadowBlur = 0;
+        }
+      };
+
+      const drawIdle = () => {
+        rafId = requestAnimationFrame(drawIdle);
+        if (!ctx2d) return;
+        phase += 0.016;
+        currentAmplitude += (0 - currentAmplitude) * 0.05;
+        drawWaves(currentAmplitude);
+      };
+
+      const destroyWave = () => {
+        if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+        if (analyserSource) { analyserSource.disconnect(); analyserSource = null; }
+        if (audioCtx) { audioCtx.close(); audioCtx = null; }
+        analyser = null;
+        canvas = null;
+        ctx2d = null;
+        currentAmplitude = 0;
+        waveContainer.innerHTML =
+          '<p id="wave-placeholder" class="text-slate-600 text-sm select-none">Connect to start</p>';
+      };
+
+      const startAudioAnalysis = (track) => {
+        if (rafId) cancelAnimationFrame(rafId);
+
+        audioCtx = new AudioContext();
+        analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 256;
+        analyser.smoothingTimeConstant = 0.7;
+
+        const stream = new MediaStream([track.mediaStreamTrack]);
+        analyserSource = audioCtx.createMediaStreamSource(stream);
+        analyserSource.connect(analyser);
+
+        const dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+        const tick = () => {
+          rafId = requestAnimationFrame(tick);
+          if (!ctx2d || !analyser) return;
+
+          analyser.getByteFrequencyData(dataArray);
+          let sum = 0;
+          for (let i = 0; i < dataArray.length; i++) sum += dataArray[i];
+          const avg = sum / dataArray.length / 255;
+
+          const target = Math.min(avg * 4, 1);
+          currentAmplitude += (target - currentAmplitude) * 0.12;
+
+          phase += 0.016 + currentAmplitude * 0.02;
+          drawWaves(currentAmplitude);
+        };
+
+        tick();
+      };
+
+      const unlockAudioPlayback = async (roomInstance) => {
+        try {
+          if (typeof roomInstance?.startAudio === "function") {
+            await roomInstance.startAudio();
+            log("Audio playback unlocked");
+            return;
+          }
+          if (typeof Room?.startAudio === "function") {
+            await Room.startAudio();
+            log("Audio playback unlocked");
+          }
+        } catch (error) {
+          log(`Audio unlock failed: ${error.message}`);
+        }
+      };
+
+      const attachRemoteAudio = async (track, participant) => {
+        const el = track.attach();
+        el.autoplay = true;
+        el.playsInline = true;
+        el.controls = false;
+        el.muted = false;
+        el.volume = 1;
+        el.dataset.participantIdentity = participant.identity;
+        audioContainer.appendChild(el);
+        log(`Subscribed to audio from ${participant.identity}`);
+
+        try {
+          await el.play();
+          log(`Playing audio from ${participant.identity}`);
+          stAgent.textContent = "speaking";
+          startAudioAnalysis(track);
+        } catch (error) {
+          log(`Audio play failed: ${error.message}`);
+        }
+      };
+
+      const log = (msg, cls) => {
+        const ts = new Date().toLocaleTimeString("en-GB", { hour12: false });
+        const span = document.createElement("span");
+        if (cls) span.className = cls;
+        span.textContent = `${ts}  ${msg}\n`;
+        logEl.appendChild(span);
+        logEl.scrollTop = logEl.scrollHeight;
+      };
+
+      const renderAgentMode = (agentMode) => {
+        const mode = agentMode ?? {
+          id: "invalid",
+          label: "Unavailable",
+        };
+
+        const accent = MODE_BADGE_ACCENTS[mode.id] ?? MODE_BADGE_ACCENTS.invalid;
+        agentModeEl.className = `${MODE_BADGE_BASE} ${accent}`;
+        agentModeEl.textContent = mode.label;
+      };
+
+      const loadAgentMode = async () => {
+        try {
+          const res = await fetch("/api/config");
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const { agentMode } = await res.json();
+          renderAgentMode(agentMode);
+        } catch (error) {
+          renderAgentMode({
+            id: "invalid",
+            label: "Unavailable",
+            description: "Could not load mode information from the server.",
+          });
+          log(`Mode info unavailable: ${error.message}`);
+        }
+      };
+
+      const connect = async () => {
+        btnConnect.disabled = true;
+        stConn.textContent = "connecting…";
+        log("Fetching token…");
+
+        try {
+          room = new Room();
+          await unlockAudioPlayback(room);
+
+          const res = await fetch("/api/token");
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+          const { token, url: livekitUrl, room: roomName, identity, agentMode } = await res.json();
+          renderAgentMode(agentMode);
+          localIdentity = identity;
+          log(`Token for ${identity} / room ${roomName}`);
+
+          room.on(RoomEvent.TrackSubscribed, (track, _pub, participant) => {
+            if (track.kind === Track.Kind.Audio) void attachRemoteAudio(track, participant);
+          });
+
+          room.on(RoomEvent.TrackUnsubscribed, (track) => {
+            track.detach().forEach((el) => el.remove());
+          });
+
+          room.on(RoomEvent.ParticipantConnected, (p) => {
+            log(`Agent joined: ${p.identity}`);
+            stAgent.textContent = "connected";
+          });
+
+          room.on(RoomEvent.ParticipantDisconnected, (p) => {
+            log(`Agent left: ${p.identity}`);
+            stAgent.textContent = "waiting";
+          });
+
+          room.on(RoomEvent.AudioPlaybackStatusChanged, () => {
+            if (!room.canPlaybackAudio) stAgent.textContent = "audio blocked";
+          });
+
+          room.on(RoomEvent.TranscriptionReceived, (segments, participant) => {
+            const text = segments.map((s) => s.text).join(" ").trim();
+            if (!text) return;
+            const isFinal = segments.some((s) => s.final);
+            if (!isFinal) return;
+
+            const isAgent = participant?.identity !== localIdentity;
+            const label = isAgent ? "agent" : "you";
+            const cls = isAgent ? "text-sky-400" : "text-emerald-400";
+            log(`[${label}] ${text}`, cls);
+          });
+
+          room.on(RoomEvent.Disconnected, () => {
+            stConn.textContent = "disconnected";
+            stMic.textContent = "off";
+            stAgent.textContent = "waiting";
+            btnConnect.disabled = false;
+            btnDisconnect.disabled = true;
+            destroyWave();
+            log("Disconnected");
+          });
+
+          const localTracks = await createLocalTracks({ audio: true, video: false });
+          await room.connect(livekitUrl, token);
+          log(`Connected to ${livekitUrl}`);
+          stConn.textContent = "connected";
+
+          for (const track of localTracks) await room.localParticipant.publishTrack(track);
+          stMic.textContent = "on";
+          log("Mic published — waiting for agent…");
+
+          initWave();
+          btnDisconnect.disabled = false;
+        } catch (error) {
+          log(`Error: ${error.message}`);
+          stConn.textContent = "error";
+          btnConnect.disabled = false;
+        }
+      };
+
+      const disconnect = () => {
+        audioContainer.replaceChildren();
+        room?.disconnect();
+        room = null;
+      };
+
+      btnConnect.addEventListener("click", () => void connect());
+      btnDisconnect.addEventListener("click", () => void disconnect());
+
+      window.addEventListener("resize", resizeCanvas);
+      void loadAgentMode();
+    </script>
+  </body>
+</html>

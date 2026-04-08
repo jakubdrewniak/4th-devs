@@ -1,0 +1,89 @@
+[
+  {
+    "traces": [
+      {
+        "emailFrom": "no-reply@linear.app",
+        "emailSubject": "You were assigned: ACME-412 — Implement rate limiter middleware",
+        "emailBody": "You were assigned to ACME-412.\n\nPriority: High\nDue: Apr 1, 2026\n\nAdd token-bucket rate limiter to API gateway.",
+        "labels": [
+          "automated"
+        ],
+        "priority": "high",
+        "needsReply": false,
+        "summary": "Notification of assignment to implement rate limiter middleware task ACME-412 with high priority and due date April 1, 2026."
+      },
+      {
+        "emailFrom": "recruiter@talentforge.io",
+        "emailSubject": "Exclusive: Staff Engineer at stealth AI unicorn — $400k TC",
+        "emailBody": "Your GitHub profile caught our eye! Staff Engineer role, $380-420k + equity, fully remote. 15 minutes for a quick chat?\n\nJake Miller\nTalentForge Recruiting",
+        "labels": [
+          "spam"
+        ],
+        "priority": "low",
+        "needsReply": false,
+        "summary": "Unsolicited recruiting email offering a Staff Engineer position at a stealth AI unicorn with high compensation."
+      },
+      {
+        "emailFrom": "anna.berg@northstar.io",
+        "emailSubject": "API integration — timeline question",
+        "emailBody": "Hi,\n\nWe're planning to integrate your events API. Questions:\n1. Is the v2 webhooks endpoint stable?\n2. Do you support batch delivery?\n3. Any rate limits?\n\nCould you hop on a 30-min call Thursday?\n\nAnna Berg\nNorthstar Analytics",
+        "labels": [
+          "client",
+          "needs-reply"
+        ],
+        "priority": "medium",
+        "needsReply": true,
+        "summary": "Client Anna Berg from Northstar Analytics inquires about API integration details and requests a call."
+      },
+      {
+        "emailFrom": "notifications@github.com",
+        "emailSubject": "[acme/api-gateway] PR #347: Fix race condition in connection pool",
+        "emailBody": "@mkowalski requested your review on acme/api-gateway#347\n\nChanges:\n- Replaced mutex with RWLock in pool.rs\n- Added regression test for concurrent checkout\n\nFiles changed: 3  Additions: 87  Deletions: 24",
+        "labels": [
+          "github",
+          "needs-reply"
+        ],
+        "priority": "medium",
+        "needsReply": true,
+        "summary": "GitHub notification requesting review on PR #347 fixing a race condition in acme/api-gateway."
+      },
+      {
+        "emailFrom": "notifications@github.com",
+        "emailSubject": "[acme/api-gateway] PR #347: Fix race condition in connection pool",
+        "emailBody": "@mkowalski requested your review on acme/api-gateway#347\n\nChanges:\n- Replaced mutex with RWLock in pool.rs\n- Added regression test for concurrent checkout\n\nFiles changed: 3  Additions: 87  Deletions: 24",
+        "labels": [
+          "github",
+          "needs-reply"
+        ],
+        "priority": "medium",
+        "needsReply": true,
+        "summary": "Review requested for pull request fixing race condition in connection pool on acme/api-gateway repository."
+      },
+      {
+        "emailFrom": "notifications@github.com",
+        "emailSubject": "[acme/api-gateway] PR #347: Fix race condition in connection pool",
+        "emailBody": "@mkowalski requested your review on acme/api-gateway#347\n\nChanges:\n- Replaced mutex with RWLock in pool.rs\n- Added regression test for concurrent checkout\n\nFiles changed: 3  Additions: 87  Deletions: 24",
+        "labels": [
+          "github",
+          "needs-reply"
+        ],
+        "priority": "medium",
+        "needsReply": true,
+        "summary": "Review requested for PR #347 fixing a race condition in the connection pool of acme/api-gateway."
+      },
+      {
+        "emailFrom": "billing@vercel.com",
+        "emailSubject": "Your invoice for March 2026 is ready",
+        "emailBody": "Your Vercel Pro invoice for March 2026 is available.\n\nAmount: $42.00\nPlan: Pro (2 members)\n\nView invoice: https://vercel.com/account/billing",
+        "labels": [
+          "billing",
+          "automated"
+        ],
+        "priority": "medium",
+        "needsReply": false,
+        "summary": "Vercel Pro invoice for March 2026 is ready with an amount of $42.00."
+      }
+    ],
+    "programId": "root"
+  }
+]

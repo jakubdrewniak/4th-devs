@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "files": {
+      "command": "bun",
+      "args": ["run", "../mcp/files-mcp/src/index.ts"],
+      "env": {
+        "LOG_LEVEL": "warning",
+        "FS_ROOT": "workspace"
+      }
+    }
+  }
+}

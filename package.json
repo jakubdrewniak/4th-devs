@@ -134,12 +134,24 @@
     "lesson19:daily-news": "node ./04_04_system/demo-daily-news.js",
     "prelesson19:examples": "npm run ensure:files-mcp",
     "lesson19:examples": "node ./04_04_system/demo-example-queries.js",
-    "lesson21:install": "npm install --prefix ./05_01_agent_graph",
-    "lesson21:agent_graph": "cd 05_01_agent_graph && npm start",
     "lesson20:install": "npm install --prefix ./04_05_apps && npm install --prefix ./04_05_review",
     "lesson20:apps": "cd 04_05_apps && bun run start",
     "lesson20:apps:mcp": "cd 04_05_apps && bun run start:mcp",
     "lesson20:review": "cd 04_05_review && bun run start",
-    "lesson20:review:dev": "cd 04_05_review && bun run dev:server"
+    "lesson20:review:dev": "cd 04_05_review && bun run dev:server",
+    "lesson21:install": "npm install --prefix ./05_01_agent_graph",
+    "lesson21:agent_graph": "cd 05_01_agent_graph && npm start",
+    "lesson22:install": "bun install --cwd ./05_02_ui && bun install --cwd ./05_02_voice",
+    "lesson22:ui": "cd 05_02_ui && bun run dev",
+    "lesson22:ui:start": "cd 05_02_ui && bun run build && bun run start",
+    "lesson22:voice": "cd 05_02_voice && bun run dev",
+    "lesson23:install": "npm install --prefix ./mcp/files-mcp && bun install --cwd ./05_03_ax && npm install --prefix ./05_03_coding",
+    "lesson23:autoprompt": "cd 05_03_autoprompt && node src/cli/optimize.js",
+    "lesson23:autoprompt:demo": "cd 05_03_autoprompt && node src/cli/optimize.js projects/demo",
+    "lesson23:autoprompt:verify": "cd 05_03_autoprompt && node src/cli/verify.js projects/demo",
+    "lesson23:ax": "cd 05_03_ax && bun run start",
+    "lesson23:ax:optimize": "cd 05_03_ax && bun run optimize",
+    "prelesson23:coding": "npm run ensure:files-mcp",
+    "lesson23:coding": "cd 05_03_coding && bun run start"
   }
 }

@@ -1,0 +1,13 @@
+# Iteration 5 - discard - score: 0.8054
+Candidate: coverage
+Operation: REWORD
+Reasoning: After auditing the schema and eval policy, the main scored weakness is exact-field misclassification rather than missing section coverage: owner and transcript-style date copying are both scored exactly, but the current rule is too compressed and ambiguous. I chose REWORD to sharpen that existing rule so weekday stripping is deterministic and explicit ownership language can fill project owner even when phrased as owning a project side. I rejected ADD because a new task-boundary or status rule would either duplicate existing coverage or drift back toward the previously discarded over-inclusion strategy.
+Section scores: projects:0.50 tasks:0.86 decisions:1.00 people:0.75
+Section deltas: people:-0.25 tasks:-0.01
+Candidates:
+- balanced: 0.7393 (discard) decisions:-0.50 tasks:-0.08
+- coverage: 0.8054 (discard) people:-0.25 tasks:-0.01
+- simplify: 0.7465 (discard) decisions:-0.50 tasks:-0.06
+
+- - Treat contextual and exact fields conservatively: use the meeting date for decisions unless another date is stated; when a date is given with a weekday, omit the weekday and copy the remaining date phrase exactly; fill owner only when someone is explicitly described as owning that project, and fill priority, assignee, and deadline only when explicitly tied to that item; otherwise use null.
++ - Treat exact and contextual fields as item-specific copies: decisions use the meeting date unless another date is stated; if a date phrase includes a weekday, remove the weekday and keep the remaining phrase verbatim; set project owner only from explicit ownership language, including someone explicitly owning a named side of that project; set priority, assignee, and deadline only when explicitly tied to that item; otherwise use null.

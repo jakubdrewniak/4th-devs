@@ -1,0 +1,12 @@
+{
+  "name": "05_03_autoprompt",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node src/cli/optimize.js",
+    "optimize": "node src/cli/optimize.js",
+    "verify": "node src/cli/verify.js",
+    "demo:optimize": "node src/cli/optimize.js projects/demo",
+    "demo:verify": "node src/cli/verify.js projects/demo"
+  }
+}

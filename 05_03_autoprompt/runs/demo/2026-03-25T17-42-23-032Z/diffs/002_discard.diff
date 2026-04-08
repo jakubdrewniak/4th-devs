@@ -1,0 +1,11 @@
+# Iteration 2 - discard - score: 0.9128
+Candidate: coverage
+Operation: ADD
+Reasoning: The dominant errors are boundary mistakes between tasks and decisions, especially when future plans or descriptive statements get extracted as tasks/decisions despite not being committed work or standalone decisions. Schema coverage is still missing a rule for exact date normalization, which directly causes scored deadline/date mismatches in both tasks and decisions. I chose ADD because no existing rule covers how to format dates, and this is a clear evaluation concern with repeated exact-field errors; I rejected rewording the decision rule because that same idea was already tried and the prompt is already scoring well overall.
+Section scores: projects:1.00 tasks:0.86 decisions:0.84 people:1.00
+Candidates:
+- balanced: 0.8089 (discard) projects:-0.33 decisions:-0.17 tasks:-0.05
+- coverage: 0.9128 (discard)
+- simplify: 0.9012 (discard) tasks:-0.05 decisions:+0.05
+
++ - When a date is included, normalize it to the core calendar date only (for example, use "March 27" not "Friday March 27" or "Monday, March 16").

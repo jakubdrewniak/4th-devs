@@ -1,0 +1,5 @@
+# Iteration 3 - keep - score: 0.8712
+Operation: ADD
+Reasoning: The dominant errors are MISCLASSIFICATION, especially exact-field mistakes for task status and date, plus missing decision dates; the current prompt has no field-level criteria for these scored exact fields. I chose ADD because schema/evaluation coverage is incomplete for status/date determination, and that gap is directly causing repeated errors across cases. I rejected rewording the existing boundary rule because it already addresses hallucination reasonably well, and changing it would not add the missing exact-field guidance.
+
++ - For exact fields, copy stated values in normalized form: task status is done only for explicit completion evidence like finished, completed, working, fixed, or happy path works; in_progress for active ongoing work or moving on to it now; todo for planned or assigned work not yet started and future events that are merely scheduled; blocked only for explicit blockers; paused only for explicit pauses. Use transcript dates for decisions when the decision is made in that meeting, and normalize dates by removing weekday words while keeping the stated month/day.

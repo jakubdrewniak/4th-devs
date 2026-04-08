@@ -1,0 +1,22 @@
+{
+  "mcpServers": {
+    "web": {
+      "transport": "stdio",
+      "command": "bun",
+      "args": ["../mcp/web/src/index.ts"],
+      "env": {
+        "LOG_LEVEL": "info",
+        "FIRECRAWL_OUTPUT_MODE": "direct"
+      }
+    },
+    "files": {
+      "transport": "stdio",
+      "command": "bun",
+      "args": ["../mcp/files-mcp/src/index.ts"],
+      "env": {
+        "LOG_LEVEL": "info",
+        "FS_ROOT": "./.data/workspace"
+      }
+    }
+  }
+}

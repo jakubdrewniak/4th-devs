@@ -1,0 +1,13 @@
+# Iteration 8 - discard - score: 0.8602
+Candidate: simplify
+Operation: REWORD
+Reasoning: The dominant remaining errors are boundary mistakes: the model turns goals, plans, and descriptive statements into tasks or decisions, and sometimes bundles multiple decisions into one. Date-format guidance was already tried and discarded, so the highest-impact single change is to tighten the existing decisions rule rather than add more coverage. I chose REWORD because the prompt already addresses decision boundaries, and simplifying that rule to define atomic, standalone decisions should reduce both decision hallucinations and some task over-extraction without adding prompt weight.
+Section scores: projects:0.67 tasks:0.83 decisions:0.89 people:1.00
+Section deltas: projects:-0.33 decisions:+0.05 tasks:-0.03
+Candidates:
+- balanced: 0.8380 (discard) projects:-0.33 decisions:-0.06 tasks:-0.03
+- coverage: 0.7827 (discard) projects:-0.33 decisions:-0.22 tasks:-0.09
+- simplify: 0.8602 (discard) projects:-0.33 decisions:+0.05 tasks:-0.03
+
+- - Decisions are explicit agreements to adopt, change, or confirm something; do not treat roles, task assignments, project names, or planned work as decisions unless the transcript states they were decided.
++ - Decisions are standalone, explicit agreements to adopt, change, confirm, or defer something; record each decision separately, and do not treat names, descriptions, assignments, goals, planned work, or implementation details as decisions unless the transcript clearly states they were agreed or decided.

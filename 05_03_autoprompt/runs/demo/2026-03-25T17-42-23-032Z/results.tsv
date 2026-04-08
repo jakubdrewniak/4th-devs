@@ -1,0 +1,12 @@
+iteration	score	status	candidate	operation	section_changes	description
+0	0.7946	baseline	baseline	baseline	-	initial prompt (+/-0.0000)
+1	0.9128	keep	balanced	ADD	projects:+0.33 decisions:+0.17 tasks:+0.08	+1/-0 lines
+2	0.9128	discard	coverage	ADD	-	+1/-0 lines
+3	0.8390	discard	balanced	ADD	projects:-0.33 tasks:-0.08 decisions:+0.05	+1/-0 lines
+4	0.8724	discard	coverage	ADD	projects:-0.33 decisions:+0.05	+1/-0 lines
+5	0.8335	discard	coverage	REWORD	projects:-0.33 decisions:-0.06 tasks:-0.04	+1/-1 lines
+6	0.7872	discard	simplify	ADD	projects:-0.33 decisions:-0.22 tasks:-0.08	+1/-0 lines
+7	0.8628	discard	simplify	REWORD	projects:-0.33	+1/-1 lines
+8	0.8602	discard	simplify	REWORD	projects:-0.33 decisions:+0.05 tasks:-0.03	+1/-1 lines
+9	0.8628	discard	coverage	ADD	projects:-0.33	+1/-0 lines
+10	0.8557	discard	simplify	ADD	projects:-0.33 decisions:+0.05 tasks:-0.04	+1/-0 lines

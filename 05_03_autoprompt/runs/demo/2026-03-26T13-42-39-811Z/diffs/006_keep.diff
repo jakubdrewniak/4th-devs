@@ -1,0 +1,13 @@
+# Iteration 6 - keep - score: 0.9429
+Candidate: coverage
+Operation: REWORD
+Reasoning: Exact-field misclassification is the main remaining scored issue, and the clearest persistent miss is project owner extraction from explicit ownership language that is narrower than “owns the project.” I chose REWORD because the prompt already has an owner/date sourcing rule, so the highest-impact fix is to sharpen that existing boundary rather than ADD another rule. I rejected task-boundary changes because that direction already regressed in prior attempts, and a new rule would add prompt weight without directly fixing the owner miss.
+Section scores: projects:1.00 tasks:0.86 decisions:1.00 people:1.00
+Section deltas: projects:+0.50 tasks:-0.01
+Candidates:
+- balanced: 0.8465 (discard) projects:+0.50 decisions:-0.50
+- coverage: 0.9429 (keep) projects:+0.50 tasks:-0.01
+- simplify: 0.7304 (discard) projects:+0.50 decisions:-0.50 people:-0.25 tasks:-0.13
+
+- - Treat contextual and exact fields conservatively: use the meeting date for decisions unless another date is stated; when a date is given with a weekday, omit the weekday and copy the remaining date phrase exactly; fill owner only when someone is explicitly described as owning that project, and fill priority, assignee, and deadline only when explicitly tied to that item; otherwise use null.
++ - Treat contextual and exact fields conservatively: use the meeting date for decisions unless another date is stated; if a date is given with a weekday, drop the weekday and copy the remaining date phrase exactly; set project owner when someone is explicitly described as owning the project or the product side of that project; set priority, assignee, and deadline only when they are explicitly tied to that item; otherwise use null.

@@ -1,0 +1,12 @@
+iteration	score	status	operation	description
+0	0.7851	baseline	baseline	initial prompt (+/-0.0000)
+1	0.8418	keep	ADD	+1/-0 lines
+2	0.8172	discard	ADD	+1/-0 lines
+3	0.8712	keep	ADD	+1/-0 lines
+4	0.9224	keep	REWORD	+1/-1 lines
+5	0.9057	discard	REWORD	+1/-1 lines
+6	0.9069	discard	ADD	+1/-0 lines
+7	0.8841	discard	REWORD	+1/-1 lines
+8	0.9057	discard	REWORD	+1/-1 lines
+9	0.9567	keep	REWORD	+1/-1 lines
+10	0.9128	discard	ADD	+1/-0 lines

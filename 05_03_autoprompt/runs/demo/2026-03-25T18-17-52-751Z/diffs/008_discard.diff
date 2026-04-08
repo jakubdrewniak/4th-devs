@@ -1,0 +1,12 @@
+# Iteration 8 - discard - score: 0.7678
+Candidate: coverage
+Operation: ADD
+Reasoning: The remaining errors are mixed, but the clearest uncovered scored concern is an exact-field sourcing error: the prompt says how to format dates, but not when a decision should inherit the meeting date from the transcript. I chose ADD because this is genuine schema/evaluation coverage that is currently missing, while prior task-boundary edits were already tried and either regressed or were discarded. This new rule is narrow, domain-general, and should fix the decision date null mismatch without disrupting stronger sections.
+Section scores: projects:0.50 tasks:0.86 decisions:0.50 people:1.00
+Section deltas: projects:-0.50 decisions:-0.38
+Candidates:
+- balanced: 0.7678 (discard) projects:-0.50 decisions:-0.38
+- coverage: 0.7678 (discard) projects:-0.50 decisions:-0.38
+- simplify: 0.7678 (discard) projects:-0.50 decisions:-0.38
+
++ - For decisions, use the transcript's meeting date when the decision is described as made in the current meeting and no other date is stated.

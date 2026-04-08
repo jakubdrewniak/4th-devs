@@ -1,0 +1,31 @@
+{
+  "projects": [
+    { "name": "SkillAgent", "status": "active", "owner": "Alice", "priority": null }
+  ],
+  "tasks": [
+    { "task": "Build core agent loop with tool calling", "project": "SkillAgent", "assignee": "Bob", "status": "done", "deadline": null },
+    { "task": "Set up MCP file server connection", "project": "SkillAgent", "assignee": "Bob", "status": "in_progress", "deadline": null },
+    { "task": "Write skill format spec", "project": "SkillAgent", "assignee": "Alice", "status": "done", "deadline": null },
+    { "task": "Create first test skill for data extraction", "project": "SkillAgent", "assignee": "Alice", "status": "done", "deadline": null },
+    { "task": "Wire up LLM tool for inner LLM calls", "project": "SkillAgent", "assignee": "Bob", "status": "done", "deadline": null },
+    { "task": "Design feedback loop", "project": "SkillAgent", "assignee": "Bob", "status": "done", "deadline": null },
+    { "task": "Demo to team", "project": "SkillAgent", "assignee": "Alice", "status": "todo", "deadline": "March 27" },
+    { "task": "Update skill spec with CONTEXT section", "project": "SkillAgent", "assignee": "Alice", "status": "todo", "deadline": null },
+    { "task": "Create project status updates skill", "project": "SkillAgent", "assignee": "Alice", "status": "done", "deadline": null },
+    { "task": "Create decisions summarization skill", "project": "SkillAgent", "assignee": "Alice", "status": "done", "deadline": null },
+    { "task": "Write eval criteria for each skill", "project": "SkillAgent", "assignee": "Alice", "status": "done", "deadline": null }
+  ],
+  "decisions": [
+    { "decision": "Use gpt-4.1 through OpenAI Responses API", "date": "March 16" },
+    { "decision": "Skills are markdown files with schema section and rules", "date": "March 16" },
+    { "decision": "Use MCP file server for workspace access", "date": "March 16" },
+    { "decision": "Add CONTEXT section to skill format for dynamic data injection", "date": "March 18" },
+    { "decision": "Ship v1 after the demo", "date": "March 26" },
+    { "decision": "Skill chaining is v2 scope", "date": "March 26" },
+    { "decision": "Process one document at a time as recommended pattern", "date": "March 26" }
+  ],
+  "people": [
+    { "name": "Alice", "role": "Product — skill design, prompt writing, eval criteria" },
+    { "name": "Bob", "role": "Engineering" }
+  ]
+}

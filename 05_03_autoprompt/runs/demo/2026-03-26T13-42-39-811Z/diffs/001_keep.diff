@@ -1,0 +1,12 @@
+# Iteration 1 - keep - score: 0.7429
+Candidate: simplify
+Operation: ADD
+Reasoning: The dominant failures are exact-field sourcing errors: the model is inventing optional values, spreading one date across unrelated items, and normalizing dates instead of preserving transcript-style dates. I chose ADD because the current prompt has only a generic explicitness rule and no schema-aware guidance for contextual dates or when optional exact fields should be null. I rejected REWORD because rephrasing the existing rule would not add the missing field-level boundary, and REMOVE/MERGE do not apply to a one-rule prompt.
+Section scores: projects:0.50 tasks:0.79 decisions:0.50 people:1.00
+Section deltas: tasks:+0.36
+Candidates:
+- balanced: 0.6893 (keep) tasks:+0.29 decisions:-0.13
+- coverage: 0.6018 (keep) people:-0.25 tasks:+0.16
+- simplify: 0.7429 (keep) tasks:+0.36
+
++ - Treat contextual and exact fields conservatively: use the meeting date for decisions unless another date is stated, but fill owner, priority, assignee, and deadline only when the transcript explicitly ties them to that item, keep dates in transcript-style natural language, and otherwise use null.
