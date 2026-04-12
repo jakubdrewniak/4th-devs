@@ -1,0 +1,2036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agentic Runtime Sequence</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@400;600;700&family=DM+Mono:wght@400;500&display=swap');
+    :root {
+      --bg: #0a0a0a; --surface: #161616; --border: #3a3a3a; --border-s: #4a4a4a;
+      --text: #ffffff; --muted: #888888; --accent: #75f86f;
+      --accent-dim: rgba(117,248,111,0.12); --warn: #f78c6c;
+      --user: #89ddff; --ai: #c792ea; --code: #ffcb6b;
+      --str: #c3e88d; --prop: #82aaff; --comment: #545454;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Lexend Deca', system-ui, sans-serif;
+      background: var(--bg);
+      background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 24px 24px;
+      color: var(--text);
+      height: 100vh; overflow: hidden;
+      display: flex; flex-direction: column;
+    }
+
+    /* === TOP BAR === */
+    .top {
+      display: flex; flex-direction: column; gap: 12px;
+      padding: 20px 32px 16px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .top__row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: center; }
+    .tab, .btn {
+      font-family: 'DM Mono', monospace; font-size: 11px;
+      padding: 5px 10px; background: var(--surface);
+      border: 1px solid var(--border); border-radius: 4px;
+      color: var(--muted); cursor: pointer; transition: all 0.15s;
+    }
+    .tab:hover, .btn:hover { color: var(--text); border-color: var(--border-s); }
+    .tab.active { color: var(--accent); border-color: var(--accent); background: var(--accent-dim); }
+    .btn.active { color: var(--accent); border-color: var(--accent); }
+    .btn:disabled { opacity: 0.3; cursor: default; }
+    .counter { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); min-width: 72px; text-align: center; }
+    .layers { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
+    .layer-pill {
+      font-family: 'DM Mono', monospace; font-size: 9px; text-transform: uppercase;
+      letter-spacing: 0.06em; padding: 4px 8px; border: 1px solid var(--border);
+      border-radius: 4px; color: var(--muted); background: var(--surface); transition: all 0.2s;
+    }
+    .layer-pill.seen { color: var(--text); border-color: var(--border-s); }
+    .layer-pill.active { color: var(--accent); border-color: var(--accent); background: var(--accent-dim); }
+
+    /* === CANVAS (fixed height, single frame) === */
+    .canvas {
+      flex-shrink: 0; padding: 16px 32px;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .canvas__heads {
+      display: flex; align-items: stretch;
+    }
+    .actor-head {
+      flex: 1 1 0; min-width: 80px; text-align: center;
+      padding: 8px 4px; border-bottom: 2px solid var(--border);
+      font-family: 'DM Mono', monospace; font-size: 10px;
+      text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .actor-head--user { border-bottom-color: var(--user); color: var(--user); }
+    .actor-head--code { border-bottom-color: var(--code); color: var(--code); }
+    .actor-head--ai { border-bottom-color: var(--ai); color: var(--ai); }
+    .conn-gap { width: 32px; flex-shrink: 0; }
+
+    .canvas__frame {
+      display: flex; align-items: center; min-height: 56px; position: relative;
+    }
+    .actor-lane {
+      flex: 1 1 0; min-width: 80px; display: flex; justify-content: center;
+      position: relative; height: 56px;
+    }
+    .actor-lane__line { height: 56px; border-left: 1px dashed var(--border); }
+    .actor-lane__dot {
+      position: absolute; top: 50%; left: 50%;
+      width: 14px; height: 14px; border-radius: 50%;
+      transform: translate(-50%,-50%) scale(0); opacity: 0;
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), opacity 0.25s;
+    }
+    .actor-lane__dot.visible { transform: translate(-50%,-50%) scale(1); opacity: 1; }
+    .actor-lane__dot--user { background: var(--user); }
+    .actor-lane__dot--code { background: var(--code); }
+    .actor-lane__dot--ai { background: var(--ai); }
+    .actor-lane__self {
+      position: absolute; top: 50%; left: 50%;
+      width: 28px; height: 28px; border-radius: 50%;
+      border: 2px solid var(--border-s); background: var(--bg);
+      transform: translate(-50%,-50%) scale(0); opacity: 0;
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), opacity 0.25s;
+    }
+    .actor-lane__self.visible {
+      transform: translate(-50%,-50%) scale(1); opacity: 1;
+      border-color: var(--accent); box-shadow: 0 0 0 6px rgba(117,248,111,0.1);
+    }
+    @keyframes selfPulse {
+      0% { box-shadow: 0 0 0 0 rgba(117,248,111,0.3); }
+      70% { box-shadow: 0 0 0 10px rgba(117,248,111,0); }
+      100% { box-shadow: 0 0 0 0 rgba(117,248,111,0); }
+    }
+    .actor-lane__self.pulse { animation: selfPulse 0.6s ease-out; }
+
+    .conn-slot {
+      width: 32px; flex-shrink: 0; position: relative;
+      display: flex; align-items: center; height: 56px;
+    }
+    .conn-slot__line {
+      width: 100%; height: 2px; background: var(--accent);
+      transform: scaleX(0); transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
+    }
+    .conn-slot--right .conn-slot__line { transform-origin: left; }
+    .conn-slot--left .conn-slot__line { transform-origin: right; }
+    .conn-slot__line.visible { transform: scaleX(1); }
+    .conn-slot__line.returning {
+      background: transparent;
+      background-image: linear-gradient(to right, var(--accent) 50%, transparent 50%);
+      background-size: 8px 2px; background-repeat: repeat-x;
+    }
+    .conn-slot__arrow {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 0; height: 0; opacity: 0; transition: opacity 0.2s 0.3s;
+    }
+    .conn-slot__arrow.visible { opacity: 1; }
+    .conn-slot--right .conn-slot__arrow {
+      right: -1px; border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent; border-left: 7px solid var(--accent);
+    }
+    .conn-slot--left .conn-slot__arrow {
+      left: -1px; border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent; border-right: 7px solid var(--accent);
+    }
+
+    /* Event meta (single updating slot) */
+    .canvas__meta {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 14px; background: var(--surface);
+      border: 1px solid var(--accent); border-radius: 6px;
+      min-height: 52px; transition: opacity 0.2s;
+    }
+    .canvas__meta.empty { border-color: var(--border); }
+    .meta__stage {
+      font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase;
+      letter-spacing: 0.06em; padding: 4px 8px; border: 1px solid var(--accent);
+      border-radius: 4px; color: var(--accent); white-space: nowrap; flex-shrink: 0;
+      transition: all 0.25s;
+    }
+    .canvas__meta.empty .meta__stage { border-color: var(--border); color: var(--muted); }
+    .meta__copy { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+    .meta__title { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .meta__caption { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    /* === DETAIL STRIP (below canvas, fills remaining space) === */
+    .detail-strip {
+      flex: 1; min-height: 0; overflow-y: auto;
+      display: flex; gap: 16px; padding: 16px 32px;
+      border-top: 1px solid var(--border);
+    }
+    .detail-col {
+      flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px;
+    }
+    .detail-col__eyebrow {
+      font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase;
+      letter-spacing: 0.06em; color: var(--muted); padding-bottom: 4px;
+      border-bottom: 1px solid var(--border);
+    }
+    .detail-col__body { display: flex; flex-direction: column; gap: 6px; overflow-y: auto; flex: 1; min-height: 0; }
+
+    .why-box {
+      font-size: 12px; line-height: 1.5; color: var(--text);
+      padding: 8px 10px; border-left: 3px solid var(--accent);
+      background: var(--accent-dim); border-radius: 0 4px 4px 0;
+    }
+    .why-box:empty { display: none; }
+    .summary-text { font-size: 12px; line-height: 1.5; color: var(--muted); }
+
+    .thread-msg {
+      display: flex; align-items: flex-start; gap: 6px;
+      padding: 6px 8px; border-radius: 4px; background: var(--surface);
+      border: 1px solid var(--border); font-size: 11px;
+    }
+    .thread-msg--event {
+      border-style: dashed;
+      background: rgba(255,255,255,0.02);
+    }
+    .thread-role {
+      font-family: 'DM Mono', monospace; font-size: 9px; text-transform: uppercase;
+      letter-spacing: 0.05em; padding: 2px 5px; border-radius: 3px;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .thread-role--user { background: rgba(137,221,255,0.15); color: var(--user); }
+    .thread-role--assistant { background: rgba(199,146,234,0.15); color: var(--ai); }
+    .thread-role--thinking { background: rgba(255, 203, 107, 0.12); color: var(--code); }
+    .thread-role--tool { background: rgba(255,255,255,0.08); color: var(--text); }
+    .thread-role--delegation { background: var(--accent-dim); color: var(--accent); }
+    .thread-text { color: var(--muted); min-width: 0; line-height: 1.4; }
+    .thread-empty { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--comment); padding: 6px; }
+
+    .obj-card {
+      display: flex; flex-direction: column; gap: 4px;
+      padding: 8px 10px; border: 1px solid var(--border); border-radius: 4px; background: var(--surface);
+    }
+    .obj-card--new { border-left: 3px solid var(--accent); }
+    .obj-card--changed { border-left: 3px solid var(--warn); }
+    .obj-card--steady { border-left: 3px solid var(--border); }
+    .obj-card__top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .obj-card__name { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--prop); }
+    .obj-card__tag {
+      font-family: 'DM Mono', monospace; font-size: 9px; text-transform: uppercase;
+      padding: 2px 5px; border: 1px solid var(--border); border-radius: 3px; color: var(--muted);
+    }
+    .obj-card__tag--new { color: var(--accent); border-color: var(--accent); }
+    .obj-card__tag--changed { color: var(--warn); border-color: var(--warn); }
+    .obj-card__val { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--str); line-height: 1.4; }
+    .obj-card__prev {
+      font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted);
+      display: flex; align-items: center; gap: 4px; flex-wrap: wrap;
+    }
+    .obj-card__prev-old { color: var(--comment); text-decoration: line-through; }
+    .obj-card__prev-arrow { color: var(--warn); font-size: 9px; }
+    .obj-card__prev-new { color: var(--str); }
+    .obj-card__note { font-size: 11px; color: var(--muted); line-height: 1.4; }
+
+    .hook {
+      font-family: 'DM Mono', monospace; font-size: 10px;
+      padding: 5px 8px; border: 1px solid var(--border); border-radius: 3px;
+      background: var(--bg); color: var(--text);
+    }
+
+    .hint {
+      flex-shrink: 0; text-align: center; padding: 8px;
+      font-family: 'DM Mono', monospace; font-size: 9px; color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+    .hint kbd {
+      font-family: 'DM Mono', monospace; font-size: 9px;
+      padding: 1px 4px; border: 1px solid var(--border); border-radius: 2px;
+      background: var(--surface); color: var(--text); margin: 0 1px;
+    }
+
+    @media (max-width: 1100px) {
+      .detail-strip { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="top">
+    <div class="top__row">
+      <div id="tabs" style="display:flex;gap:6px;flex-wrap:wrap"></div>
+      <button type="button" class="btn" id="resetBtn">Reset</button>
+      <button type="button" class="btn" id="prevBtn">←</button>
+      <button type="button" class="btn" id="nextBtn">→</button>
+      <button type="button" class="btn" id="playBtn">Play</button>
+      <div class="counter" id="counter">—</div>
+      <button type="button" class="btn" id="modeBtn">Compact</button>
+    </div>
+    <div class="layers" id="layers"></div>
+  </div>
+
+  <div class="canvas">
+    <div class="canvas__heads" id="heads"></div>
+    <div class="canvas__frame" id="frame"></div>
+    <div class="canvas__meta empty" id="meta">
+      <div class="meta__stage" id="metaStage">—</div>
+      <div class="meta__copy">
+        <div class="meta__title" id="metaTitle">Select a scenario and press Play or →</div>
+        <div class="meta__caption" id="metaCaption"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="detail-strip">
+    <div class="detail-col">
+      <div class="detail-col__eyebrow">Why this stage</div>
+      <div class="detail-col__body">
+        <div class="summary-text" id="summaryText"></div>
+        <div class="why-box" id="whyBox"></div>
+      </div>
+    </div>
+    <div class="detail-col">
+      <div class="detail-col__eyebrow">Visible thread</div>
+      <div class="detail-col__body" id="threadCol"></div>
+    </div>
+    <div class="detail-col">
+      <div class="detail-col__eyebrow">Object mutations</div>
+      <div class="detail-col__body" id="objectsCol"></div>
+    </div>
+    <div class="detail-col">
+      <div class="detail-col__eyebrow">Code hooks</div>
+      <div class="detail-col__body" id="hooksCol"></div>
+    </div>
+  </div>
+
+  <div class="hint">
+    <kbd>Space</kbd> play/pause <kbd>←</kbd> prev <kbd>→</kbd> next <kbd>R</kbd> reset <kbd>M</kbd> compact/full
+  </div>
+
+  <script>
+    const LAYERS = [
+      "Route",
+      "Command",
+      "Queue",
+      "Scheduler",
+      "Claim",
+      "Turn Loop",
+      "Delegation",
+      "Delivery",
+      "Persistence",
+      "Recovery",
+    ];
+
+    const SCENARIOS = {
+      simple: {
+        label: "Simple reply",
+        prompt: 'User says "hi" to Alice.',
+        focus: "Minimal happy path. No child runs. No delegation. No recovery. Just the full root lifecycle.",
+        actors: [
+          { label: "User / UI", type: "user" },
+          { label: "HTTP Route", type: "code" },
+          { label: "Runtime Engine", type: "code" },
+          { label: "Alice", type: "ai" },
+        ],
+        steps: [
+          {
+            layer: "Route",
+            title: "HTTP route accepts the request",
+            caption: "auth + validation + parse",
+            from: 0,
+            to: 1,
+            summary: "The outside world touches the system only here.",
+            why: "Route is the product boundary: authentication, validation, and parsing happen before any runtime object exists.",
+            objects: [
+              { name: "input", value: 'user: hi', tag: "new", note: "External input before persistence." },
+            ],
+            code: [
+              "session-routes.ts#createSessionRoutes",
+              "bootstrap-session.ts#parseBootstrapSessionInput",
+            ],
+          },
+          {
+            layer: "Command",
+            title: "Command persists the first runtime graph",
+            caption: "session + thread + msg_1 + job_root + run_alice",
+            from: 1,
+            to: 2,
+            summary: "One transaction writes the durable graph needed for execution.",
+            why: "Command creates durable state first so the work survives a crash before any model call begins.",
+            objects: [
+              { name: "session", value: 'status: active', tag: "new", note: "Conversation container." },
+              { name: "thread", value: 'status: active', tag: "new", note: "Visible transcript timeline." },
+              { name: "msg_1", value: 'user: hi', tag: "new", note: "First durable transcript row." },
+              { name: "job_root", value: 'status: queued', tag: "new", note: "Top-level work order." },
+              { name: "run_alice", value: 'status: pending', tag: "new", note: "Execution attempt bound to Alice." },
+            ],
+            code: [
+              "bootstrap-session.ts#createBootstrapSessionCommand.execute",
+              "job-repository.ts#create",
+              "run-repository.ts#create",
+            ],
+          },
+          {
+            layer: "Queue",
+            title: "The work is durable but still idle",
+            caption: "queued / pending boundary",
+            from: 2,
+            to: 2,
+            summary: "The job exists and the run exists, but no execution has started yet.",
+            why: "Queue is the fault-tolerance boundary: if the process dies here, the task is still recoverable from SQLite.",
+            objects: [
+              { name: "job_root", value: 'status: queued', tag: "steady", note: "Declared but not executing." },
+              { name: "run_alice", value: 'status: pending', tag: "steady", note: "Runnable but not claimed." },
+            ],
+            code: [
+              "execute-run.ts#createExecuteRunCommand.execute",
+              "job-sync.ts#queueLinkedJob",
+            ],
+          },
+          {
+            layer: "Scheduler",
+            title: "Scheduler picks the root pair",
+            caption: "execute_pending_run(job_root, run_alice)",
+            from: 2,
+            to: 2,
+            summary: "The polling loop decides this queued/pending pair is the next action.",
+            why: "Scheduler decides before claim or execution. That selection is deterministic and based on durable state.",
+            objects: [
+              { name: "decision_root", value: "execute_pending_run(job_root, run_alice)", tag: "new", note: "Transient worker decision." },
+            ],
+            code: [
+              "multiagent-worker.ts#processOneDecision",
+              "readiness-engine.ts#pickNextDecision",
+            ],
+          },
+          {
+            layer: "Claim",
+            title: "Worker claims the run and starts heartbeat",
+            caption: "claim + lease renewal",
+            from: 2,
+            to: 2,
+            summary: "The worker takes ownership of the run before it enters execution.",
+            why: "Claim prevents duplicate execution. Heartbeat keeps the lease alive while the run is in progress.",
+            objects: [
+              { name: "claim_root", value: "run_alice -> wrk_1", tag: "new", note: "Lease row in run_claims." },
+              { name: "job_root", value: 'status: running', tag: "changed", note: "Work order becomes active." },
+              { name: "run_alice", value: 'status: running', tag: "changed", note: "Alice can now enter the turn loop." },
+            ],
+            code: [
+              "readiness-actions.ts#claimRunAndExecute",
+              "run-claim-repository.ts#claim",
+              "job-sync.ts#recordLinkedJobHeartbeat",
+            ],
+          },
+          {
+            layer: "Turn Loop",
+            title: "Alice executes one model turn",
+            caption: "load context + assemble + stream",
+            from: 2,
+            to: 3,
+            summary: "The run loads the thread, assembles the model request, and streams a plain-text reply.",
+            why: "The route never talks to the model directly. The worker always drives execution through the durable run loop.",
+            objects: [
+              { name: "request_bundle", value: "messages + tools + agent profile", tag: "new", note: "Transient model input built from durable state." },
+              { name: "run_alice", value: 'turnCount: 1', tag: "steady", note: "This turn uses no tools." },
+            ],
+            code: [
+              "drive-run.ts#executeRunTurnLoop",
+              "load-thread-context.ts#loadThreadContext",
+              "assemble-thread-interaction-request.ts#assembleThreadInteractionRequest",
+              "run-generation-stream.ts#streamRunInteraction",
+            ],
+          },
+          {
+            layer: "Persistence",
+            title: "Alice completes with plain text",
+            caption: "completeRunWithAssistantMessage",
+            from: 3,
+            to: 2,
+            returning: true,
+            summary: "The assistant reply is persisted to the thread and the run closes.",
+            why: "With no tool calls, the run can finish in the same turn that produced the answer.",
+            objects: [
+              { name: "msg_2", value: "assistant: Hi Adam. How can I help?", tag: "new", note: "Visible assistant transcript row." },
+              { name: "run_alice", value: 'status: completed', tag: "changed", note: "Run now has durable resultJson." },
+              { name: "job_root", value: 'status: completed', tag: "changed", note: "Top-level work order is done." },
+            ],
+            code: [
+              "run-persistence.ts#completeRunWithAssistantMessage",
+              "job-sync.ts#markRunJobCompleted",
+            ],
+          },
+          {
+            layer: "Route",
+            title: "Route returns the durable result",
+            caption: "rebuilt output -> client",
+            from: 1,
+            to: 0,
+            returning: true,
+            summary: "The user receives a response reconstructed from durable rows.",
+            why: "The visible answer comes from persisted state, not from an ephemeral string still sitting in memory.",
+            objects: [
+              { name: "thread", value: "2 visible messages", tag: "steady", note: "User sees a stable transcript." },
+            ],
+            code: [
+              "run-execution-convergence.ts#waitForRunToReachDurableState",
+              "rebuild-run-execution-output.ts#rebuildRunExecutionOutput",
+            ],
+          },
+        ],
+      },
+
+      askplay: {
+        label: "Play music with follow-up",
+        prompt: 'Turn 1: "Ask Tony to play music." Turn 2: "Nora En Pure - Freyja."',
+        focus: "Two user turns, one root job. Tony first asks what to play, then plays it on the second turn. The root job is reused, not recreated.",
+        actors: [
+          { label: "User / UI", type: "user" },
+          { label: "HTTP Route", type: "code" },
+          { label: "Runtime Engine", type: "code" },
+          { label: "Alice", type: "ai" },
+          { label: "Tony", type: "ai" },
+          { label: "Spotify MCP", type: "code" },
+        ],
+        steps: [
+          {
+            layer: "Route",
+            title: "Turn 1 enters through the route",
+            caption: "ask Tony to play music",
+            from: 0,
+            to: 1,
+            summary: "The first turn routes a music request to Tony, but the exact track is still missing.",
+            why: "This sets up a follow-up turn: Tony should ask what to play before any Spotify tool use.",
+            objects: [
+              { name: "input", value: "user: Ask Tony to play music.", tag: "new", note: "First-turn request payload." },
+            ],
+            code: [
+              "thread-routes.ts#createThreadRoutes",
+              "start-thread-interaction.ts#parseStartThreadInteractionInput",
+            ],
+          },
+          {
+            layer: "Command",
+            title: "Command creates root work for turn 1",
+            caption: "msg_1 + job_root + run_alice_1",
+            from: 1,
+            to: 2,
+            summary: "The first root user message, job, and run are persisted for Alice.",
+            why: "This is the first turn, so the thread's root job is born here.",
+            objects: [
+              { name: "msg_1", value: "user: Ask Tony to play music.", tag: "new", note: "First transcript row." },
+              { name: "job_root", value: "status: queued", tag: "new", note: "Root job for the thread." },
+              { name: "run_alice_1", value: "status: pending", tag: "new", note: "First root run." },
+            ],
+            code: [
+              "start-thread-interaction.ts#createStartThreadInteractionCommand.execute",
+              "job-repository.ts#create",
+              "run-repository.ts#create",
+            ],
+          },
+          {
+            layer: "Queue",
+            title: "Turn 1 work is durable and waiting",
+            caption: "queued / pending",
+            from: 2,
+            to: 2,
+            summary: "The first root job exists but nothing is executing yet.",
+            why: "Queue separates persistence from execution and makes the flow restartable.",
+            objects: [
+              { name: "job_root", value: "status: queued", tag: "steady", note: "Ready for the worker loop." },
+              { name: "run_alice_1", value: "status: pending", tag: "steady", note: "No claim yet." },
+            ],
+            code: ["job-sync.ts#queueLinkedJob"],
+          },
+          {
+            layer: "Scheduler",
+            title: "Scheduler selects the first root pair",
+            caption: "execute_pending_run(job_root, run_alice_1)",
+            from: 2,
+            to: 2,
+            summary: "The worker loop chooses the first root run for execution.",
+            why: "Scheduler decides what to execute before claim or model work begins.",
+            objects: [
+              { name: "decision_root_1", value: "execute_pending_run(job_root, run_alice_1)", tag: "new", note: "First scheduling decision." },
+            ],
+            code: ["readiness-engine.ts#pickNextDecision"],
+          },
+          {
+            layer: "Claim",
+            title: "Worker claims the first Alice run",
+            caption: "claim_root_1",
+            from: 2,
+            to: 2,
+            summary: "Alice root run becomes active.",
+            why: "Claim and heartbeat protect the root run against duplicate execution or silent abandonment.",
+            objects: [
+              { name: "claim_root_1", value: "run_alice_1 -> wrk_1", tag: "new", note: "Lease for the first root run." },
+              { name: "job_root", value: "status: running", tag: "changed", note: "Root job is active." },
+              { name: "run_alice_1", value: "status: running", tag: "changed", note: "Alice turn 1 starts." },
+            ],
+            code: ["readiness-actions.ts#claimRunAndExecute"],
+          },
+          {
+            layer: "Turn Loop",
+            title: "Alice delegates the music request to Tony",
+            caption: "delegate_to_agent(tony)",
+            from: 2,
+            to: 3,
+            summary: "Alice emits a native tool call to Tony instead of replying directly.",
+            why: "The parent model hands the music task to Tony, who will ask for the missing track first.",
+            objects: [
+              { name: "tool_call_1", value: "delegate_to_agent(alias: tony, task: play music)", tag: "new", note: "Delegation request inside the first root run." },
+            ],
+            code: [
+              "drive-run.ts#executeRunTurnLoop",
+              "register-agent-native-tools.ts#delegateToAgentTool.execute",
+            ],
+          },
+          {
+            layer: "Delegation",
+            title: "Backend creates Tony child branch #1",
+            caption: "parent waits, child becomes runnable",
+            from: 3,
+            to: 2,
+            returning: true,
+            summary: "The parent pauses while a private Tony child run is created.",
+            why: "Delegation is durable runtime state: new child job, new child run, and a dependency edge back to the parent.",
+            objects: [
+              { name: "run_alice_1", value: "status: waiting", tag: "changed", note: "Parent stops until Tony resolves." },
+              { name: "job_root", value: "status: waiting", tag: "changed", note: "Root job is blocked on child completion." },
+              { name: "job_tony_1", value: "status: queued", tag: "new", note: "Child task job." },
+              { name: "run_tony_1", value: "status: pending", tag: "new", note: "Private child run, threadId = null." },
+              { name: "dep_1", value: "run_alice_1 -> run_tony_1: pending", tag: "new", note: "Parent wait edge." },
+            ],
+            code: [
+              "delegation-service.ts#createDelegatedChildRun",
+              "run-dependency-repository.ts#create",
+              "job-dependency-repository.ts#create",
+            ],
+          },
+          {
+            layer: "Scheduler",
+            title: "Scheduler selects Tony child #1",
+            caption: "execute_pending_run(job_tony_1, run_tony_1)",
+            from: 2,
+            to: 2,
+            summary: "The child branch becomes the next executable unit.",
+            why: "Once the parent waits, the pending child is ordinary schedulable work.",
+            objects: [
+              { name: "decision_tony_1", value: "execute_pending_run(job_tony_1, run_tony_1)", tag: "new", note: "Child scheduling decision." },
+            ],
+            code: ["readiness-engine.ts#pickNextDecision"],
+          },
+          {
+            layer: "Claim",
+            title: "Worker claims Tony child #1",
+            caption: "claim_tony_1",
+            from: 2,
+            to: 2,
+            summary: "Tony child #1 becomes active.",
+            why: "Child runs use the same lease + heartbeat mechanics as root runs.",
+            objects: [
+              { name: "claim_tony_1", value: "run_tony_1 -> wrk_1", tag: "new", note: "Lease for the first Tony child run." },
+              { name: "job_tony_1", value: "status: running", tag: "changed", note: "Child job is active." },
+              { name: "run_tony_1", value: "status: running", tag: "changed", note: "Tony starts child turn 1." },
+            ],
+            code: ["readiness-actions.ts#claimRunAndExecute"],
+          },
+          {
+            layer: "Turn Loop",
+            title: "Tony asks what music to play",
+            caption: "child turn, no Spotify yet",
+            from: 2,
+            to: 4,
+            summary: "Tony uses one model turn to ask the clarifying question.",
+            why: "This child run intentionally avoids tool use and exits with plain text only.",
+            objects: [
+              { name: "request_bundle_tony_1", value: "music request without a specific track", tag: "new", note: "Transient child request for the first Tony run." },
+            ],
+            code: ["drive-run.ts#executeRunTurnLoop"],
+          },
+          {
+            layer: "Persistence",
+            title: "Tony child #1 completes",
+            caption: "child result persisted",
+            from: 4,
+            to: 2,
+            returning: true,
+            summary: "Tony writes his child result and closes.",
+            why: "Child completion happens before the parent can receive or use the result.",
+            objects: [
+              { name: "run_tony_1", value: "status: completed", tag: "changed", note: "Child run is terminal." },
+              { name: "job_tony_1", value: "status: completed", tag: "changed", note: "Child task is done." },
+            ],
+            code: ["run-persistence.ts#completeRunWithAssistantMessage"],
+          },
+          {
+            layer: "Delivery",
+            title: "Backend resolves Tony result back into the root run",
+            caption: "function_call_output + requeue root",
+            from: 2,
+            to: 2,
+            summary: "Tony's answer is delivered as a tool result and the root job is requeued.",
+            why: "Delivery is a distinct stage: child completion does not resume the parent until the dependency is resolved.",
+            objects: [
+              { name: "dep_1", value: "run_alice_1 -> run_tony_1: resolved", tag: "changed", note: "Parent wait is cleared." },
+              { name: "job_root", value: "status: queued", tag: "changed", note: "Root job is ready to resume." },
+            ],
+            code: [
+              "child-run-delivery.ts#deliverChildResultToParentWaits",
+              "run-wait-resolution.ts#resolveRunWait",
+            ],
+          },
+          {
+            layer: "Scheduler",
+            title: "Scheduler picks the waiting root run for resumption",
+            caption: "resume_waiting_run(job_root, run_alice_1)",
+            from: 2,
+            to: 2,
+            summary: "The root run becomes resumable now that the dependency is resolved.",
+            why: "Resuming a waiting run is a separate scheduler decision from executing a fresh pending run.",
+            objects: [
+              { name: "decision_root_resume_1", value: "resume_waiting_run(job_root, run_alice_1)", tag: "new", note: "Resume decision for the first root run." },
+            ],
+            code: ["readiness-engine.ts#pickNextDecision", "readiness-actions.ts#resumeRunAfterWaits"],
+          },
+          {
+            layer: "Claim",
+            title: "Worker claims the resumed root run",
+            caption: "claim_root_resume_1",
+            from: 2,
+            to: 2,
+            summary: "Alice root run re-enters active execution.",
+            why: "Resumed work still needs a lease because it is active execution again, not passive state.",
+            objects: [
+              { name: "claim_root_resume_1", value: "run_alice_1 -> wrk_1", tag: "new", note: "Resume lease for the first root run." },
+              { name: "job_root", value: "status: running", tag: "changed", note: "Root job is active again." },
+              { name: "run_alice_1", value: "status: running", tag: "changed", note: "Alice resumes with Tony's result." },
+            ],
+            code: [
+              "readiness-actions.ts#resumeRunAfterWaits",
+              "readiness-actions.ts#claimRunAndExecute",
+            ],
+          },
+          {
+            layer: "Turn Loop",
+            title: "Alice wraps Tony's result into the visible reply",
+            caption: "resumed root turn",
+            from: 2,
+            to: 3,
+            summary: "Alice sees the child result and converts it into the user-facing answer.",
+            why: "The parent run resumes where it left off, now with a resolved child result in context.",
+            objects: [
+              { name: "resume_context_1", value: "function_call_output from run_tony_1", tag: "new", note: "Delivered child result inside the resumed root context." },
+            ],
+            code: ["drive-run.ts#executeRunTurnLoop"],
+          },
+          {
+            layer: "Persistence",
+            title: "Turn 1 writes the assistant question",
+            caption: "persist msg_2",
+            from: 3,
+            to: 2,
+            returning: true,
+            summary: "Tony's follow-up question becomes the second visible thread message.",
+            why: "Persistence is where runtime internals collapse into a user-visible transcript row.",
+            objects: [
+              { name: "msg_2", value: "assistant: What would you like to listen to?", tag: "new", note: "Question shown to the user." },
+              { name: "run_alice_1", value: "status: completed", tag: "changed", note: "First root run closes." },
+              { name: "job_root", value: "status: completed", tag: "changed", note: "Root job closes for turn 1." },
+            ],
+            code: ["run-persistence.ts#completeRunWithAssistantMessage"],
+          },
+          {
+            layer: "Route",
+            title: "The route returns turn 1 to the UI",
+            caption: "durable question returned",
+            from: 1,
+            to: 0,
+            returning: true,
+            summary: "The user now sees the clarifying question.",
+            why: "The route returns durable state, not an ephemeral child reply.",
+            objects: [
+              { name: "thread", value: "2 visible messages", tag: "steady", note: "Prompt plus Tony's question." },
+            ],
+            code: ["rebuild-run-execution-output.ts#rebuildRunExecutionOutput"],
+          },
+          {
+            layer: "Route",
+            title: "Turn 2 enters through the route",
+            caption: "user answers with actual track",
+            from: 0,
+            to: 1,
+            summary: "The follow-up user message arrives on the same thread.",
+            why: "This is not a new conversation tree. It is a second turn in the same thread.",
+            objects: [
+              { name: "input", value: "user: Nora En Pure - Freyja.", tag: "new", note: "Second-turn request payload." },
+            ],
+            code: ["thread-routes.ts#createThreadRoutes"],
+          },
+          {
+            layer: "Command",
+            title: "The same root job is reopened for turn 2",
+            caption: "msg_3 + run_alice_2, same job_root",
+            from: 1,
+            to: 2,
+            summary: "A new user message creates a new root run, but reuses the existing root job.",
+            why: "The thread timeline grows through new runs while the root job persists as the schedulable unit across turns.",
+            objects: [
+              { name: "msg_3", value: "user: Nora En Pure - Freyja.", tag: "new", note: "Third transcript row." },
+              { name: "job_root", value: "status: queued, currentRunId: run_alice_2", tag: "changed", note: "Same root job, new active run." },
+              { name: "run_alice_2", value: "status: pending", tag: "new", note: "Second root run." },
+            ],
+            code: [
+              "job-sync.ts#reopenThreadRootJobForNewMessage",
+              "start-thread-interaction.ts#createStartThreadInteractionCommand.execute",
+            ],
+          },
+          {
+            layer: "Queue",
+            title: "Turn 2 work is queued again",
+            caption: "same root job, new pending run",
+            from: 2,
+            to: 2,
+            summary: "The same root job is back in queue state, now pointing at a different run.",
+            why: "Every new turn re-enters the queue because scheduling always starts from durable state.",
+            objects: [
+              { name: "job_root", value: "status: queued", tag: "steady", note: "Same job object, re-queued." },
+              { name: "run_alice_2", value: "status: pending", tag: "steady", note: "Second root run not yet claimed." },
+            ],
+            code: ["job-sync.ts#reopenThreadRootJobForNewMessage"],
+          },
+          {
+            layer: "Scheduler",
+            title: "Scheduler selects the second root run",
+            caption: "execute_pending_run(job_root, run_alice_2)",
+            from: 2,
+            to: 2,
+            summary: "The worker chooses the second root run as the next action.",
+            why: "A reused job still enters the same deterministic scheduling logic.",
+            objects: [
+              { name: "decision_root_2", value: "execute_pending_run(job_root, run_alice_2)", tag: "new", note: "Scheduling decision for turn 2." },
+            ],
+            code: ["readiness-engine.ts#pickNextDecision"],
+          },
+          {
+            layer: "Claim",
+            title: "Worker claims the second Alice run",
+            caption: "claim_root_2",
+            from: 2,
+            to: 2,
+            summary: "The second root run becomes active.",
+            why: "Each run attempt needs its own claim, even when it belongs to the same root job.",
+            objects: [
+              { name: "claim_root_2", value: "run_alice_2 -> wrk_1", tag: "new", note: "Lease for the second root run." },
+              { name: "job_root", value: "status: running", tag: "changed", note: "Root job becomes active again." },
+              { name: "run_alice_2", value: "status: running", tag: "changed", note: "Alice begins turn 2." },
+            ],
+            code: ["readiness-actions.ts#claimRunAndExecute"],
+          },
+          {
+            layer: "Turn Loop",
+            title: "Alice delegates the concrete play task",
+            caption: "delegate_to_agent(tony, play Freyja)",
+            from: 2,
+            to: 3,
+            summary: "Alice now has enough context to delegate real playback.",
+            why: "The second root turn sees the prior question and user answer, then emits a specific play task.",
+            objects: [
+              { name: "tool_call_2", value: "delegate_to_agent(alias: tony, task: play Freyja)", tag: "new", note: "Second delegation inside the root run." },
+            ],
+            code: [
+              "drive-run.ts#executeRunTurnLoop",
+              "register-agent-native-tools.ts#delegateToAgentTool.execute",
+            ],
+          },
+          {
+            layer: "Delegation",
+            title: "Backend creates Tony child branch #2",
+            caption: "play-task child run",
+            from: 3,
+            to: 2,
+            returning: true,
+            summary: "A new Tony child branch is created for actual playback.",
+            why: "The second child run is a distinct branch with a different task payload and its own dependency edge.",
+            objects: [
+              { name: "run_alice_2", value: "status: waiting", tag: "changed", note: "Parent pauses again." },
+              { name: "job_root", value: "status: waiting", tag: "changed", note: "Root job now waits on Tony child #2." },
+              { name: "job_tony_2", value: "status: queued", tag: "new", note: "Second Tony child job." },
+              { name: "run_tony_2", value: "status: pending", tag: "new", note: "Second Tony child run." },
+              { name: "dep_2", value: "run_alice_2 -> run_tony_2: pending", tag: "new", note: "Second parent-child wait edge." },
+            ],
+            code: ["delegation-service.ts#createDelegatedChildRun"],
+          },
+          {
+            layer: "Scheduler",
+            title: "Scheduler selects Tony child #2",
+            caption: "execute_pending_run(job_tony_2, run_tony_2)",
+            from: 2,
+            to: 2,
+            summary: "The tool-backed Tony child becomes the next executable unit.",
+            why: "Once the parent waits, the child run becomes an ordinary schedulable candidate.",
+            objects: [
+              { name: "decision_tony_2", value: "execute_pending_run(job_tony_2, run_tony_2)", tag: "new", note: "Scheduling decision for the second child run." },
+            ],
+            code: ["readiness-engine.ts#pickNextDecision"],
+          },
+          {
+            layer: "Claim",
+            title: "Worker claims Tony child #2",
+            caption: "claim_tony_2",
+            from: 2,
+            to: 2,
+            summary: "Tony child #2 becomes active and heartbeat begins.",
+            why: "Tool-backed child runs are still just runs: they claim, execute, heartbeat, and complete the same way.",
+            objects: [
+              { name: "claim_tony_2", value: "run_tony_2 -> wrk_1", tag: "new", note: "Lease for the second Tony child run." },
+              { name: "job_tony_2", value: "status: running", tag: "changed", note: "Second child job is active." },
+              { name: "run_tony_2", value: "status: running", tag: "changed", note: "Tony starts the playback child run." },
+            ],
+            code: ["readiness-actions.ts#claimRunAndExecute"],
+          },
+          {
+            layer: "Turn Loop",
+            title: "Tony enters the play-task child turn",
+            caption: "child context with Spotify tools",
+            from: 2,
+            to: 4,
+            summary: "Tony loads the child task and sees Spotify MCP tool visibility.",
+            why: "Tool use still happens inside the turn loop: plan, tool call, ingest result, continue.",
+            objects: [
+              { name: "request_bundle_tony_2", value: "play-task context + Spotify tools", tag: "new", note: "Transient child request for the play task." },
+            ],
+            code: ["drive-run.ts#executeRunTurnLoop"],
+          },
+          {
+            layer: "Turn Loop",
+            title: "Tony calls Spotify MCP",
+            caption: "player_status + search_catalog + spotify_control",
+            from: 4,
+            to: 5,
+            summary: "Tony executes MCP tools to search, play, and verify the track.",
+            why: "The root run stays paused while the child run owns the tool interactions.",
+            objects: [
+              { name: "tool_exec", value: "player_status + search_catalog + spotify_control", tag: "new", note: "Real MCP calls executed by Tony child #2." },
+            ],
+            code: [
+              "run-tool-execution.ts#executeOneToolCall",
+              "drive-run.ts#persistToolOutcomes",
+            ],
+          },
+          {
+            layer: "Persistence",
+            title: "Tony child #2 completes",
+            caption: "child result persisted after tools",
+            from: 4,
+            to: 2,
+            returning: true,
+            summary: "Tony closes the child run with a successful playback result.",
+            why: "Tool outputs first become child-run state; only after that can they be delivered back to the parent.",
+            objects: [
+              { name: "run_tony_2", value: "status: completed", tag: "changed", note: "Second child run is terminal." },
+              { name: "job_tony_2", value: "status: completed", tag: "changed", note: "Second child job is done." },
+            ],
+            code: ["run-persistence.ts#completeRunWithAssistantMessage"],
+          },
+          {
+            layer: "Delivery",
+            title: "Backend resolves Tony playback result into the root run",
+            caption: "function_call_output + requeue root",
+            from: 2,
+            to: 2,
+            summary: "The parent wait is resolved and the root job is requeued again.",
+            why: "Delivery is always a backend stage: child completion alone does not resume the parent.",
+            objects: [
+              { name: "dep_2", value: "run_alice_2 -> run_tony_2: resolved", tag: "changed", note: "Second wait edge is cleared." },
+              { name: "job_root", value: "status: queued", tag: "changed", note: "Root job is ready to resume turn 2." },
+            ],
+            code: ["child-run-delivery.ts#deliverChildResultToParentWaits"],
+          },
+          {
+            layer: "Scheduler",
+            title: "Scheduler selects the resumed root run for turn 2",
+            caption: "resume_waiting_run(job_root, run_alice_2)",
+            from: 2,
+            to: 2,
+            summary: "The root run is now resumable because the dependency is resolved.",
+            why: "Resume is a first-class scheduler decision, separate from executing a fresh pending run.",
+            objects: [
+              { name: "decision_root_resume_2", value: "resume_waiting_run(job_root, run_alice_2)", tag: "new", note: "Resume decision for the second root run." },
+            ],
+            code: ["readiness-engine.ts#pickNextDecision"],
+          },
+          {
+            layer: "Claim",
+            title: "Worker claims the resumed root run for turn 2",
+            caption: "claim_root_resume_2",
+            from: 2,
+            to: 2,
+            summary: "Alice root run becomes active one more time.",
+            why: "Resumption still needs claim and heartbeat because it is active execution, not passive state.",
+            objects: [
+              { name: "claim_root_resume_2", value: "run_alice_2 -> wrk_1", tag: "new", note: "Lease for the resumed second root run." },
+              { name: "job_root", value: "status: running", tag: "changed", note: "Root job is active for the final time." },
+              { name: "run_alice_2", value: "status: running", tag: "changed", note: "Alice resumes with Tony's playback result." },
+            ],
+            code: [
+              "readiness-actions.ts#resumeRunAfterWaits",
+              "readiness-actions.ts#claimRunAndExecute",
+            ],
+          },
+          {
+            layer: "Turn Loop",
+            title: "Alice wraps the playback result into the visible answer",
+            caption: "resumed root turn after Tony tools",
+            from: 2,
+            to: 3,
+            summary: "Alice generates the final user-facing answer for turn 2.",
+            why: "The root run remains the single source of user-visible assistant replies even when the child did the tool work.",
+            objects: [
+              { name: "resume_context_2", value: "function_call_output from run_tony_2", tag: "new", note: "Delivered playback result inside the resumed root context." },
+            ],
+            code: ["drive-run.ts#executeRunTurnLoop"],
+          },
+          {
+            layer: "Persistence",
+            title: "Turn 2 writes the final assistant reply",
+            caption: "persist msg_4",
+            from: 3,
+            to: 2,
+            returning: true,
+            summary: "The playback confirmation becomes the fourth visible thread message.",
+            why: "Persistence is where the multi-agent runtime tree collapses into a simple transcript row.",
+            objects: [
+              { name: "msg_4", value: "assistant: Tony found Freyja and started playback.", tag: "new", note: "Visible result of turn 2." },
+              { name: "run_alice_2", value: "status: completed", tag: "changed", note: "Second root run closes." },
+              { name: "job_root", value: "status: completed", tag: "changed", note: "The same root job closes again after turn 2." },
+            ],
+            code: ["run-persistence.ts#completeRunWithAssistantMessage"],
+          },
+          {
+            layer: "Route",
+            title: "The route returns the final thread state",
+            caption: "durable transcript returned to UI",
+            from: 1,
+            to: 0,
+            returning: true,
+            summary: "The user sees a coherent four-message thread.",
+            why: "Even though two Tony child runs existed internally, the route returns one clean thread transcript as the product surface.",
+            objects: [
+              { name: "thread", value: "4 visible messages", tag: "steady", note: "Prompt, question, user answer, final playback confirmation." },
+            ],
+            code: ["rebuild-run-execution-output.ts#rebuildRunExecutionOutput"],
+          },
+        ],
+      },
+
+      nested: {
+        label: "Nested delegation",
+        prompt: 'User says "Ask Tony to ask Claire how she is doing."',
+        focus: "Alice -> Tony -> Claire. Every delegation, delivery, and resume step is shown explicitly.",
+        actors: [
+          { label: "User / UI", type: "user" },
+          { label: "HTTP Route", type: "code" },
+          { label: "Runtime Engine", type: "code" },
+          { label: "Alice", type: "ai" },
+          { label: "Tony", type: "ai" },
+          { label: "Claire", type: "ai" },
+        ],
+        steps: [
+          {
+            layer: "Route",
+            title: "Nested request enters through the route",
+            caption: "ask Tony to ask Claire",
+            from: 0,
+            to: 1,
+            summary: "The user requests a multi-agent conversation chain.",
+            why: "This route stage turns the outside request into validated input for the command layer.",
+            objects: [
+              { name: "input", value: "user: Ask Tony to ask Claire how she is doing.", tag: "new", note: "Nested delegation request." },
+            ],
+            code: ["thread-routes.ts#createThreadRoutes"],
+          },
+          {
+            layer: "Command",
+            title: "Command creates the root runtime graph",
+            caption: "msg_1 + job_root + run_alice",
+            from: 1,
+            to: 2,
+            summary: "The first root message, root job, and Alice run are persisted.",
+            why: "Nested trees still begin with the same durable root objects as simple conversations.",
+            objects: [
+              { name: "msg_1", value: "user: Ask Tony to ask Claire how she is doing.", tag: "new", note: "Visible user message." },
+              { name: "job_root", value: "status: queued", tag: "new", note: "Root work order." },
+              { name: "run_alice", value: "status: pending", tag: "new", note: "Root Alice run." },
+            ],
+            code: [
+              "start-thread-interaction.ts#createStartThreadInteractionCommand.execute",
+              "job-repository.ts#create",
+              "run-repository.ts#create",
+            ],
+          },
+          {
+            layer: "Queue",
+            title: "Root work waits in durable state",
+            caption: "queued / pending",
+            from: 2,
+            to: 2,
+            summary: "The runtime tree exists before any model executes.",
+            why: "Queue makes the future tree restartable from durable state.",
+            objects: [
+              { name: "job_root", value: "status: queued", tag: "steady", note: "Ready for the worker loop." },
+              { name: "run_alice", value: "status: pending", tag: "steady", note: "No claim yet." },
+            ],
+            code: ["job-sync.ts#queueLinkedJob"],
+          },
+          {
+            layer: "Scheduler",
+            title: "Scheduler selects the root pair",
+            caption: "execute_pending_run(job_root, run_alice)",
+            from: 2,
+            to: 2,
+            summary: "The worker loop chooses Alice as the first executable run.",
+            why: "Scheduling still starts from the root queued/pending pair.",
+            objects: [
+              { name: "decision_root", value: "execute_pending_run(job_root, run_alice)", tag: "new", note: "Root scheduling decision." },
+            ],
+            code: ["readiness-engine.ts#pickNextDecision"],
+          },
+          {
+            layer: "Claim",
+            title: "Worker claims the root Alice run",
+            caption: "claim_root",
+            from: 2,
+            to: 2,
+            summary: "The root run becomes active.",
+            why: "Claim and heartbeat are execution mechanics independent of whether the next step is direct output or delegation.",
+            objects: [
+              { name: "claim_root", value: "run_alice -> wrk_1", tag: "new", note: "Lease for the root run." },
+              { name: "job_root", value: "status: running", tag: "changed", note: "Root job is active." },
+              { name: "run_alice", value: "status: running", tag: "changed", note: "Alice starts the root turn." },
+            ],
+            code: ["readiness-actions.ts#claimRunAndExecute"],
+          },
+          {
+            layer: "Turn Loop",
+            title: "Alice delegates to Tony",
+            caption: "delegate_to_agent(tony)",
+            from: 2,
+            to: 3,
+            summary: "Alice chooses Tony as the next agent in the chain.",
+            why: "The root agent uses a native delegation tool instead of replying directly.",
+            objects: [
+              { name: "tool_call_alice", value: "delegate_to_agent(alias: tony)", tag: "new", note: "Delegation request from Alice to Tony." },
+            ],
+            code: [
+              "drive-run.ts#executeRunTurnLoop",
+              "register-agent-native-tools.ts#delegateToAgentTool.execute",
+            ],
+          },
+          {
+            layer: "Delegation",
+            title: "Backend creates Tony child branch",
+            caption: "alice waits, tony becomes runnable",
+            from: 3,
+            to: 2,
+            returning: true,
+            summary: "Tony gets his own child job and child run.",
+            why: "Delegation creates a real child branch with its own dependency edge back to Alice.",
+            objects: [
+              { name: "run_alice", value: "status: waiting", tag: "changed", note: "Alice now blocks on Tony." },
+              { name: "job_tony", value: "status: queued", tag: "new", note: "Tony child job." },
+              { name: "run_tony", value: "status: pending", tag: "new", note: "Tony child run." },
+              { name: "dep_alice_tony", value: "run_alice -> run_tony: pending", tag: "new", note: "Root dependency edge." },
+            ],
+            code: ["delegation-service.ts#createDelegatedChildRun"],
+          },
+          {
+            layer: "Scheduler",
+            title: "Scheduler selects Tony child branch",
+            caption: "execute_pending_run(job_tony, run_tony)",
+            from: 2,
+            to: 2,
+            summary: "Tony becomes the next runnable unit.",
+            why: "Once the parent waits, the child run is just ordinary schedulable work.",
+            objects: [
+              { name: "decision_tony", value: "execute_pending_run(job_tony, run_tony)", tag: "new", note: "Child scheduling decision for Tony." },
+            ],
+            code: ["readiness-engine.ts#pickNextDecision"],
+          },
+          {
+            layer: "Claim",
+            title: "Worker claims the Tony child run",
+            caption: "claim_tony",
+            from: 2,
+            to: 2,
+            summary: "Tony child run becomes active.",
+            why: "Child runs use the same claim + heartbeat machinery as root runs.",
+            objects: [
+              { name: "claim_tony", value: "run_tony -> wrk_1", tag: "new", note: "Lease for the Tony child run." },
+              { name: "job_tony", value: "status: running", tag: "changed", note: "Tony child job is active." },
+              { name: "run_tony", value: "status: running", tag: "changed", note: "Tony starts his child turn." },
+            ],
+            code: ["readiness-actions.ts#claimRunAndExecute"],
+          },
+          {
+            layer: "Turn Loop",
+            title: "Tony delegates further to Claire",
+            caption: "delegate_to_agent(claire)",
+            from: 2,
+            to: 4,
+            summary: "Tony becomes a parent and emits a second-level delegation.",
+            why: "Child agents can themselves become parents, producing deeper runtime trees.",
+            objects: [
+              { name: "tool_call_tony", value: "delegate_to_agent(alias: claire)", tag: "new", note: "Second-level delegation request." },
+            ],
+            code: [
+              "drive-run.ts#executeRunTurnLoop",
+              "register-agent-native-tools.ts#delegateToAgentTool.execute",
+            ],
+          },
+          {
+            layer: "Delegation",
+            title: "Backend creates Claire grandchild branch",
+            caption: "tony waits, claire becomes runnable",
+            from: 4,
+            to: 2,
+            returning: true,
+            summary: "Tony pauses while Claire gets her own job and run.",
+            why: "The runtime tree deepens by adding another durable child branch underneath Tony.",
+            objects: [
+              { name: "run_tony", value: "status: waiting", tag: "changed", note: "Tony now blocks on Claire." },
+              { name: "job_claire", value: "status: queued", tag: "new", note: "Claire grandchild job." },
+              { name: "run_claire", value: "status: pending", tag: "new", note: "Claire grandchild run." },
+              { name: "dep_tony_claire", value: "run_tony -> run_claire: pending", tag: "new", note: "Tony -> Claire dependency edge." },
+            ],
+            code: [
+              "delegation-service.ts#createDelegatedChildRun",
+              "job-dependency-repository.ts#create",
+            ],
+          },
+          {
+            layer: "Scheduler",
+            title: "Scheduler selects Claire grandchild",
+            caption: "execute_pending_run(job_claire, run_claire)",
+            from: 2,
+            to: 2,
+            summary: "Claire is now the deepest runnable child.",
+            why: "Scheduler walks the tree by always choosing the next eligible queued/pending pair.",
+            objects: [
+              { name: "decision_claire", value: "execute_pending_run(job_claire, run_claire)", tag: "new", note: "Scheduling decision for Claire." },
+            ],
+            code: ["readiness-engine.ts#pickNextDecision"],
+          },
+          {
+            layer: "Claim",
+            title: "Worker claims the Claire grandchild run",
+            caption: "claim_claire",
+            from: 2,
+            to: 2,
+            summary: "Claire grandchild run becomes active.",
+            why: "Even the deepest child run is still just a claimed run from the worker's perspective.",
+            objects: [
+              { name: "claim_claire", value: "run_claire -> wrk_1", tag: "new", note: "Lease for Claire." },
+              { name: "job_claire", value: "status: running", tag: "changed", note: "Claire grandchild job is active." },
+              { name: "run_claire", value: "status: running", tag: "changed", note: "Claire starts her turn." },
+            ],
+            code: ["readiness-actions.ts#claimRunAndExecute"],
+          },
+          {
+            layer: "Turn Loop",
+            title: "Claire answers directly",
+            caption: "plain text, no tools",
+            from: 2,
+            to: 5,
+            summary: "Claire produces a simple direct answer.",
+            why: "The deepest child can be simple; the delivery chain still works the same way.",
+            objects: [
+              { name: "request_bundle_claire", value: "ask-how-are-you context", tag: "new", note: "Transient request for Claire's leaf turn." },
+            ],
+            code: ["drive-run.ts#executeRunTurnLoop"],
+          },
+          {
+            layer: "Persistence",
+            title: "Claire grandchild completes",
+            caption: "leaf result persisted",
+            from: 5,
+            to: 2,
+            returning: true,
+            summary: "Claire closes her run with a plain-text result.",
+            why: "Persistence happens at the leaf first, before any parent can resume.",
+            objects: [
+              { name: "run_claire", value: "status: completed", tag: "changed", note: "Leaf run is terminal." },
+              { name: "job_claire", value: "status: completed", tag: "changed", note: "Leaf job is done." },
+            ],
+            code: ["run-persistence.ts#completeRunWithAssistantMessage"],
+          },
+          {
+            layer: "Delivery",
+            title: "Claire result is delivered back to Tony",
+            caption: "resolve Tony wait",
+            from: 2,
+            to: 2,
+            summary: "Tony receives Claire's answer as a tool result and becomes resumable.",
+            why: "Delivery unwinds bottom-up: deepest child first, then its parent.",
+            objects: [
+              { name: "dep_tony_claire", value: "run_tony -> run_claire: resolved", tag: "changed", note: "Tony is no longer blocked on Claire." },
+              { name: "job_tony", value: "status: queued", tag: "changed", note: "Tony child job is ready to resume." },
+            ],
+            code: ["child-run-delivery.ts#deliverChildResultToParentWaits"],
+          },
+          {
+            layer: "Scheduler",
+            title: "Scheduler selects resumed Tony child",
+            caption: "resume_waiting_run(job_tony, run_tony)",
+            from: 2,
+            to: 2,
+            summary: "Tony becomes resumable now that Claire resolved.",
+            why: "Resume is a distinct scheduler stage in the child branch too.",
+            objects: [
+              { name: "decision_tony_resume", value: "resume_waiting_run(job_tony, run_tony)", tag: "new", note: "Resume decision for Tony." },
+            ],
+            code: ["readiness-engine.ts#pickNextDecision"],
+          },
+          {
+            layer: "Claim",
+            title: "Worker claims resumed Tony child",
+            caption: "claim_tony_resume",
+            from: 2,
+            to: 2,
+            summary: "Tony child re-enters active execution.",
+            why: "Resumption still needs a fresh lease and heartbeat.",
+            objects: [
+              { name: "claim_tony_resume", value: "run_tony -> wrk_1", tag: "new", note: "Resume lease for Tony." },
+              { name: "job_tony", value: "status: running", tag: "changed", note: "Tony child job is active again." },
+              { name: "run_tony", value: "status: running", tag: "changed", note: "Tony resumes with Claire's result." },
+            ],
+            code: [
+              "readiness-actions.ts#resumeRunAfterWaits",
+              "readiness-actions.ts#claimRunAndExecute",
+            ],
+          },
+          {
+            layer: "Turn Loop",
+            title: "Tony wraps Claire's answer",
+            caption: "resumed Tony turn",
+            from: 2,
+            to: 4,
+            summary: "Tony turns Claire's answer into his own child result.",
+            why: "The intermediate parent adds its own framing before the root ever sees the answer.",
+            objects: [
+              { name: "resume_context_tony", value: "function_call_output from run_claire", tag: "new", note: "Claire result now exists in Tony's resumed context." },
+            ],
+            code: ["drive-run.ts#executeRunTurnLoop"],
+          },
+          {
+            layer: "Persistence",
+            title: "Tony child completes",
+            caption: "intermediate child result persisted",
+            from: 4,
+            to: 2,
+            returning: true,
+            summary: "Tony closes his child run with Claire's answer embedded.",
+            why: "Intermediate children persist their own output before the root can resume.",
+            objects: [
+              { name: "run_tony", value: "status: completed", tag: "changed", note: "Intermediate child run is terminal." },
+              { name: "job_tony", value: "status: completed", tag: "changed", note: "Intermediate child job is done." },
+            ],
+            code: ["run-persistence.ts#completeRunWithAssistantMessage"],
+          },
+          {
+            layer: "Delivery",
+            title: "Tony result is delivered back to Alice",
+            caption: "resolve root wait",
+            from: 2,
+            to: 2,
+            summary: "Alice becomes resumable now that Tony resolved.",
+            why: "The second delivery stage unwinds the last pending parent-child dependency in the tree.",
+            objects: [
+              { name: "dep_alice_tony", value: "run_alice -> run_tony: resolved", tag: "changed", note: "Root wait is cleared." },
+              { name: "job_root", value: "status: queued", tag: "changed", note: "Root job is ready to resume." },
+            ],
+            code: ["child-run-delivery.ts#deliverChildResultToParentWaits"],
+          },
+          {
+            layer: "Scheduler",
+            title: "Scheduler selects resumed Alice root run",
+            caption: "resume_waiting_run(job_root, run_alice)",
+            from: 2,
+            to: 2,
+            summary: "The root run becomes resumable after Tony resolves.",
+            why: "The same resume mechanism applies at the root level too.",
+            objects: [
+              { name: "decision_root_resume", value: "resume_waiting_run(job_root, run_alice)", tag: "new", note: "Resume decision for Alice." },
+            ],
+            code: ["readiness-engine.ts#pickNextDecision"],
+          },
+          {
+            layer: "Claim",
+            title: "Worker claims resumed Alice root run",
+            caption: "claim_root_resume",
+            from: 2,
+            to: 2,
+            summary: "Alice root run becomes active again for the final reply.",
+            why: "The root run is resumed like any other waiting run: scheduler decision first, claim second.",
+            objects: [
+              { name: "claim_root_resume", value: "run_alice -> wrk_1", tag: "new", note: "Resume lease for Alice." },
+              { name: "job_root", value: "status: running", tag: "changed", note: "Root job re-enters active execution." },
+              { name: "run_alice", value: "status: running", tag: "changed", note: "Alice resumes with Tony's result." },
+            ],
+            code: [
+              "readiness-actions.ts#resumeRunAfterWaits",
+              "readiness-actions.ts#claimRunAndExecute",
+            ],
+          },
+          {
+            layer: "Turn Loop",
+            title: "Alice produces the only user-visible answer",
+            caption: "resumed root turn",
+            from: 2,
+            to: 3,
+            summary: "Alice converts Tony's child result into one root assistant reply.",
+            why: "The thread belongs to the root run, so nested child activity must collapse into a single visible assistant message.",
+            objects: [
+              { name: "resume_context_root", value: "function_call_output from run_tony", tag: "new", note: "Tony result now exists in the root context." },
+            ],
+            code: ["drive-run.ts#executeRunTurnLoop"],
+          },
+          {
+            layer: "Persistence",
+            title: "Alice writes the final thread message",
+            caption: "persist msg_2",
+            from: 3,
+            to: 2,
+            returning: true,
+            summary: "The nested chain becomes one assistant transcript row.",
+            why: "Complex runtime trees should still look like a simple conversation to the user.",
+            objects: [
+              { name: "msg_2", value: "assistant: Tony asked Claire. She said she is doing well.", tag: "new", note: "Only one assistant transcript row is visible." },
+              { name: "run_alice", value: "status: completed", tag: "changed", note: "Root run closes." },
+              { name: "job_root", value: "status: completed", tag: "changed", note: "Entire runtime tree is done." },
+            ],
+            code: ["run-persistence.ts#completeRunWithAssistantMessage"],
+          },
+          {
+            layer: "Route",
+            title: "The route returns a simple transcript",
+            caption: "one user msg, one assistant msg",
+            from: 1,
+            to: 0,
+            returning: true,
+            summary: "The UI shows only the root-visible transcript.",
+            why: "Three runs and two dependency edges collapse into a clean two-message thread at the boundary.",
+            objects: [
+              { name: "thread", value: "2 visible messages, 3 runs underneath", tag: "steady", note: "Nested execution remains an internal concern." },
+            ],
+            code: ["rebuild-run-execution-output.ts#rebuildRunExecutionOutput"],
+          },
+        ],
+      },
+
+      recovery: {
+        label: "Crash recovery",
+        prompt: 'A run is claimed, starts executing, then the process dies before it finishes.',
+        focus: "Makes the missing stage explicit: heartbeat expires, scheduler detects a stale running run, resets it to pending, and retries automatically.",
+        actors: [
+          { label: "User / UI", type: "user" },
+          { label: "HTTP Route", type: "code" },
+          { label: "Runtime Engine", type: "code" },
+          { label: "Alice", type: "ai" },
+        ],
+        steps: [
+          {
+            layer: "Route",
+            title: "HTTP route accepts a long-running request",
+            caption: "validate + parse",
+            from: 0,
+            to: 1,
+            summary: "The user submits work that will still be executing when the process dies.",
+            why: "Recovery only matters if the request has already become durable work.",
+            objects: [
+              { name: "input", value: "user: do a long-running task", tag: "new", note: "Request payload that will outlive the process crash." },
+            ],
+            code: ["thread-routes.ts#createThreadRoutes"],
+          },
+          {
+            layer: "Command",
+            title: "Command persists root work",
+            caption: "msg_1 + job_root + run_alice",
+            from: 1,
+            to: 2,
+            summary: "The root message, job, and run are durably created.",
+            why: "Recovery depends on durable state existing before execution begins.",
+            objects: [
+              { name: "msg_1", value: "user: do a long-running task", tag: "new", note: "Visible user request." },
+              { name: "job_root", value: "status: queued", tag: "new", note: "Root work order." },
+              { name: "run_alice", value: "status: pending", tag: "new", note: "Root run before claim." },
+            ],
+            code: [
+              "start-thread-interaction.ts#createStartThreadInteractionCommand.execute",
+              "job-repository.ts#create",
+              "run-repository.ts#create",
+            ],
+          },
+          {
+            layer: "Queue",
+            title: "The work sits in durable queue state",
+            caption: "queued / pending",
+            from: 2,
+            to: 2,
+            summary: "The run is durable but not yet executing.",
+            why: "This boundary is what allows the same work to be retried later.",
+            objects: [
+              { name: "job_root", value: "status: queued", tag: "steady", note: "Ready for the worker loop." },
+              { name: "run_alice", value: "status: pending", tag: "steady", note: "No lease yet." },
+            ],
+            code: ["job-sync.ts#queueLinkedJob"],
+          },
+          {
+            layer: "Scheduler",
+            title: "Scheduler selects the root pair",
+            caption: "execute_pending_run(job_root, run_alice)",
+            from: 2,
+            to: 2,
+            summary: "The worker loop chooses the run for execution.",
+            why: "Recovery starts from the same initial scheduling logic as the happy path.",
+            objects: [
+              { name: "decision_root", value: "execute_pending_run(job_root, run_alice)", tag: "new", note: "Initial scheduling decision." },
+            ],
+            code: ["readiness-engine.ts#pickNextDecision"],
+          },
+          {
+            layer: "Claim",
+            title: "Worker claims the run and starts heartbeat",
+            caption: "claim_root + heartbeat",
+            from: 2,
+            to: 2,
+            summary: "The run becomes active and now depends on heartbeat renewals.",
+            why: "Claim and heartbeat let the system distinguish a live run from an orphaned one.",
+            objects: [
+              { name: "claim_root", value: "run_alice -> wrk_1, expires_at: future", tag: "new", note: "Lease for the running run." },
+              { name: "job_root", value: "status: running", tag: "changed", note: "Root job becomes active." },
+              { name: "run_alice", value: "status: running", tag: "changed", note: "Alice starts executing." },
+            ],
+            code: [
+              "readiness-actions.ts#claimRunAndExecute",
+              "job-sync.ts#recordLinkedJobHeartbeat",
+            ],
+          },
+          {
+            layer: "Turn Loop",
+            title: "Alice starts a long-running turn",
+            caption: "execution in progress",
+            from: 2,
+            to: 3,
+            summary: "The run is active, but no durable completion has happened yet.",
+            why: "This is the vulnerable window where a process crash would otherwise strand the run.",
+            objects: [
+              { name: "request_bundle", value: "long-running context", tag: "new", note: "Transient model input for the in-flight run." },
+              { name: "run_alice", value: "turnCount: 1, lastProgressAt: recent", tag: "steady", note: "Run is mid-flight." },
+            ],
+            code: ["drive-run.ts#executeRunTurnLoop"],
+          },
+          {
+            layer: "Recovery",
+            title: "The process dies and heartbeat stops",
+            caption: "claim is no longer renewed",
+            from: 2,
+            to: 2,
+            summary: "No more lease renewals happen because the worker is gone.",
+            why: "Recovery begins with the absence of heartbeat, not with a manual operator action.",
+            objects: [
+              { name: "claim_root", value: "run_alice -> wrk_1, expires_at: past", tag: "changed", note: "Claim is now stale." },
+              { name: "run_alice", value: "status: running, no recent progress", tag: "changed", note: "Still marked running, but effectively orphaned." },
+            ],
+            code: ["job-sync.ts#recordLinkedJobHeartbeat"],
+          },
+          {
+            layer: "Scheduler",
+            title: "Scheduler detects the stale running pair",
+            caption: "requeue_stale_running_run(job_root, run_alice)",
+            from: 2,
+            to: 2,
+            summary: "The polling loop sees expired lease plus stale heartbeat and chooses recovery.",
+            why: "Crash recovery is a scheduler decision, computed from claim expiry and progress timing.",
+            objects: [
+              { name: "decision_recovery", value: "requeue_stale_running_run(job_root, run_alice)", tag: "new", note: "Recovery decision chosen from durable state." },
+            ],
+            code: [
+              "readiness-engine.ts#pickNextDecision",
+              "readiness-actions.ts#requeueStaleRunningRun",
+            ],
+          },
+          {
+            layer: "Recovery",
+            title: "The stale run is reset back to executable state",
+            caption: "markPending(run_alice) + queueLinkedJob(job_root)",
+            from: 2,
+            to: 2,
+            summary: "The same run id is put back into pending state and the job returns to the queue.",
+            why: "This implementation recovers by resetting the existing run and requeueing the linked job.",
+            objects: [
+              { name: "run_alice", value: "status: pending", tag: "changed", note: "Recovered run is executable again." },
+              { name: "job_root", value: "status: queued", tag: "changed", note: "Root job returns to the queue." },
+            ],
+            code: [
+              "readiness-actions.ts#requeueStaleRunningRun",
+              "run-repository.ts#markPending",
+              "job-sync.ts#queueLinkedJob",
+            ],
+          },
+          {
+            layer: "Scheduler",
+            title: "Scheduler selects the recovered run again",
+            caption: "execute_pending_run(job_root, run_alice)",
+            from: 2,
+            to: 2,
+            summary: "The recovered run re-enters the ordinary scheduling path.",
+            why: "Recovery feeds back into the same scheduler pipeline used for normal work.",
+            objects: [
+              { name: "decision_retry", value: "execute_pending_run(job_root, run_alice)", tag: "new", note: "Retry decision for the recovered run." },
+            ],
+            code: ["readiness-engine.ts#pickNextDecision"],
+          },
+          {
+            layer: "Claim",
+            title: "Worker claims the recovered run",
+            caption: "claim_root_retry",
+            from: 2,
+            to: 2,
+            summary: "A fresh worker lease is established for the recovered execution.",
+            why: "Recovered work still requires a fresh claim before it can execute safely.",
+            objects: [
+              { name: "claim_root_retry", value: "run_alice -> wrk_2, expires_at: future", tag: "new", note: "Fresh lease after recovery." },
+              { name: "job_root", value: "status: running", tag: "changed", note: "Root job is active again." },
+              { name: "run_alice", value: "status: running", tag: "changed", note: "Recovered run resumes execution from durable context." },
+            ],
+            code: ["readiness-actions.ts#claimRunAndExecute"],
+          },
+          {
+            layer: "Turn Loop",
+            title: "Alice replays the durable turn",
+            caption: "execution restarted from persisted state",
+            from: 2,
+            to: 3,
+            summary: "The run executes again from the persisted thread context.",
+            why: "Because context and prior transcript are durable, the worker can rebuild the model request after a crash.",
+            objects: [
+              { name: "request_bundle_retry", value: "rebuilt from durable thread context", tag: "new", note: "Recovered model input." },
+            ],
+            code: [
+              "load-thread-context.ts#loadThreadContext",
+              "assemble-thread-interaction-request.ts#assembleThreadInteractionRequest",
+            ],
+          },
+          {
+            layer: "Persistence",
+            title: "Recovered run completes successfully",
+            caption: "persist msg_2",
+            from: 3,
+            to: 2,
+            returning: true,
+            summary: "The recovered execution writes the final assistant answer and closes.",
+            why: "Recovery ends only when the same durable completion path succeeds.",
+            objects: [
+              { name: "msg_2", value: "assistant: Recovered and completed.", tag: "new", note: "Visible assistant output after retry." },
+              { name: "run_alice", value: "status: completed", tag: "changed", note: "Recovered run closes successfully." },
+              { name: "job_root", value: "status: completed", tag: "changed", note: "Root job is done after recovery." },
+            ],
+            code: ["run-persistence.ts#completeRunWithAssistantMessage"],
+          },
+          {
+            layer: "Route",
+            title: "Route returns the recovered result",
+            caption: "durable completion reaches UI",
+            from: 1,
+            to: 0,
+            returning: true,
+            summary: "The user sees a normal answer even though the first worker died.",
+            why: "Recovery is designed to be invisible at the product boundary when the retry succeeds.",
+            objects: [
+              { name: "thread", value: "2 visible messages after retry", tag: "steady", note: "The UI still gets a coherent transcript." },
+            ],
+            code: ["rebuild-run-execution-output.ts#rebuildRunExecutionOutput"],
+          },
+        ],
+      },
+    };
+    const $ = (id) => document.getElementById(id);
+    const esc = (v) => String(v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+
+    let scenario = "simple", step = -1, playing = false, timer = null, compact = false;
+    let layerNodes = [], lanes = [], conns = [];
+    let resolvedSteps = [];
+
+    const actorCls = (t) => t === "user" ? "user" : t === "ai" ? "ai" : "code";
+
+    const buildTabs = () => {
+      $("tabs").innerHTML = "";
+      Object.entries(SCENARIOS).forEach(([key, sc]) => {
+        const b = document.createElement("button");
+        b.type = "button"; b.className = "tab"; b.textContent = sc.label;
+        b.dataset.key = key;
+        b.addEventListener("click", () => setScenario(key));
+        $("tabs").appendChild(b);
+      });
+    };
+
+    const buildLayers = () => {
+      $("layers").innerHTML = "";
+      layerNodes = LAYERS.map((l) => {
+        const d = document.createElement("div");
+        d.className = "layer-pill"; d.textContent = l;
+        $("layers").appendChild(d);
+        return d;
+      });
+    };
+
+    const buildHeads = (sc) => {
+      const el = $("heads");
+      el.innerHTML = "";
+      sc.actors.forEach((a, i) => {
+        const h = document.createElement("div");
+        h.className = "actor-head actor-head--" + actorCls(a.type);
+        h.textContent = a.label;
+        el.appendChild(h);
+        if (i < sc.actors.length - 1) {
+          const g = document.createElement("div");
+          g.className = "conn-gap";
+          el.appendChild(g);
+        }
+      });
+    };
+
+    const buildFrame = (sc) => {
+      const el = $("frame");
+      el.innerHTML = "";
+      lanes = []; conns = [];
+      sc.actors.forEach((a, i) => {
+        const lane = document.createElement("div");
+        lane.className = "actor-lane";
+        lane.innerHTML = '<div class="actor-lane__line"></div>';
+        const dot = document.createElement("div");
+        dot.className = "actor-lane__dot actor-lane__dot--" + actorCls(a.type);
+        lane.appendChild(dot);
+        const self = document.createElement("div");
+        self.className = "actor-lane__self";
+        lane.appendChild(self);
+        el.appendChild(lane);
+        lanes.push({ dot, self });
+        if (i < sc.actors.length - 1) {
+          const slot = document.createElement("div");
+          slot.className = "conn-slot";
+          const line = document.createElement("div");
+          line.className = "conn-slot__line";
+          slot.appendChild(line);
+          const arrowR = document.createElement("div");
+          arrowR.className = "conn-slot__arrow";
+          slot.appendChild(arrowR);
+          el.appendChild(slot);
+          conns.push({ slot, line, arrow: arrowR });
+        }
+      });
+    };
+
+    const resolveCompactSteps = (sc) => {
+      if (!compact) return sc.steps.map((s, i) => ({ ...s, originalIndex: i }));
+      const out = [];
+      let i = 0;
+      while (i < sc.steps.length) {
+        const s = sc.steps[i];
+        if (s.layer === "Scheduler" && i + 1 < sc.steps.length && sc.steps[i + 1].layer === "Claim") {
+          const claim = sc.steps[i + 1];
+          out.push({
+            ...claim,
+            layer: "Scheduler + Claim",
+            title: claim.title.replace("Worker claims", "Scheduled & claimed"),
+            caption: s.caption + " → " + claim.caption,
+            summary: s.summary + " " + claim.summary,
+            why: s.why + " " + claim.why,
+            objects: [...s.objects, ...claim.objects],
+            code: [...s.code, ...claim.code],
+            originalIndex: i,
+          });
+          i += 2;
+        } else {
+          out.push({ ...s, originalIndex: i });
+          i += 1;
+        }
+      }
+      return out;
+    };
+
+    const clearFrame = () => {
+      lanes.forEach((l) => { l.dot.classList.remove("visible"); l.self.classList.remove("visible", "pulse"); });
+      conns.forEach((c) => {
+        c.slot.className = "conn-slot";
+        c.line.className = "conn-slot__line";
+        c.line.classList.remove("visible", "returning");
+        c.arrow.className = "conn-slot__arrow";
+        c.arrow.classList.remove("visible");
+      });
+    };
+
+    const renderFrame = (s) => {
+      clearFrame();
+      if (!s) return;
+      const isSelf = s.from === s.to;
+      const min = Math.min(s.from, s.to);
+      const max = Math.max(s.from, s.to);
+      const dir = s.to >= s.from ? "right" : "left";
+
+      if (isSelf) {
+        lanes[s.from].self.classList.add("visible", "pulse");
+      } else {
+        lanes[s.from].dot.classList.add("visible");
+        lanes[s.to].dot.classList.add("visible");
+        for (let i = min; i < max; i++) {
+          const c = conns[i];
+          c.slot.classList.add("conn-slot--" + dir);
+          c.line.classList.add("visible");
+          if (s.returning) c.line.classList.add("returning");
+          if ((dir === "right" && i === max - 1) || (dir === "left" && i === min)) {
+            c.arrow.classList.add("visible");
+            c.slot.classList.add("conn-slot--" + dir);
+          }
+        }
+      }
+    };
+
+    const renderMeta = (s) => {
+      const m = $("meta");
+      if (!s) {
+        m.classList.add("empty");
+        $("metaStage").textContent = "—";
+        $("metaTitle").textContent = "Select a scenario and press Play or →";
+        $("metaCaption").textContent = "";
+        return;
+      }
+      m.classList.remove("empty");
+      $("metaStage").textContent = s.layer;
+      $("metaTitle").textContent = s.title;
+      $("metaCaption").textContent = s.caption;
+    };
+
+    const findPrev = (name, idx) => {
+      for (let i = idx - 1; i >= 0; i--) {
+        const m = resolvedSteps[i].objects.find((o) => o.name === name);
+        if (m) return m.value;
+      }
+      return null;
+    };
+
+    const renderObjects = (s, idx) => {
+      const col = $("objectsCol");
+      col.innerHTML = "";
+      if (!s) { col.innerHTML = '<div class="obj-card__note">No step selected.</div>'; return; }
+      s.objects.forEach((o) => {
+        const cls = o.tag === "new" ? "new" : o.tag === "changed" ? "changed" : "steady";
+        const prev = o.tag === "changed" ? findPrev(o.name, idx) : null;
+        let valHtml = '<div class="obj-card__val">' + esc(o.value) + "</div>";
+        if (prev && prev !== o.value) {
+          valHtml = '<div class="obj-card__prev"><span class="obj-card__prev-old">' + esc(prev) +
+            '</span><span class="obj-card__prev-arrow">→</span><span class="obj-card__prev-new">' +
+            esc(o.value) + "</span></div>";
+        }
+        const d = document.createElement("div");
+        d.className = "obj-card obj-card--" + cls;
+        d.innerHTML = '<div class="obj-card__top"><div class="obj-card__name">' + esc(o.name) +
+          '</div><div class="obj-card__tag obj-card__tag--' + cls + '">' + esc(o.tag) +
+          "</div></div>" + valHtml + '<div class="obj-card__note">' + esc(o.note) + "</div>";
+        col.appendChild(d);
+      });
+    };
+
+    const buildVisibleEntries = (idx) => {
+      const seen = new Set();
+      const entries = [];
+
+      for (let i = 0; i <= idx; i++) {
+        const current = resolvedSteps[i];
+
+        for (const object of current.objects) {
+          if (object.name.startsWith("msg_") && object.tag === "new" && !seen.has(object.name)) {
+            seen.add(object.name);
+            const isUser = object.value.startsWith("user:");
+            const text = object.value.replace(/^(user|assistant):\s*/, "");
+            entries.push({
+              id: object.name,
+              kind: "message",
+              role: isUser ? "user" : "assistant",
+              label: isUser ? "User" : "Agent",
+              text,
+            });
+          }
+        }
+
+        const toolCall = current.objects.find((object) => object.name.startsWith("tool_call"));
+        if (toolCall && !seen.has("event:" + toolCall.name)) {
+          seen.add("event:" + toolCall.name);
+          entries.push({
+            id: "event:" + toolCall.name,
+            kind: "event",
+            role: "delegation",
+            label: "Delegation",
+            text: toolCall.value,
+          });
+        }
+
+        const toolExec = current.objects.find((object) => object.name === "tool_exec");
+        if (toolExec && !seen.has("event:" + toolExec.name + ":" + i)) {
+          seen.add("event:" + toolExec.name + ":" + i);
+          entries.push({
+            id: "event:" + toolExec.name + ":" + i,
+            kind: "event",
+            role: "tool",
+            label: "Tool",
+            text: toolExec.value,
+          });
+        }
+
+        const isAiTurn = current.layer === "Turn Loop" && current.from === 2 && current.to >= 3;
+        const isSyntheticThinking =
+          isAiTurn &&
+          !toolCall &&
+          !toolExec &&
+          !current.title.toLowerCase().includes("wraps") &&
+          !current.title.toLowerCase().includes("returns plain text");
+
+        if (isSyntheticThinking && !seen.has("thinking:" + i)) {
+          seen.add("thinking:" + i);
+          entries.push({
+            id: "thinking:" + i,
+            kind: "event",
+            role: "thinking",
+            label: "Thinking",
+            text: current.caption,
+          });
+        }
+      }
+
+      return entries;
+    };
+
+    const renderThread = (idx) => {
+      const col = $("threadCol");
+      col.innerHTML = "";
+      if (idx < 0) { col.innerHTML = '<div class="thread-empty">No visible content yet</div>'; return; }
+
+      const entries = buildVisibleEntries(idx);
+      if (entries.length === 0) { col.innerHTML = '<div class="thread-empty">No visible content yet</div>'; return; }
+
+      entries.forEach((entry) => {
+        const d = document.createElement("div");
+        const eventClass = entry.kind === "event" ? " thread-msg--event" : "";
+        d.className = "thread-msg" + eventClass;
+        d.innerHTML = '<span class="thread-role thread-role--' + entry.role + '">' +
+          esc(entry.label) + "</span>" +
+          '<span class="thread-text">' + esc(entry.text) + "</span>";
+        col.appendChild(d);
+      });
+    };
+
+    const renderHooks = (s) => {
+      const col = $("hooksCol");
+      col.innerHTML = "";
+      if (!s) { col.innerHTML = '<div class="hook">// No step selected</div>'; return; }
+      s.code.forEach((h) => {
+        const d = document.createElement("div");
+        d.className = "hook"; d.textContent = h;
+        col.appendChild(d);
+      });
+    };
+
+    const renderDetail = (s, idx) => {
+      $("summaryText").textContent = s ? s.summary : "";
+      $("whyBox").textContent = s ? s.why : "";
+      renderThread(idx);
+      renderObjects(s, idx);
+      renderHooks(s);
+    };
+
+    const updateLayers = () => {
+      layerNodes.forEach((n, i) => {
+        const l = LAYERS[i];
+        const seen = step >= 0 && resolvedSteps.slice(0, step + 1).some((s) => s.layer.includes(l));
+        const active = step >= 0 && resolvedSteps[step].layer.includes(l);
+        n.classList.toggle("seen", seen);
+        n.classList.toggle("active", active);
+      });
+    };
+
+    const updateUI = () => {
+      const sc = SCENARIOS[scenario];
+      $("counter").textContent = step < 0 ? "—" : (step + 1) + " / " + resolvedSteps.length;
+      $("prevBtn").disabled = step <= -1;
+      $("nextBtn").disabled = step >= resolvedSteps.length - 1;
+      $("playBtn").textContent = playing ? "Pause" : "Play";
+      $("playBtn").classList.toggle("active", playing);
+      $("modeBtn").textContent = compact ? "Full" : "Compact";
+      $("modeBtn").classList.toggle("active", compact);
+      $("tabs").querySelectorAll(".tab").forEach((t) => {
+        t.classList.toggle("active", t.dataset.key === scenario);
+      });
+      updateLayers();
+      const s = step >= 0 ? resolvedSteps[step] : null;
+      renderFrame(s);
+      renderMeta(s);
+      renderDetail(s, step);
+    };
+
+    const setStep = (idx) => {
+      step = Math.max(-1, Math.min(idx, resolvedSteps.length - 1));
+      updateUI();
+    };
+
+    const stopPlay = () => { playing = false; if (timer) { clearInterval(timer); timer = null; } };
+
+    const nextStep = () => {
+      if (step < resolvedSteps.length - 1) setStep(step + 1);
+      else stopPlay();
+      updateUI();
+    };
+    const prevStep = () => { if (step > -1) setStep(step - 1); };
+
+    const startPlay = () => {
+      if (step >= resolvedSteps.length - 1) setStep(-1);
+      playing = true; updateUI();
+      timer = setInterval(() => nextStep(), 900);
+    };
+
+    const togglePlay = () => { if (playing) { stopPlay(); updateUI(); } else startPlay(); };
+
+    const toggleCompact = () => {
+      compact = !compact;
+      resolvedSteps = resolveCompactSteps(SCENARIOS[scenario]);
+      step = -1;
+      stopPlay();
+      updateUI();
+    };
+
+    const setScenario = (key) => {
+      stopPlay();
+      scenario = key;
+      const sc = SCENARIOS[key];
+      buildHeads(sc);
+      buildFrame(sc);
+      resolvedSteps = resolveCompactSteps(sc);
+      step = -1;
+      updateUI();
+    };
+
+    buildTabs();
+    buildLayers();
+    setScenario(scenario);
+
+    $("nextBtn").addEventListener("click", () => { stopPlay(); nextStep(); updateUI(); });
+    $("prevBtn").addEventListener("click", () => { stopPlay(); prevStep(); });
+    $("resetBtn").addEventListener("click", () => { stopPlay(); setStep(-1); });
+    $("playBtn").addEventListener("click", togglePlay);
+    $("modeBtn").addEventListener("click", toggleCompact);
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") { e.preventDefault(); stopPlay(); nextStep(); updateUI(); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); stopPlay(); prevStep(); }
+      if (e.key === " ") { e.preventDefault(); togglePlay(); }
+      if (e.key === "r" || e.key === "R") { e.preventDefault(); stopPlay(); setStep(-1); }
+      if (e.key === "m" || e.key === "M") { e.preventDefault(); toggleCompact(); }
+    });
+  </script>
+</body>
+</html>

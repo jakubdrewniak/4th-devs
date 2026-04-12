@@ -503,3 +503,43 @@ npm run lesson23:autoprompt:verify   # verify on holdout cases
 `05_03_ax` uses the [Ax](https://github.com/ax-llm/ax) framework. Run `npm run lesson23:ax:optimize` to bootstrap few-shot demos, then `npm run lesson23:ax` to classify with optimized examples.
 
 `05_03_coding` uses `files-mcp` for filesystem access. It reads the shared repo-level `.env` through the workspace `config.js`, so it can run with either `OPENAI_API_KEY` or `OPENROUTER_API_KEY`.
+
+## Lesson 24
+
+| Example | Run | Description |
+|---------|-----|-------------|
+| `05_04_api` | `npm run lesson24:api` | Multi-agent API server with Hono, SQLite, MCP tools, OpenAI/Google providers, memory compaction, and Langfuse tracing |
+| `05_04_ui` | `npm run lesson24:ui` | Svelte 5 chat UI for the API server with threads, agents, TipTap editor, and real-time streaming |
+
+Install dependencies:
+
+```bash
+npm run lesson24:install
+```
+
+`05_04_api` requires a one-time database setup before the first run:
+
+```bash
+npm run lesson24:api:db:migrate
+npm run lesson24:api:db:seed
+```
+
+The API server starts on `http://127.0.0.1:3000` by default. Copy `05_04_api/.env.example` to `05_04_api/.env` and set `OPENAI_API_KEY` (required). `GOOGLE_API_KEY` is optional for Gemini model access.
+
+The seed script creates a main account. Full credentials are printed to the console and saved to `05_04_api/var/main-account-seed.json`. The defaults:
+
+- **Browser login:** email `main@local.test`, password from the credentials manifest
+- **API headers:** `Authorization: Bearer <apiKeySecret>` and `X-Tenant-Id: <tenantId>` from the credentials manifest
+
+Secrets (password, API key) are not printed to stdout. Find them in the credentials manifest at `05_04_api/var/main-account-seed.json`.
+
+MCP tool servers are configured via `05_04_api/.mcp-servers.json` (copy from `.mcp-servers.example.json` to get started). The default config includes `files-mcp` for workspace file access.
+
+`05_04_ui` is a Svelte 5 frontend that connects to the API. Start the API server first, then run the UI in a separate terminal:
+
+```bash
+npm run lesson24:api          # terminal 1: start the API
+npm run lesson24:ui           # terminal 2: start the UI (Vite dev server on http://localhost:5173)
+```
+
+Optional Langfuse tracing: set `LANGFUSE_BASE_URL`, `LANGFUSE_PUBLIC_KEY`, and `LANGFUSE_SECRET_KEY` in `05_04_api/.env`.

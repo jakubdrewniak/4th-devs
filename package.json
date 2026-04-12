@@ -153,6 +153,14 @@
     "lesson23:ax": "cd 05_03_ax && bun run start",
     "lesson23:ax:optimize": "cd 05_03_ax && bun run optimize",
     "prelesson23:coding": "npm run ensure:files-mcp",
-    "lesson23:coding": "cd 05_03_coding && bun run start"
+    "lesson23:coding": "cd 05_03_coding && bun run start",
+    "lesson24:install": "npm install --prefix ./05_04_api && npm install --prefix ./05_04_ui",
+    "lesson24:api": "cd 05_04_api && npm run start",
+    "lesson24:api:dev": "cd 05_04_api && npm run dev",
+    "lesson24:api:db:migrate": "cd 05_04_api && npm run db:migrate",
+    "lesson24:api:db:seed": "cd 05_04_api && npm run db:seed",
+    "lesson24:ui": "cd 05_04_ui && npm run dev",
+    "lesson24:ui:build": "cd 05_04_ui && npm run build",
+    "lesson24:ui:preview": "cd 05_04_ui && npm run preview"
   }
 }

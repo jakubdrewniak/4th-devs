@@ -1,0 +1,36 @@
+[
+  {
+    "id": "workspace_files",
+    "kind": "stdio",
+    "command": "bun",
+    "args": ["run", "../mcp/files-mcp/src/index.ts"],
+    "cwd": ".",
+    "env": {
+      "FS_ROOT": "./workspace",
+      "LOG_LEVEL": "info"
+    },
+    "toolPrefix": "files"
+  },
+  {
+    "id": "local_fixture",
+    "enabled": false,
+    "kind": "stdio",
+    "command": "node",
+    "args": ["--import", "tsx", "./test/fixtures/stdio-mcp-server.ts"],
+    "toolPrefix": "fixture"
+  },
+  {
+    "id": "remote_http",
+    "enabled": false,
+    "kind": "streamable_http",
+    "url": "https://example.com/mcp",
+    "toolPrefix": "remote",
+    "auth": {
+      "kind": "bearer",
+      "tokenEnv": "MY_REMOTE_MCP_TOKEN"
+    },
+    "headers": {
+      "x-client": "05_04_api"
+    }
+  }
+]

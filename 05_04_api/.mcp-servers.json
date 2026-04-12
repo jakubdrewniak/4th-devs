@@ -1,0 +1,29 @@
+[
+  {
+    "id": "workspace_files",
+    "kind": "stdio",
+    "command": "bun",
+    "args": ["run", "../mcp/files-mcp/src/index.ts"],
+    "cwd": ".",
+    "env": {
+      "FS_ROOT": "./workspace",
+      "LOG_LEVEL": "info"
+    },
+    "toolPrefix": "files",
+    "workspaceScoped": "account"
+  },
+  {
+    "id": "web",
+    "kind": "stdio",
+    "command": "bun",
+    "args": ["run", "../mcp/web/src/index.ts"],
+    "cwd": ".",
+    "env": {
+      "LOG_LEVEL": "info",
+      "FIRECRAWL_API_KEY": "fc-....",
+      "FIRECRAWL_OUTPUT_MODE": "file",
+      "FIRECRAWL_OUTPUT_DIR": "./scratch"
+    },
+    "toolPrefix": "web"
+  }
+]
