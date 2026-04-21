@@ -29,7 +29,8 @@
     "05_01__ex_radiomonitoring",
     "05_02__ex_phonecall",
     "05_03__ex_shellaccess",
-    "05_04__ex_goingthere"
+    "05_04__ex_goingthere",
+    "05_05__ex_timetravel"
   ],
   "devDependencies": {
     "@types/node": "^25.4.0",

@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(wait)"
+      "Bash(wait)",
+      "Bash(curl -s https://hub.ag3nts.org/dane/timetravel.md)",
+      "Bash(curl -sL https://hub.ag3nts.org/dane/timetravel.md -o /tmp/timetravel.md)",
+      "Read(//tmp/**)",
+      "Bash(node -e ':*)"
     ]
   }
 }
